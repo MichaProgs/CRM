@@ -39,7 +39,7 @@ public class ControllerNavigation {
 	
 	private void initBtnCollapse(){
 		
-		btnCollapse.setGraphic(new GraphicButton("file:img/menu_collapse_32.png").getGraphicButton());
+		btnCollapse.setGraphic(new GraphicButton("file:resources/menu_collapse_32.png").getGraphicButton());
 		btnCollapse.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

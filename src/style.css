@@ -1,1 +1,238 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root{
+	-fx-font-size: 14;
+	-fx-font-family: "Segoe UI";
+	-fx-background-color: #fff;
+	-fx-accent: -fx-accent-blue; /* Highlighting Text or something else */
+	
+	/* Custom Colors */
+	-fx-accent-blue: #2980b9;
+	-fx-accent-blue-hover: #3498db;
+	-fx-accent-lightgrey: #cccccc;
+	-fx-accent-grey: #666666;
+	-fx-accent-darkgrey: #333333;
+	-fx-accent-white: #FFF;
+	-fx-accent-red: #c0392b;
+	
+}
+
+/*****************
+ * PANELS & NODES
+ ****************/
+.Headbar{
+	-fx-background-color: -fx-accent-blue;
+	-fx-pref-height: 80;
+}
+
+.AnchorPaneContent{
+	-fx-background-color: -fx-accent-white;
+}
+
+.HboxContent{
+	-fx-background-color: -fx-accent-white;
+}
+
+.VboxContent{
+	-fx-background-color: -fx-accent-white;
+}
+
+/*************
+ * TEXTFIED
+ ************/
+.text-field{
+	-fx-background-radius: 0; /* cornerd textfield */
+	-fx-background-color: #ffffff;
+	-fx-border-color: #ABABAB;
+	-fx-max-width: 200;
+	-fx-pref-width: 200;
+}
+
+.text-field:disabled{
+	-fx-opacity: 1;
+	-fx-border-color: #E8E8E8;
+}
+
+.text-field:focused{
+	-fx-border-color: -fx-accent-blue;
+}
+
+#tfWithBtn{
+	-fx-pref-width: 158px;
+}
+
+/************
+ * TEXT-AREA
+ ***********/
+.text-area{
+	-fx-background-radius: 0; /* cornerd textarea */
+	-fx-border-color: #ABABAB;
+	-fx-min-height: 300;
+}
+
+.text-area > .scroll-pane{
+	-fx-background-radius: 0; /* cornerd scrollpane */
+	-fx-border-radius: 0;
+	-fx-border-color: transparent;
+}
+
+.text-area:disabled{
+	-fx-border-color: #E8E8E8;
+	-fx-background-color: #fff;
+	-fx-opacity: 1;
+}
+
+.text-area:disabled > .scroll-pane:disabled{
+	-fx-border-color: transparent;
+	-fx-background-color: #fff;
+	-fx-opacity: 1;
+}
+
+/*************
+ * ScrollPane
+ ************/
+.scroll-pane > .viewport{
+	-fx-background-color: transparent;
+}
+
+.scroll-pane{
+	-fx-background-color: #fff;
+	-fx-background-radius: 0;
+	-fx-border-width: 0 0 0 0;
+	-fx-border-color: transparent;
+	-fx-border-radius: 0;
+}
+
+/**************
+  * TITLED PANE
+  *************/
+.titled-pane{
+ 	-fx-border-width: 1 1 1 1;
+	-fx-border-color: -fx-accent-lightgrey;
+	-fx-background-color: -fx-accent-white;
+}
+   
+.titled-pane .title{
+ 	-fx-border-width: 0 0 1 0;
+ 	-fx-border-color: -fx-accent-lightgrey;
+  	-fx-pref-height: 30px;
+  	-fx-background-radius: 0;
+  	-fx-background-color: -fx-accent-lightgrey;
+}
+  
+.titled-pane .title .text{
+  	-fx-font-size: 14px;
+}
+  
+.titled-pane .arrow{
+  	-fx-shape: "M-78,640l-6-5.5v-3l6,5l0,0l6-5v3L-78,640L-78,640z";
+}
+
+/***********
+ * COMBOBOX
+ ***********/
+.combo-box{
+	-fx-background-radius: 0;
+	-fx-background-color: #ffffff;
+	-fx-border-color: #ABABAB;
+	-fx-max-width: 200;
+}
+
+.combo-box:focused{
+	-fx-border-color: -fx-accent-blue;
+}
+
+.combo-box .arrow{
+	-fx-shape: "M-78,640l-6-5.5v-3l6,5l0,0l6-5v3L-78,640L-78,640z";
+}
+
+.combo-box:disabled, .combo-box:disabled > * {
+  -fx-opacity: 1.0 ;
+}
+
+.combo-box:disabled{
+	-fx-border-color: #E8E8E8;
+}
+
+/********
+ * LABEL
+ ********/
+.label{
+	-fx-text-fill: #212121;
+	-fx-font-family: Arial;
+}
+
+#lblHeadline{
+	-fx-font-family: "Segoe UI Light";
+	-fx-font-size: 25;
+	-fx-text-fill: -fx-accent-blue;
+	-fx-padding: 0 0 0 0;
+}
+
+/**********
+ * Buttons
+ **********/
+.button{
+	-fx-background-radius: 0;
+	-fx-border-color: #ABABAB;
+	-fx-background-color: #ffffff;
+}
+
+#btnCollapse{
+	-fx-border-width: 0 0 0 0;
+	-fx-background-color: transparent;
+	-fx-background-radius: 0;
+}
+
+#btnCollapse:hover{
+	-fx-background-color: -fx-accent-blue-hover;
+}
+
+#btnSidebar{
+	-fx-border-width: 0 0 0 0;
+	-fx-font-family: "Segoe UI Light";
+	-fx-font-size: 20px;
+	-fx-pref-width: 200px;
+	-fx-alignment: CENTER_LEFT;
+	-fx-background-color: -fx-accent-white;
+	-fx-cursor: hand;
+}
+
+#btnSidebar:hover > .text{
+	-fx-underline: true;
+}
+
+.btnTopbar{
+	-fx-border-width: 0 0 0 0;
+	-fx-font-family: "Segoe UI Light";
+	-fx-font-size: 20px;
+	-fx-alignment: CENTER_LEFT;
+	
+	-fx-background-radius: 0;
+	-fx-background-color: -fx-accent-blue;
+	
+	-fx-text-fill: -fx-accent-white;
+	
+	-fx-cursor: hand;
+}
+
+.btnTopbar:hover{
+	-fx-background-color: -fx-accent-blue-hover;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
