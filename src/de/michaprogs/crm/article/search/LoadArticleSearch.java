@@ -1,4 +1,4 @@
-package de.michaprogs.crm.article.add;
+package de.michaprogs.crm.article.search;
 
 import de.michaprogs.crm.CreateDialog;
 import javafx.fxml.FXMLLoader;
@@ -6,36 +6,36 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class LoadArticleAdd {
+public class LoadArticleSearch {
 
 	private AnchorPane root;
-	private ControllerArticleAdd controller;
+	private ControllerArticleSearch controller;
 	private Stage stage = new Stage();
 	
-	public LoadArticleAdd(boolean createDialog){
+	public LoadArticleSearch(boolean createDialog){
 		
 		try{
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewArticleAdd.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewArticleSearch.fxml"));
 			root = loader.load();
 			controller = loader.getController();
-			
+
 			if(createDialog){
 				controller.setStage(stage);
 				new CreateDialog("", stage, new Scene(root));
 			}
-			
+		
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
 	}
-
+	
 	public AnchorPane getRoot() {
 		return root;
 	}
 
-	public ControllerArticleAdd getController() {
+	public ControllerArticleSearch getControllerSearch(){
 		return controller;
 	}
 	

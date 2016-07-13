@@ -5,11 +5,14 @@ import java.sql.Statement;
 
 public class CreateTables {
 
+	private Connection con = null;
+	
 	public CreateTables(){
 		
-		Connection con = new DBConnect().getConnection();
+		createTableArticle(new DBConnect().getConnection());
 		
-		createTableArticle(con);
+		createTableBarrelsize(new DBConnect().getConnection());
+		createTableBolting(new DBConnect().getConnection());
 		
 	}
 	
@@ -45,8 +48,75 @@ public class CreateTables {
 			Statement statement = con.createStatement();
 			statement.execute(stmt);
 			
-			System.out.println("Tabelle 'Artikel' in Datenbank erstellt!");
+			System.out.println("Tabelle 'ARTICLE' in Datenbank erstellt!");
 		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void createTableBarrelsize(Connection con){
+		
+		try{
+
+			String stmt = "CREATE TABLE IF NOT EXISTS BARRELSIZE("
+									+ "BARRELSIZEID INTEGER IDENTITY,"
+									+ "BARRELSIZE VARCHAR_IGNORECASE)";
+			
+			Statement statement = con.createStatement();
+			statement.execute(stmt);
+			
+			System.out.println("Tabelle 'BARRELSIZE' in Datenbank erstellt!");
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void createTableBolting(Connection con){
+		
+		try{
+
+			String stmt = "CREATE TABLE IF NOT EXISTS Bolting("
+									+ "BOLTINGID INTEGER IDENTITY,"
+									+ "BOLTING VARCHAR_IGNORECASE)";
+			
+			Statement statement = con.createStatement();
+			statement.execute(stmt);
+			
+			System.out.println("Tabelle 'BOLTING' in Datenbank erstellt!");
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void closeConnection(){
+		
+		try{
+			if(con != null)
+				con.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}

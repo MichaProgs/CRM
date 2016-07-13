@@ -1,6 +1,10 @@
 package de.michaprogs.crm.article.data;
 
+import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.article.add.LoadArticleAdd;
+import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsize;
+import de.michaprogs.crm.article.bolting.add.LoadBolting;
+import de.michaprogs.crm.article.search.LoadArticleSearch;
 import de.michaprogs.crm.components.TextFieldDesity;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
@@ -17,12 +21,12 @@ public class ControllerArticleData{
 	@FXML private TextFieldOnlyInteger tfArticleID;
 	@FXML private TextField tfDescription1;
 	@FXML private TextField tfDescription2;
-	@FXML private TextField tfCategory;
+	@FXML private ComboBox<String> cbCategory;
 	@FXML private TextField tfEanID;
 	
 	@FXML private TextField tfBarrelsize;
 	@FXML private TextField tfBolting;
-	@FXML private TextFieldOnlyInteger tfLenght;
+	@FXML private TextFieldOnlyInteger tfLength;
 	@FXML private TextFieldOnlyInteger tfWidth;
 	@FXML private TextFieldOnlyInteger tfHeight;
 	@FXML private TextFieldDouble tfWeight;
@@ -34,15 +38,21 @@ public class ControllerArticleData{
 	@FXML private ComboBox<String> cbAmountUnit;
 	@FXML private ComboBox<String> cbTax;
 	
-	@FXML private TextArea taNotes;
+	@FXML private TextArea taLongtext;
 	
 	//Buttons
+	@FXML private Button btnSearch;
 	@FXML private Button btnNew;
+	
+	@FXML private Button btnBarrelsize;
+	@FXML private Button btnBolting;
 	
 	public ControllerArticleData(){}
 	
 	@FXML private void initialize(){
 
+		/* Buttons */
+		initBtnSearch();
 		initBtnNew();
 //		
 //		initBtnEdit();
@@ -54,8 +64,8 @@ public class ControllerArticleData{
 //		initBtnPrint();
 //		
 //		//Size
-//		initBtnBarrelsize();
-//		initBtnBolting();
+		initBtnBarrelsize();
+		initBtnBolting();
 //		
 //		//Image
 //		initBtnEditImage();
@@ -83,8 +93,29 @@ public class ControllerArticleData{
 	}
 	
 	/* Buttons */
+	private void initBtnSearch(){
+	
+		btnSearch.setGraphic(new GraphicButton("file:resources/search_32.png").getGraphicButton());
+		btnSearch.setOnAction(new EventHandler<ActionEvent>() {
+	
+			@Override
+			public void handle(ActionEvent event) {
+				
+				LoadArticleSearch search = new LoadArticleSearch(true);
+//				String selectedArticleID = "";
+//				selectedArticleID = search.getControllerSearch().getSelectedArticleID();
+//				if(! selectedArticleID.equals("")){
+//					selectArticle(selectedArticleID);
+//				}
+				
+			}
+		});
+		
+	}
+		
 	private void initBtnNew(){
 		
+		btnNew.setGraphic(new GraphicButton("file:resources/new_32.png").getGraphicButton());
 		btnNew.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -244,27 +275,7 @@ public class ControllerArticleData{
 //		});		
 //	}
 	
-//	private void initBtnSearch(){
-//		
-//		final EventHandler<ActionEvent> ae = new EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				
-//				LoadArticleSearch search = new LoadArticleSearch(true);
-//				String selectedArticleID = "";
-//				selectedArticleID = search.getControllerSearch().getSelectedArticleID();
-//				if(! selectedArticleID.equals("")){
-//					selectArticle(selectedArticleID);
-//				}
-//				
-//			}
-//		};
-//		
-//		btnSearch.setGraphic(new ImageView(new Image("file:img/Search_32.png")));
-//		btnSearch.setOnAction(ae);
-//		
-//	}
+
 //		
 //	private void initBtnRefresh(){
 //		
@@ -637,35 +648,35 @@ public class ControllerArticleData{
 //		
 //	}
 //	
-//	private void initBtnBarrelsize(){
-//		
-//		btnBarrelsize.setOnAction(new EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				
-//				LoadBarrelsize barrelsize = new LoadBarrelsize(true);
-//				tfBarrelsize.setText(barrelsize.getControllerBarrelsize().getSelectedBarrelsize());
-//				
-//			}
-//		});
-//		
-//	}
-//	
-//	private void initBtnBolting(){
-//		
-//		btnBolting.setOnAction(new EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				
-//				LoadBolting bolting = new LoadBolting();
-//				tfBolting.setText(bolting.getControllerBolting().getSelectedBolting());
-//				
-//			}
-//		});
-//		
-//	}
+	private void initBtnBarrelsize(){
+		
+		btnBarrelsize.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				LoadBarrelsize barrelsize = new LoadBarrelsize(true);
+				tfBarrelsize.setText(barrelsize.getController().getSelectedBarrelsize());
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnBolting(){
+		
+		btnBolting.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				LoadBolting bolting = new LoadBolting(true);
+				tfBolting.setText(bolting.getController().getSelectedBolting());
+				
+			}
+		});
+		
+	}
 //		
 //	private void initComboUnitChange(){
 //		
@@ -840,49 +851,49 @@ public class ControllerArticleData{
 //		
 //	}
 //	
-//	private void disableAllFields(){
-//		
-//		/* First Block (Hauptstammdaten */
-//		tfArticleID.setDisable(true);
-//		tfDescription1.setDisable(true);
-//		tfDescription2.setDisable(true);
-//		cbCategory.setDisable(true);
-//		tfEanID.setDisable(true);
-//			
-//		/* Second Block (Größen- und Gewichtsangaben*/
-//		tfBarrelsize.setDisable(true);
-//		btnBarrelsize.setDisable(true);
-//		tfBolting.setDisable(true);
-//		btnBolting.setDisable(true);
-//		tfLength.setDisable(true);
-//		tfWidth.setDisable(true);
-//		tfHeight.setDisable(true);
-//		tfWeight.setDisable(true);
-//		tfDesity.setDisable(true);
-//		
-//		/* Third Block (Preisinformationen) */
-//		tfEk.setDisable(true);
-//		tfVk.setDisable(true);
-//		cbAmountUnit.setDisable(true);
-//		cbPriceUnit.setDisable(true);
-//		cbTax.setDisable(true);		
-//		
-//		/* First Tab (Langtext) */
-//		taLongtext.setDisable(true);
-//				
-//		/* Second Tab (Lieferanten) */
+	private void disableAllFields(){
+		
+		/* First Block (Hauptstammdaten */
+		tfArticleID.setDisable(true);
+		tfDescription1.setDisable(true);
+		tfDescription2.setDisable(true);
+		cbCategory.setDisable(true);
+		tfEanID.setDisable(true);
+			
+		/* Second Block (Größen- und Gewichtsangaben*/
+		tfBarrelsize.setDisable(true);
+		btnBarrelsize.setDisable(true);
+		tfBolting.setDisable(true);
+		btnBolting.setDisable(true);
+		tfLength.setDisable(true);
+		tfWidth.setDisable(true);
+		tfHeight.setDisable(true);
+		tfWeight.setDisable(true);
+		tfDesity.setDisable(true);
+		
+		/* Third Block (Preisinformationen) */
+		tfEk.setDisable(true);
+		tfVk.setDisable(true);
+		cbAmountUnit.setDisable(true);
+		cbPriceUnit.setDisable(true);
+		cbTax.setDisable(true);		
+		
+		/* First Tab (Langtext) */
+		taLongtext.setDisable(true);
+				
+		/* Second Tab (Lieferanten) */
 //		btnArticleSupplierAdd.setDisable(true);
 //		btnArticleSupplierEdit.setDisable(true);
 //		btnArticleSupplierDelete.setDisable(true);
-//		
-//		/* Third Tab (Lager) */
+		
+		/* Third Tab (Lager) */
 //		tfStockMin.setDisable(true);
 //		tfStockMax.setDisable(true);
 //		tfStockAlert.setDisable(true);
-//		
-//		System.out.println("Alle Felder gesperrt");
-//		
-//	}
+		
+		System.out.println("Alle Felder gesperrt");
+		
+	}
 //			
 //	/* Getter & Setter */
 //	private void setStockUnit(){

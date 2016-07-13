@@ -7,17 +7,17 @@ import javafx.stage.Stage;
 /**
  * This Class creates a stage as a dialog
  */
-public class CreateDialog extends Stage{
+public class CreateDialog{
 	
-	public CreateDialog(String title, Scene scene){
+	public CreateDialog(String title, Stage stage, Scene scene){
 		
 		scene.getStylesheets().add("style.css");
 		
-		new ESCClose(this, scene);
+		new ESCClose(stage, scene);
 		
-		this.setScene(scene);
-		this.initModality(Modality.APPLICATION_MODAL);
-		this.showAndWait();
+		stage.setScene(scene);
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.showAndWait();
 		
 	}
 
