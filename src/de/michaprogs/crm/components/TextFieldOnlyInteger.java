@@ -10,6 +10,8 @@ public class TextFieldOnlyInteger extends TextField{
 	
 	public TextFieldOnlyInteger(){
 		
+		setText("0");
+		
 		textProperty().addListener(new ChangeListener<String>() {
 
 			@Override

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.menubar.ControllerMenuBar" style="-fx-background-color: -fx-accent-darkgrey">
+	<MenuBar>
+		<Menu text="Datei">
+			<MenuItem text="Beenden" />
+		</Menu>
+		<Menu  text="Stammdaten">
+			<MenuItem text="Artikel" />
+			<MenuItem text="Hersteller" />
+			<MenuItem text="Lager" />
+		</Menu>
+		<Menu text="Optionen">
+			<MenuItem text="Einstellungen" />
+		</Menu>
+	</MenuBar>
+</AnchorPane>
+

@@ -220,6 +220,52 @@
 	-fx-background-color: -fx-accent-blue-hover;
 }
 
+/**********
+ * MENUBAR
+ *********/
+.menu-bar{
+	-fx-background-color: -fx-accent-darkgrey;
+}
+
+.menu-bar .label{
+	-fx-text-fill: #ffffff;
+}
+
+.menu:hover{
+	-fx-background-color: -fx-accent-blue; 
+}
+
+/***************
+ * CONTEXT-MENU
+ **************/
+.context-menu {
+    -fx-background-color: #4D4F53;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 0 0 0, 0 0 0 0, 0 0 0 0;
+    -fx-padding: 0.333333em 0em 0.333333em 0em; /* 4 1 4 1 */   
+}
+ 
+.context-menu .separator .line{
+    -fx-padding: 0.0em 0.333333em 0.0em 0.333333em;  /*0 4 0 4 */
+    -fx-background-color: #fff;
+}
+ 
+/* TODO: try to scope the menu-item style to the contextmenu */
+.menu-item {
+    -fx-background-color: transparent;
+    -fx-padding: 0.666666em 0.999999em 0.4999995em 0.999999em;   /*6 12 6 12 */
+}
+ 
+.menu-item .label {
+    -fx-padding: 0em 0.5em 0em 0em;
+    -fx-text-fill: -fx-accent-white;
+}
+ 
+ 
+.menu-item:focused {
+     -fx-background: -fx-accent-blue;
+     -fx-background-color: -fx-accent-blue;
+}
 
 
 

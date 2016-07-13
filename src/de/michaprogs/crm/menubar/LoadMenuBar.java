@@ -1,4 +1,4 @@
-package de.michaprogs.crm.article.add;
+package de.michaprogs.crm.menubar;
 
 import de.michaprogs.crm.CreateDialog;
 import javafx.fxml.FXMLLoader;
@@ -6,22 +6,21 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class LoadArticleAdd {
+public class LoadMenuBar {
 
 	private AnchorPane root;
-	private ControllerArticleAdd controller;
-	private Stage stage = new Stage();
+	private ControllerMenuBar controller; 
+	private Stage stage;
 	
-	public LoadArticleAdd(boolean createDialog){
+	public LoadMenuBar(boolean createDialog){
 		
 		try{
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewArticleAdd.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewMenuBar.fxml"));
 			root = loader.load();
 			controller = loader.getController();
-			
+
 			if(createDialog){
-				controller.setStage(stage);
 				new CreateDialog("", stage, new Scene(root));
 			}
 			
@@ -35,7 +34,7 @@ public class LoadArticleAdd {
 		return root;
 	}
 
-	public ControllerArticleAdd getController() {
+	public ControllerMenuBar getController() {
 		return controller;
 	}
 	

@@ -2,6 +2,7 @@ package de.michaprogs.crm;
 	
 import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.database.CreateTables;
+import de.michaprogs.crm.menubar.LoadMenuBar;
 import de.michaprogs.crm.navigation.LoadNavigation;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -18,11 +19,13 @@ public class Main extends Application {
 			
 			new CreateTables();
 			
+			LoadMenuBar menubar = new LoadMenuBar(false);
 			LoadNavigation navigation = new LoadNavigation();
 			LoadArticleData articleData = new LoadArticleData();
 			
 			
 			BorderPane root = new BorderPane();
+			root.setTop(menubar.getContent());
 			root.setLeft(navigation.getContent());			
 			root.setCenter(articleData.getContent());
 			

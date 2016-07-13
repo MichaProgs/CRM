@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
+<?import de.michaprogs.crm.components.TextFieldOnlyInteger?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.article.search.ControllerArticleSearch">
 	<BorderPane>
@@ -21,11 +22,11 @@
 					<top>
 						<HBox spacing="10" alignment="CENTER_LEFT" >
 							<Label text="Kurztext1:" />
-							<TextField fx:id="tfSearchDescription1" />
+							<TextField fx:id="tfDescription1" />
 							<Label text="Kurztext2:" />
-							<TextField fx:id="tfSearchDescription2" />
+							<TextField fx:id="tfDescription2" />
 							<Label text="Artikelnummer:"/>
-							<TextField fx:id="tfSearchArticleID" />
+							<TextFieldOnlyInteger fx:id="tfArticleID" />
 							<Button fx:id="btnSearch" text="Suchen" />
 						<padding>
 							<Insets bottom="10" />
@@ -48,8 +49,8 @@
 					</center>
 					<bottom>
 						<HBox alignment="CENTER_RIGHT" spacing="10">
-							<Button fx:id="btnSearchSelect" text="Auswählen" />
-							<Button fx:id="btnSearchAbort" text="Abbrechen" />
+							<Button fx:id="btnSelect" text="Auswählen" />
+							<Button fx:id="btnAbort" text="Abbrechen" />
 						<padding>
 							<Insets top="10" />
 						</padding>
