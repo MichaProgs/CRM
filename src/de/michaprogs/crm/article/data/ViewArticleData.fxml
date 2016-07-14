@@ -172,6 +172,13 @@
 											<TableColumn fx:id="tcSupplierAmountUnit" text="Einheit" />
 										</columns>
 									</TableView>
+									
+									<HBox spacing="10" alignment="CENTER_RIGHT">
+										<Button fx:id="btnArticleSupplierAdd" text="Hinzufügen.." />
+										<Button fx:id="btnArticleSupplierEdit" text="Bearbeiten.." />
+										<Button fx:id="btnArticleSupplierDelete" text="Löschen" />
+									</HBox>
+									
 								</VBox>
 							</TitledPane>
 							

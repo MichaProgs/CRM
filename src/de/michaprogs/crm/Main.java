@@ -18,13 +18,15 @@ public class Main extends Application {
 		try {
 			
 			new CreateTables();
+			BorderPane root = new BorderPane();
 			
 			LoadMenuBar menubar = new LoadMenuBar(false);
 			LoadNavigation navigation = new LoadNavigation();
 			LoadArticleData articleData = new LoadArticleData();
 			
+			navigation.getController().setContent(root);
+			menubar.getController().setContent(root);
 			
-			BorderPane root = new BorderPane();
 			root.setTop(menubar.getContent());
 			root.setLeft(navigation.getContent());			
 			root.setCenter(articleData.getContent());

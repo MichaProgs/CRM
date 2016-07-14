@@ -14,6 +14,8 @@ public class CreateTables {
 		createTableBarrelsize(new DBConnect().getConnection());
 		createTableBolting(new DBConnect().getConnection());
 		
+		createTableSupplier(new DBConnect().getConnection());
+		
 	}
 	
 	private void createTableArticle(Connection con){
@@ -99,6 +101,48 @@ public class CreateTables {
 			statement.execute(stmt);
 			
 			System.out.println("Tabelle 'BOLTING' in Datenbank erstellt!");
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void createTableSupplier(Connection con){
+		
+		try{
+
+			String stmt = "CREATE TABLE IF NOT EXISTS SUPPLIER("
+									+ "SUPPLIERID INTEGER IDENTITY,"
+									+ "NAME1 VARCHAR_IGNORECASE,"
+									+ "NAME2 VARCHAR_IGNORECASE,"
+									+ "STREET VARCHAR_IGNORECASE,"
+									+ "LAND VARCHAR_IGNORECASE,"
+									+ "ZIP INTEGER,"
+									+ "LOCATION VARCHAR_IGNORECASE,"
+									+ "PHONE VARCHAR_IGNORECASE,"
+									+ "FAX VARCHAR_IGNORECASE,"
+									+ "EMAIL VARCHAR_IGNORECASE,"
+									+ "WEB VARCHAR_IGNORECASE,"
+									+ "CONTACTPERSON VARCHAR_IGNORECASE,"
+									+ "IBAN VARCHAR_IGNORECASE,"
+									+ "BIC VARCHAR_IGNORECASE,"
+									+ "BANK VARCHAR_IGNORECASE,"
+									+ "PAYMENTSKONTO INTEGER,"
+									+ "PAYMENTNETTO INTEGER,"
+									+ "SKONTO VARCHAR_IGNORECASE,"
+									+ "USTID VARCHAR_IGNORECASE)";
+			
+			Statement statement = con.createStatement();
+			statement.execute(stmt);
+			
+			System.out.println("Tabelle 'SUPPLIER' in Datenbank erstellt!");
 		
 		}catch(Exception e){
 			e.printStackTrace();

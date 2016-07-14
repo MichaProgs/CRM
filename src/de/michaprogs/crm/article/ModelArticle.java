@@ -411,6 +411,31 @@ public class ModelArticle {
 		
 	}
 	
+	public void deleteArticle(int _articleID){
+		
+		try{
+			
+			String stmt = "DELETE FROM article WHERE articleID = ?";
+			
+			con = new DBConnect().getConnection();
+			ps = con.prepareStatement(stmt);
+			ps.setInt(1, _articleID);
+			ps.execute();
+			
+			System.out.println("Artikel " + _articleID + " wurde aus der Datenbank gelöscht");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
 	/*
 	 * CloseConnection
 	 */

@@ -73,4 +73,26 @@ public class InitCombos {
 		
 	}
 	
+	public void initComboLand(ComboBox<String> cbLand){
+		
+		cbLand.getItems().addAll(
+			"DE",
+			"AT",
+			"CH",
+			"ITA",
+			"CZ"
+		);
+		
+	}
+	
+	public void initComboPayment(ComboBox<String> cbPayment){
+		
+		cbPayment.getItems().addAll(
+			"Überweisung",
+			"SEPA-Lastschrift",
+			"Barzahlung"
+		);
+		
+	}
+	
 }
