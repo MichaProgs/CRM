@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import de.michaprogs.crm.components.TextFieldOnlyInteger?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.supplier.search.ControllerSupplierSearch">
+	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+		<!-- FLEX NAVI -->
+		<top>
+			<AnchorPane styleClass="Headbar">
+				<StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+					<HBox StackPane.alignment="CENTER_LEFT" alignment="CENTER_LEFT">
+						<Button fx:id="btnSearch" text="Suchen" styleClass="btnTopbar" />
+						<Button fx:id="btnReset" text="Zurücksetzen" styleClass="btnTopbar" />
+						<Button fx:id="btnSelect" text="Wählen" styleClass="btnTopbar" />
+						<Button fx:id="btnAbort" text="Abbrechen" styleClass="btnTopbar" />
+					</HBox>
+				</StackPane>
+			</AnchorPane>
+		</top>
+		<!-- FLEX NAVI END -->
+		<!-- CONTENT -->
+		<center>
+			<ScrollPane>
+				<BorderPane>
+					<top>
+						<HBox>
+							<Label id="lblHeadline" text="Lieferanten suchen" />
+						<padding>
+							<Insets bottom="10" />
+						</padding>
+						</HBox>
+					</top>
+					<left>
+						
+						<GridPane hgap="10" vgap="5">
+							<columnConstraints>
+								<ColumnConstraints halignment="RIGHT" />
+								<ColumnConstraints halignment="LEFT" />
+							</columnConstraints>
+							<Label text="Lieferanten-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+							<TextFieldOnlyInteger fx:id="tfSupplierID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+							<Label text="Name1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+							<TextField fx:id="tfName1"  GridPane.columnIndex="1" GridPane.rowIndex="1" />
+							<Label text="Name2:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+							<TextField fx:id="tfName2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+							<Label text="Straße:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+							<TextField fx:id="tfStreet" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+							<Label text="PLZ:" GridPane.columnIndex="0" GridPane.rowIndex="4"  />
+							<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4" >
+								<ComboBox fx:id="cbLand" style="-fx-pref-width: 90;" />
+								<TextFieldOnlyInteger fx:id="tfZip" style="-fx-pref-width: 100;" />
+							</HBox>
+							<Label text="Ort:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+							<TextField fx:id="tfLocation" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+							<Label text="Telefon:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+							<TextField fx:id="tfPhone" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+						<padding>
+							<Insets top="10" bottom="10" left="10" right="10" />
+						</padding>	
+						</GridPane>
+						
+					</left>
+					<center>
+						<AnchorPane>
+							<TableView fx:id="tvSupplierSearch" >
+								<columns>
+									<TableColumn fx:id="tcSupplierID" text="Lieferanten-Nr." />
+									<TableColumn fx:id="tcName1" text="Name1" />
+									<TableColumn fx:id="tcName2" text="Name2" />
+									<TableColumn fx:id="tcStreet" text="Straße" />
+									<TableColumn fx:id="tcLand" text="Land" />
+									<TableColumn fx:id="tcZip" text="PLZ" />
+									<TableColumn fx:id="tcLocation" text="Ort" />
+									<TableColumn fx:id="tcPhone" text="Telefon" />
+								</columns>
+							</TableView>
+						</AnchorPane>
+					</center>
+				<padding>
+					<Insets bottom="10" left="10" right="10" top="10" />
+				</padding>
+				</BorderPane>
+			</ScrollPane>
+		</center>
+	</BorderPane>
+</AnchorPane>
+

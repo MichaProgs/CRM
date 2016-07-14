@@ -76,6 +76,7 @@ public class InitCombos {
 	public void initComboLand(ComboBox<String> cbLand){
 		
 		cbLand.getItems().addAll(
+			"",
 			"DE",
 			"AT",
 			"CH",

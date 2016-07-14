@@ -459,20 +459,20 @@ public class ModelArticle {
 	/*
 	 * VALIDATION
 	 */
-	public boolean validate(	int articleID,
-								String description1){
+	public boolean validate(	int _articleID,
+								String _description1){
 		
-		if(	articleID != 0 &&
-			! description1.isEmpty()){
+		if(	_articleID != 0 &&
+			! _description1.isEmpty()){
 			return true;
-		}else if(articleID == 0){
+		}else if(_articleID == 0){
 			System.out.println("Bitte gültige 'Artikelnummer' wählen!");
 			return false;
-		}else if(description1.isEmpty()){
+		}else if(_description1.isEmpty()){
 			System.out.println("Bitte gültige 'Bezeichnung1' wählen!");
 			return false;
 		}else{
-			System.out.println("Unbekannter Fehler!");
+			System.err.println("***ModelArticle.java -> validate: Unbekannter Fehler!");
 			return false;
 		}
 		
@@ -576,17 +576,5 @@ public class ModelArticle {
 	public ObservableList<ModelArticle> getObsListSearch() {
 		return obsListSearch;
 	}
-
-	public Connection getCon() {
-		return con;
-	}
-
-	public PreparedStatement getPs() {
-		return ps;
-	}
-
-	public ResultSet getRs() {
-		return rs;
-	}	
 	
 }

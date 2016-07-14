@@ -9,6 +9,8 @@ public class CreateTables {
 	
 	public CreateTables(){
 		
+//		dropTable(new DBConnect().getConnection());
+		
 		createTableArticle(new DBConnect().getConnection());
 		
 		createTableBarrelsize(new DBConnect().getConnection());
@@ -131,13 +133,15 @@ public class CreateTables {
 									+ "EMAIL VARCHAR_IGNORECASE,"
 									+ "WEB VARCHAR_IGNORECASE,"
 									+ "CONTACTPERSON VARCHAR_IGNORECASE,"
+									+ "USTID VARCHAR_IGNORECASE, "
+									+ "PAYMENT VARCHAR_IGNORECASE, "
 									+ "IBAN VARCHAR_IGNORECASE,"
 									+ "BIC VARCHAR_IGNORECASE,"
 									+ "BANK VARCHAR_IGNORECASE,"
 									+ "PAYMENTSKONTO INTEGER,"
 									+ "PAYMENTNETTO INTEGER,"
 									+ "SKONTO VARCHAR_IGNORECASE,"
-									+ "USTID VARCHAR_IGNORECASE)";
+									+ "LASTCHANGE DATE)"; //21
 			
 			Statement statement = con.createStatement();
 			statement.execute(stmt);
@@ -163,6 +167,30 @@ public class CreateTables {
 				con.close();
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+		
+	}
+	
+	//ONLY TO TEST
+	private void dropTable(Connection con){
+		
+		try{
+			
+			String stmt = "DROP TABLE supplier";
+			
+			Statement statement = con.createStatement();
+			statement.execute(stmt);
+			
+			System.out.println("Tabelle 'SUPPLIER' aus Datenbank gelöscht");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		
 	}
