@@ -42,7 +42,7 @@ public class ControllerSupplierAdd {
 	@FXML private TextFieldOnlyInteger tfPaymentNetto;
 	@FXML private TextFieldOnlyInteger tfSkonto;
 	
-	@FXML private TextArea taLongtext;
+	@FXML private TextArea taNotes;
 	
 	//Buttons
 	@FXML private Button btnSave;
@@ -109,7 +109,8 @@ public class ControllerSupplierAdd {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
-						String.valueOf(LocalDate.now())
+						String.valueOf(LocalDate.now()),
+						taNotes.getText()
 					);					
 					
 					createdSupplierID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText());

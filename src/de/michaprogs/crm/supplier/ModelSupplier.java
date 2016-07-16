@@ -34,6 +34,7 @@ public class ModelSupplier {
 	private int skonto;
 	
 	private String lastChange;
+	private String notes;
 	
 	private ObservableList<ModelSupplier> obsListSearch = FXCollections.observableArrayList();
 	
@@ -95,7 +96,8 @@ public class ModelSupplier {
 								int _paymentSkonto,
 								int _paymentNetto,
 								int _skonto,
-								String _lastChange){
+								String _lastChange,
+								String _notes){
 		
 		try{
 			
@@ -120,8 +122,9 @@ public class ModelSupplier {
 												+ "paymentskonto,"
 												+ "paymentnetto,"
 												+ "skonto,"
-												+ "lastChange)"
-												+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+												+ "lastChange,"
+												+ "notes)"
+												+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
@@ -174,6 +177,9 @@ public class ModelSupplier {
 			ps.setInt(i, _skonto);
 			i++;
 			ps.setString(i, _lastChange);
+			i++;
+			ps.setString(i, _notes);
+			i++;
 			
 			ps.execute();
 			
@@ -231,6 +237,7 @@ public class ModelSupplier {
 				this.skonto = rs.getInt("skonto");
 				
 				this.lastChange = rs.getString("lastChange");
+				this.notes = rs.getString("notes");
 				
 			}
 			
@@ -308,6 +315,155 @@ public class ModelSupplier {
 			}
 			
 			System.out.println("Alle Lieferanten mit übereinstimmenden Suchfaktoren aus Datenbank geladen");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public void updateSupplier(	int _supplierID,
+								String _name1,
+								String _name2,
+								String _street,
+								String _land,
+								int _zip,
+								String _location,
+								String _phone,
+								String _fax,
+								String _email,
+								String _web,
+								String _contact,
+								String _ustID,
+								String _payment,
+								String _IBAN,
+								String _BIC,
+								String _bank,
+								int _paymentSkonto,
+								int _paymentNetto,
+								int _skonto,
+								String _lastChange,
+								String _notes){
+		
+		try{
+			
+			String stmt = "UPDATE supplier SET name1 = ?,"
+												+ "name2 = ?,"
+												+ "street = ?,"
+												+ "land = ?,"
+												+ "zip = ?,"
+												+ "location = ?,"
+												+ "phone = ?,"
+												+ "fax = ?,"
+												+ "email = ?,"
+												+ "web = ?,"
+												+ "contactperson = ?,"
+												+ "ustID = ?,"
+												+ "payment = ?,"
+												+ "iban = ?,"
+												+ "bic = ?,"
+												+ "bank = ?,"
+												+ "paymentskonto = ?,"
+												+ "paymentnetto = ?,"
+												+ "skonto = ?,"
+												+ "lastChange = ?,"
+												+ "notes = ? "
+												
+												+ "WHERE supplierID = ?"; //Always Last
+			
+			con = new DBConnect().getConnection();
+			ps = con.prepareStatement(stmt);
+			
+			int i = 1;
+			ps.setString(i, _name1);
+			i++;
+			ps.setString(i, _name2);
+			i++;
+			ps.setString(i, _street);
+			i++;
+			if(_land == null){ //if the combobox is empty the string would be 'null'
+				_land = "";
+			}
+			ps.setString(i, _land);
+			i++;
+			ps.setInt(i, _zip);
+			i++;
+			ps.setString(i, _location);
+			i++;
+			ps.setString(i, _phone);
+			i++;
+			ps.setString(i, _fax);
+			i++;
+			ps.setString(i, _email);
+			i++;
+			ps.setString(i, _web);
+			i++;
+			ps.setString(i, _contact);
+			i++;
+			ps.setString(i, _ustID);
+			i++;
+			if(_payment == null){ //if the combobox is empty the string would be 'null'
+				_payment = "";
+			}
+			ps.setString(i, _payment);
+			i++;
+			ps.setString(i, _IBAN);
+			i++;
+			ps.setString(i, _BIC);
+			i++;
+			ps.setString(i, _bank);
+			i++;
+			ps.setInt(i, _paymentSkonto);
+			i++;
+			ps.setInt(i, _paymentNetto);
+			i++;
+			ps.setInt(i, _skonto);
+			i++;
+			ps.setString(i, _lastChange);
+			i++;
+			ps.setString(i, _notes);
+			i++;
+			ps.setInt(i, _supplierID); //Always Last
+			i++;
+			
+			ps.execute();
+			
+			System.out.println("Änderungen an Lieferant " + _supplierID + " " + _name1 + " wurde in Datenbank gespeichert!");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	public void deleteSupplier(int _supplierID){
+		
+		try{
+			
+			String stmt = "DELETE FROM supplier WHERE supplierID = ?";
+			
+			con = new DBConnect().getConnection();
+			ps = con.prepareStatement(stmt);
+			
+			int i = 1;
+			ps.setInt(i, _supplierID);
+			i++;
+			
+			ps.execute();
+			
+			System.out.println("Lieferant " + _supplierID + " wurde aus der Datenbank gelöscht");
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -449,6 +605,10 @@ public class ModelSupplier {
 	public String getLastChange() {
 		return lastChange;
 	}	
+	
+	public String getNotes(){
+		return notes;
+	}
 	
 	public ObservableList<ModelSupplier> getObsListSearch(){
 		return obsListSearch;

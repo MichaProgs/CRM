@@ -18,7 +18,7 @@
 <?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.supplier.add.ControllerSupplierAdd">
-	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 		<!-- FLEX NAVI -->
 		<top>
 			<AnchorPane styleClass="Headbar">
@@ -133,7 +133,7 @@
 							<!-- LONGTEXT / NOTES -->
 							<TitledPane text="Langtext / Notizen" expanded="false"> 
 								<AnchorPane>
-									<TextArea fx:id="taLongtext" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
+									<TextArea fx:id="taNotes" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
 								</AnchorPane>
 							</TitledPane>	
 							

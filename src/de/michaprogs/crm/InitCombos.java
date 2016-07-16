@@ -89,6 +89,7 @@ public class InitCombos {
 	public void initComboPayment(ComboBox<String> cbPayment){
 		
 		cbPayment.getItems().addAll(
+			"",
 			"Überweisung",
 			"SEPA-Lastschrift",
 			"Barzahlung"

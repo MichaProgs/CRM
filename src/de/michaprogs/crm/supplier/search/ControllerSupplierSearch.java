@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -22,6 +23,8 @@ import javafx.stage.Stage;
 
 public class ControllerSupplierSearch {
 
+	@FXML private Label lblSubHeadline;
+	
 	@FXML private TextFieldOnlyInteger tfSupplierID;
 	@FXML private TextField tfName1;
 	@FXML private TextField tfName2;
@@ -220,6 +223,12 @@ public class ControllerSupplierSearch {
 			tvSupplierSearch.requestFocus();
 		}
 		
+		if(tvSupplierSearch.getItems().size() == 1){
+			lblSubHeadline.setText("(" + String.valueOf(tvSupplierSearch.getItems().size()) + " Suchergebnis)" );
+		}else{
+			lblSubHeadline.setText("(" + String.valueOf(tvSupplierSearch.getItems().size()) + " Suchergebnisse)" );
+		}
+		
 	}
 	
 	private void select(){
@@ -249,6 +258,9 @@ public class ControllerSupplierSearch {
 		this.tfZip.clear();
 		this.tfLocation.clear();
 		this.tfPhone.clear();
+		
+		this.tvSupplierSearch.getItems().clear();
+		this.lblSubHeadline.setText("");
 		
 	}
 	

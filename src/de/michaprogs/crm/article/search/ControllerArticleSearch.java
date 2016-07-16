@@ -1,20 +1,29 @@
 package de.michaprogs.crm.article.search;
 
+import de.michaprogs.crm.AbortAlert;
+import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.article.ModelArticle;
+import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsize;
+import de.michaprogs.crm.article.bolting.add.LoadBolting;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ControllerArticleSearch {
 
+	@FXML private Label lblSubHeadline;
+	
 	//Table & Columns
 	@FXML private TableView<ModelArticle> tvArticleSearch;
 	@FXML private TableColumn<ModelArticle, Integer> tcArticleID;
@@ -27,11 +36,17 @@ public class ControllerArticleSearch {
 	@FXML private TextFieldOnlyInteger tfArticleID;
 	@FXML private TextField tfDescription1;
 	@FXML private TextField tfDescription2;
+	@FXML private TextField tfBarrelsize;
+	@FXML private TextField tfBolting;
 	
 	//Buttons
 	@FXML private Button btnSearch;
-	@FXML private Button btnAbort;
+	@FXML private Button btnReset;
 	@FXML private Button btnSelect;
+	@FXML private Button btnAbort;
+	
+	@FXML private Button btnBarrelsize;
+	@FXML private Button btnBolting;
 	
 	private Stage stage;
 	private int selectedArticleID = 0;
@@ -40,78 +55,132 @@ public class ControllerArticleSearch {
 	
 	@FXML private void initialize(){
 		
-		//Table & Columns
-		this.tcArticleID.setCellValueFactory(new PropertyValueFactory<>("articleID"));
-		this.tcDescription1.setCellValueFactory(new PropertyValueFactory<>("description1"));
-		this.tcDescription2.setCellValueFactory(new PropertyValueFactory<>("description2"));
-		this.tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));
-		this.tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));
-		
-		initBtnTableDoubleClick();
-		initTextfieldEnter();
+		initTable();
+		initTextFields();
 		tfArticleID.setText(""); //The custom component 'TextFieldOnlyInteger' sets 0 automatically
 		
 		//Buttons
 		initBtnSearch();
-		initBtnSearchAbort();
-		initBtnSearchSelect();
+		initBtnReset();
+		initBtnAbort();
+		initBtnSelect();
 		
-		//set the buttonstate in the beginning
-		setButtonState();
+		initBtnBarrelsize();
+		initBtnBolting();
 		
 	}
 	
-	//is set in the controller
-	public void setStage(Stage stage){
-		this.stage = stage;
-	}
-	
+	/*
+	 * BUTTONS
+	 */
 	private void initBtnSearch(){
 	
-		final EventHandler<ActionEvent> ae = new EventHandler<ActionEvent>() {
+		btnSearch.setGraphic(new GraphicButton("file:resources/search_32.png").getGraphicButton());
+		btnSearch.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
 				search();
 			}
-		};
-		
-		btnSearch.setOnAction(ae);
+		});
 		
 	}
 	
-	private void initBtnSearchAbort(){
+	private void initBtnReset(){
 		
-		final EventHandler<ActionEvent> ae = new EventHandler<ActionEvent>() {
+		btnReset.setGraphic(new GraphicButton("file:resources/clear_32.png").getGraphicButton());
+		btnReset.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if(stage != null)
-					stage.close();					
+				resetAllFields();
 			}
-		};
-		
-		btnAbort.setOnAction(ae);
+		});
 		
 	}
 	
-	private void initBtnSearchSelect(){
+	private void initBtnSelect(){
 		
+		btnSelect.setGraphic(new GraphicButton("file:resources/select_32.png").getGraphicButton());
 		btnSelect.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
+				select();
+			}
+		});
+		
+	}
+	
+	private void initBtnAbort(){
+		
+		btnAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
+		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
 				
-				selectedArticleID = tcArticleID.getCellData(tvArticleSearch.getSelectionModel().getSelectedIndex());
-				if(stage != null)
-					stage.close();
+				AbortAlert abort = new AbortAlert();
+				if(abort.getAbort()){
+					if(stage != null){
+						stage.close();
+					}else{
+						resetAllFields();
+					}
+				}
 				
 			}
 		});
 		
 	}
 	
-	private void initBtnTableDoubleClick(){
+	private void initBtnBarrelsize(){
+		
+		btnBarrelsize.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				LoadBarrelsize barrelsize = new LoadBarrelsize(true);
+				String selectedBarrelsize = barrelsize.getController().getSelectedBarrelsize();
+				if(! selectedBarrelsize.isEmpty()){
+					tfBarrelsize.setText(selectedBarrelsize);
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnBolting(){
+		
+		btnBolting.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				LoadBolting bolting = new LoadBolting(true);
+				String selectedBolting = bolting.getController().getSelectedBolting();
+				if(! selectedBolting.isEmpty()){
+					tfBolting.setText(selectedBolting);
+				}
+				
+			}
+		});
+		
+	}
+	
+	/*
+	 * TABLES
+	 */
+	private void initTable(){
+		
+		//Table & Columns
+		this.tcArticleID.setCellValueFactory(new PropertyValueFactory<>("articleID"));
+		this.tcDescription1.setCellValueFactory(new PropertyValueFactory<>("description1"));
+		this.tcDescription2.setCellValueFactory(new PropertyValueFactory<>("description2"));
+		this.tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));
+		this.tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));
 		
 		tvArticleSearch.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -130,9 +199,22 @@ public class ControllerArticleSearch {
 			}
 		});
 		
+		tvArticleSearch.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				if(event.getCode().equals(KeyCode.ENTER)){
+					select();
+				}
+			}
+		});
+		
 	}
 	
-	private void initTextfieldEnter(){
+	/*
+	 * TEXTFIELDS
+	 */
+	private void initTextFields(){
 		
 		EventHandler<ActionEvent> ae = new EventHandler<ActionEvent>() {
 
@@ -148,30 +230,73 @@ public class ControllerArticleSearch {
 		
 	}
 	
+	/*
+	 * DATABASE METHODS
+	 */
 	private void search(){
 		
 		ModelArticle article = new ModelArticle();
 		article.searchArticle(
 			tfArticleID.getText(),
 			tfDescription1.getText(), 
-			tfDescription2.getText()
+			tfDescription2.getText(),
+			tfBarrelsize.getText(),
+			tfBolting.getText()
 		);
 		
 		tvArticleSearch.setItems(article.getObsListSearch());
-		tvArticleSearch.getSelectionModel().select(0);
+		if(tvArticleSearch.getItems().size() > 0){
+			tvArticleSearch.getSelectionModel().selectFirst();
+			tvArticleSearch.requestFocus();
+		}
 		
-		setButtonState();
+		if(tvArticleSearch.getItems().size() == 1){
+			lblSubHeadline.setText("(" + String.valueOf(tvArticleSearch.getItems().size()) + " Suchergebnis)" );
+		}else{
+			lblSubHeadline.setText("(" + String.valueOf(tvArticleSearch.getItems().size()) + " Suchergebnisse)" );
+		}
 		
 	}
 	
-	private void setButtonState(){
+	private void select(){
 		
-		if(tvArticleSearch.getItems().size() > 0){
-			btnSelect.setDisable(false);
+		if(tvArticleSearch.getSelectionModel().getSelectedItems().size() == 1 ){
+			selectedArticleID = tvArticleSearch.getItems().get(tvArticleSearch.getSelectionModel().getSelectedIndex()).getArticleID();
+			
+			if(stage != null){
+				stage.close();
+			}else{
+				resetAllFields();
+			}
+			
 		}else{
-			btnSelect.setDisable(true);
+			System.out.println("Bitte 1 Zeile auswählen!");
 		}
 		
+	}
+	
+	/*
+	 * UI METHODS
+	 */
+	private void resetAllFields(){
+		
+		this.tfArticleID.clear();
+		this.tfDescription1.clear();
+		this.tfDescription2.clear();
+		this.tfBarrelsize.clear();
+		this.tfBolting.clear();
+		
+		this.tvArticleSearch.getItems().clear();
+		this.lblSubHeadline.setText("");
+		
+		
+	}
+	
+	/*
+	 * GETTER & SETTER
+	 */
+	public void setStage(Stage stage){
+		this.stage = stage;
 	}
 	
 	/**

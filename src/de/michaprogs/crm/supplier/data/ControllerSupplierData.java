@@ -1,7 +1,12 @@
 package de.michaprogs.crm.supplier.data;
 
+import java.time.LocalDate;
+
+import de.michaprogs.crm.AbortAlert;
+import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
+import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.add.LoadSupplierAdd;
@@ -13,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class ControllerSupplierData {
@@ -40,13 +46,18 @@ public class ControllerSupplierData {
 	@FXML private TextFieldOnlyInteger tfPaymentNetto;
 	@FXML private TextFieldOnlyInteger tfSkonto;
 	
-	@FXML private TextArea taLongtext;
+	@FXML private TextArea taNotes;
 	
 	//Buttons
 	@FXML private Button btnSearch;
 	@FXML private Button btnNew;
+	@FXML private Button btnEdit;
+	      private Button btnEditSave = new Button("Speichern"); //Initialized in Java-Code
+	      private Button btnEditAbort = new Button("Abbrechen"); //Initialized in Java-Code
+	@FXML private Button btnDelete;
 	
 	//Panels & Nodes
+	@FXML private HBox hboxBtnTopbar;
 	
 	private Stage stage;
 	
@@ -65,16 +76,21 @@ public class ControllerSupplierData {
 		//Buttons
 		initBtnSearch();
 		initBtnNew();
+		initBtnEdit();
+		initBtnEditSave();
+		initBtnEditAbort();
+		initBtnDelete();
 		
 		//disable all fields from beginning
 		disableAllFields();
 		
+		setButtonState();
+		
 	}
 	
-	public void setStage(Stage stage){
-		this.stage = stage;
-	}
-	
+	/*
+	 * BUTTONS
+	 */
 	private void initBtnSearch(){
 		
 		btnSearch.setGraphic(new GraphicButton("file:resources/search_32.png").getGraphicButton());
@@ -113,6 +129,132 @@ public class ControllerSupplierData {
 		
 	}
 	
+	private void initBtnEdit(){
+		
+		btnEdit.setGraphic(new GraphicButton("file:resources/edit_32.png").getGraphicButton());
+		btnEdit.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				hboxBtnTopbar.getChildren().add(hboxBtnTopbar.getChildren().indexOf(btnEdit) + 1, btnEditSave);
+				hboxBtnTopbar.getChildren().add(hboxBtnTopbar.getChildren().indexOf(btnEdit) + 2, btnEditAbort);
+				
+				enableAllFields();
+				setButtonState();
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnEditSave(){
+		
+		btnEditSave.getStyleClass().add("btnTopbar");
+		btnEditSave.setGraphic(new GraphicButton("file:resources/save_32.png").getGraphicButton());
+		btnEditSave.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				ModelSupplier supplier = new ModelSupplier();
+				
+				if(supplier.validate(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
+										tfName1.getText())){
+					
+					supplier.updateSupplier(
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
+						tfName1.getText(), 
+						tfName2.getText(), 
+						tfStreet.getText(), 
+						cbLand.getSelectionModel().getSelectedItem(), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
+						tfLocation.getText(), 
+						tfPhone.getText(), 
+						tfFax.getText(), 
+						tfEmail.getText(), 
+						tfWeb.getText(), 
+						tfContact.getText(), 
+						tfUstID.getText(), 
+						cbPayment.getSelectionModel().getSelectedItem(), 
+						tfIBAN.getText(), 
+						tfBIC.getText(), 
+						tfBank.getText(), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()),
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
+						String.valueOf(LocalDate.now()),
+						taNotes.getText()
+					);
+					
+					hboxBtnTopbar.getChildren().remove(btnEditSave);
+					hboxBtnTopbar.getChildren().remove(btnEditAbort);
+					
+					disableAllFields();
+					setButtonState();
+					
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnEditAbort(){
+		
+		btnEditAbort.getStyleClass().add("btnTopbar");
+		btnEditAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
+		btnEditAbort.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				AbortAlert abort = new AbortAlert();
+				if(abort.getAbort()){
+					if(stage != null){
+						stage.close();
+					}else{
+						selectSupplier(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()));
+					}
+					
+					hboxBtnTopbar.getChildren().remove(btnEditSave);
+					hboxBtnTopbar.getChildren().remove(btnEditAbort);
+					
+					disableAllFields();
+					setButtonState();
+					
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnDelete(){
+		
+		btnDelete.setGraphic(new GraphicButton("file:resources/delete_32.png").getGraphicButton());
+		btnDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				DeleteAlert delete = new DeleteAlert();
+				if(delete.getDelete()){
+					
+					new ModelSupplier().deleteSupplier(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()));
+					resetAllFields();
+					setButtonState();
+					
+				}
+				
+			}
+		});
+		
+	}
+	
+	/*
+	 * DATABASE METHODS
+	 */
 	private void selectSupplier(int _supplierID){
 		
 		ModelSupplier supplier = new ModelSupplier();
@@ -143,12 +285,17 @@ public class ControllerSupplierData {
 			this.tfPaymentNetto.setText(String.valueOf(supplier.getPaymentNetto()));
 			this.tfSkonto.setText(String.valueOf(supplier.getSkonto()));
 			
+			setButtonState();
+			
 		}else{
 			System.out.println("Keine Daten gefunden!");
 		}
 		
 	}
 	
+	/*
+	 * UI METHODS
+	 */
 	private void disableAllFields(){
 		
 		this.tfSupplierID.setDisable(true);
@@ -171,8 +318,99 @@ public class ControllerSupplierData {
 		this.tfPaymentSkonto.setDisable(true);
 		this.tfPaymentNetto.setDisable(true);
 		this.tfSkonto.setDisable(true);
-		this.taLongtext.setDisable(true);
+		this.taNotes.setDisable(true);
 		
+	}
+	
+	private void enableAllFields(){
+		
+//		this.tfSupplierID.setDisable(false); should never be enabled!
+		this.tfName1.setDisable(false);
+		this.tfName2.setDisable(false);
+		this.tfStreet.setDisable(false);
+		this.cbLand.setDisable(false);
+		this.tfZip.setDisable(false);
+		this.tfLocation.setDisable(false);
+		this.tfPhone.setDisable(false);
+		this.tfFax.setDisable(false);
+		this.tfEmail.setDisable(false);
+		this.tfWeb.setDisable(false);
+		this.tfContact.setDisable(false);
+		this.tfUstID.setDisable(false);
+		this.cbPayment.setDisable(false);
+		this.tfIBAN.setDisable(false);
+		this.tfBIC.setDisable(false);
+		this.tfBank.setDisable(false);
+		this.tfPaymentSkonto.setDisable(false);
+		this.tfPaymentNetto.setDisable(false);
+		this.tfSkonto.setDisable(false);
+		this.taNotes.setDisable(false);
+		
+	}
+	
+	private void resetAllFields(){
+		
+		this.tfSupplierID.clear();
+		this.tfName1.clear();
+		this.tfName2.clear();
+		this.tfStreet.clear();
+		this.cbLand.getSelectionModel().selectFirst();
+		this.tfZip.clear();
+		this.tfLocation.clear();
+		this.tfPhone.clear();
+		this.tfFax.clear();
+		this.tfEmail.clear();
+		this.tfWeb.clear();
+		this.tfContact.clear();
+		this.tfUstID.clear();
+		this.cbPayment.getSelectionModel().selectFirst();
+		this.tfIBAN.clear();
+		this.tfBIC.clear();
+		this.tfBank.clear();
+		this.tfPaymentSkonto.clear();
+		this.tfPaymentNetto.clear();
+		this.tfSkonto.clear();
+		this.taNotes.clear();
+		
+	}
+	
+	private void setButtonState(){
+		
+		//Supplier is selected
+		if(! tfName1.getText().isEmpty()){
+			
+			btnSearch.setDisable(false);
+			btnNew.setDisable(false);
+			btnEdit.setDisable(false);
+			btnDelete.setDisable(false);
+		
+			//Supplier edit is active
+			if(	hboxBtnTopbar.getChildren().contains(btnEditSave) &&
+				hboxBtnTopbar.getChildren().contains(btnEditAbort)){
+				
+				btnSearch.setDisable(true);
+				btnNew.setDisable(true);
+				btnEdit.setDisable(true);
+				btnDelete.setDisable(true);
+				
+			}
+			
+		}else{
+			
+			btnSearch.setDisable(false);
+			btnNew.setDisable(false);
+			btnEdit.setDisable(true);
+			btnDelete.setDisable(true);
+			
+		}
+		
+	}
+	
+	/*
+	 * GETTER & SETTER
+	 */
+	public void setStage(Stage stage){
+		this.stage = stage;
 	}
 	
 }

@@ -11,7 +11,7 @@
 			<MenuItem text="Beenden" />
 		</Menu>
 		<Menu  text="Stammdaten">
-			<MenuItem text="Artikel" />
+			<MenuItem fx:id="miArticle" text="Artikel" />
 			<MenuItem text="Hersteller" />
 			<MenuItem text="Lager" />
 		</Menu>

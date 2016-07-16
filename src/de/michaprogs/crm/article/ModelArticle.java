@@ -197,13 +197,17 @@ public class ModelArticle {
 
 	public void searchArticle(	String _articleID, //Search as String
 								String _description1,
-								String _description2){
+								String _description2,
+								String _barrelsize,
+								String _bolting){
 		
 		try{
 			
 			String stmt = "SELECT * FROM article WHERE 	articleID LIKE ? AND"
 													+ "	description1 LIKE ? AND"
-													+ " description2 LIKE ?";
+													+ " description2 LIKE ? AND"
+													+ " barrelsize LIKE ? AND"
+													+ " bolting LIKE ?";
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
@@ -213,6 +217,10 @@ public class ModelArticle {
 			ps.setString(i, _description1 + "%");
 			i++;
 			ps.setString(i, _description2 + "%");
+			i++;
+			ps.setString(i, _barrelsize + "%");
+			i++;
+			ps.setString(i, _bolting + "%");
 			i++;
 			
 			rs = ps.executeQuery();

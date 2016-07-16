@@ -30,7 +30,7 @@
 		<!-- FLEX NAVI -->
 		<top>
 			<AnchorPane styleClass="Headbar">
-				<StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+				<StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 					<HBox fx:id="hboxBtnTopbar" StackPane.alignment="CENTER_LEFT" alignment="CENTER_LEFT">
 						<Button fx:id="btnSearch" text="Suchen" styleClass="btnTopbar" />
 						<Button fx:id="btnNew" text="Neu" styleClass="btnTopbar" />

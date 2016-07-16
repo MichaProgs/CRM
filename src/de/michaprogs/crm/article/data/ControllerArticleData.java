@@ -117,7 +117,9 @@ public class ControllerArticleData{
 		
 	}
 	
-	/* Buttons */
+	/* 
+	 * BUTTONS 
+	 */
 	private void initBtnSearch(){
 	
 		btnSearch.setGraphic(new GraphicButton("file:resources/search_32.png").getGraphicButton());
@@ -127,7 +129,7 @@ public class ControllerArticleData{
 			public void handle(ActionEvent event) {
 				
 				LoadArticleSearch search = new LoadArticleSearch(true);
-				int selectedArticleID = search.getControllerSearch().getSelectedArticleID();
+				int selectedArticleID = search.getController().getSelectedArticleID();
 				if(selectedArticleID != 0){
 					selectArticle(selectedArticleID);
 				}
@@ -165,7 +167,7 @@ public class ControllerArticleData{
 			public void handle(ActionEvent event) {
 				
 				hboxBtnTopbar.getChildren().add(hboxBtnTopbar.getChildren().indexOf(btnEdit) + 1, btnEditSave);
-				hboxBtnTopbar.getChildren().add(hboxBtnTopbar.getChildren().indexOf(btnEdit) + 1, btnEditAbort);
+				hboxBtnTopbar.getChildren().add(hboxBtnTopbar.getChildren().indexOf(btnEdit) + 2, btnEditAbort);
 				
 				enableAllFields();				
 				setButtonState();
@@ -179,6 +181,7 @@ public class ControllerArticleData{
 	private void initBtnEditSave(){
 		
 		btnEditSave.getStyleClass().add("btnTopbar");
+		btnEditSave.setGraphic(new GraphicButton("file:resources/save_32.png").getGraphicButton());
 		btnEditSave.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -257,6 +260,7 @@ public class ControllerArticleData{
 	private void initBtnEditAbort(){
 		
 		btnEditAbort.getStyleClass().add("btnTopbar");
+		btnEditAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
 		btnEditAbort.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -715,6 +719,9 @@ public class ControllerArticleData{
 //		
 //	}
 //	
+	/*
+	 * DATABASE METHODS
+	 */
 	private void selectArticle(int articleID){
 		
 		/*
@@ -723,65 +730,73 @@ public class ControllerArticleData{
 		ModelArticle article = new ModelArticle();
 		article.selectArticle(articleID);
 		
-		tfArticleID.setText(String.valueOf(article.getArticleID()));
-		tfDescription1.setText(article.getDescription1());
-		tfDescription2.setText(article.getDescription2());
-		cbCategory.getSelectionModel().select(article.getCategory());
-		tfEanID.setText(String.valueOf(article.getEanID()));
-		
-		tfBarrelsize.setText(article.getBarrelsize());
-		tfBolting.setText(article.getBolting());
-		tfLength.setText(String.valueOf(article.getLength()));
-		tfWidth.setText(String.valueOf(article.getWidth()));
-		tfHeight.setText(String.valueOf(article.getHeight()));
-		tfWeight.setText(String.valueOf(article.getWeight()));
-		tfDesity.setText(String.valueOf(article.getDesity()));
-		
-		tfEk.setText(String.valueOf(article.getEk()));
-		tfVk.setText(String.valueOf(article.getVk()));
-		cbPriceUnit.getSelectionModel().select(String.valueOf(article.getPriceUnit()));
-		cbAmountUnit.getSelectionModel().select(article.getAmountUnit());
-		cbTax.getSelectionModel().select(String.valueOf(article.getTax()));
-		
-		taLongtext.setText(article.getLongtext());
-		
-//		if(! article.getImageFilePath().equals("")){
-//			fileProductImage  = new File(article.getImageFilePath());
-//			ivProductImage.setImage(new Image(fileProductImage.getPath()));
-//		}else{
-//			ivProductImage.setImage(null);
-//		}
-//		
-//		lblLastChange.setText(new Validate().validateDateGER(article.getLastChange()));
-//		
-//		/*
-//		 * Supplier
-//		 */
-//		ModelArticleSupplier supplierArticle = new ModelArticleSupplier();
-//		supplierArticle.selectArticleSupplier(articleID);
-//		this.obsListArticleSupplier = supplierArticle.getObsListArticleSupplier();
-//		tvSupplierArticle.setItems(this.obsListArticleSupplier);
-//		
-//		/*
-//		 * Stock
-//		 */
-//		ModelArticleStock articleStock = new ModelArticleStock();
-//		articleStock.selectArticleStock(articleID, new Validate().validateOnlyInteger(tfStockID.getText()));
-//		tfInventory.setText(String.valueOf(articleStock.getInventory()));
-//		tvStock.setItems(articleStock.getObsListStock());
-//		tfStockMin.setText(String.valueOf(article.getStockMinUnit()));
-//		tfStockMax.setText(String.valueOf(article.getStockMaxUnit()));
-//		tfStockAlert.setText(String.valueOf(article.getStockAlertUnit()));
-//		
-		setButtonState();
-//		
-//		setStockUnit();
-//		setHeadline();
-//		setStockColor();
-//		cbStock.setDisable(false);
+		if(! article.getDescription1().isEmpty()){
+			
+			tfArticleID.setText(String.valueOf(article.getArticleID()));
+			tfDescription1.setText(article.getDescription1());
+			tfDescription2.setText(article.getDescription2());
+			cbCategory.getSelectionModel().select(article.getCategory());
+			tfEanID.setText(String.valueOf(article.getEanID()));
+			
+			tfBarrelsize.setText(article.getBarrelsize());
+			tfBolting.setText(article.getBolting());
+			tfLength.setText(String.valueOf(article.getLength()));
+			tfWidth.setText(String.valueOf(article.getWidth()));
+			tfHeight.setText(String.valueOf(article.getHeight()));
+			tfWeight.setText(String.valueOf(article.getWeight()));
+			tfDesity.setText(String.valueOf(article.getDesity()));
+			
+			tfEk.setText(String.valueOf(article.getEk()));
+			tfVk.setText(String.valueOf(article.getVk()));
+			cbPriceUnit.getSelectionModel().select(article.getPriceUnit());
+			cbAmountUnit.getSelectionModel().select(article.getAmountUnit());
+			cbTax.getSelectionModel().select(article.getTax());
+			
+			taLongtext.setText(article.getLongtext());
+			
+	//		if(! article.getImageFilePath().equals("")){
+	//			fileProductImage  = new File(article.getImageFilePath());
+	//			ivProductImage.setImage(new Image(fileProductImage.getPath()));
+	//		}else{
+	//			ivProductImage.setImage(null);
+	//		}
+	//		
+	//		lblLastChange.setText(new Validate().validateDateGER(article.getLastChange()));
+	//		
+	//		/*
+	//		 * Supplier
+	//		 */
+	//		ModelArticleSupplier supplierArticle = new ModelArticleSupplier();
+	//		supplierArticle.selectArticleSupplier(articleID);
+	//		this.obsListArticleSupplier = supplierArticle.getObsListArticleSupplier();
+	//		tvSupplierArticle.setItems(this.obsListArticleSupplier);
+	//		
+	//		/*
+	//		 * Stock
+	//		 */
+	//		ModelArticleStock articleStock = new ModelArticleStock();
+	//		articleStock.selectArticleStock(articleID, new Validate().validateOnlyInteger(tfStockID.getText()));
+	//		tfInventory.setText(String.valueOf(articleStock.getInventory()));
+	//		tvStock.setItems(articleStock.getObsListStock());
+	//		tfStockMin.setText(String.valueOf(article.getStockMinUnit()));
+	//		tfStockMax.setText(String.valueOf(article.getStockMaxUnit()));
+	//		tfStockAlert.setText(String.valueOf(article.getStockAlertUnit()));
+	//		
+			setButtonState();
+	//		
+	//		setStockUnit();
+	//		setHeadline();
+	//		setStockColor();
+	//		cbStock.setDisable(false);
+		}else{
+			System.out.println("Keinen Artikel gefunden");
+		}
 		
 	}
 		
+	/*
+	 * UI METHODS
+	 */
 	private void resetAllFields(){
 		
 		tfArticleID.clear();
@@ -932,6 +947,9 @@ public class ControllerArticleData{
 //		
 //	}
 //	
+	/*
+	 * GETTER & SETTER
+	 */
 	private void setButtonState(){
 		
 		if(tfArticleID.getText().equals("")){

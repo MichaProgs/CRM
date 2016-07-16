@@ -18,6 +18,8 @@ public class CreateTables {
 		
 		createTableSupplier(new DBConnect().getConnection());
 		
+		createTableArticleSupplier(new DBConnect().getConnection());
+		
 	}
 	
 	private void createTableArticle(Connection con){
@@ -141,12 +143,44 @@ public class CreateTables {
 									+ "PAYMENTSKONTO INTEGER,"
 									+ "PAYMENTNETTO INTEGER,"
 									+ "SKONTO VARCHAR_IGNORECASE,"
-									+ "LASTCHANGE DATE)"; //21
+									+ "LASTCHANGE DATE,"
+									+ "NOTES VARCHAR_IGNORECASE)"; //22
 			
 			Statement statement = con.createStatement();
 			statement.execute(stmt);
 			
 			System.out.println("Tabelle 'SUPPLIER' in Datenbank erstellt!");
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void createTableArticleSupplier(Connection con){
+		
+		try{
+
+			String stmt = "CREATE TABLE IF NOT EXISTS ARTICLESUPPLIER("
+									+ "SUPPLIERID INTEGER,"
+									+ "ARTICLEID INTEGER,"
+									+ "SUPPLIERARTICLEID VARCHAR_IGNORECASE," //Varchar because maybe supplier has articleID with chars
+									+ "SUPPLIERDESCRIPTION1 VARCHAR_IGNORECASE,"
+									+ "SUPPLIERDESCRIPTION2 VARCHAR_IGNORECASE,"
+									+ "SUPPLIEREK DECIMAL(10,2),"
+									+ "SUPPLIERPRICEUNIT INTEGER,"
+									+ "SUPPLIERAMOUNTUNIT VARCHAR_IGNORECASE)";
+			
+			Statement statement = con.createStatement();
+			statement.execute(stmt);
+			
+			System.out.println("Tabelle 'ARTICLESUPPLIER' in Datenbank erstellt!");
 		
 		}catch(Exception e){
 			e.printStackTrace();

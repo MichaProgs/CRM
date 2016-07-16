@@ -35,7 +35,7 @@ public class LoadArticleSearch {
 		return root;
 	}
 
-	public ControllerArticleSearch getControllerSearch(){
+	public ControllerArticleSearch getController(){
 		return controller;
 	}
 	

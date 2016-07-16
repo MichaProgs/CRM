@@ -1,5 +1,6 @@
 package de.michaprogs.crm.article.add;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import de.michaprogs.crm.InitCombos;
@@ -7,6 +8,8 @@ import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsize;
 import de.michaprogs.crm.article.bolting.add.LoadBolting;
+import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
+import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
 import de.michaprogs.crm.components.TextFieldDesity;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
@@ -15,8 +18,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class ControllerArticleAdd {
@@ -41,12 +47,27 @@ public class ControllerArticleAdd {
 	@FXML private ComboBox<String> cbAmountUnit;
 	@FXML private ComboBox<String> cbTax;
 	
+	//Tables & Columns
+	@FXML private TableView<ModelArticleSupplier> tvArticleSupplier;
+	@FXML private TableColumn<ModelArticleSupplier, Integer> tcSupplierID;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierName1;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierArticleID;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierDescription1;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierDescription2;
+	@FXML private TableColumn<ModelArticleSupplier, BigDecimal> tcSupplierEk;
+	@FXML private TableColumn<ModelArticleSupplier, Integer> tcSupplierPriceUnit;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierAmountUnit;
+	
 	//Buttons
 	@FXML private Button btnSave;
 	@FXML private Button btnAbort;
 	
 	@FXML private Button btnBarrelsize;
 	@FXML private Button btnBolting;
+	
+	@FXML private Button btnArticleSupplierAdd;
+	@FXML private Button btnArticleSupplierEdit;
+	@FXML private Button btnArticleSupplierDelete;
 	
 	@FXML private TextArea taLongtext;
 	
@@ -71,13 +92,16 @@ public class ControllerArticleAdd {
 		initBtnBarrelsize();
 		initBtnBolting();
 		
+		initBtnArticleSupplierAdd();
+		
+		//Table
+		initTableArticleSupplier();
+		
 	}
 	
-	/* Setted by Loader-Class */
-	public void setStage(Stage stage){
-		this.stage = stage;
-	}
-	
+	/*
+	 * BUTTONS
+	 */
 	private void initBtnSave(){
 		
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
@@ -156,11 +180,57 @@ public class ControllerArticleAdd {
 		
 	}
 	
+	private void initBtnArticleSupplierAdd(){
+		
+		btnArticleSupplierAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				LoadArticleSupplierAdd articleSupplierAdd = new LoadArticleSupplierAdd(
+																true, 
+																tfDescription1.getText(), 
+																tfDescription2.getText(),
+																tfBarrelsize.getText(),
+																tfBolting.getText(),
+																new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()),
+																cbAmountUnit.getSelectionModel().getSelectedItem(),
+																tvArticleSupplier.getItems()
+															);
+				
+				tvArticleSupplier.setItems(articleSupplierAdd.getController().getObsListArticleSupplier());
+				
+			}
+		});
+		
+	}
+	
+	/*
+	 * TABLES
+	 */
+	private void initTableArticleSupplier(){
+		
+		this.tcSupplierID.setCellValueFactory(new PropertyValueFactory<>("supplierID"));
+		this.tcSupplierName1.setCellValueFactory(new PropertyValueFactory<>("supplierName1"));
+		this.tcSupplierArticleID.setCellValueFactory(new PropertyValueFactory<>("supplierArticleID"));
+		this.tcSupplierDescription1.setCellValueFactory(new PropertyValueFactory<>("supplierDescription1"));
+		this.tcSupplierDescription2.setCellValueFactory(new PropertyValueFactory<>("supplierDescription2"));
+		this.tcSupplierEk.setCellValueFactory(new PropertyValueFactory<>("supplierEk"));
+		this.tcSupplierPriceUnit.setCellValueFactory(new PropertyValueFactory<>("priceUnit"));
+		this.tcSupplierAmountUnit.setCellValueFactory(new PropertyValueFactory<>("amountUnit"));
+		
+	}
+	
 	/*
 	 * GETTER & SETTER
 	 */
 	public int getCreatedArticleID(){
 		return createdArticleID;
+	}
+	
+	/* Setted by Loader-Class */
+	public void setStage(Stage stage){
+		this.stage = stage;
 	}
 	
 }
