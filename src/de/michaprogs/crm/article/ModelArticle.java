@@ -283,6 +283,11 @@ public class ModelArticle {
 				this.amountUnit = rs.getString("amountunit");
 				this.tax = rs.getInt("tax");
 				this.longtext = rs.getString("longtext");
+				this.imageFilepath = rs.getString("imageFilePath");
+				this.stockMinUnit = rs.getInt("stockMinUnit");
+				this.stockMaxUnit = rs.getInt("stockMaxUnit");
+				this.stockAlertUnit = rs.getInt("stockAlertUnit");
+				this.lastChange = rs.getString("lastChange");
 				
 			}
 			

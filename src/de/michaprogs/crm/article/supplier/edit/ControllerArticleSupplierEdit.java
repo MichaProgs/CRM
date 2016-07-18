@@ -1,4 +1,6 @@
-package de.michaprogs.crm.article.supplier.add;
+package de.michaprogs.crm.article.supplier.edit;
+
+import java.math.BigDecimal;
 
 import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
@@ -17,7 +19,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ControllerArticleSupplierAdd {
+public class ControllerArticleSupplierEdit {
 
 	@FXML private TextField tfSupplierID;
 	@FXML private TextField tfName1;
@@ -44,13 +46,11 @@ public class ControllerArticleSupplierAdd {
 	
 	private Stage stage;
 	private ObservableList<ModelArticleSupplier> obsListArticleSupplier = FXCollections.observableArrayList();
+	private int indexOfEdit;
 	
-	public ControllerArticleSupplierAdd(){}
+	public ControllerArticleSupplierEdit(){}
 	
 	@FXML private void initialize(){
-		
-		tfSupplierID.setText(""); //The custom component 'TextFieldOnlyInteger' sets 0 automatically
-		tfArticleID.setText(""); //The custom component 'TextFieldOnlyInteger' sets 0 automatically
 		
 		//ComboBoxes
 		new InitCombos().initComboAmountUnit(cbAmountUnit);
@@ -98,6 +98,8 @@ public class ControllerArticleSupplierAdd {
 				if(articleSupplier.validateArticleSupplier(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
 						tfDescription1.getText())){
 					
+					//update obsList
+					obsListArticleSupplier.remove(indexOfEdit);					
 					obsListArticleSupplier.add(new ModelArticleSupplier(
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()),
 						tfName1.getText(),
@@ -137,7 +139,7 @@ public class ControllerArticleSupplierAdd {
 					}else{
 						//TODO RESET FIELDS
 					}
-				}	
+				}
 				
 			}
 		});
@@ -177,21 +179,41 @@ public class ControllerArticleSupplierAdd {
 	}
 	
 	/* Setted by Loader-Class */
-	public void setArticleData(	String description1, 
+	public void setArticleData(	int supplierID,
+								String articleID,
+								String description1, 
 								String description2,
 								String barrelsize,
 								String bolting,
+								BigDecimal ek,
 								int priceUnit,
 								String amountUnit,
-								ObservableList<ModelArticleSupplier> obsListArticleSupplier){
+								ObservableList<ModelArticleSupplier> obsListArticleSupplier,
+								int indexOfEdit){
 		
+		ModelSupplier supplier = new ModelSupplier();
+		supplier.selectSupplier(supplierID);
+		
+		
+		this.tfSupplierID.setText(String.valueOf(supplierID));
+		this.tfName1.setText(supplier.getName1());
+		this.tfName2.setText(supplier.getName2());
+		this.tfStreet.setText(supplier.getStreet());
+		this.cbLand.getSelectionModel().select(supplier.getLand());
+		this.tfZip.setText(String.valueOf(supplier.getZip()));
+		this.tfLocation.setText(supplier.getLocation());
+		
+		this.tfArticleID.setText(articleID);
 		this.tfDescription1.setText(description1);
 		this.tfDescription2.setText(description2);
 		this.tfBarrelsize.setText(barrelsize);
 		this.tfBolting.setText(bolting);
+		this.tfEk.setText(String.valueOf(ek));
 		this.cbPriceUnit.getSelectionModel().select(String.valueOf(priceUnit));
 		this.cbAmountUnit.getSelectionModel().select(amountUnit);
 		this.obsListArticleSupplier = obsListArticleSupplier;
+		
+		this.indexOfEdit = indexOfEdit;
 		
 	}
 	

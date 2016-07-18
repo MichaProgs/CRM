@@ -41,7 +41,7 @@
 				<BorderPane>
 					<top>
 						<HBox spacing="10" alignment="CENTER_LEFT">
-							<Label id="lblHeadline" text="Lieferanten suchen" />
+							<Label id="lblHeadline" text="Lieferantensuche" />
 							<Label fx:id="lblSubHeadline" id="lblSubHeadline" text="" />
 						<padding>
 							<Insets bottom="10" />

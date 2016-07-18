@@ -3,6 +3,9 @@ package de.michaprogs.crm.article.add;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import de.michaprogs.crm.AbortAlert;
+import de.michaprogs.crm.DeleteAlert;
+import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
@@ -10,6 +13,7 @@ import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsize;
 import de.michaprogs.crm.article.bolting.add.LoadBolting;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
+import de.michaprogs.crm.article.supplier.edit.LoadArticleSupplierEdit;
 import de.michaprogs.crm.components.TextFieldDesity;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
@@ -18,11 +22,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ControllerArticleAdd {
@@ -88,11 +98,14 @@ public class ControllerArticleAdd {
 		
 		/* Buttons */
 		initBtnSave();
+		initBtnAbort();
 		
 		initBtnBarrelsize();
 		initBtnBolting();
 		
 		initBtnArticleSupplierAdd();
+		initBtnArticleSupplierEdit();
+		initBtnArticleSupplierDelete();
 		
 		//Table
 		initTableArticleSupplier();
@@ -104,11 +117,13 @@ public class ControllerArticleAdd {
 	 */
 	private void initBtnSave(){
 		
+		btnSave.setGraphic(new GraphicButton("file:resources/save_32.png").getGraphicButton());
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				
+				/* INSERT ARTICLE */
 				ModelArticle article = new ModelArticle();
 				if(article.validate(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
 										tfDescription1.getText())){
@@ -139,10 +154,49 @@ public class ControllerArticleAdd {
 						String.valueOf(LocalDate.now()) //LAST CHANGE
 					);
 					
+					/* INSERT ARTICLE SUPPLIER */
+					ModelArticleSupplier articleSupplier = new ModelArticleSupplier();					
+					for(int i = 0; i < tvArticleSupplier.getItems().size(); i++){
+						
+						articleSupplier.insertArticleSupplier(
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
+							tvArticleSupplier.getItems().get(i).getSupplierID(), 
+							tvArticleSupplier.getItems().get(i).getSupplierArticleID(), 
+							tvArticleSupplier.getItems().get(i).getSupplierDescription1(), 
+							tvArticleSupplier.getItems().get(i).getSupplierDescription2(), 
+							tvArticleSupplier.getItems().get(i).getSupplierEk(), 
+							tvArticleSupplier.getItems().get(i).getSupplierPriceUnit(), 
+							tvArticleSupplier.getItems().get(i).getSupplierAmountUnit()
+						);
+						
+					}
+					
 					createdArticleID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText());
 					if(stage != null)
 						stage.close();
 					
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnAbort(){
+		
+		btnAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
+		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				AbortAlert abort = new AbortAlert();
+				if(abort.getAbort()){
+					if(stage != null){
+						stage.close();
+					}else{
+						//TODO RESET FIELDS
+					}
 				}
 				
 			}
@@ -186,20 +240,31 @@ public class ControllerArticleAdd {
 
 			@Override
 			public void handle(ActionEvent event) {
-				
-				LoadArticleSupplierAdd articleSupplierAdd = new LoadArticleSupplierAdd(
-																true, 
-																tfDescription1.getText(), 
-																tfDescription2.getText(),
-																tfBarrelsize.getText(),
-																tfBolting.getText(),
-																new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()),
-																cbAmountUnit.getSelectionModel().getSelectedItem(),
-																tvArticleSupplier.getItems()
-															);
-				
-				tvArticleSupplier.setItems(articleSupplierAdd.getController().getObsListArticleSupplier());
-				
+				addArticleSupplier();
+			}
+		});
+		
+	}
+	
+	private void initBtnArticleSupplierEdit(){
+		
+		btnArticleSupplierEdit.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				editArticleSupplier();
+			}
+		});
+		
+	}
+	
+	private void initBtnArticleSupplierDelete(){
+		
+		btnArticleSupplierDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				deleteArticleSupplier();
 			}
 		});
 		
@@ -216,8 +281,108 @@ public class ControllerArticleAdd {
 		this.tcSupplierDescription1.setCellValueFactory(new PropertyValueFactory<>("supplierDescription1"));
 		this.tcSupplierDescription2.setCellValueFactory(new PropertyValueFactory<>("supplierDescription2"));
 		this.tcSupplierEk.setCellValueFactory(new PropertyValueFactory<>("supplierEk"));
-		this.tcSupplierPriceUnit.setCellValueFactory(new PropertyValueFactory<>("priceUnit"));
-		this.tcSupplierAmountUnit.setCellValueFactory(new PropertyValueFactory<>("amountUnit"));
+		this.tcSupplierPriceUnit.setCellValueFactory(new PropertyValueFactory<>("supplierPriceUnit"));
+		this.tcSupplierAmountUnit.setCellValueFactory(new PropertyValueFactory<>("supplierAmountUnit"));
+		
+		tvArticleSupplier.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				
+				if(event.getCode().equals(KeyCode.DELETE)){
+					deleteArticleSupplier();
+				}else if(event.getCode().equals(KeyCode.ENTER)){
+					editArticleSupplier();
+				}
+				
+			}
+		});
+		
+		tvArticleSupplier.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				
+				if(	event.getButton().equals(MouseButton.SECONDARY) &&
+					event.getClickCount() == 1){
+					tvArticleSupplier.setContextMenu(new ContextMenuArticleSupplier());
+				}else if(	event.getButton().equals(MouseButton.PRIMARY) &&
+							event.getClickCount() == 2){
+					editArticleSupplier();
+				}
+				
+			}
+		});
+		
+	}
+	
+	/*
+	 * DATABASE METHODS
+	 */
+	private void addArticleSupplier(){
+		
+		LoadArticleSupplierAdd articleSupplierAdd = new LoadArticleSupplierAdd(
+			true, 
+			tfDescription1.getText(), 
+			tfDescription2.getText(),
+			tfBarrelsize.getText(),
+			tfBolting.getText(),
+			new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()),
+			cbAmountUnit.getSelectionModel().getSelectedItem(),
+			tvArticleSupplier.getItems()
+		);
+
+		tvArticleSupplier.setItems(articleSupplierAdd.getController().getObsListArticleSupplier());
+		if(tvArticleSupplier.getItems().size() > 0){
+			tvArticleSupplier.getSelectionModel().selectFirst();
+			tvArticleSupplier.requestFocus();
+		}
+		
+	}
+	
+	private void editArticleSupplier(){
+		
+		if(tvArticleSupplier.getSelectionModel().getSelectedItems().size() == 1){
+			
+			int index = tvArticleSupplier.getSelectionModel().getSelectedIndex();
+			
+			new LoadArticleSupplierEdit(
+				true, 
+				tvArticleSupplier.getItems().get(index).getSupplierID(),
+				tvArticleSupplier.getItems().get(index).getSupplierArticleID(),
+				tvArticleSupplier.getItems().get(index).getSupplierDescription1(),
+				tvArticleSupplier.getItems().get(index).getSupplierDescription2(), 
+				tfBarrelsize.getText(), 
+				tfBolting.getText(), 
+				tvArticleSupplier.getItems().get(index).getSupplierEk(),
+				tvArticleSupplier.getItems().get(index).getSupplierPriceUnit(), 
+				tvArticleSupplier.getItems().get(index).getSupplierAmountUnit(), 
+				tvArticleSupplier.getItems(),
+				index
+			);
+			
+		}else{
+			System.out.println("Bitte 1 Zeile auswählen!");
+		}
+		
+	}
+	
+	private void deleteArticleSupplier(){
+		
+		if(tvArticleSupplier.getSelectionModel().getSelectedItems().size() == 1){
+			
+			DeleteAlert delete = new DeleteAlert();
+			if(delete.getDelete()){
+				tvArticleSupplier.getItems().remove(tvArticleSupplier.getSelectionModel().getSelectedIndex());
+				if(tvArticleSupplier.getItems().size() > 0){
+					tvArticleSupplier.getSelectionModel().selectFirst();
+					tvArticleSupplier.requestFocus();
+				}
+			}
+			
+		}else{
+			System.out.println("Bitte 1 Zeile auswählen!");
+		}
 		
 	}
 	
@@ -231,6 +396,64 @@ public class ControllerArticleAdd {
 	/* Setted by Loader-Class */
 	public void setStage(Stage stage){
 		this.stage = stage;
+	}
+	
+	/*
+	 * CONTEXT-MENU
+	 */
+	private class ContextMenuArticleSupplier extends ContextMenu{
+		
+		private MenuItem miAdd = new MenuItem("Hinzufügen..");
+		private MenuItem miEdit = new MenuItem("Bearbeiten..");
+		private MenuItem miDelete = new MenuItem("Löschen");
+		
+		public ContextMenuArticleSupplier(){
+			
+			//initialize
+			initMiAdd();
+			initMiEdit();
+			initMiDelete();
+			
+			this.getItems().addAll(miAdd, miEdit, miDelete);			
+			
+		}
+		
+		private void initMiAdd(){
+			
+			miAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					addArticleSupplier();
+				}
+			});
+			
+		}
+		
+		private void initMiEdit(){
+			
+			miEdit.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					editArticleSupplier();
+				}
+			});
+			
+		}
+
+		private void initMiDelete(){
+	
+			miDelete.setOnAction(new EventHandler<ActionEvent>() {
+		
+				@Override
+				public void handle(ActionEvent event) {
+					deleteArticleSupplier();
+				}
+			});
+	
+		}
+		
 	}
 	
 }

@@ -14,7 +14,8 @@ public class AbortAlert {
 	public AbortAlert(){
 		
 		Alert a = new Alert(AlertType.WARNING);
-		a.setHeaderText("Sicher abbrechen?");
+		a.setHeaderText("Sind Sie sicher, dass Sie den Vorgang abbrechen möchten?");
+		a.setContentText("Alle nicht gespeicherten Daten gehen verloren!");
 		
 		//Style
 		DialogPane dp = a.getDialogPane();

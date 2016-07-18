@@ -18,11 +18,11 @@
 <?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.supplier.add.ControllerSupplierAdd">
-	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 		<!-- FLEX NAVI -->
 		<top>
 			<AnchorPane styleClass="Headbar">
-				<StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+				<StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 					<HBox StackPane.alignment="CENTER_LEFT" alignment="CENTER_LEFT">
 						<Button fx:id="btnSave" text="Speichern" styleClass="btnTopbar" />
 						<Button fx:id="btnAbort" text="Abbrechen" styleClass="btnTopbar" />
@@ -37,7 +37,7 @@
 				<BorderPane>
 					<top>
 						<HBox>
-							<Label id="lblHeadline" text="Lieferanten" />
+							<Label id="lblHeadline" text="Lieferant hinzufügen" />
 						<padding>
 							<Insets bottom="10" />
 						</padding>
@@ -85,9 +85,9 @@
 										<Label text="Fax:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 										<TextField fx:id="tfFax" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 										<Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-										<TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+										<TextField fx:id="tfEmail" promptText="company@domain.de" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 										<Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-										<TextField fx:id="tfWeb" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+										<TextField fx:id="tfWeb" promptText="www.domain.de" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 										<Label text="Ansprechpartner:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 										<TextField fx:id="tfContact" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 										<Label text="Ust-ID-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="5" />

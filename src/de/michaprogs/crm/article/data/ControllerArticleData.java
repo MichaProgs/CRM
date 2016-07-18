@@ -1,5 +1,6 @@
 package de.michaprogs.crm.article.data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import de.michaprogs.crm.DeleteAlert;
@@ -11,19 +12,36 @@ import de.michaprogs.crm.article.add.LoadArticleAdd;
 import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsize;
 import de.michaprogs.crm.article.bolting.add.LoadBolting;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
+import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
+import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
+import de.michaprogs.crm.article.supplier.edit.LoadArticleSupplierEdit;
 import de.michaprogs.crm.components.TextFieldDesity;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 public class ControllerArticleData{
+	
+	@FXML private Label lblSubHeadline;
 	
 	@FXML private TextFieldOnlyInteger tfArticleID;
 	@FXML private TextField tfDescription1;
@@ -47,6 +65,8 @@ public class ControllerArticleData{
 	
 	@FXML private TextArea taLongtext;
 	
+	@FXML private Label lblLastChange;
+	
 	//Buttons
 	@FXML private Button btnSearch;
 	@FXML private Button btnNew;
@@ -61,6 +81,17 @@ public class ControllerArticleData{
 	
 	@FXML private Button btnBarrelsize;
 	@FXML private Button btnBolting;
+	
+	//Tables & Columns
+	@FXML private TableView<ModelArticleSupplier> tvArticleSupplier;
+	@FXML private TableColumn<ModelArticleSupplier, Integer> tcSupplierID;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierName1;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierArticleID;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierDescription1;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierDescription2;
+	@FXML private TableColumn<ModelArticleSupplier, BigDecimal> tcSupplierEk;
+	@FXML private TableColumn<ModelArticleSupplier, Integer> tcSupplierPriceUnit;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierAmountUnit;
 	
 	//Panels & Nodes
 	@FXML private HBox hboxBtnTopbar;
@@ -97,6 +128,9 @@ public class ControllerArticleData{
 //		initBtnEditImage();
 //		initBtnDeleteImage();
 //		
+		/* Tables */
+		initTableArticleSupplier();
+		
 		//Tab Supplier
 		initBtnArticleSupplierAdd();
 		initBtnArticleSupplierEdit();
@@ -187,8 +221,8 @@ public class ControllerArticleData{
 			@Override
 			public void handle(ActionEvent event) {
 				
-				ModelArticle article = new ModelArticle();
-				
+				/* UPDATE ARTICLE */
+				ModelArticle article = new ModelArticle();				
 				if(article.validate(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
 									tfDescription1.getText())){
 					
@@ -222,21 +256,25 @@ public class ControllerArticleData{
 						
 						String.valueOf(LocalDate.now())
 					);
-				
-//					new ModelArticleSupplier().deleteArticleSupplier(tfArticleID.getText());
-//					
-//					for(int i = 0; i < tvSupplierArticle.getItems().size(); i++){
-//						
-//						new ModelArticleSupplier().insertArticleSupplier(
-//							tfArticleID.getText(), 
-//							tvSupplierArticle.getItems().get(i).getSupplierID(),
-//							tvSupplierArticle.getItems().get(i).getSupplierArticleID(),
-//							tvSupplierArticle.getItems().get(i).getSupplierDescription1(),
-//							tvSupplierArticle.getItems().get(i).getSupplierDescription2(),
-//							new Validate().validatePriceBigDecimal(String.valueOf(tcSupplierEk.getCellData(i))
-//						));
-//						
-//					}
+					
+					/* UPDATE ARTICLE SUPPLIER */
+					ModelArticleSupplier articleSupplier = new ModelArticleSupplier();
+					articleSupplier.deleteArticleSupplier(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()));
+					
+					for(int i = 0; i < tvArticleSupplier.getItems().size(); i++){
+						
+						articleSupplier.insertArticleSupplier(
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
+							tvArticleSupplier.getItems().get(i).getSupplierID(), 
+							tvArticleSupplier.getItems().get(i).getSupplierArticleID(), 
+							tvArticleSupplier.getItems().get(i).getSupplierDescription1(), 
+							tvArticleSupplier.getItems().get(i).getSupplierDescription2(), 
+							tvArticleSupplier.getItems().get(i).getSupplierEk(), 
+							tvArticleSupplier.getItems().get(i).getSupplierPriceUnit(), 
+							tvArticleSupplier.getItems().get(i).getSupplierAmountUnit()
+						);
+						
+					}
 					
 					hboxBtnTopbar.getChildren().remove(btnEditAbort);
 					hboxBtnTopbar.getChildren().remove(btnEditSave);
@@ -421,64 +459,6 @@ public class ControllerArticleData{
 //		
 //	}
 
-//	private void initTfVkAndEk(){
-//		
-//		tfVk.focusedProperty().addListener(new ChangeListener<Boolean>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-//				
-//				if(oldValue){
-//					
-//					if(! tfEk.getText().equals("")){
-//						BigDecimal vk = new BigDecimal(tfVk.getText());
-//						BigDecimal ek = new BigDecimal(tfEk.getText());
-//						
-//						if(ek.compareTo(vk) == 1){
-//							
-//							Alert a = new Alert(AlertType.WARNING);
-//							a.setTitle("Richtige Eingabe?");
-//							a.setHeaderText("Sind Sie sicher, dass die Eingabe richtig ist?");
-//							a.setContentText("Der Verkaufspreis ist niedriger als der Einkaufspreis.");
-//							a.showAndWait();
-//							
-//						}
-//					}
-//					
-//				}
-//				
-//			}
-//		});
-//		
-//		tfEk.focusedProperty().addListener(new ChangeListener<Boolean>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-//				
-//				if(oldValue){
-//					
-//					if(! tfVk.getText().equals("")){
-//						BigDecimal vk = new BigDecimal(tfVk.getText());
-//						BigDecimal ek = new BigDecimal(tfEk.getText());
-//						
-//						if(ek.compareTo(vk) == 1){
-//							
-//							Alert a = new Alert(AlertType.WARNING);
-//							a.setTitle("Richtige Eingabe?");
-//							a.setHeaderText("Sind Sie sicher, dass die Eingabe richtig ist?");
-//							a.setContentText("Der Verkaufspreis ist niedriger als der Einkaufspreis.");
-//							a.showAndWait();
-//							
-//						}
-//					}
-//					
-//				}
-//				
-//			}
-//		});
-//		
-//	}
-//	
 	/******************************
 	 * BUTTONS TITLED PANE SUPPLIER
 	 ******************************/
@@ -488,7 +468,7 @@ public class ControllerArticleData{
 
 			@Override
 			public void handle(ActionEvent event) {
-				//TODO
+				addArticleSupplier();
 			}
 		});		
 	}
@@ -499,7 +479,7 @@ public class ControllerArticleData{
 
 			@Override
 			public void handle(ActionEvent event) {				
-				//TODO				
+				deleteArticleSupplier();				
 			}
 		});		
 	}
@@ -510,116 +490,12 @@ public class ControllerArticleData{
 
 			@Override
 			public void handle(ActionEvent event) {
-				//TODO
+				editArticleSupplier();
 			}
 		});
 		
 	}
 
-//	/* Context Menu */
-//	private void initMiEditArticleSupplier(){
-//		
-//		miEditSupplierArticle = new MenuItem("Bearbeiten");
-//		miEditSupplierArticle.setOnAction(new EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				editArticleSupplier();
-//			}
-//		});
-//		
-//	}
-//	
-//	private void initMiDeleteArticleSupplier(){
-//		
-//		miDeleteSupplierArticle = new MenuItem("Löschen");
-//		miDeleteSupplierArticle.setOnAction(new EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				deleteArticleSupplier();
-//			}
-//		});
-//		
-//	}
-//	
-//	private void initMiAddArticleSupplier(){
-//		
-//		miAddSupplierArticle = new MenuItem("Hinzufügen");
-//		miAddSupplierArticle.setOnAction(new EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				addArticleSupplier();				
-//			}
-//		});
-//		
-//	}
-//	
-//	private void initContextMenuArticleSupplier(){
-//		
-//		cm = new ContextMenu();
-//		cm.getItems().add(miEditSupplierArticle);
-//		cm.getItems().add(miDeleteSupplierArticle);
-//		cm.getItems().add(miAddSupplierArticle);
-//		
-//	}
-//		
-//	// attach listener when edit
-//	private void initTableClick(){
-//		
-//		tvSupplierArticle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//
-//			@Override
-//			public void handle(MouseEvent event) {
-//				
-//				if(	tvSupplierArticle.getSelectionModel().getSelectedItems().size() == 1 &&
-//					event.getButton() == MouseButton.PRIMARY &&
-//					event.getClickCount() == 2){
-//					editArticleSupplier();
-//				}else if(	tvSupplierArticle.getSelectionModel().getSelectedItems().size() > 0 &&
-//							event.getButton() == MouseButton.SECONDARY){
-//					
-//					tvSupplierArticle.setContextMenu(cm);
-//					
-//				}
-//				
-//			}
-//		});
-//		
-//		
-//		
-//	}
-//	
-//	// remove listener when save
-//	private void removeTableClick(){
-//		tvSupplierArticle.setOnMouseClicked(null);
-//	}
-//	
-//	// attach listener when edit
-//	private void initTableKey(){
-//		
-//		tvSupplierArticle.setOnKeyPressed(new EventHandler<KeyEvent>() {
-//
-//			@Override
-//			public void handle(KeyEvent event) {
-//				
-//				if(event.getCode() == KeyCode.DELETE){
-//					deleteArticleSupplier();
-//				}
-//				
-//			}
-//		});
-//		
-//	}
-//	
-//	// remove listener when save
-//	private void removeTableKeyEntf(){
-//		
-//		tvSupplierArticle.setOnKeyPressed(null);
-//		
-//	}
-//	
 //	private void initCbStock(){
 //		
 //		ModelStock stock = new ModelStock();
@@ -643,40 +519,7 @@ public class ControllerArticleData{
 //		});
 //		
 //	}
-//	
-//	private void deleteArticleSupplier(){
-//		
-//		new RemoveTableRow(tvSupplierArticle, tvSupplierArticle.getSelectionModel().getSelectedIndex());
-//		setButtonState();
-//		
-//	}
-//	
-//	private void editArticleSupplier(){
-//		
-//		LoadArticleSupplierEdit articleSupplierEdit = new LoadArticleSupplierEdit(true, obsListArticleSupplier, tvSupplierArticle.getSelectionModel().getSelectedIndex());
-//		
-//		tvSupplierArticle.setItems(articleSupplierEdit.getController().getObsListArticleSupplier());
-//		
-//		//Workaround to refresh table data
-//		tvSupplierArticle.getColumns().get(0).setVisible(false);
-//		tvSupplierArticle.getColumns().get(0).setVisible(true);
-//		
-//	}
-//	
-//	private void addArticleSupplier(){
-//		
-//		LoadArticleSupplierAdd articleSupplier = new LoadArticleSupplierAdd(
-//			true, 
-//			obsListArticleSupplier, 
-//			tfDescription1.getText(), 
-//			tfDescription2.getText()
-//		);
-//		
-//		tvSupplierArticle.setItems(articleSupplier.getController().getObsListArticleSupplier());
-//		setButtonState();
-//		
-//	}
-//	
+	
 	private void initBtnBarrelsize(){
 		
 		btnBarrelsize.setOnAction(new EventHandler<ActionEvent>() {
@@ -719,6 +562,70 @@ public class ControllerArticleData{
 //		
 //	}
 //	
+	
+	/*
+	 * TABLES
+	 */
+	private void initTableArticleSupplier(){
+		
+		this.tcSupplierID.setCellValueFactory(new PropertyValueFactory<>("supplierID"));
+		this.tcSupplierName1.setCellValueFactory(new PropertyValueFactory<>("supplierName1"));
+		this.tcSupplierArticleID.setCellValueFactory(new PropertyValueFactory<>("supplierArticleID"));
+		this.tcSupplierDescription1.setCellValueFactory(new PropertyValueFactory<>("supplierDescription1"));
+		this.tcSupplierDescription2.setCellValueFactory(new PropertyValueFactory<>("supplierDescription2"));
+		this.tcSupplierEk.setCellValueFactory(new PropertyValueFactory<>("supplierEk"));
+		this.tcSupplierPriceUnit.setCellValueFactory(new PropertyValueFactory<>("supplierPriceUnit"));
+		this.tcSupplierAmountUnit.setCellValueFactory(new PropertyValueFactory<>("supplierAmountUnit"));
+		
+		tvArticleSupplier.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				
+				//When the data is editable
+				if(	hboxBtnTopbar.getChildren().contains(btnEditSave) &&
+					hboxBtnTopbar.getChildren().contains(btnEditAbort)){
+					
+					tvArticleSupplier.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+						@Override
+						public void handle(KeyEvent event) {
+							
+							if(event.getCode().equals(KeyCode.DELETE)){
+								deleteArticleSupplier();
+							}else if(event.getCode().equals(KeyCode.ENTER)){
+								editArticleSupplier();
+							}
+							
+						}
+					});
+					
+					tvArticleSupplier.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+						@Override
+						public void handle(MouseEvent event) {
+							
+							if(	event.getButton().equals(MouseButton.SECONDARY) &&
+								event.getClickCount() == 1){
+								tvArticleSupplier.setContextMenu(new ContextMenuArticleSupplier());
+							}else if(	event.getButton().equals(MouseButton.PRIMARY) &&
+										event.getClickCount() == 2){
+								editArticleSupplier();
+							}
+							
+						}
+					});
+					
+				}else{
+					tvArticleSupplier.setOnKeyPressed(null);
+					tvArticleSupplier.setOnMouseClicked(null);
+				}
+				
+			}
+		});
+		
+	}
+	
 	/*
 	 * DATABASE METHODS
 	 */
@@ -748,11 +655,14 @@ public class ControllerArticleData{
 			
 			tfEk.setText(String.valueOf(article.getEk()));
 			tfVk.setText(String.valueOf(article.getVk()));
-			cbPriceUnit.getSelectionModel().select(article.getPriceUnit());
+			cbPriceUnit.getSelectionModel().select(String.valueOf(article.getPriceUnit()));
 			cbAmountUnit.getSelectionModel().select(article.getAmountUnit());
 			cbTax.getSelectionModel().select(article.getTax());
 			
 			taLongtext.setText(article.getLongtext());
+			
+			lblSubHeadline.setText(" - " + article.getArticleID() + " " + article.getDescription1());
+			lblLastChange.setText(article.getLastChange()); //TODO doesn't work...
 			
 	//		if(! article.getImageFilePath().equals("")){
 	//			fileProductImage  = new File(article.getImageFilePath());
@@ -763,14 +673,13 @@ public class ControllerArticleData{
 	//		
 	//		lblLastChange.setText(new Validate().validateDateGER(article.getLastChange()));
 	//		
-	//		/*
-	//		 * Supplier
-	//		 */
-	//		ModelArticleSupplier supplierArticle = new ModelArticleSupplier();
-	//		supplierArticle.selectArticleSupplier(articleID);
-	//		this.obsListArticleSupplier = supplierArticle.getObsListArticleSupplier();
-	//		tvSupplierArticle.setItems(this.obsListArticleSupplier);
-	//		
+			/*
+			 * ARTICLE SUPPLIER
+			 */
+			ModelArticleSupplier articleSupplier = new ModelArticleSupplier();
+			articleSupplier.selectArticleSupplier(articleID);
+			tvArticleSupplier.setItems(articleSupplier.getObsListArticleSupplier());
+			
 	//		/*
 	//		 * Stock
 	//		 */
@@ -790,6 +699,7 @@ public class ControllerArticleData{
 	//		cbStock.setDisable(false);
 		}else{
 			System.out.println("Keinen Artikel gefunden");
+			//TODO RESET FIELDS
 		}
 		
 	}
@@ -798,6 +708,8 @@ public class ControllerArticleData{
 	 * UI METHODS
 	 */
 	private void resetAllFields(){
+		
+		lblSubHeadline.setText("");
 		
 		tfArticleID.clear();
 		tfDescription1.clear();
@@ -823,6 +735,8 @@ public class ControllerArticleData{
 		
 		//Tab Longtext
 		taLongtext.clear();
+		
+		lblLastChange.setText("Letzte Änderung: "); //Same as in the FXML-File
 		
 		//Tab Stock
 //		tvStock.getItems().clear();
@@ -947,6 +861,77 @@ public class ControllerArticleData{
 //		
 //	}
 //	
+	
+	/*
+	 * DATABASE METHODS
+	 */
+	private void addArticleSupplier(){
+		
+		LoadArticleSupplierAdd articleSupplierAdd = new LoadArticleSupplierAdd(
+			true, 
+			tfDescription1.getText(), 
+			tfDescription2.getText(),
+			tfBarrelsize.getText(),
+			tfBolting.getText(),
+			new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()),
+			cbAmountUnit.getSelectionModel().getSelectedItem(),
+			tvArticleSupplier.getItems()
+		);
+
+		tvArticleSupplier.setItems(articleSupplierAdd.getController().getObsListArticleSupplier());
+		if(tvArticleSupplier.getItems().size() > 0){
+			tvArticleSupplier.getSelectionModel().selectFirst();
+			tvArticleSupplier.requestFocus();
+		}
+		
+	}
+	
+	private void editArticleSupplier(){
+		
+		if(tvArticleSupplier.getSelectionModel().getSelectedItems().size() == 1){
+			
+			int index = tvArticleSupplier.getSelectionModel().getSelectedIndex();
+			
+			new LoadArticleSupplierEdit(
+				true, 
+				tvArticleSupplier.getItems().get(index).getSupplierID(),
+				tvArticleSupplier.getItems().get(index).getSupplierArticleID(),
+				tvArticleSupplier.getItems().get(index).getSupplierDescription1(),
+				tvArticleSupplier.getItems().get(index).getSupplierDescription2(), 
+				tfBarrelsize.getText(), 
+				tfBolting.getText(), 
+				tvArticleSupplier.getItems().get(index).getSupplierEk(),
+				tvArticleSupplier.getItems().get(index).getSupplierPriceUnit(), 
+				tvArticleSupplier.getItems().get(index).getSupplierAmountUnit(), 
+				tvArticleSupplier.getItems(),
+				index
+			);
+			
+		}else{
+			System.out.println("Bitte 1 Zeile auswählen!");
+		}
+		
+	}
+	
+	private void deleteArticleSupplier(){
+		
+		if(tvArticleSupplier.getSelectionModel().getSelectedItems().size() == 1){
+			
+			DeleteAlert delete = new DeleteAlert();
+			if(delete.getDelete()){
+				tvArticleSupplier.getItems().remove(tvArticleSupplier.getSelectionModel().getSelectedIndex());
+				if(tvArticleSupplier.getItems().size() > 0){
+					tvArticleSupplier.getSelectionModel().selectFirst();
+					tvArticleSupplier.requestFocus();
+				}
+			}
+			
+		}else{
+			System.out.println("Bitte 1 Zeile auswählen!");
+		}
+		
+	}
+	
 	/*
 	 * GETTER & SETTER
 	 */
@@ -957,6 +942,11 @@ public class ControllerArticleData{
 			btnDelete.setDisable(true);
 //			btnPrint.setDisable(true);
 //			btnRefresh.setDisable(true);
+			
+			btnArticleSupplierAdd.setDisable(true);
+			btnArticleSupplierEdit.setDisable(true);
+			btnArticleSupplierDelete.setDisable(true);
+			
 		}else{
 			btnEdit.setDisable(false);
 			btnDelete.setDisable(false);
@@ -973,6 +963,10 @@ public class ControllerArticleData{
 //				btnPrint.setDisable(true);
 //				btnRefresh.setDisable(true);
 //				
+				btnArticleSupplierAdd.setDisable(false);
+				btnArticleSupplierEdit.setDisable(false);
+				btnArticleSupplierDelete.setDisable(false);
+				
 				//Product Image
 //				btnEditImg.setVisible(true);				
 //				if(ivProductImage.getImage() != null){
@@ -983,12 +977,76 @@ public class ControllerArticleData{
 //				}
 				
 			}else{
+				
 				btnSearch.setDisable(false);
 				btnNew.setDisable(false);
 				btnEdit.setDisable(false);
 				btnDelete.setDisable(false);
+				
+				btnArticleSupplierAdd.setDisable(true);
+				btnArticleSupplierEdit.setDisable(true);
+				btnArticleSupplierDelete.setDisable(true);
+				
 			}
 		}
+	}
+	
+	/*
+	 * CONTEXT-MENU
+	 */
+	private class ContextMenuArticleSupplier extends ContextMenu{
+		
+		private MenuItem miAdd = new MenuItem("Hinzufügen..");
+		private MenuItem miEdit = new MenuItem("Bearbeiten..");
+		private MenuItem miDelete = new MenuItem("Löschen");
+		
+		public ContextMenuArticleSupplier(){
+			
+			//initialize
+			initMiAdd();
+			initMiEdit();
+			initMiDelete();
+			
+			this.getItems().addAll(miAdd, miEdit, miDelete);			
+			
+		}
+		
+		private void initMiAdd(){
+			
+			miAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					addArticleSupplier();
+				}
+			});
+			
+		}
+		
+		private void initMiEdit(){
+			
+			miEdit.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					editArticleSupplier();
+				}
+			});
+			
+		}
+
+		private void initMiDelete(){
+	
+			miDelete.setOnAction(new EventHandler<ActionEvent>() {
+		
+				@Override
+				public void handle(ActionEvent event) {
+					deleteArticleSupplier();
+				}
+			});
+	
+		}
+		
 	}
 	
 }
