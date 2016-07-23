@@ -15,6 +15,7 @@ import de.michaprogs.crm.article.search.LoadArticleSearch;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
 import de.michaprogs.crm.article.supplier.edit.LoadArticleSupplierEdit;
+import de.michaprogs.crm.components.ImageFileChooser;
 import de.michaprogs.crm.components.TextFieldDesity;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
@@ -33,6 +34,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -63,6 +66,8 @@ public class ControllerArticleData{
 	@FXML private ComboBox<String> cbAmountUnit;
 	@FXML private ComboBox<String> cbTax;
 	
+	@FXML private ImageView ivImage;
+		  private String imageFilepath;
 	@FXML private TextArea taLongtext;
 	
 	@FXML private Label lblLastChange;
@@ -74,6 +79,9 @@ public class ControllerArticleData{
 	  	  private Button btnEditSave = new Button("Speichern"); //Initialized in Java-Code
 	  	  private Button btnEditAbort = new Button("Abbrechen"); //Initialized in Java-Code
 	@FXML private Button btnDelete;
+	
+	@FXML private Button btnImageAdd;
+	@FXML private Button btnImageDelete;
 	
 	@FXML private Button btnArticleSupplierAdd;
 	@FXML private Button btnArticleSupplierEdit;
@@ -125,8 +133,8 @@ public class ControllerArticleData{
 		initBtnBolting();
 //		
 //		//Image
-//		initBtnEditImage();
-//		initBtnDeleteImage();
+		initBtnImageAdd();
+		initBtnImageDelete();
 //		
 		/* Tables */
 		initTableArticleSupplier();
@@ -248,7 +256,7 @@ public class ControllerArticleData{
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()),
 						taLongtext.getText(),
 	
-						"", //IMAGEFILEPATH
+						imageFilepath, //IMAGEFILEPATH
 						
 						0, //STOCK MIN
 						0, //STOCK MAX
@@ -342,6 +350,45 @@ public class ControllerArticleData{
 		
 	}
 
+	private void initBtnImageAdd(){
+		
+		btnImageAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				ImageFileChooser ifc = new ImageFileChooser();
+				if(ifc.getImageFile() != null){
+					
+					imageFilepath = ifc.getImageFile().getPath();
+					imageFilepath = "file:///" + imageFilepath;
+					
+					ivImage.setImage(new Image(imageFilepath));
+					btnImageDelete.setVisible(true);
+					
+				}
+			}
+		});
+		
+	}
+	
+	private void initBtnImageDelete(){
+		
+		btnImageDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+					
+				DeleteAlert delete = new DeleteAlert();
+				if(delete.getDelete()){
+					ivImage.setImage(null);
+					btnImageDelete.setVisible(false);
+				}
+					
+			}
+		});
+		
+	}
+	
 //	private void initBtnRefresh(){
 //		
 //		btnRefresh.setGraphic(new GraphicButton("file:img/Refresh_32.png").getGraphicButton());
@@ -619,6 +666,7 @@ public class ControllerArticleData{
 				}else{
 					tvArticleSupplier.setOnKeyPressed(null);
 					tvArticleSupplier.setOnMouseClicked(null);
+					tvArticleSupplier.setContextMenu(null);
 				}
 				
 			}
@@ -662,7 +710,13 @@ public class ControllerArticleData{
 			taLongtext.setText(article.getLongtext());
 			
 			lblSubHeadline.setText(" - " + article.getArticleID() + " " + article.getDescription1());
-			lblLastChange.setText(article.getLastChange()); //TODO doesn't work...
+			lblLastChange.setText(article.getLastChange()); 
+			
+			if(! article.getImageFilepath().equals("")){
+				ivImage.setImage(new Image(article.getImageFilepath()));
+			}else{
+				ivImage.setImage(null);
+			}
 			
 	//		if(! article.getImageFilePath().equals("")){
 	//			fileProductImage  = new File(article.getImageFilePath());
@@ -754,8 +808,6 @@ public class ControllerArticleData{
 //		lblHeadline.setText("Artikelstamm");
 //		lblLastChange.setText("");
 		
-		System.out.println("Alle Felder zurückgesetzt");
-		
 	}
 	
 	private void enableAllFields(){
@@ -802,8 +854,6 @@ public class ControllerArticleData{
 //		tfStockMin.setDisable(false);
 //		tfStockMax.setDisable(false);
 //		tfStockAlert.setDisable(false);
-		
-		System.out.println("Alle Felder entsperrt");
 		
 	}
 	
@@ -967,14 +1017,10 @@ public class ControllerArticleData{
 				btnArticleSupplierEdit.setDisable(false);
 				btnArticleSupplierDelete.setDisable(false);
 				
-				//Product Image
-//				btnEditImg.setVisible(true);				
-//				if(ivProductImage.getImage() != null){
-//					btnDeleteImg.setVisible(true);
-//				}
-//				
-//				if(tvSupplierArticle.getItems().size() > 0){
-//				}
+				btnImageAdd.setDisable(false);
+				if(ivImage.getImage() != null){
+					btnImageDelete.setVisible(true);
+				}
 				
 			}else{
 				
@@ -986,6 +1032,11 @@ public class ControllerArticleData{
 				btnArticleSupplierAdd.setDisable(true);
 				btnArticleSupplierEdit.setDisable(true);
 				btnArticleSupplierDelete.setDisable(true);
+				
+				btnImageAdd.setDisable(true);
+				if(ivImage.getImage() != null){
+					btnImageDelete.setVisible(false);
+				}
 				
 			}
 		}

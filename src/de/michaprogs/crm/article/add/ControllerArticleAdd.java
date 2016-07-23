@@ -14,6 +14,7 @@ import de.michaprogs.crm.article.bolting.add.LoadBolting;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
 import de.michaprogs.crm.article.supplier.edit.LoadArticleSupplierEdit;
+import de.michaprogs.crm.components.ImageFileChooser;
 import de.michaprogs.crm.components.TextFieldDesity;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
@@ -29,6 +30,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -75,13 +78,18 @@ public class ControllerArticleAdd {
 	@FXML private Button btnBarrelsize;
 	@FXML private Button btnBolting;
 	
+	@FXML private Button btnImageAdd;
+	@FXML private Button btnImageDelete;
+	
 	@FXML private Button btnArticleSupplierAdd;
 	@FXML private Button btnArticleSupplierEdit;
 	@FXML private Button btnArticleSupplierDelete;
 	
+	@FXML private ImageView ivImage;
 	@FXML private TextArea taLongtext;
 	
 	private Stage stage;
+	private String imageFilepath;
 	private int createdArticleID = 0;
 	
 	public ControllerArticleAdd(){}
@@ -102,6 +110,9 @@ public class ControllerArticleAdd {
 		
 		initBtnBarrelsize();
 		initBtnBolting();
+		
+		initBtnImageAdd();
+		initBtnImageDelete();
 		
 		initBtnArticleSupplierAdd();
 		initBtnArticleSupplierEdit();
@@ -147,7 +158,7 @@ public class ControllerArticleAdd {
 						cbAmountUnit.getSelectionModel().getSelectedItem(), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()), 
 						taLongtext.getText(), 
-						"", //IMAGEFILEPATH 
+						imageFilepath,  
 						0, //STOCK MIN 
 						0, //STOCK MAX 
 						0, //STOCK ALERT 
@@ -229,6 +240,45 @@ public class ControllerArticleAdd {
 				LoadBolting bolting = new LoadBolting(true);
 				tfBolting.setText(bolting.getController().getSelectedBolting());
 				
+			}
+		});
+		
+	}
+	
+	private void initBtnImageAdd(){
+		
+		btnImageAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				ImageFileChooser ifc = new ImageFileChooser();
+				if(ifc.getImageFile() != null){
+					
+					imageFilepath = ifc.getImageFile().getPath();
+					imageFilepath = "file:///" + imageFilepath;
+					
+					ivImage.setImage(new Image(imageFilepath));
+					btnImageDelete.setVisible(true);
+					
+				}
+			}
+		});
+		
+	}
+	
+	private void initBtnImageDelete(){
+		
+		btnImageDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+					
+				DeleteAlert delete = new DeleteAlert();
+				if(delete.getDelete()){
+					ivImage.setImage(null);
+					btnImageDelete.setVisible(false);
+				}
+					
 			}
 		});
 		

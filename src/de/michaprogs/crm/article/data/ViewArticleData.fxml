@@ -57,138 +57,156 @@
 						</HBox>
 					</top>
 					<left>
-						<VBox spacing="10" > 
-						
-							<TitledPane text="Hauptstammdaten">
-								<HBox spacing="10" styleClass="HboxContent">							
-									<!-- First Block -->
-									<GridPane hgap="10" vgap="5">
-										<columnConstraints>
-											<ColumnConstraints halignment="RIGHT" />
-											<ColumnConstraints halignment="LEFT" />
-										</columnConstraints>
-										<Label text="Artikelnummer:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-										<TextFieldOnlyInteger fx:id="tfArticleID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-										<Label text="Kurztext1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-										<TextField fx:id="tfDescription1"  GridPane.columnIndex="1" GridPane.rowIndex="1" />
-										<Label text="Kurztext2:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-										<TextField fx:id="tfDescription2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-										<Label text="Kategorie:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-										<ComboBox fx:id="cbCategory" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-										<Label text="EAN-Nummer:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-										<TextFieldOnlyInteger fx:id="tfEanID" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-									<padding>
-										<Insets top="10" bottom="10" left="10" right="10" />
-									</padding>	
-									</GridPane>	
-								
-									<!-- Second Block -->
-									<GridPane hgap="10" vgap="5" >
-										<columnConstraints>
-											<ColumnConstraints halignment="RIGHT" />
-											<ColumnConstraints halignment="LEFT" />
-										</columnConstraints>
-										<Label text="Gebindegröße:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-										<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
-											<TextField fx:id="tfBarrelsize" id="tfWithBtn" disable="true" /> <!-- 209-L-FASS, 20-L-KANISTER -->
-											<Button fx:id="btnBarrelsize" text="..." />
-										</HBox>
-										<Label text="Verschraubung:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-										<HBox GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="10">
-											<TextField fx:id="tfBolting" id="tfWithBtn" disable="true" /> <!-- POL x IG G 1/2  -->
-											<Button fx:id="btnBolting" text="..." />
-										</HBox>
-										<Label text="L x B x H (mm):" GridPane.columnIndex="0" GridPane.rowIndex="2" /> <!-- 5 2 10 -->
-										<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2" alignment="CENTER_LEFT">
-											<TextFieldOnlyInteger fx:id="tfLength" style="-fx-pref-width: 49px;" />
-											<Label text="x" />
-											<TextFieldOnlyInteger fx:id="tfWidth" style="-fx-pref-width: 49px;" />
-											<Label text="x" />
-											<TextFieldOnlyInteger fx:id="tfHeight" style="-fx-pref-width: 48px;" />
-										</HBox>
-										<Label text="Gewicht (kg):" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-										<TextFieldDouble fx:id="tfWeight" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-										<Label text="Dichte:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-										<TextFieldDesity fx:id="tfDesity" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-									<padding>
-										<Insets top="10" bottom="10" left="10" right="10" />
-									</padding>	
-									</GridPane>
-								
-									<!-- Third Block -->
-									<GridPane hgap="10" vgap="5">	
-										<columnConstraints>
-											<ColumnConstraints halignment="RIGHT" />
-											<ColumnConstraints halignment="LEFT" />
-										</columnConstraints>
-										<Label text="Einkaufspreis:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-										<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER_LEFT">
-											<TextFieldDouble fx:id="tfEk" style="-fx-pref-width: 150;" />
-											<Label text="EUR" />
-										</HBox>
-										<Label text="Verkaufspreis:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-										<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2" alignment="CENTER_LEFT">
-											<TextFieldDouble fx:id="tfVk" style="-fx-pref-width: 150;" />
-											<Label text="EUR" />
-										</HBox>
-										<Label text="Preiseinheit:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-										<HBox GridPane.columnIndex="1" GridPane.rowIndex="3" spacing="10" >
-											<ComboBox fx:id="cbPriceUnit" prefWidth="90" /> <!-- 1, 10, 100, 1000 -->
-											<ComboBox fx:id="cbAmountUnit" prefWidth="100" /> <!-- Stk, Ltr, Mtr, etc. -->
-										</HBox>
-										<Label text="USt:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-										<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4" alignment="CENTER_LEFT">
-											<ComboBox fx:id="cbTax" style="-fx-pref-width: 150;" /> <!-- 7%, 19% -->
-											<Label text=" %" />
-										</HBox>
-									<padding>
-										<Insets top="10" bottom="10" left="10" right="10" />
-									</padding>	
-									</GridPane>																		
-								</HBox>
-							</TitledPane>
+						<HBox spacing="10">
+							<VBox spacing="10" > 
 							
-							<!-- LONGTEXT / NOTES -->
-							<TitledPane text="Langtext / Notizen" expanded="false"> 
-								<AnchorPane>
-									<TextArea fx:id="taLongtext" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
-								</AnchorPane>
-							</TitledPane>	
-											
-							<!-- SUPPLIER / DELIVERER -->
-							<TitledPane text="Hersteller / Lieferanten" expanded="false">
-								<VBox styleClass="VboxContent" spacing="10">											
-									<TableView fx:id="tvArticleSupplier" maxHeight="300" minHeight="100" >
-										<columnResizePolicy>
-				                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-				               			</columnResizePolicy>
-										<columns>
-											<TableColumn fx:id="tcSupplierID" text="Lieferanten-Nr." />
-											<TableColumn fx:id="tcSupplierName1" text="Lieferant" />
-											<TableColumn fx:id="tcSupplierArticleID" text="Artikelnummer" />
-											<TableColumn fx:id="tcSupplierDescription1" text="Kurztext1" />
-											<TableColumn fx:id="tcSupplierDescription2" text="Kurztext2" />
-											<TableColumn fx:id="tcSupplierEk" text="Preis" />
-											<TableColumn fx:id="tcSupplierPriceUnit" text="PE" />
-											<TableColumn fx:id="tcSupplierAmountUnit" text="Einheit" />
-										</columns>
-									</TableView>
+								<TitledPane text="Hauptstammdaten">
+									<HBox spacing="10" styleClass="HboxContent">							
+										<!-- First Block -->
+										<GridPane hgap="10" vgap="5">
+											<columnConstraints>
+												<ColumnConstraints halignment="RIGHT" />
+												<ColumnConstraints halignment="LEFT" />
+											</columnConstraints>
+											<Label text="Artikelnummer:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+											<TextFieldOnlyInteger fx:id="tfArticleID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+											<Label text="Kurztext1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+											<TextField fx:id="tfDescription1"  GridPane.columnIndex="1" GridPane.rowIndex="1" />
+											<Label text="Kurztext2:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+											<TextField fx:id="tfDescription2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+											<Label text="Kategorie:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+											<ComboBox fx:id="cbCategory" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+											<Label text="EAN-Nummer:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+											<TextFieldOnlyInteger fx:id="tfEanID" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+										<padding>
+											<Insets top="10" bottom="10" left="10" right="10" />
+										</padding>	
+										</GridPane>	
 									
-									<HBox spacing="10" alignment="CENTER_RIGHT">
-										<Button fx:id="btnArticleSupplierAdd" text="Hinzufügen.." />
-										<Button fx:id="btnArticleSupplierEdit" text="Bearbeiten.." />
-										<Button fx:id="btnArticleSupplierDelete" text="Löschen" />
+										<!-- Second Block -->
+										<GridPane hgap="10" vgap="5" >
+											<columnConstraints>
+												<ColumnConstraints halignment="RIGHT" />
+												<ColumnConstraints halignment="LEFT" />
+											</columnConstraints>
+											<Label text="Gebindegröße:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
+												<TextField fx:id="tfBarrelsize" id="tfWithBtn" disable="true" /> <!-- 209-L-FASS, 20-L-KANISTER -->
+												<Button fx:id="btnBarrelsize" text="..." />
+											</HBox>
+											<Label text="Verschraubung:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+											<HBox GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="10">
+												<TextField fx:id="tfBolting" id="tfWithBtn" disable="true" /> <!-- POL x IG G 1/2  -->
+												<Button fx:id="btnBolting" text="..." />
+											</HBox>
+											<Label text="L x B x H (mm):" GridPane.columnIndex="0" GridPane.rowIndex="2" /> <!-- 5 2 10 -->
+											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2" alignment="CENTER_LEFT">
+												<TextFieldOnlyInteger fx:id="tfLength" style="-fx-pref-width: 49px;" />
+												<Label text="x" />
+												<TextFieldOnlyInteger fx:id="tfWidth" style="-fx-pref-width: 49px;" />
+												<Label text="x" />
+												<TextFieldOnlyInteger fx:id="tfHeight" style="-fx-pref-width: 48px;" />
+											</HBox>
+											<Label text="Gewicht (kg):" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+											<TextFieldDouble fx:id="tfWeight" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+											<Label text="Dichte:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+											<TextFieldDesity fx:id="tfDesity" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+										<padding>
+											<Insets top="10" bottom="10" left="10" right="10" />
+										</padding>	
+										</GridPane>
+									
+										<!-- Third Block -->
+										<GridPane hgap="10" vgap="5">	
+											<columnConstraints>
+												<ColumnConstraints halignment="RIGHT" />
+												<ColumnConstraints halignment="LEFT" />
+											</columnConstraints>
+											<Label text="Einkaufspreis:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER_LEFT">
+												<TextFieldDouble fx:id="tfEk" style="-fx-pref-width: 150;" />
+												<Label text="EUR" />
+											</HBox>
+											<Label text="Verkaufspreis:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2" alignment="CENTER_LEFT">
+												<TextFieldDouble fx:id="tfVk" style="-fx-pref-width: 150;" />
+												<Label text="EUR" />
+											</HBox>
+											<Label text="Preiseinheit:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+											<HBox GridPane.columnIndex="1" GridPane.rowIndex="3" spacing="10" >
+												<ComboBox fx:id="cbPriceUnit" prefWidth="90" /> <!-- 1, 10, 100, 1000 -->
+												<ComboBox fx:id="cbAmountUnit" prefWidth="100" /> <!-- Stk, Ltr, Mtr, etc. -->
+											</HBox>
+											<Label text="USt:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4" alignment="CENTER_LEFT">
+												<ComboBox fx:id="cbTax" style="-fx-pref-width: 150;" /> <!-- 7%, 19% -->
+												<Label text=" %" />
+											</HBox>
+										<padding>
+											<Insets top="10" bottom="10" left="10" right="10" />
+										</padding>	
+										</GridPane>																		
 									</HBox>
-									
-								</VBox>
-							</TitledPane>
+								</TitledPane>
+								
+								<!-- LONGTEXT / NOTES -->
+								<TitledPane text="Langtext / Notizen" expanded="false"> 
+									<AnchorPane>
+										<TextArea fx:id="taLongtext" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
+									</AnchorPane>
+								</TitledPane>	
+												
+								<!-- SUPPLIER / DELIVERER -->
+								<TitledPane text="Hersteller / Lieferanten" expanded="false">
+									<VBox styleClass="VboxContent" spacing="10">											
+										<TableView fx:id="tvArticleSupplier" maxHeight="300" minHeight="100" >
+											<columnResizePolicy>
+					                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+					               			</columnResizePolicy>
+											<columns>
+												<TableColumn fx:id="tcSupplierID" text="Lieferanten-Nr." />
+												<TableColumn fx:id="tcSupplierName1" text="Lieferant" />
+												<TableColumn fx:id="tcSupplierArticleID" text="Artikelnummer" />
+												<TableColumn fx:id="tcSupplierDescription1" text="Kurztext1" />
+												<TableColumn fx:id="tcSupplierDescription2" text="Kurztext2" />
+												<TableColumn fx:id="tcSupplierEk" text="Preis" />
+												<TableColumn fx:id="tcSupplierPriceUnit" text="PE" />
+												<TableColumn fx:id="tcSupplierAmountUnit" text="Einheit" />
+											</columns>
+										</TableView>
+										
+										<HBox spacing="10" alignment="CENTER_RIGHT">
+											<Button fx:id="btnArticleSupplierAdd" text="Hinzufügen.." />
+											<Button fx:id="btnArticleSupplierEdit" text="Bearbeiten.." />
+											<Button fx:id="btnArticleSupplierDelete" text="Löschen" />
+										</HBox>
+										
+									</VBox>
+								</TitledPane>
+								
+								<HBox alignment="CENTER_RIGHT">
+									<Label text="Letzte Änderung: " />
+									<Label fx:id="lblLastChange" />
+								</HBox>
+								
+							</VBox>
 							
-							<HBox alignment="CENTER_RIGHT">
-								<Label text="Letzte Änderung: " />
-								<Label fx:id="lblLastChange" />
-							</HBox>
+							<!-- ProductImage -->
+							<VBox spacing="10">
+								<AnchorPane>
+									<TitledPane text="Produktfoto">
+										<VBox spacing="10" alignment="CENTER">
+											<StackPane>
+												<ImageView fx:id="ivImage" fitHeight="250" fitWidth="250" StackPane.alignment="CENTER"/>
+												<Button fx:id="btnImageDelete" text="X" StackPane.alignment="TOP_RIGHT" visible="false" />
+											</StackPane>	
+											<Button fx:id="btnImageAdd" text="Hinzufügen" disable="true" />
+										</VBox>
+									</TitledPane>
+								</AnchorPane>
+							</VBox>
 							
-						</VBox>
+						</HBox>
 					</left>
 				<padding>
 					<Insets bottom="10" left="10" right="10" top="10" />
