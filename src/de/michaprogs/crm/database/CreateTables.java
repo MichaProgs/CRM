@@ -20,6 +20,8 @@ public class CreateTables {
 		
 		createTableArticleSupplier(new DBConnect().getConnection());
 		
+		createTableWarehouse(new DBConnect().getConnection());
+		
 	}
 	
 	private void createTableArticle(Connection con){
@@ -181,6 +183,31 @@ public class CreateTables {
 			statement.execute(stmt);
 			
 			System.out.println("Tabelle 'ARTICLESUPPLIER' in Datenbank erstellt!");
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void createTableWarehouse(Connection con){
+		
+		try{
+
+			String stmt = "CREATE TABLE IF NOT EXISTS Warehouse("
+									+ "WAREHOUSEID INTEGER IDENTITY NOT NULL,"
+									+ "WAREHOUSE VARCHAR_IGNORECASE)";
+			
+			Statement statement = con.createStatement();
+			statement.execute(stmt);
+			
+			System.out.println("Tabelle 'WAREHOUSE' in Datenbank erstellt!");
 		
 		}catch(Exception e){
 			e.printStackTrace();

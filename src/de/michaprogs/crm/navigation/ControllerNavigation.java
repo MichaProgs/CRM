@@ -2,6 +2,7 @@ package de.michaprogs.crm.navigation;
 
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.article.data.LoadArticleData;
+import de.michaprogs.crm.stock.add.LoadStockAdd;
 import de.michaprogs.crm.supplier.data.LoadSupplierData;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,6 +24,7 @@ public class ControllerNavigation {
 	
 	private LoadArticleData articleData = new LoadArticleData();
 	private LoadSupplierData supplierData = new LoadSupplierData(false);
+	private LoadStockAdd stockAdd = new LoadStockAdd(false);
 	private BorderPane content;
 	
 	public ControllerNavigation(){}
@@ -31,8 +33,10 @@ public class ControllerNavigation {
 		
 		//Buttons
 		initBtnCollapse();
+		
 		initBtnArticle();
 		initBtnSupplier();
+		initBtnStock();
 		
 	}
 	
@@ -93,6 +97,18 @@ public class ControllerNavigation {
 			@Override
 			public void handle(ActionEvent event) {
 				content.setCenter(supplierData.getContent());
+			}
+		});
+		
+	}
+	
+	private void initBtnStock(){
+		
+		btnStock.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				content.setCenter(stockAdd.getContent());
 			}
 		});
 		

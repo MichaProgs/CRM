@@ -97,4 +97,15 @@ public class InitCombos {
 		
 	}
 	
+	public void initComboWarehouse(ComboBox<String> cbWarehouse){
+		
+		cbWarehouse.getItems().addAll(
+			"",
+			"Hauptlager",
+			"Zweitlager",
+			"Drittlager"
+		);
+		
+	}
+	
 }
