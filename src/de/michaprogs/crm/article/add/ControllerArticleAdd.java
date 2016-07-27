@@ -9,8 +9,8 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
-import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsize;
-import de.michaprogs.crm.article.bolting.add.LoadBolting;
+import de.michaprogs.crm.article.barrelsize.data.LoadBarrelsizeData;
+import de.michaprogs.crm.article.bolting.data.LoadBoltingData;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
 import de.michaprogs.crm.article.supplier.edit.LoadArticleSupplierEdit;
@@ -222,8 +222,10 @@ public class ControllerArticleAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadBarrelsize barrelsize = new LoadBarrelsize(true);
-				tfBarrelsize.setText(barrelsize.getController().getSelectedBarrelsize());
+				LoadBarrelsizeData barrelsize = new LoadBarrelsizeData(true);
+				if(! barrelsize.getController().getSelectedBarrelsize().equals("")){
+					tfBarrelsize.setText(barrelsize.getController().getSelectedBarrelsize());
+				}
 				
 			}
 		});
@@ -237,8 +239,10 @@ public class ControllerArticleAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadBolting bolting = new LoadBolting(true);
-				tfBolting.setText(bolting.getController().getSelectedBolting());
+				LoadBoltingData bolting = new LoadBoltingData(true);
+				if(! bolting.getController().getSelectedBolting().equals("")){
+					tfBolting.setText(bolting.getController().getSelectedBolting());
+				}
 				
 			}
 		});

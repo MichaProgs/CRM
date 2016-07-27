@@ -14,6 +14,7 @@ public class ModelWarehouse {
 	private String warehouse;
 	
 	private ObservableList<ModelWarehouse> obsListWarehouses = FXCollections.observableArrayList();
+	private ObservableList<String> obsListWarehousesCombo = FXCollections.observableArrayList();
 	
 	/* DATABASE */
 	private Connection con;
@@ -34,6 +35,14 @@ public class ModelWarehouse {
 		this.warehouse = _warehouse;
 		
 	}
+	
+	/**
+	 * Constructor for ObservableList (Warehouse Combo)
+	 * @param _warehouse
+	 */
+//	public ModelWarehouse(String _warehouse){
+//		this.warehouse = _warehouse;
+//	}
 	
 	public void insertWarehouse(String _warehouse){
 		
@@ -73,6 +82,8 @@ public class ModelWarehouse {
 					rs.getInt("warehouseID"),
 					rs.getString("warehouse")
 				));
+				
+				obsListWarehousesCombo.add(rs.getString("warehouse"));
 				
 			}
 			
@@ -114,6 +125,29 @@ public class ModelWarehouse {
 		
 	}
 	
+	public void selectWarehouseID(String _warehouse){
+		
+		try{
+			
+			String stmt = "SELECT * FROM warehouse WHERE warehouse = ?";
+			
+			con = new DBConnect().getConnection();
+			ps = con.prepareStatement(stmt);			
+			ps.setString(1, _warehouse);
+			rs = ps.executeQuery();
+			
+			while(rs.next()){
+				this.warehouseID = rs.getInt("warehouseID");				
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeConnection();
+		}
+		
+	}
+	
 	private void closeConnection(){
 		
 		try{
@@ -142,6 +176,10 @@ public class ModelWarehouse {
 	
 	public ObservableList<ModelWarehouse> getObsListWarehouses(){
 		return obsListWarehouses;
+	}
+	
+	public ObservableList<String> getObsListWarehousesCombo(){
+		return obsListWarehousesCombo;
 	}
 	
 }

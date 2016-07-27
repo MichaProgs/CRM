@@ -519,7 +519,7 @@ public class Validate {
 	
 	public class ValidateDoubleTwoDigits{
 		
-		private String regex = "[0-9]+([.|,]?[0-9]{0,2})?";
+		private String regex = "-?[0-9]*([.|,]?[0-9]{0,2})?";
 		
 		public Double validateDouble(String stringToValidate){
 			
@@ -551,7 +551,7 @@ public class Validate {
 	
 	public class ValidateDoubleFourDigits{
 		
-		private String regex = "[0-9]+([.|,]?[0-9]{0,4})?";
+		private String regex = "-?[0-9]*([.|,]?[0-9]{0,4})?";
 		
 		public Double validateDouble(String stringToValidate){
 			

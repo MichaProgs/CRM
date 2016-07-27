@@ -21,6 +21,7 @@ public class CreateTables {
 		createTableArticleSupplier(new DBConnect().getConnection());
 		
 		createTableWarehouse(new DBConnect().getConnection());
+		createTableStock(new DBConnect().getConnection());
 		
 	}
 	
@@ -208,6 +209,36 @@ public class CreateTables {
 			statement.execute(stmt);
 			
 			System.out.println("Tabelle 'WAREHOUSE' in Datenbank erstellt!");
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void createTableStock(Connection con){
+		
+		try{
+
+			String stmt = "CREATE TABLE IF NOT EXISTS Stock("
+									+ "articleID INTEGER,"
+									+ "supplierID INTEGER,"
+									+ "warehouseID INTEGER,"
+									+ "amount DECIMAL(10,2),"
+									+ "ek DECIMAL(10,2),"
+									+ "date VARCHAR_IGNORECASE"
+									+ ")";
+			
+			Statement statement = con.createStatement();
+			statement.execute(stmt);
+			
+			System.out.println("Tabelle 'STOCK' in Datenbank erstellt!");
 		
 		}catch(Exception e){
 			e.printStackTrace();

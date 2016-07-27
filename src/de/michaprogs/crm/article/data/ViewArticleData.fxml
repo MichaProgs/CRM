@@ -24,6 +24,7 @@
 <?import de.michaprogs.crm.components.TextFieldOnlyInteger?>
 <?import de.michaprogs.crm.components.TextFieldDouble?>
 <?import de.michaprogs.crm.components.TextFieldDesity?>
+<?import de.michaprogs.crm.components.ComboWarehouse?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.article.data.ControllerArticleData">
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -60,6 +61,7 @@
 						<HBox spacing="10">
 							<VBox spacing="10" > 
 							
+								<!-- MAIN DATA -->
 								<TitledPane text="Hauptstammdaten">
 									<HBox spacing="10" styleClass="HboxContent">							
 										<!-- First Block -->
@@ -184,6 +186,32 @@
 									</VBox>
 								</TitledPane>
 								
+								<!-- STOCK -->
+								<TitledPane text="Lager" expanded="false" >
+									<VBox spacing="10" styleClass="VboxContent">
+										<HBox spacing="10" alignment="CENTER_LEFT">
+											<Label text="Lager: " />
+											<ComboWarehouse fx:id="cbWarehouse" disable="true" />
+											<Label fx:id="lblStock" text="" />
+										</HBox>
+										<TableView fx:id="tvStock" maxHeight="300" minHeight="100" >
+											<columnResizePolicy>
+					                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+					               			</columnResizePolicy>
+											<columns>
+												<TableColumn fx:id="tcStockSupplierID" text="Lieferanten-Nr." />
+												<TableColumn fx:id="tcStockSupplierName1" text="Lieferant" />
+												<TableColumn fx:id="tcStockAmount" text="Menge" />
+												<TableColumn fx:id="tcStockAmountUnit" text="Einheit" />
+												<TableColumn fx:id="tcStockEk" text="EK" />
+												<TableColumn fx:id="tcStockPriceUnit" text="PE" />
+												<TableColumn fx:id="tcStockDate" text="Datum" />
+											</columns>
+										</TableView>
+									</VBox>
+								</TitledPane>
+								
+								<!-- LAST CHANGE (ALWAYS LAST ENTRY) -->
 								<HBox alignment="CENTER_RIGHT">
 									<Label text="Letzte Änderung: " />
 									<Label fx:id="lblLastChange" />

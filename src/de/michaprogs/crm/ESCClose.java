@@ -21,7 +21,15 @@ public class ESCClose {
 			public void handle(KeyEvent event) {
 
 				if(event.getCode() == KeyCode.ESCAPE){
-					stage.close();
+					
+					AbortAlert abort = new AbortAlert();
+					if(abort.getAbort()){
+					
+						if(stage != null){
+							stage.close();
+						}
+					
+					}
 				}
 				
 			}

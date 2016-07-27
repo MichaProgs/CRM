@@ -1,6 +1,6 @@
-package de.michaprogs.crm.article.bolting.add;
+package de.michaprogs.crm.article.barrelsize.add;
 
-import de.michaprogs.crm.article.bolting.ModelBolting;
+import de.michaprogs.crm.article.barrelsize.ModelBarrelsize;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,31 +12,31 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class ControllerBolting {
+public class ControllerBarrelsizeAdd {
 
 	//Tables & Columns
-	@FXML private TableView<ModelBolting> tvBolting;
-	@FXML private TableColumn<ModelBolting, String> tcBoltingID;
-	@FXML private TableColumn<ModelBolting, String> tcBolting;
+	@FXML private TableView<ModelBarrelsize> tvBarrelsize;
+	@FXML private TableColumn<ModelBarrelsize, String> tcBarrelsizeID;
+	@FXML private TableColumn<ModelBarrelsize, String> tcBarrelsize;
 	
 	//TextFields
-	@FXML private TextField tfBolting;
+	@FXML private TextField tfBarrelsize;
 	
 	//Buttons
 	@FXML private Button btnAdd;
 	@FXML private Button btnAbort;
 	
-	private String selectedBolting = "";
+	private String selectedBarrelsize = "";
 	private Stage stage;
 	
-	public ControllerBolting(){
+	public ControllerBarrelsizeAdd(){
 		
 	}
 	
 	@FXML private void initialize(){
 		
-		this.tcBoltingID.setCellValueFactory(new PropertyValueFactory<>("boltingID"));
-		this.tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));		
+		this.tcBarrelsizeID.setCellValueFactory(new PropertyValueFactory<>("barrelsizeID"));
+		this.tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));		
 		
 		initTableDoubleClick();
 		
@@ -44,8 +44,8 @@ public class ControllerBolting {
 		initBtnAbort();
 		initBtnAdd();
 		
-		//Load all Bolting from Database and show
-		refreshTableBolting();
+		//Load all barrelsize from Database and show
+		refreshTablebarrelsize();
 		
 	}
 	
@@ -72,9 +72,9 @@ public class ControllerBolting {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				new ModelBolting().insertBolting(tfBolting.getText());
-				refreshTableBolting();
-				tfBolting.clear();
+				new ModelBarrelsize().insertbarrelsize(tfBarrelsize.getText());
+				refreshTablebarrelsize();
+				tfBarrelsize.clear();
 				
 			}
 		});
@@ -83,15 +83,18 @@ public class ControllerBolting {
 	
 	private void initTableDoubleClick(){
 		
-		tvBolting.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		tvBarrelsize.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
 				
 				if(event.getClickCount() == 2){
-					selectedBolting = tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex());
+					
+					selectedBarrelsize = tcBarrelsize.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex());
+					
 					if(stage != null)
 						stage.close();
+					
 				}
 				
 			}
@@ -99,14 +102,14 @@ public class ControllerBolting {
 		
 	}
 	
-	private void refreshTableBolting(){		
-		ModelBolting bolting = new ModelBolting();
-		bolting.selectBoltings();
-		tvBolting.setItems(bolting.getObsListBoltings());	
+	private void refreshTablebarrelsize(){		
+		ModelBarrelsize barrelsize = new ModelBarrelsize();
+		barrelsize.selectBarrelsizes();
+		tvBarrelsize.setItems(barrelsize.getObsListBarrelsizes());	
 	}
 	
-	public String getSelectedBolting(){
-		return selectedBolting;
+	public String getSelectedBarrelsize(){
+		return selectedBarrelsize;
 	}
 	
 }

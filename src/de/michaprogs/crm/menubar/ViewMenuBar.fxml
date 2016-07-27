@@ -11,12 +11,12 @@
 			<MenuItem text="Beenden" />
 		</Menu>
 		<Menu  text="Stammdaten">
-			<MenuItem fx:id="miArticle" text="Artikel" />
+			<MenuItem fx:id="itemArticle" text="Artikel" />
 			<MenuItem text="Hersteller" />
 			<MenuItem text="Lager" />
 		</Menu>
 		<Menu text="Optionen">
-			<MenuItem text="Einstellungen" />
+			<MenuItem fx:id="itemProperties" text="Einstellungen" />
 		</Menu>
 	</MenuBar>
 </AnchorPane>

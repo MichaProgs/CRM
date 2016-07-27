@@ -9,16 +9,19 @@ import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.article.add.LoadArticleAdd;
-import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsize;
-import de.michaprogs.crm.article.bolting.add.LoadBolting;
+import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsizeAdd;
+import de.michaprogs.crm.article.bolting.add.LoadBoltingAdd;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
 import de.michaprogs.crm.article.supplier.edit.LoadArticleSupplierEdit;
+import de.michaprogs.crm.components.ComboWarehouse;
 import de.michaprogs.crm.components.ImageFileChooser;
 import de.michaprogs.crm.components.TextFieldDesity;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
+import de.michaprogs.crm.stock.ModelStock;
+import de.michaprogs.crm.warehouse.ModelWarehouse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -70,6 +73,10 @@ public class ControllerArticleData{
 		  private String imageFilepath;
 	@FXML private TextArea taLongtext;
 	
+	@FXML private TextField tfWarehouseID;
+	@FXML private ComboWarehouse cbWarehouse;
+	@FXML private Label lblStock;
+	
 	@FXML private Label lblLastChange;
 	
 	//Buttons
@@ -101,6 +108,15 @@ public class ControllerArticleData{
 	@FXML private TableColumn<ModelArticleSupplier, Integer> tcSupplierPriceUnit;
 	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierAmountUnit;
 	
+	@FXML private TableView<ModelStock> tvStock;
+	@FXML private TableColumn<ModelStock, Integer> tcStockSupplierID;
+	@FXML private TableColumn<ModelStock, String> tcStockSupplierName1;
+	@FXML private TableColumn<ModelStock, String> tcStockAmount;
+	@FXML private TableColumn<ModelStock, String> tcStockAmountUnit;
+	@FXML private TableColumn<ModelStock, String> tcStockEk;
+	@FXML private TableColumn<ModelStock, String> tcStockPriceUnit;
+	@FXML private TableColumn<ModelStock, String> tcStockDate;
+	
 	//Panels & Nodes
 	@FXML private HBox hboxBtnTopbar;
 	
@@ -128,16 +144,19 @@ public class ControllerArticleData{
 		initBtnDelete();
 //		initBtnPrint();
 //		
-//		//Size
 		initBtnBarrelsize();
 		initBtnBolting();
-//		
+		
 //		//Image
 		initBtnImageAdd();
 		initBtnImageDelete();
 //		
+		/* COMBOS */
+		initComboWarehouses();
+		
 		/* Tables */
 		initTableArticleSupplier();
+		initTableStock();
 		
 		//Tab Supplier
 		initBtnArticleSupplierAdd();
@@ -247,7 +266,7 @@ public class ControllerArticleData{
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfWidth.getText()),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfHeight.getText()),
 						new Validate().new ValidateDoubleTwoDigits().validateDouble(tfWeight.getText()),
-						new Validate().new ValidateDoubleTwoDigits().validateDouble(tfDesity.getText()),
+						new Validate().new ValidateDoubleFourDigits().validateDouble(tfDesity.getText()),
 						
 						new Validate().new ValidateCurrency().validateCurrency(tfEk.getText()), 
 						new Validate().new ValidateCurrency().validateCurrency(tfVk.getText()), 
@@ -289,14 +308,10 @@ public class ControllerArticleData{
 					
 					disableAllFields();
 					setButtonState();
-//					setStockColor();
-//					
-//					removeTableKeyEntf();
-//					removeTableClick();
-//					
-//					//Reload ArticleData
+					
+					//Reload ArticleData
 					selectArticle(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()));
-//					
+					
 				}
 			}
 			
@@ -389,21 +404,6 @@ public class ControllerArticleData{
 		
 	}
 	
-//	private void initBtnRefresh(){
-//		
-//		btnRefresh.setGraphic(new GraphicButton("file:img/Refresh_32.png").getGraphicButton());
-//		btnRefresh.setOnAction(new EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				if(! tfArticleID.equals("")){
-//					selectArticle(tfArticleID.getText());
-//				}				
-//			}
-//		});
-//		
-//	}
-//	
 //	private void initBtnPrint(){
 //		
 //		btnPrint.setGraphic(setGraphicButton("file:img/Print_32.png"));
@@ -469,42 +469,6 @@ public class ControllerArticleData{
 //		});
 //		
 //	}
-//	
-//	private void initBtnEditImage(){
-//		
-//		btnEditImg.setOnAction(new EventHandler<ActionEvent>() {
-//			
-//			@Override
-//			public void handle(ActionEvent event) {
-//				
-//				ImageFileChooser ifc = new ImageFileChooser();		
-//				
-//				if(ifc.getImage() != null){
-//					ivProductImage.setImage(ifc.getImage());	
-//					fileProductImage = ifc.getFile();
-//					if(fileProductImage != null){
-//						btnDeleteImg.setVisible(true);
-//					}
-//				}
-//				
-//			}
-//		});
-//		
-//	}
-//	
-//	private void initBtnDeleteImage(){
-//		
-//		btnDeleteImg.setOnAction(new EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				ivProductImage.setImage(null);
-//				fileProductImage = null;
-//				btnDeleteImg.setVisible(false);
-//			}
-//		});
-//		
-//	}
 
 	/******************************
 	 * BUTTONS TITLED PANE SUPPLIER
@@ -542,30 +506,6 @@ public class ControllerArticleData{
 		});
 		
 	}
-
-//	private void initCbStock(){
-//		
-//		ModelStock stock = new ModelStock();
-//		stock.selectStockID(cbStock.getSelectionModel().getSelectedItem());
-//		tfStockID.setText(String.valueOf(stock.getStockID()));
-//		
-//		cbStock.valueProperty().addListener(new ChangeListener<String>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//				if(! newValue.equals(oldValue)){
-//					stock.selectStockID(cbStock.getSelectionModel().getSelectedItem());
-//					tfStockID.setText(String.valueOf(stock.getStockID()));
-//					
-//					ModelArticleStock stock = new ModelArticleStock();
-//					stock.selectArticleStock(tfArticleID.getText(), new Validate().validateOnlyInteger(tfStockID.getText()));
-//					tfInventory.setText(String.valueOf(stock.getInventory()));
-//					setStockColor();
-//				}
-//			}
-//		});
-//		
-//	}
 	
 	private void initBtnBarrelsize(){
 		
@@ -574,7 +514,7 @@ public class ControllerArticleData{
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadBarrelsize barrelsize = new LoadBarrelsize(true);
+				LoadBarrelsizeAdd barrelsize = new LoadBarrelsizeAdd(true);
 				tfBarrelsize.setText(barrelsize.getController().getSelectedBarrelsize());
 				
 			}
@@ -589,26 +529,33 @@ public class ControllerArticleData{
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadBolting bolting = new LoadBolting(true);
+				LoadBoltingAdd bolting = new LoadBoltingAdd(true);
 				tfBolting.setText(bolting.getController().getSelectedBolting());
 				
 			}
 		});
 		
 	}
-//		
-//	private void initComboUnitChange(){
-//		
-//		cbAmountUnit.setOnAction(new EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				setStockUnit();
-//			}
-//		});
-//		
-//	}
-//	
+
+	
+	/*
+	 * COMBOBOXES
+	 */
+	private void initComboWarehouses(){
+		
+		cbWarehouse.valueProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				
+				if(newValue != oldValue){
+					selectStock(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), cbWarehouse.getSelectionModel().getSelectedItem());
+				}
+				
+			}
+		});
+		
+	}
 	
 	/*
 	 * TABLES
@@ -674,6 +621,20 @@ public class ControllerArticleData{
 		
 	}
 	
+	private void initTableStock(){
+		
+		this.tcStockSupplierID.setCellValueFactory(new PropertyValueFactory<>("supplierID"));
+		this.tcStockSupplierName1.setCellValueFactory(new PropertyValueFactory<>("name1"));
+		this.tcStockAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+		this.tcStockAmount.setStyle("-fx-alignment: CENTER_RIGHT;");
+		this.tcStockAmountUnit.setCellValueFactory(new PropertyValueFactory<>("amountUnit"));
+		this.tcStockEk.setCellValueFactory(new PropertyValueFactory<>("ek"));
+		this.tcStockEk.setStyle("-fx-alignment: CENTER_RIGHT;");
+		this.tcStockPriceUnit.setCellValueFactory(new PropertyValueFactory<>("priceUnit"));
+		this.tcStockDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+		
+	}
+	
 	/*
 	 * DATABASE METHODS
 	 */
@@ -712,52 +673,64 @@ public class ControllerArticleData{
 			lblSubHeadline.setText(" - " + article.getArticleID() + " " + article.getDescription1());
 			lblLastChange.setText(article.getLastChange()); 
 			
-			if(! article.getImageFilepath().equals("")){
+			imageFilepath = article.getImageFilepath();		
+			if(	! article.getImageFilepath().equals("")){
 				ivImage.setImage(new Image(article.getImageFilepath()));
 			}else{
 				ivImage.setImage(null);
 			}
 			
-	//		if(! article.getImageFilePath().equals("")){
-	//			fileProductImage  = new File(article.getImageFilePath());
-	//			ivProductImage.setImage(new Image(fileProductImage.getPath()));
-	//		}else{
-	//			ivProductImage.setImage(null);
-	//		}
-	//		
-	//		lblLastChange.setText(new Validate().validateDateGER(article.getLastChange()));
-	//		
 			/*
 			 * ARTICLE SUPPLIER
 			 */
 			ModelArticleSupplier articleSupplier = new ModelArticleSupplier();
 			articleSupplier.selectArticleSupplier(articleID);
 			tvArticleSupplier.setItems(articleSupplier.getObsListArticleSupplier());
+		
+			/*
+			 * STOCK
+			 */
+			selectStock(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), cbWarehouse.getSelectionModel().getSelectedItem());
 			
-	//		/*
-	//		 * Stock
-	//		 */
-	//		ModelArticleStock articleStock = new ModelArticleStock();
-	//		articleStock.selectArticleStock(articleID, new Validate().validateOnlyInteger(tfStockID.getText()));
-	//		tfInventory.setText(String.valueOf(articleStock.getInventory()));
-	//		tvStock.setItems(articleStock.getObsListStock());
-	//		tfStockMin.setText(String.valueOf(article.getStockMinUnit()));
-	//		tfStockMax.setText(String.valueOf(article.getStockMaxUnit()));
-	//		tfStockAlert.setText(String.valueOf(article.getStockAlertUnit()));
-	//		
 			setButtonState();
-	//		
-	//		setStockUnit();
-	//		setHeadline();
-	//		setStockColor();
-	//		cbStock.setDisable(false);
+			
 		}else{
 			System.out.println("Keinen Artikel gefunden");
 			//TODO RESET FIELDS
 		}
 		
 	}
+	
+	private void selectStock(int _articleID, String _warehouse){
 		
+		ModelWarehouse warehouse = new ModelWarehouse();
+		warehouse.selectWarehouseID(_warehouse);
+
+		int _warehouseID = warehouse.getWarehouseID();
+		
+		ModelStock stock = new ModelStock();		
+		stock.selectStock(_articleID, _warehouseID); 
+		tvStock.setItems(stock.getObsListStock());
+		
+		//Calculate Total Stock and Average Price
+		double totalStock = 0.00;
+		BigDecimal averagePrice = new BigDecimal("0.00");
+		
+		for(int i = 0; i < tvStock.getItems().size(); i++){
+			
+			totalStock = totalStock + tvStock.getItems().get(i).getAmount();
+			averagePrice = averagePrice.add(tvStock.getItems().get(i).getEk());
+			
+		}
+		
+		if(tvStock.getItems().size() != 0){
+			averagePrice.divide(new BigDecimal(tvStock.getItems().size()));
+		}
+		
+		lblStock.setText("Es sind " + totalStock + " " + stock.getAmountUnit() + " am Lager (Durchschnittspreis: " + averagePrice + ")");
+		
+	}
+			
 	/*
 	 * UI METHODS
 	 */
@@ -784,29 +757,18 @@ public class ControllerArticleData{
 		cbPriceUnit.getSelectionModel().select(0);
 		cbAmountUnit.getSelectionModel().select(0);
 		cbTax.getSelectionModel().select(1);
-		
-//		ivProductImage.setImage(null);
-		
+				
 		//Tab Longtext
 		taLongtext.clear();
 		
+		ivImage.setImage(null);
+		
+		tvArticleSupplier.getItems().clear();
+		tvStock.getItems().clear();
+		cbWarehouse.getSelectionModel().selectFirst();
+		lblStock.setText("");
+		
 		lblLastChange.setText("Letzte Änderung: "); //Same as in the FXML-File
-		
-		//Tab Stock
-//		tvStock.getItems().clear();
-//		tfStockAlert.clear();
-//		tfStockMax.clear();
-//		tfStockMin.clear();
-//		tfUnitAlertStock.clear();
-//		tfUnitMaxStock.clear();
-//		tfUnitMinStock.clear();
-//		tfUnitStock.clear();
-		
-		//Tab Supplier
-//		tvSupplierArticle.getItems().clear();
-		
-//		lblHeadline.setText("Artikelstamm");
-//		lblLastChange.setText("");
 		
 	}
 	
@@ -840,21 +802,6 @@ public class ControllerArticleData{
 		/* First Tab (Langtext) */
 		taLongtext.setDisable(false);
 		
-		/* Second Tab (Lieferanten) */
-//		btnArticleSupplierAdd.setDisable(false);
-//		if(tvSupplierArticle.getItems().size() > 0){
-//			btnArticleSupplierEdit.setDisable(false);
-//			btnArticleSupplierDelete.setDisable(false);
-//		}else{
-//			btnArticleSupplierEdit.setDisable(true);
-//			btnArticleSupplierDelete.setDisable(true);
-//		}
-		
-		/* Third Tab (Lager) */
-//		tfStockMin.setDisable(false);
-//		tfStockMax.setDisable(false);
-//		tfStockAlert.setDisable(false);
-		
 	}
 	
 	private void disableAllFields(){
@@ -885,33 +832,10 @@ public class ControllerArticleData{
 		cbTax.setDisable(true);		
 		
 		/* First Tab (Langtext) */
-		taLongtext.setDisable(true);
-				
-		/* Second Tab (Lieferanten) */
-//		btnArticleSupplierAdd.setDisable(true);
-//		btnArticleSupplierEdit.setDisable(true);
-//		btnArticleSupplierDelete.setDisable(true);
-		
-		/* Third Tab (Lager) */
-//		tfStockMin.setDisable(true);
-//		tfStockMax.setDisable(true);
-//		tfStockAlert.setDisable(true);
-		
-		System.out.println("Alle Felder gesperrt");
+		taLongtext.setDisable(true);				
 		
 	}
-//			
-//	/* Getter & Setter */
-//	private void setStockUnit(){
-//		
-//		tfUnitStock.setText(cbAmountUnit.getSelectionModel().getSelectedItem());
-//		tfUnitMinStock.setText(cbAmountUnit.getSelectionModel().getSelectedItem());
-//		tfUnitAlertStock.setText(cbAmountUnit.getSelectionModel().getSelectedItem());
-//		tfUnitMaxStock.setText(cbAmountUnit.getSelectionModel().getSelectedItem());
-//		
-//	}
-//	
-	
+
 	/*
 	 * DATABASE METHODS
 	 */
@@ -990,18 +914,16 @@ public class ControllerArticleData{
 		if(tfArticleID.getText().equals("")){
 			btnEdit.setDisable(true);
 			btnDelete.setDisable(true);
-//			btnPrint.setDisable(true);
-//			btnRefresh.setDisable(true);
 			
 			btnArticleSupplierAdd.setDisable(true);
 			btnArticleSupplierEdit.setDisable(true);
 			btnArticleSupplierDelete.setDisable(true);
 			
 		}else{
+			
 			btnEdit.setDisable(false);
 			btnDelete.setDisable(false);
-//			btnPrint.setDisable(false);
-//			btnRefresh.setDisable(false);
+			cbWarehouse.setDisable(false);
 			
 			//if the hboxBtnTopbar contains btnEditAbort and btnEditSave it means btnEdit was pressed 
 			if(hboxBtnTopbar.getChildren().contains(btnEditAbort) && hboxBtnTopbar.getChildren().contains(btnEditSave)){
@@ -1010,8 +932,8 @@ public class ControllerArticleData{
 				btnNew.setDisable(true);
 				btnSearch.setDisable(true);
 				btnEdit.setDisable(true);
-//				btnPrint.setDisable(true);
-//				btnRefresh.setDisable(true);
+				
+				cbWarehouse.setDisable(true);
 //				
 				btnArticleSupplierAdd.setDisable(false);
 				btnArticleSupplierEdit.setDisable(false);
@@ -1028,6 +950,8 @@ public class ControllerArticleData{
 				btnNew.setDisable(false);
 				btnEdit.setDisable(false);
 				btnDelete.setDisable(false);
+				
+				cbWarehouse.setDisable(false);
 				
 				btnArticleSupplierAdd.setDisable(true);
 				btnArticleSupplierEdit.setDisable(true);

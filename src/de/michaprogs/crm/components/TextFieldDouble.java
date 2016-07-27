@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 
 public class TextFieldDouble extends TextField{
 
-	private final String REGEX = "[0-9]+([.|,]?[0-9]{0,2})?";
+	private final String REGEX = "-?[0-9]*([.|,]?[0-9]{0,2})?";
 	
 	public TextFieldDouble(){
 		

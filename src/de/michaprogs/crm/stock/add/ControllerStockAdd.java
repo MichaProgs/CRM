@@ -3,6 +3,7 @@ package de.michaprogs.crm.stock.add;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
@@ -83,6 +84,8 @@ public class ControllerStockAdd {
 		tfSupplierID.setText("");
 		tfDate.setValue(LocalDate.now());
 		
+		initBtnSave();
+		initBtnAbort();
 		initBtnAdd();
 		initBtnReset();
 		initBtnArticleSearch();
@@ -96,6 +99,67 @@ public class ControllerStockAdd {
 	/*
 	 * BUTTONS
 	 */
+	private void initBtnSave(){
+		
+		btnSave.setGraphic(new GraphicButton("file:resources/save_32.png").getGraphicButton());
+		btnSave.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if(tvStock.getItems().size() != 0){
+					
+					ModelStock stock = new ModelStock();
+					
+					for(int i = 0; i < tvStock.getItems().size(); i++){
+						
+						stock.insertStock(
+							tvStock.getItems().get(i).getArticleID(), 
+							tvStock.getItems().get(i).getSupplierID(),
+							tvStock.getItems().get(i).getWarehouseID(),
+							tvStock.getItems().get(i).getAmount(),
+							tvStock.getItems().get(i).getEk(),
+							tvStock.getItems().get(i).getDate()
+						);
+						
+					}
+					
+					if(stage != null){
+						stage.close();
+					}else{
+						resetFields();
+						tvStock.getItems().clear();
+					}
+					
+				}else{
+					System.out.println("Bitte die Tabelle mit Werten füllen!");
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnAbort(){
+		
+		btnAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
+		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if(stage != null){
+					stage.close();
+				}else{
+					resetFields();
+					tvStock.getItems().clear();
+				}
+				
+			}
+		});
+		
+	}
+	
 	private void initBtnAdd(){
 	
 		btnAdd.setOnAction(new EventHandler<ActionEvent>() {
@@ -306,9 +370,9 @@ public class ControllerStockAdd {
 		
 		tfWarehouseID.clear();
 		tfWarehouse.clear();
-		tfAmount.clear();
+		tfAmount.setText("0.00"); 
 		cbAmountUnit.getSelectionModel().selectFirst();
-		tfEk.clear();
+		tfEk.setText("0.00");
 		cbPriceUnit.getSelectionModel().selectFirst();
 		tfDate.setValue(LocalDate.now());
 		

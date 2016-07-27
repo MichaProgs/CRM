@@ -1,4 +1,4 @@
-package de.michaprogs.crm.article.bolting.add;
+package de.michaprogs.crm.article.barrelsize.add;
 
 import de.michaprogs.crm.CreateDialog;
 import javafx.fxml.FXMLLoader;
@@ -6,17 +6,17 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class LoadBolting{
+public class LoadBarrelsizeAdd{
 	
 	private AnchorPane root;
-	private ControllerBolting controller;
+	private ControllerBarrelsizeAdd controller;
 	private Stage stage = new Stage();
 	
-	public LoadBolting(boolean createDialog){
+	public LoadBarrelsizeAdd(boolean createDialog){
 		
 		try{
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewBolting.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewBarrelsizeAdd.fxml"));
 			root = loader.load();
 			controller = loader.getController();
 			
@@ -31,11 +31,11 @@ public class LoadBolting{
 		
 	}
 
-	public AnchorPane getRoot() {
+	public AnchorPane getContent() {
 		return root;
 	}
 
-	public ControllerBolting getController() {
+	public ControllerBarrelsizeAdd getController() {
 		return controller;
 	}
 	

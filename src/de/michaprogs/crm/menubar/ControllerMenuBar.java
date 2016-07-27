@@ -2,6 +2,7 @@ package de.michaprogs.crm.menubar;
 
 
 import de.michaprogs.crm.GraphicMenuItem;
+import de.michaprogs.crm.properties.LoadProperties;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,32 +11,45 @@ import javafx.scene.layout.BorderPane;
 
 public class ControllerMenuBar {
 
-	@FXML private MenuItem miArticle;
+	@FXML private MenuItem itemArticle;
+	@FXML private MenuItem itemProperties;
 	
 	private BorderPane content;
 	
-	public ControllerMenuBar(){
-		
-	}
+	public ControllerMenuBar(){}
 	
 	@FXML private void initialize(){
 		
 		//MenuItems
-		initMiArticle();
+		initItemArticle();
+		initItemProperties();
 		
 	}
 	
 	/*
 	 * MENUITEMS
 	 */
-	private void initMiArticle(){
+	private void initItemArticle(){
 		
-		miArticle.setGraphic(new GraphicMenuItem("file:resources/article_32.png").getGraphicMenuItem());
-		miArticle.setOnAction(new EventHandler<ActionEvent>() {
+		itemArticle.setGraphic(new GraphicMenuItem("file:resources/article_32.png").getGraphicMenuItem());
+		itemArticle.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
 				//TODO
+			}
+		});
+		
+	}
+	
+	private void initItemProperties(){
+		
+//		itemProperties.setGraphic(); TODO
+		itemProperties.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				new LoadProperties(true);
 			}
 		});
 		

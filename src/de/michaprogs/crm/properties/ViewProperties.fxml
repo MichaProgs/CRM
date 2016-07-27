@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.properties.ControllerProperties">
+	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+		<!-- FLEX NAVI -->
+		<top>
+			<AnchorPane styleClass="Headbar">
+				<StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+					<HBox StackPane.alignment="CENTER_LEFT" alignment="CENTER_LEFT">
+						<Button text="Speichern" />
+						<Button text="Abbrechen" />
+					</HBox>
+				</StackPane>
+			</AnchorPane>
+		</top>
+		<!-- FLEX NAVI END -->
+		<center>
+			<ScrollPane>
+				<BorderPane fx:id="content">
+					<left>
+						<!-- SIDENAVIGATION -->
+						<VBox>
+							<Button fx:id="btnBolting" text="Verschraubungen" />
+							<Button fx:id="btnBarrelsize" text="Gebindegrößen" />
+							<Button fx:id="btnWarehouse" text="Lager" />
+						</VBox>						
+					</left>
+					<center>
+						<!-- CONTENT CHANGED IN JAVA-CODE -->
+					</center>
+				<padding>
+					<Insets bottom="10" left="10" right="10" top="10" />
+				</padding>
+				</BorderPane>
+			</ScrollPane>
+		</center>
+	</BorderPane>
+</AnchorPane>
+
