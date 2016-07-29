@@ -112,9 +112,9 @@ public class ControllerBoltingData {
 						stage.close();
 					}
 					
-				}else if(	event.getClickCount() == 1 &&
-							event.getButton().equals(MouseButton.PRIMARY) &&
-							tvBolting.getSelectionModel().getSelectedItems().size() == 1){
+				}
+				
+				if(tvBolting.getSelectionModel().getSelectedItems().size() == 1){
 					lblSubHeadline.setText(tvBolting.getItems().get(tvBolting.getSelectionModel().getSelectedIndex()).getBolting());
 				}
 				

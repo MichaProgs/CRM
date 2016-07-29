@@ -46,7 +46,6 @@
 						</HBox>
 					</top>
 					<left>
-						
 						<GridPane hgap="10" vgap="5">
 							<columnConstraints>
 								<ColumnConstraints halignment="RIGHT" />
@@ -72,7 +71,6 @@
 							<Insets top="10" bottom="10" left="10" right="10" />
 						</padding>	
 						</GridPane>
-						
 					</left>
 					<center>
 					
@@ -82,11 +80,11 @@
 		                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 		               			</columnResizePolicy>
 								<columns>
-									<TableColumn fx:id="tcArticleID" text="Artikelnummer" />
-									<TableColumn fx:id="tcDescription1" text="Kurztext1" />
-									<TableColumn fx:id="tcDescription2" text="Kurztext2" />
-									<TableColumn fx:id="tcBarrelsize" text="Gebindegröße" />
-									<TableColumn fx:id="tcBolting" text="Verschraubung" />
+									<TableColumn fx:id="tcArticleID" text="Artikelnummer" minWidth="60" maxWidth="100" prefWidth="90" />
+									<TableColumn fx:id="tcDescription1" text="Kurztext1" minWidth="100" maxWidth="250" prefWidth="200" />
+									<TableColumn fx:id="tcDescription2" text="Kurztext2" minWidth="100" maxWidth="250" prefWidth="200"/>
+									<TableColumn fx:id="tcBarrelsize" text="Gebindegröße" minWidth="100" maxWidth="200" prefWidth="150"/>
+									<TableColumn fx:id="tcBolting" text="Verschraubung" minWidth="100" maxWidth="200" prefWidth="150"/>
 								</columns>
 							</TableView>
 						</AnchorPane>

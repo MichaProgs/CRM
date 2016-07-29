@@ -80,6 +80,7 @@ public class ControllerNavigation {
 	
 	private void initBtnArticle(){
 		
+		btnArticle.setGraphic(new GraphicButton("file:resources/article_32_blue.png").getGraphicButton());
 		btnArticle.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -92,6 +93,7 @@ public class ControllerNavigation {
 	
 	private void initBtnSupplier(){
 		
+		btnSupplier.setGraphic(new GraphicButton("file:resources/supplier_32_blue.png").getGraphicButton());
 		btnSupplier.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -104,6 +106,7 @@ public class ControllerNavigation {
 	
 	private void initBtnStock(){
 		
+		btnStock.setGraphic(new GraphicButton("file:resources/warehouse_32_blue.png").getGraphicButton());
 		btnStock.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

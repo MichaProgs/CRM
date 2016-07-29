@@ -9,8 +9,8 @@ import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.article.add.LoadArticleAdd;
-import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsizeAdd;
-import de.michaprogs.crm.article.bolting.add.LoadBoltingAdd;
+import de.michaprogs.crm.article.barrelsize.data.LoadBarrelsizeData;
+import de.michaprogs.crm.article.bolting.data.LoadBoltingData;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
@@ -514,7 +514,7 @@ public class ControllerArticleData{
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadBarrelsizeAdd barrelsize = new LoadBarrelsizeAdd(true);
+				LoadBarrelsizeData barrelsize = new LoadBarrelsizeData(true);
 				tfBarrelsize.setText(barrelsize.getController().getSelectedBarrelsize());
 				
 			}
@@ -529,8 +529,10 @@ public class ControllerArticleData{
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadBoltingAdd bolting = new LoadBoltingAdd(true);
-				tfBolting.setText(bolting.getController().getSelectedBolting());
+				LoadBoltingData bolting = new LoadBoltingData(true);
+				if(! bolting.getController().getSelectedBolting().equals("")){
+					tfBolting.setText(bolting.getController().getSelectedBolting());
+				}
 				
 			}
 		});
@@ -724,10 +726,10 @@ public class ControllerArticleData{
 		}
 		
 		if(tvStock.getItems().size() != 0){
-			averagePrice.divide(new BigDecimal(tvStock.getItems().size()));
+			averagePrice.divide(new BigDecimal(tvStock.getItems().size())); //TODO doesn't work
 		}
 		
-		lblStock.setText("Es sind " + totalStock + " " + stock.getAmountUnit() + " am Lager (Durchschnittspreis: " + averagePrice + ")");
+		lblStock.setText("Es sind " + totalStock + " " + cbAmountUnit.getSelectionModel().getSelectedItem() + " am Lager (Durchschnittspreis: " + averagePrice + ")");
 		
 	}
 			

@@ -24,9 +24,12 @@
 			<ScrollPane>
 				<BorderPane>
 					<top>
-						<HBox spacing="10">
+						<HBox spacing="10" alignment="CENTER_LEFT">
 							<Label id="lblHeadline" text="Gebindegrößen" />
 							<Label fx:id="lblSubHeadline" />
+						<padding>
+							<Insets bottom="10" />
+						</padding>
 						</HBox>
 					</top>
 					<left>
@@ -37,8 +40,8 @@
 					      			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 					   			</columnResizePolicy>
 								<columns>
-									<TableColumn fx:id="tcBarrelsizeID" minWidth="40" maxWidth="100" prefWidth="50" text="ID" />
-									<TableColumn fx:id="tcBarrelsize" text="Bezeichnung" />
+									<TableColumn fx:id="tcBarrelsizeID" text="ID" minWidth="40" maxWidth="100" prefWidth="50" />
+									<TableColumn fx:id="tcBarrelsize" text="Bezeichnung" minWidth="80" maxWidth="450" prefWidth="400" />
 								</columns>
 							</TableView>
 						

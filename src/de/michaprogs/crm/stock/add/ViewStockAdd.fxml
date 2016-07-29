@@ -47,7 +47,7 @@
 						</HBox>
 					</top>
 					<center>
-						<VBox>
+						<VBox spacing="10">
 						
 							<TitledPane text="Hersteller- und Artikeldaten">							
 								<VBox spacing="10" styleClass="VboxContent">

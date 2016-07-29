@@ -148,6 +148,27 @@ public class ModelWarehouse {
 		
 	}
 	
+	public void deleteWarehouse(int _warehouseID){
+		
+		try{
+	
+			String stmt = "DELETE FROM warehouse WHERE warehouseID = ?";
+			
+			con = new DBConnect().getConnection();
+			ps = con.prepareStatement(stmt);			
+			ps.setInt(1, _warehouseID);
+			ps.execute();
+			
+			System.out.println("Lager " + warehouseID + " aus Datenbank gelöscht!");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeConnection();
+		}
+		
+	}
+	
 	private void closeConnection(){
 		
 		try{

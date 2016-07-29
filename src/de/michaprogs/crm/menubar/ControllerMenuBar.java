@@ -2,7 +2,10 @@ package de.michaprogs.crm.menubar;
 
 
 import de.michaprogs.crm.GraphicMenuItem;
+import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.properties.LoadProperties;
+import de.michaprogs.crm.stock.add.LoadStockAdd;
+import de.michaprogs.crm.supplier.data.LoadSupplierData;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,7 +15,14 @@ import javafx.scene.layout.BorderPane;
 public class ControllerMenuBar {
 
 	@FXML private MenuItem itemArticle;
+	@FXML private MenuItem itemSupplier;
+	@FXML private MenuItem itemStock;
+	
 	@FXML private MenuItem itemProperties;
+	
+	private LoadArticleData articleData = new LoadArticleData();
+	private LoadSupplierData supplierData = new LoadSupplierData(false);
+	private LoadStockAdd stockAdd = new LoadStockAdd(false);
 	
 	private BorderPane content;
 	
@@ -22,6 +32,9 @@ public class ControllerMenuBar {
 		
 		//MenuItems
 		initItemArticle();
+		initItemSupplier();
+		initItemStock();
+		
 		initItemProperties();
 		
 	}
@@ -31,12 +44,38 @@ public class ControllerMenuBar {
 	 */
 	private void initItemArticle(){
 		
-		itemArticle.setGraphic(new GraphicMenuItem("file:resources/article_32.png").getGraphicMenuItem());
+		itemArticle.setGraphic(new GraphicMenuItem("file:resources/article_32_white.png").getGraphicMenuItem());
 		itemArticle.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				//TODO
+				content.setCenter(articleData.getContent());
+			}
+		});
+		
+	}
+	
+	private void initItemSupplier(){
+		
+		itemSupplier.setGraphic(new GraphicMenuItem("file:resources/supplier_32_white.png").getGraphicMenuItem());
+		itemSupplier.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				content.setCenter(supplierData.getContent());
+			}
+		});
+		
+	}
+	
+	private void initItemStock(){
+		
+		itemStock.setGraphic(new GraphicMenuItem("file:resources/warehouse_32_white.png").getGraphicMenuItem());
+		itemStock.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				content.setCenter(stockAdd.getContent());
 			}
 		});
 		

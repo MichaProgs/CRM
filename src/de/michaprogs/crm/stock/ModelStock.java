@@ -190,7 +190,7 @@ public class ModelStock {
 				
 				supplier.selectSupplier(rs.getInt("supplierID"));
 				article.selectArticle(rs.getInt("articleID"));
-				
+								
 				obsListStock.add(new ModelStock(
 					rs.getInt("supplierID"), 
 					supplier.getName1(),

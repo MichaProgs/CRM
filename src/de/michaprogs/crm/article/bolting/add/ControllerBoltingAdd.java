@@ -1,14 +1,19 @@
 package de.michaprogs.crm.article.bolting.add;
 
+import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.article.bolting.ModelBolting;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -16,8 +21,10 @@ public class ControllerBoltingAdd {
 
 	//Tables & Columns
 	@FXML private TableView<ModelBolting> tvBolting;
-	@FXML private TableColumn<ModelBolting, String> tcBoltingID;
+	@FXML private TableColumn<ModelBolting, Integer> tcBoltingID;
 	@FXML private TableColumn<ModelBolting, String> tcBolting;
+	
+	@FXML private Label lblSubHeadline;
 	
 	//TextFields
 	@FXML private TextField tfBolting;
@@ -26,7 +33,6 @@ public class ControllerBoltingAdd {
 	@FXML private Button btnAdd;
 	@FXML private Button btnAbort;
 	
-	private String selectedBolting = "";
 	private Stage stage;
 	
 	public ControllerBoltingAdd(){
@@ -38,7 +44,7 @@ public class ControllerBoltingAdd {
 		this.tcBoltingID.setCellValueFactory(new PropertyValueFactory<>("boltingID"));
 		this.tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));		
 		
-		initTableDoubleClick();
+		initTableBolting();
 		
 		//Init Buttons
 		initBtnAbort();
@@ -49,18 +55,21 @@ public class ControllerBoltingAdd {
 		
 	}
 	
-	public void setStage(Stage stage){
-		this.stage = stage;
-	}
-	
+	/*
+	 * BUTTONS
+	 */
 	private void initBtnAbort(){
 		
 		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				if(stage != null)
-					stage.close();				
+				if(stage != null){
+					stage.close();
+				}else{
+					tfBolting.clear();
+				}
+									
 			}
 		});	
 	}
@@ -81,17 +90,23 @@ public class ControllerBoltingAdd {
 		
 	}
 	
-	private void initTableDoubleClick(){
+	/*
+	 * TABLES
+	 */
+	private void initTableBolting(){
 		
 		tvBolting.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
 				
-				if(event.getClickCount() == 2){
-					selectedBolting = tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex());
-					if(stage != null)
-						stage.close();
+				if(	event.getButton().equals(MouseButton.SECONDARY) &&
+					event.getClickCount() == 2){
+					tvBolting.setContextMenu(new ContextMenuTable());				
+				}
+				
+				if(tvBolting.getSelectionModel().getSelectedItems().size() == 1){
+					lblSubHeadline.setText(tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));
 				}
 				
 			}
@@ -99,14 +114,57 @@ public class ControllerBoltingAdd {
 		
 	}
 	
+	/*
+	 * DATABASE METHODS
+	 */
 	private void refreshTableBolting(){		
 		ModelBolting bolting = new ModelBolting();
 		bolting.selectBoltings();
 		tvBolting.setItems(bolting.getObsListBoltings());	
 	}
 	
-	public String getSelectedBolting(){
-		return selectedBolting;
+	/*
+	 * GETTER & SETTER
+	 */
+	public void setStage(Stage stage){
+		this.stage = stage;
+	}
+	
+	private class ContextMenuTable extends ContextMenu{
+		
+		private MenuItem itemDelete;
+		
+		public ContextMenuTable(){
+			
+			initItemDelete();
+			
+			this.getItems().add(itemDelete);
+			
+		}
+		
+		private void initItemDelete(){
+			
+			itemDelete = new MenuItem("Löschen");
+			itemDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					
+					DeleteAlert delete = new DeleteAlert();
+					if(delete.getDelete()){
+						ModelBolting bolting = new ModelBolting();
+						bolting.deleteBolting(	tcBoltingID.getCellData(tvBolting.getSelectionModel().getSelectedIndex()), 
+												tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));
+					
+						refreshTableBolting();
+					
+					}
+					
+				}
+			});
+			
+		}
+		
 	}
 	
 }

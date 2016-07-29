@@ -112,9 +112,9 @@ public class ControllerBarrelsizeData {
 						stage.close();
 					}
 					
-				}else if(	event.getClickCount() == 1 &&
-							event.getButton().equals(MouseButton.PRIMARY) &&
-							tvBarrelsize.getSelectionModel().getSelectedItems().size() == 1){
+				}
+				
+				if(tvBarrelsize.getSelectionModel().getSelectedItems().size() == 1){
 					lblSubHeadline.setText(tvBarrelsize.getItems().get(tvBarrelsize.getSelectionModel().getSelectedIndex()).getBarrelsize());
 				}
 				

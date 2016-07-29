@@ -3,8 +3,8 @@ package de.michaprogs.crm.article.search;
 import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.article.ModelArticle;
-import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsizeAdd;
-import de.michaprogs.crm.article.bolting.add.LoadBoltingAdd;
+import de.michaprogs.crm.article.barrelsize.data.LoadBarrelsizeData;
+import de.michaprogs.crm.article.bolting.data.LoadBoltingData;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -141,7 +141,7 @@ public class ControllerArticleSearch {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadBarrelsizeAdd barrelsize = new LoadBarrelsizeAdd(true);
+				LoadBarrelsizeData barrelsize = new LoadBarrelsizeData(true);
 				String selectedBarrelsize = barrelsize.getController().getSelectedBarrelsize();
 				if(! selectedBarrelsize.isEmpty()){
 					tfBarrelsize.setText(selectedBarrelsize);
@@ -159,10 +159,9 @@ public class ControllerArticleSearch {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadBoltingAdd bolting = new LoadBoltingAdd(true);
-				String selectedBolting = bolting.getController().getSelectedBolting();
-				if(! selectedBolting.isEmpty()){
-					tfBolting.setText(selectedBolting);
+				LoadBoltingData bolting = new LoadBoltingData(true);
+				if(! bolting.getController().getSelectedBolting().equals("")){
+					tfBolting.setText(bolting.getController().getSelectedBolting());
 				}
 				
 			}

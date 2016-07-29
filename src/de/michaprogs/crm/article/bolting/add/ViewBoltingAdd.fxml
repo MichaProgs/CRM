@@ -24,9 +24,12 @@
 			<ScrollPane>
 				<BorderPane>
 					<top>
-						<HBox spacing="10">
+						<HBox spacing="10" alignment="CENTER_LEFT">
 							<Label id="lblHeadline" text="Verschraubungen" />
 							<Label fx:id="lblSubHeadline" />
+						<padding>
+							<Insets bottom="10" />
+						</padding>
 						</HBox>
 					</top>
 					<left>
@@ -38,7 +41,7 @@
 					   			</columnResizePolicy>
 								<columns>
 									<TableColumn minWidth="40" maxWidth="100" prefWidth="50" fx:id="tcBoltingID" text="ID" />
-									<TableColumn fx:id="tcBolting" text="Bezeichnung" />
+									<TableColumn fx:id="tcBolting" text="Bezeichnung" minWidth="80" maxWidth="450" prefWidth="400" />
 								</columns>
 							</TableView>
 						

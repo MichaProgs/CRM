@@ -23,12 +23,12 @@ public class ModelBarrelsize {
 	public ModelBarrelsize(){}
 	
 	//Consturctor for ObservableList
-	public ModelBarrelsize(int barrelsizeID, String barrelsize){
-		this.barrelsizeID = barrelsizeID;
-		this.barrelsize = barrelsize;
+	public ModelBarrelsize(int _barrelsizeID, String _barrelsize){
+		this.barrelsizeID = _barrelsizeID;
+		this.barrelsize = _barrelsize;
 	}
 	
-	public void insertbarrelsize(String barrelsize){
+	public void insertbarrelsize(String _barrelsize){
 		
 		try{
 			
@@ -36,10 +36,10 @@ public class ModelBarrelsize {
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
-			ps.setString(1, barrelsize);
+			ps.setString(1, _barrelsize);
 			ps.execute();
 			
-			System.out.println("Gebindegröße " + barrelsize + " zur Datenbank hinzugefügt");
+			System.out.println("Gebindegröße " + _barrelsize + " zur Datenbank hinzugefügt");
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -82,6 +82,31 @@ public class ModelBarrelsize {
 				e.printStackTrace();
 			}
 		}	
+		
+	}
+	
+	public void deleteBarrelsize(int _barrelsizeID, String _barrelsize){
+	
+		try{
+			
+			String stmt = "DELETE FROM barrelsize WHERE barrelsizeID = ?";
+			
+			con = new DBConnect().getConnection();
+			ps = con.prepareStatement(stmt);
+			ps.setInt(1, _barrelsizeID);
+			ps.execute();
+			
+			System.out.println("Gebindegröße " + _barrelsizeID + " " + _barrelsize + " aus Datenbank gelöscht!");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				closeConnection();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 	

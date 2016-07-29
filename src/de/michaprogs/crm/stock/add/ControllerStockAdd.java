@@ -13,7 +13,7 @@ import de.michaprogs.crm.stock.ModelStock;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.search.LoadSupplierSearch;
 import de.michaprogs.crm.warehouse.ModelWarehouse;
-import de.michaprogs.crm.warehouse.add.LoadWarehouseAdd;
+import de.michaprogs.crm.warehouse.data.LoadWarehouseData;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -261,7 +261,7 @@ public class ControllerStockAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadWarehouseAdd warehouse = new LoadWarehouseAdd(true);
+				LoadWarehouseData warehouse = new LoadWarehouseData(true);
 				if(warehouse.getController().getSelectedWarehouseID() != 0){
 					selectWarehouse(warehouse.getController().getSelectedWarehouseID());
 				}

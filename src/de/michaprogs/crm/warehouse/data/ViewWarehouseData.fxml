@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.ScrollPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.warehouse.add.ControllerWarehouseAdd">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.warehouse.data.ControllerWarehouseData">
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 		<!-- FLEX NAVI -->
 		<top>
@@ -44,13 +44,6 @@
 									<TableColumn fx:id="tcWarehouse" text="Bezeichnung" minWidth="80" maxWidth="450" prefWidth="400" />
 								</columns>
 							</TableView>
-						
-							<HBox spacing="10" alignment="CENTER_LEFT">
-								<Label text="Bezeichnung:" />
-								<TextField fx:id="tfWarehouse" />
-								<Button fx:id="btnAdd" text="Hinzufügen" />
-								<Button fx:id="btnAbort" text="Abbrechen" />
-							</HBox>
 						
 						</VBox>					
 					</left>

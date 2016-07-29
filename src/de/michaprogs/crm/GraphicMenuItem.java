@@ -10,7 +10,7 @@ public class GraphicMenuItem {
 	public GraphicMenuItem(String filepath){
 		
 		if(! filepath.isEmpty()){
-			iv = new ImageView(new Image(filepath, 22, 22, true, true));
+			iv = new ImageView(new Image(filepath, 25, 25, true, true));
 		}
 		
 	}
