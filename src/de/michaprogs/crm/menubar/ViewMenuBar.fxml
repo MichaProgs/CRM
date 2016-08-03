@@ -11,6 +11,7 @@
 			<MenuItem text="Beenden" />
 		</Menu>
 		<Menu  text="Stammdaten">
+			<MenuItem fx:id="itemCustomer" text="Kunden" />
 			<MenuItem fx:id="itemArticle" text="Artikel" />
 			<MenuItem fx:id="itemSupplier" text="Hersteller" />
 			<MenuItem fx:id="itemStock" text="Lager" />

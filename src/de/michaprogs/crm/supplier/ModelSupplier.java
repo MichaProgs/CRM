@@ -314,7 +314,7 @@ public class ModelSupplier {
 				
 			}
 			
-			System.out.println("Alle Lieferanten mit übereinstimmenden Suchfaktoren aus Datenbank geladen");
+			System.out.println("Alle Lieferanten mit übereinstimmenden Suchfaktoren aus Datenbank geladen!");
 			
 		}catch(Exception e){
 			e.printStackTrace();

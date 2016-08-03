@@ -2,6 +2,7 @@ package de.michaprogs.crm.navigation;
 
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.article.data.LoadArticleData;
+import de.michaprogs.crm.customer.data.LoadCustomerData;
 import de.michaprogs.crm.stock.add.LoadStockAdd;
 import de.michaprogs.crm.supplier.data.LoadSupplierData;
 import javafx.event.ActionEvent;
@@ -17,11 +18,13 @@ public class ControllerNavigation {
 	
 	@FXML private Button btnCollapse;
 	
+	@FXML private Button btnCustomer;
 	@FXML private Button btnArticle;
 	@FXML private Button btnSupplier;
 	@FXML private Button btnOffer;
 	@FXML private Button btnStock;
 	
+	private LoadCustomerData customerData = new LoadCustomerData(false);
 	private LoadArticleData articleData = new LoadArticleData();
 	private LoadSupplierData supplierData = new LoadSupplierData(false);
 	private LoadStockAdd stockAdd = new LoadStockAdd(false);
@@ -34,6 +37,7 @@ public class ControllerNavigation {
 		//Buttons
 		initBtnCollapse();
 		
+		initBtnCustomer();
 		initBtnArticle();
 		initBtnSupplier();
 		initBtnStock();
@@ -57,6 +61,7 @@ public class ControllerNavigation {
 			public void handle(ActionEvent event) {
 				
 				if(anchorpaneSidebar.getPrefWidth() != 50){
+					btnCustomer.setText("");
 					btnArticle.setText("");
 					btnSupplier.setText("");
 					btnOffer.setText("");
@@ -64,6 +69,7 @@ public class ControllerNavigation {
 					anchorpaneSidebar.setPrefWidth(50);
 				}else{
 					/* SAME TEXT AS IN THE FXML FILE */
+					btnCustomer.setText("Kunden");
 					btnArticle.setText("Artikel");
 					btnSupplier.setText("Lieferanten");
 					btnOffer.setText("Angebot");
@@ -73,6 +79,19 @@ public class ControllerNavigation {
 				}
 				
 				
+			}
+		});
+		
+	}
+	
+	private void initBtnCustomer(){
+		
+		btnCustomer.setGraphic(new GraphicButton("file:resources/customer_32_blue.png").getGraphicButton());
+		btnCustomer.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				content.setCenter(customerData.getContent());
 			}
 		});
 		

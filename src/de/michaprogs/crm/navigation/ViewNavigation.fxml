@@ -6,16 +6,26 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.TitledPane?>
 
 <AnchorPane fx:id="anchorpaneSidebar" id="anchorpaneSidebar" prefWidth="200" maxWidth="200" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.navigation.ControllerNavigation">
 	<VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" >
 		<StackPane styleClass="Headbar">
 			<Button fx:id="btnCollapse" id="btnCollapse" StackPane.alignment="CENTER_LEFT" />
 		</StackPane>
-		<Button fx:id="btnArticle" text="Artikel" id="btnSidebar" />
-		<Button fx:id="btnSupplier" text="Hersteller" id="btnSidebar" />
-		<Button fx:id="btnOffer" text="Angebot" id="btnSidebar" />
-		<Button fx:id="btnStock" text="Lager" id="btnSidebar" />
+		<TitledPane text="STAMMDATEN">
+			<VBox styleClass="VboxContent">
+				<Button fx:id="btnCustomer" text="Kunden" id="btnSidebar" />
+				<Button fx:id="btnArticle" text="Artikel" id="btnSidebar" />
+				<Button fx:id="btnSupplier" text="Hersteller" id="btnSidebar" />
+				<Button fx:id="btnStock" text="Lager" id="btnSidebar" />
+			</VBox>
+		</TitledPane>
+		<TitledPane text="DOKUMENTE">
+			<VBox styleClass="VboxContent">
+				<Button fx:id="btnOffer" text="Angebot" id="btnSidebar" />
+			</VBox>
+		</TitledPane>
 	</VBox>
 </AnchorPane>
 

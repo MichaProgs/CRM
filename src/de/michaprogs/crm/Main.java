@@ -1,6 +1,7 @@
 package de.michaprogs.crm;
 	
 import de.michaprogs.crm.article.data.LoadArticleData;
+import de.michaprogs.crm.customer.data.LoadCustomerData;
 import de.michaprogs.crm.database.CreateTables;
 import de.michaprogs.crm.menubar.LoadMenuBar;
 import de.michaprogs.crm.navigation.LoadNavigation;
@@ -22,14 +23,15 @@ public class Main extends Application {
 			
 			LoadMenuBar menubar = new LoadMenuBar(false);
 			LoadNavigation navigation = new LoadNavigation();
-			LoadArticleData articleData = new LoadArticleData();
+//			LoadArticleData articleData = new LoadArticleData();
+			LoadCustomerData customerData = new LoadCustomerData(false);
 			
 			navigation.getController().setContent(root);
 			menubar.getController().setContent(root);
 			
 			root.setTop(menubar.getContent());
 			root.setLeft(navigation.getContent());			
-			root.setCenter(articleData.getContent());
+			root.setCenter(customerData.getContent());
 			
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add("style.css");

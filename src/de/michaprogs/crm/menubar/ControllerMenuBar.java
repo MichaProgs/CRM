@@ -3,6 +3,7 @@ package de.michaprogs.crm.menubar;
 
 import de.michaprogs.crm.GraphicMenuItem;
 import de.michaprogs.crm.article.data.LoadArticleData;
+import de.michaprogs.crm.customer.data.LoadCustomerData;
 import de.michaprogs.crm.properties.LoadProperties;
 import de.michaprogs.crm.stock.add.LoadStockAdd;
 import de.michaprogs.crm.supplier.data.LoadSupplierData;
@@ -14,12 +15,14 @@ import javafx.scene.layout.BorderPane;
 
 public class ControllerMenuBar {
 
+	@FXML private MenuItem itemCustomer;
 	@FXML private MenuItem itemArticle;
 	@FXML private MenuItem itemSupplier;
 	@FXML private MenuItem itemStock;
 	
 	@FXML private MenuItem itemProperties;
 	
+	private LoadCustomerData customerData = new LoadCustomerData(false);
 	private LoadArticleData articleData = new LoadArticleData();
 	private LoadSupplierData supplierData = new LoadSupplierData(false);
 	private LoadStockAdd stockAdd = new LoadStockAdd(false);
@@ -31,6 +34,7 @@ public class ControllerMenuBar {
 	@FXML private void initialize(){
 		
 		//MenuItems
+		initItemCustomer();
 		initItemArticle();
 		initItemSupplier();
 		initItemStock();
@@ -76,6 +80,19 @@ public class ControllerMenuBar {
 			@Override
 			public void handle(ActionEvent event) {
 				content.setCenter(stockAdd.getContent());
+			}
+		});
+		
+	}
+	
+	private void initItemCustomer(){
+		
+		itemCustomer.setGraphic(new GraphicMenuItem("file:resources/customer_32_white.png").getGraphicMenuItem());
+		itemCustomer.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				content.setCenter(customerData.getContent());
 			}
 		});
 		

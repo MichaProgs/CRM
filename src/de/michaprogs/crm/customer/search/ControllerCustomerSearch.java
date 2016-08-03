@@ -1,10 +1,8 @@
-package de.michaprogs.crm.supplier.search;
+package de.michaprogs.crm.customer.search;
 
-import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
-import de.michaprogs.crm.components.TextFieldOnlyInteger;
-import de.michaprogs.crm.supplier.ModelSupplier;
+import de.michaprogs.crm.customer.ModelCustomer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,85 +19,71 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class ControllerSupplierSearch {
+public class ControllerCustomerSearch {
 
 	@FXML private Label lblSubHeadline;
 	
-	@FXML private TextFieldOnlyInteger tfSupplierID;
+	@FXML private TextField tfCustomerID;
 	@FXML private TextField tfName1;
 	@FXML private TextField tfName2;
 	@FXML private TextField tfStreet;
 	@FXML private ComboBox<String> cbLand;
-	@FXML private TextFieldOnlyInteger tfZip;
+	@FXML private TextField tfZip;
 	@FXML private TextField tfLocation;
 	@FXML private TextField tfPhone;
+	@FXML private TextField tfMobile;
+	@FXML private TextField tfFax;
+	@FXML private TextField tfEmail;
 	
-	//Tables & Columns
-	@FXML private TableView<ModelSupplier> tvSupplierSearch;
-	@FXML private TableColumn<ModelSupplier, Integer> tcSupplierID;
-	@FXML private TableColumn<ModelSupplier, String> tcName1;
-	@FXML private TableColumn<ModelSupplier, String> tcName2;
-	@FXML private TableColumn<ModelSupplier, String> tcStreet;
-	@FXML private TableColumn<ModelSupplier, String> tcLand;
-	@FXML private TableColumn<ModelSupplier, Integer> tcZip;
-	@FXML private TableColumn<ModelSupplier, String> tcLocation;
-	@FXML private TableColumn<ModelSupplier, String> tcPhone;
-	
-	//Buttons
+	@FXML private TableView<ModelCustomer> tvCustomerSearch;
+	@FXML private TableColumn<ModelCustomer, Integer> tcCustomerID;
+	@FXML private TableColumn<ModelCustomer, String> tcName1;
+	@FXML private TableColumn<ModelCustomer, String> tcName2;
+	@FXML private TableColumn<ModelCustomer, String> tcStreet;
+	@FXML private TableColumn<ModelCustomer, String> tcLand;
+	@FXML private TableColumn<ModelCustomer, String> tcZip;
+	@FXML private TableColumn<ModelCustomer, String> tcLocation;
+	@FXML private TableColumn<ModelCustomer, String> tcPhone;
+ 	
 	@FXML private Button btnSearch;
 	@FXML private Button btnReset;
 	@FXML private Button btnSelect;
 	@FXML private Button btnAbort;
 	
-	//Panels & Nodes
-	
 	private Stage stage;
-	private int selectedSupplierID = 0;
+	private int selectedCustomerID = 0;
 	
-	public ControllerSupplierSearch(){
-		
-	}
+	public ControllerCustomerSearch(){}
 	
 	@FXML private void initialize(){
 		
-		tfSupplierID.setText(""); //The custom component 'TextFieldOnlyInteger' sets 0 automatically
-		tfZip.setText(""); //The custom component 'TextFieldOnlyInteger' sets 0 automatically
-		
-		initTable();
-		initTextFields();
-		
-		//ComboBoxes
 		new InitCombos().initComboLand(cbLand);
 		
-		//Buttons
+		tfCustomerID.setText("");
+		tfZip.setText("");
+		
 		initBtnSearch();
 		initBtnReset();
 		initBtnSelect();
 		initBtnAbort();
 		
+		initTextFields();
+		
+		initTableCustomerSearch();
+		
 	}
 	
+	/*
+	 * BUTTONS
+	 */
 	private void initBtnSearch(){
 		
 		btnSearch.setGraphic(new GraphicButton("file:resources/search_32.png").getGraphicButton());
 		btnSearch.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 			@Override
 			public void handle(ActionEvent event) {
-				search();				
-			}
-		});
-		
-	}
-	
-	private void initBtnSelect(){
-		
-		btnSelect.setGraphic(new GraphicButton("file:resources/select_32.png").getGraphicButton());
-		btnSelect.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				select();
+				search();
 			}
 		});
 		
@@ -109,10 +93,23 @@ public class ControllerSupplierSearch {
 		
 		btnReset.setGraphic(new GraphicButton("file:resources/clear_32.png").getGraphicButton());
 		btnReset.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 			@Override
 			public void handle(ActionEvent event) {
 				reset();
+			}
+		});
+		
+	}
+	
+	private void initBtnSelect(){
+		
+		btnSelect.setGraphic(new GraphicButton("file:resources/select_32.png").getGraphicButton());
+		btnSelect.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				select();
 			}
 		});
 		
@@ -122,19 +119,14 @@ public class ControllerSupplierSearch {
 		
 		btnAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
 		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 			@Override
 			public void handle(ActionEvent event) {
-				
-				AbortAlert abort = new AbortAlert();
-				if(abort.getAbort()){
-					if(stage != null){
-						stage.close();
-					}else{
-						reset();
-					}
+				if(stage != null){
+					stage.close();
+				}else{
+					reset();
 				}
-				
 			}
 		});
 		
@@ -143,9 +135,9 @@ public class ControllerSupplierSearch {
 	/*
 	 * TABLES
 	 */
-	private void initTable(){
+	private void initTableCustomerSearch(){
 		
-		this.tcSupplierID.setCellValueFactory(new PropertyValueFactory<>("supplierID"));
+		this.tcCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
 		this.tcName1.setCellValueFactory(new PropertyValueFactory<>("name1"));
 		this.tcName2.setCellValueFactory(new PropertyValueFactory<>("name2"));
 		this.tcStreet.setCellValueFactory(new PropertyValueFactory<>("street"));
@@ -154,7 +146,7 @@ public class ControllerSupplierSearch {
 		this.tcLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
 		this.tcPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
 		
-		tvSupplierSearch.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		tvCustomerSearch.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
@@ -168,7 +160,7 @@ public class ControllerSupplierSearch {
 			}
 		});
 		
-		tvSupplierSearch.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		tvCustomerSearch.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
@@ -182,6 +174,9 @@ public class ControllerSupplierSearch {
 		
 	}
 	
+	/*
+	 * TEXTFIELDS
+	 */
 	private void initTextFields(){
 		
 		EventHandler<KeyEvent> ke = new EventHandler<KeyEvent>() {
@@ -196,48 +191,58 @@ public class ControllerSupplierSearch {
 			}
 		};
 		
-		tfSupplierID.setOnKeyPressed(ke);
+		tfCustomerID.setOnKeyPressed(ke);
 		tfName1.setOnKeyPressed(ke);
 		tfName2.setOnKeyPressed(ke);
 		tfStreet.setOnKeyPressed(ke);
 		tfZip.setOnKeyPressed(ke);
 		tfLocation.setOnKeyPressed(ke);
 		tfPhone.setOnKeyPressed(ke);
+		tfMobile.setOnKeyPressed(ke);
+		tfFax.setOnKeyPressed(ke);
+		tfEmail.setOnKeyPressed(ke);
 		
 	}
 	
+	
+	/*
+	 * DATABASE METHODS
+	 */
 	private void search(){
 		
-		ModelSupplier supplier = new ModelSupplier();
-		supplier.searchSupplier(
-			tfSupplierID.getText(), 
+		ModelCustomer customer = new ModelCustomer();
+		customer.searchCustomer(
+			tfCustomerID.getText(), 
 			tfName1.getText(), 
 			tfName2.getText(), 
 			tfStreet.getText(), 
 			cbLand.getSelectionModel().getSelectedItem(), 
 			tfZip.getText(), 
-			tfLocation.getText(),
-			tfPhone.getText()
+			tfLocation.getText(), 
+			tfPhone.getText(), 
+			tfMobile.getText(), 
+			tfFax.getText(), 
+			tfEmail.getText()
 		);
 		
-		tvSupplierSearch.setItems(supplier.getObsListSearch());
-		if(tvSupplierSearch.getItems().size() > 0){
-			tvSupplierSearch.getSelectionModel().selectFirst();
-			tvSupplierSearch.requestFocus();
+		tvCustomerSearch.setItems(customer.getObsListCustomer());
+		if(tvCustomerSearch.getItems().size() > 0){
+			tvCustomerSearch.getSelectionModel().selectFirst();
+			tvCustomerSearch.requestFocus();
 		}
 		
-		if(tvSupplierSearch.getItems().size() == 1){
-			lblSubHeadline.setText("(" + String.valueOf(tvSupplierSearch.getItems().size()) + " Suchergebnis)" );
+		if(tvCustomerSearch.getItems().size() == 1){
+			lblSubHeadline.setText("(" + String.valueOf(tvCustomerSearch.getItems().size()) + " Suchergebnis)" );
 		}else{
-			lblSubHeadline.setText("(" + String.valueOf(tvSupplierSearch.getItems().size()) + " Suchergebnisse)" );
+			lblSubHeadline.setText("(" + String.valueOf(tvCustomerSearch.getItems().size()) + " Suchergebnisse)" );
 		}
 		
 	}
 	
 	private void select(){
 		
-		if(tvSupplierSearch.getSelectionModel().getSelectedItems().size() == 1 ){
-			selectedSupplierID = tvSupplierSearch.getItems().get(tvSupplierSearch.getSelectionModel().getSelectedIndex()).getSupplierID();
+		if(tvCustomerSearch.getSelectionModel().getSelectedItems().size() == 1 ){
+			selectedCustomerID = tvCustomerSearch.getItems().get(tvCustomerSearch.getSelectionModel().getSelectedIndex()).getCustomerID();
 			
 			if(stage != null){
 				stage.close();
@@ -251,19 +256,24 @@ public class ControllerSupplierSearch {
 		
 	}
 	
+	/*
+	 * UI METHODS
+	 */
 	private void reset(){
 		
-		this.tfSupplierID.clear();
-		this.tfName1.clear();
-		this.tfName2.clear();
-		this.tfStreet.clear();
-		this.cbLand.getSelectionModel().selectFirst();
-		this.tfZip.clear();
-		this.tfLocation.clear();
-		this.tfPhone.clear();
+		tfCustomerID.clear();
+		tfName1.clear();
+		tfName2.clear();
+		tfStreet.clear();
+		cbLand.getSelectionModel().selectFirst();
+		tfZip.clear();
+		tfLocation.clear();
+		tfPhone.clear();
+		tfMobile.clear();
+		tfFax.clear();
+		tfEmail.clear();
 		
-		this.tvSupplierSearch.getItems().clear();
-		this.lblSubHeadline.setText("");
+		tvCustomerSearch.getItems().clear();
 		
 	}
 	
@@ -274,11 +284,8 @@ public class ControllerSupplierSearch {
 		this.stage = stage;
 	}
 	
-	public int getSelectedSupplierID(){
-		return selectedSupplierID;
+	public int getSelectedCustomerID(){
+		return selectedCustomerID;
 	}
 	
-	
-	
 }
-
