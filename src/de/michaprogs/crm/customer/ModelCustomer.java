@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 public class ModelCustomer {
 
 	private int customerID;
+	private String salutation;
 	private String name1;
 	private String name2;
 	private String street;
@@ -36,6 +37,8 @@ public class ModelCustomer {
 	
 	private String lastChange;
 	private String notes;
+	
+	private int billingID;
 
 	private ObservableList<ModelCustomer> obsListCustomer = FXCollections.observableArrayList();
 	
@@ -80,6 +83,7 @@ public class ModelCustomer {
 
 
 	public void insertCustomer(	int _customerID, 
+								String _salutation,
 								String _name1, 
 								String _name2, 
 								String _street, 
@@ -104,12 +108,15 @@ public class ModelCustomer {
 								int _skonto,
 								
 								String _lastChange,
-								String _notes) {
+								String _notes,
+								
+								int _billingID) {
 		
 		try{
 			
 			String stmt = "INSERT INTO customer ("
 					+ "customerID,"
+					+ "salutation,"
 					+ "name1,"
 					+ "name2,"
 					+ "street,"
@@ -131,14 +138,17 @@ public class ModelCustomer {
 					+ "paymentnetto,"
 					+ "skonto,"
 					+ "lastChange,"
-					+ "notes)"
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "notes,"
+					+ "billingID)"
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
 			
 			int i = 1;
 			ps.setInt(i, _customerID);
+			i++;
+			ps.setString(i, _salutation);
 			i++;
 			ps.setString(i, _name1);
 			i++;
@@ -190,6 +200,8 @@ public class ModelCustomer {
 			i++;
 			ps.setString(i, _notes);
 			i++;
+			ps.setInt(i, _billingID);
+			i++;
 			
 			ps.execute();
 			
@@ -217,6 +229,7 @@ public class ModelCustomer {
 			while(rs.next()){
 				
 				this.customerID = rs.getInt("customerID");
+				this.salutation = rs.getString("salutation");
 				this.name1 = rs.getString("name1");
 				this.name2 = rs.getString("name2");
 				this.street = rs.getString("street");
@@ -242,6 +255,8 @@ public class ModelCustomer {
 				
 				this.notes = rs.getString("notes");
 				this.lastChange = rs.getString("lastChange");
+				
+				this.billingID = rs.getInt("billingID");
 				
 			}
 			
@@ -339,6 +354,7 @@ public class ModelCustomer {
 	}
 	
 	public void updateCustomer(	int _customerID, 
+								String _salutation,
 								String _name1, 
 								String _name2, 
 								String _street, 
@@ -363,11 +379,15 @@ public class ModelCustomer {
 								int _skonto,
 								
 								String _lastChange,
-								String _notes){
+								String _notes,
+								
+								int _billingID
+								){
 	
 		try{
 			
-			String stmt = "UPDATE customer SET name1 = ?,"
+			String stmt = "UPDATE customer SET salutation = ?,"
+											+ "name1 = ?,"
 											+ "name2 = ?,"
 											+ "street = ?,"
 											+ "land = ?,"
@@ -388,7 +408,8 @@ public class ModelCustomer {
 											+ "paymentNetto = ?,"
 											+ "skonto = ?,"
 											+ "lastChange = ?,"
-											+ "notes = ?"
+											+ "notes = ?,"
+											+ "billingID = ? "
 											
 											+ "WHERE customerID = ?"; //ALWAYS LAST!
 											
@@ -397,6 +418,8 @@ public class ModelCustomer {
 			ps = con.prepareStatement(stmt);
 			
 			int i = 1;
+			ps.setString(i, _salutation);
+			i++;
 			ps.setString(i, _name1);
 			i++;
 			ps.setString(i, _name2);
@@ -447,12 +470,37 @@ public class ModelCustomer {
 			i++;
 			ps.setString(i, _notes);
 			i++;
+			ps.setInt(i, _billingID);
+			i++;
+			
+			//ALWAYS LAST
 			ps.setInt(i, _customerID);
 			i++;
 			
 			ps.execute();
 			
 			System.out.println("Änderungen an Kunde " + _customerID + " " + _name1 + " wurden in Datenbank gespeichert!");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeConnection();
+		}
+		
+	}
+	
+	public void deleteCustomer( int _customerID, String _name1){
+		
+		try{
+			
+			String stmt = "DELETE FROM customer WHERE customerID = ?";
+			
+			con = new DBConnect().getConnection();
+			ps = con.prepareStatement(stmt);
+			ps.setInt(1, _customerID);
+			ps.execute();
+			
+			System.out.println("Kunde " + _customerID + " " + _name1 + " wurde aus Datenbank gelöscht!" );
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -511,6 +559,10 @@ public class ModelCustomer {
 		return customerID;
 	}
 
+	public String getSalutation(){
+		return salutation;
+	}
+	
 	public String getName1() {
 		return name1;
 	}
@@ -597,6 +649,10 @@ public class ModelCustomer {
 
 	public String getNotes() {
 		return notes;
+	}
+	
+	public int getBillingID(){
+		return billingID;
 	}
 
 	public ObservableList<ModelCustomer> getObsListCustomer() {

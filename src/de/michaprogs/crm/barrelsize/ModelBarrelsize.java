@@ -1,4 +1,4 @@
-package de.michaprogs.crm.article.barrelsize;
+package de.michaprogs.crm.barrelsize;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

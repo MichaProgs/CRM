@@ -1,7 +1,7 @@
-package de.michaprogs.crm.article.bolting.add;
+package de.michaprogs.crm.barrelsize.add;
 
 import de.michaprogs.crm.DeleteAlert;
-import de.michaprogs.crm.article.bolting.ModelBolting;
+import de.michaprogs.crm.barrelsize.ModelBarrelsize;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,17 +17,17 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class ControllerBoltingAdd {
+public class ControllerBarrelsizeAdd {
 
 	//Tables & Columns
-	@FXML private TableView<ModelBolting> tvBolting;
-	@FXML private TableColumn<ModelBolting, Integer> tcBoltingID;
-	@FXML private TableColumn<ModelBolting, String> tcBolting;
+	@FXML private TableView<ModelBarrelsize> tvBarrelsize;
+	@FXML private TableColumn<ModelBarrelsize, Integer> tcBarrelsizeID;
+	@FXML private TableColumn<ModelBarrelsize, String> tcBarrelsize;
 	
 	@FXML private Label lblSubHeadline;
 	
 	//TextFields
-	@FXML private TextField tfBolting;
+	@FXML private TextField tfBarrelsize;
 	
 	//Buttons
 	@FXML private Button btnAdd;
@@ -35,29 +35,28 @@ public class ControllerBoltingAdd {
 	
 	private Stage stage;
 	
-	public ControllerBoltingAdd(){
-		
-	}
+	public ControllerBarrelsizeAdd(){}
 	
 	@FXML private void initialize(){
 		
-		this.tcBoltingID.setCellValueFactory(new PropertyValueFactory<>("boltingID"));
-		this.tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));		
+		this.tcBarrelsizeID.setCellValueFactory(new PropertyValueFactory<>("barrelsizeID"));
+		this.tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));		
 		
-		initTableBolting();
+		initTableDoubleClick();
 		
 		//Init Buttons
 		initBtnAbort();
 		initBtnAdd();
 		
-		//Load all Bolting from Database and show
-		refreshTableBolting();
+		//Load all barrelsize from Database and show
+		refreshTableBarrelsize();
 		
 	}
 	
-	/*
-	 * BUTTONS
-	 */
+	public void setStage(Stage stage){
+		this.stage = stage;
+	}
+	
 	private void initBtnAbort(){
 		
 		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
@@ -67,9 +66,8 @@ public class ControllerBoltingAdd {
 				if(stage != null){
 					stage.close();
 				}else{
-					tfBolting.clear();
+					tfBarrelsize.clear();
 				}
-									
 			}
 		});	
 	}
@@ -81,53 +79,41 @@ public class ControllerBoltingAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				new ModelBolting().insertBolting(tfBolting.getText());
-				refreshTableBolting();
-				tfBolting.clear();
+				new ModelBarrelsize().insertbarrelsize(tfBarrelsize.getText());
+				refreshTableBarrelsize();
+				tfBarrelsize.clear();
 				
 			}
 		});
 		
 	}
 	
-	/*
-	 * TABLES
-	 */
-	private void initTableBolting(){
+	private void initTableDoubleClick(){
 		
-		tvBolting.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		tvBarrelsize.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
 				
 				if(	event.getButton().equals(MouseButton.SECONDARY) &&
-					event.getClickCount() == 2){
-					tvBolting.setContextMenu(new ContextMenuTable());				
+					event.getClickCount() == 1){
+					tvBarrelsize.setContextMenu(new ContextMenuTable());
 				}
 				
-				if(tvBolting.getSelectionModel().getSelectedItems().size() == 1){
-					lblSubHeadline.setText(tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));
+				if(tvBarrelsize.getSelectionModel().getSelectedItems().size() == 1){
+					lblSubHeadline.setText(tcBarrelsize.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()));
 				}
+					
 				
 			}
 		});
 		
 	}
 	
-	/*
-	 * DATABASE METHODS
-	 */
-	private void refreshTableBolting(){		
-		ModelBolting bolting = new ModelBolting();
-		bolting.selectBoltings();
-		tvBolting.setItems(bolting.getObsListBoltings());	
-	}
-	
-	/*
-	 * GETTER & SETTER
-	 */
-	public void setStage(Stage stage){
-		this.stage = stage;
+	private void refreshTableBarrelsize(){		
+		ModelBarrelsize barrelsize = new ModelBarrelsize();
+		barrelsize.selectBarrelsizes();
+		tvBarrelsize.setItems(barrelsize.getObsListBarrelsizes());	
 	}
 	
 	private class ContextMenuTable extends ContextMenu{
@@ -152,12 +138,11 @@ public class ControllerBoltingAdd {
 					
 					DeleteAlert delete = new DeleteAlert();
 					if(delete.getDelete()){
-						ModelBolting bolting = new ModelBolting();
-						bolting.deleteBolting(	tcBoltingID.getCellData(tvBolting.getSelectionModel().getSelectedIndex()), 
-												tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));
+						ModelBarrelsize barrelsize = new ModelBarrelsize();
+						barrelsize.deleteBarrelsize(tcBarrelsizeID.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()), 
+													tcBarrelsize.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()));
 					
-						refreshTableBolting();
-					
+						refreshTableBarrelsize();
 					}
 					
 				}

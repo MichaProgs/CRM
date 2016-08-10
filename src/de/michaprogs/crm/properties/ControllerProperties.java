@@ -1,7 +1,7 @@
 package de.michaprogs.crm.properties;
 
-import de.michaprogs.crm.article.barrelsize.add.LoadBarrelsizeAdd;
-import de.michaprogs.crm.article.bolting.add.LoadBoltingAdd;
+import de.michaprogs.crm.barrelsize.add.LoadBarrelsizeAdd;
+import de.michaprogs.crm.bolting.add.LoadBoltingAdd;
 import de.michaprogs.crm.warehouse.add.LoadWarehouseAdd;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

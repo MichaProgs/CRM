@@ -108,4 +108,15 @@ public class InitCombos {
 		
 	}
 	
+	public void initComboSalutation(ComboBox<String> cbSalutation){
+		
+		cbSalutation.getItems().addAll(
+			"",
+			"Herr",
+			"Frau",
+			"Firma"
+		);
+		
+	}
+	
 }

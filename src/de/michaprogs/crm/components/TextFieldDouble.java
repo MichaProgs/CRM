@@ -9,9 +9,7 @@ public class TextFieldDouble extends TextField{
 	private final String REGEX = "-?[0-9]*([.|,]?[0-9]{0,2})?";
 	
 	public TextFieldDouble(){
-		
-		setText("0.00");
-		
+				
 		textProperty().addListener(new ChangeListener<String>() {
 
 			@Override

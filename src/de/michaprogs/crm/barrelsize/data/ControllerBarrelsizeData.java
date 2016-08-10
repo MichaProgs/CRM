@@ -1,7 +1,7 @@
-package de.michaprogs.crm.article.barrelsize.data;
+package de.michaprogs.crm.barrelsize.data;
 
 import de.michaprogs.crm.GraphicButton;
-import de.michaprogs.crm.article.barrelsize.ModelBarrelsize;
+import de.michaprogs.crm.barrelsize.ModelBarrelsize;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

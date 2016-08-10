@@ -13,18 +13,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.ScrollPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.article.bolting.data.ControllerBoltingData">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.bolting.add.ControllerBoltingAdd">
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 		<!-- FLEX NAVI -->
 		<top>
-			<AnchorPane styleClass="Headbar">
-				<StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-					<HBox StackPane.alignment="CENTER_LEFT" alignment="CENTER_LEFT">
-						<Button fx:id="btnSelect" text="Auswählen" styleClass="btnTopbar" />
-						<Button fx:id="btnAbort" text="Abbrechen" styleClass="btnTopbar" />
-					</HBox>
-				</StackPane>
-			</AnchorPane>
+			<!-- NO CONTENT NEEDED -->
 		</top>
 		<!-- FLEX NAVI END -->
 		<center>
@@ -41,15 +34,24 @@
 					</top>
 					<left>
 						<VBox spacing="10">
+						
 							<TableView fx:id="tvBolting">
-							<columnResizePolicy>
-				      			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-				   			</columnResizePolicy>
-							<columns>
-								<TableColumn fx:id="tcBoltingID" text="ID" minWidth="40" maxWidth="100" prefWidth="50" />
-								<TableColumn fx:id="tcBolting" text="Bezeichnung" minWidth="80" maxWidth="450" prefWidth="400" />
-							</columns>
-						</TableView>
+								<columnResizePolicy>
+					      			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+					   			</columnResizePolicy>
+								<columns>
+									<TableColumn minWidth="40" maxWidth="100" prefWidth="50" fx:id="tcBoltingID" text="ID" />
+									<TableColumn fx:id="tcBolting" text="Bezeichnung" minWidth="80" maxWidth="450" prefWidth="400" />
+								</columns>
+							</TableView>
+						
+							<HBox spacing="10" alignment="CENTER_LEFT">
+								<Label text="Bezeichnung:" />
+								<TextField fx:id="tfBolting" />
+								<Button fx:id="btnAdd" text="Hinzufügen" />
+								<Button fx:id="btnAbort" text="Abbrechen" />
+							</HBox>
+						
 						</VBox>					
 					</left>
 				<padding>

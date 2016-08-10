@@ -32,6 +32,7 @@ public class CreateTables {
 
 			String stmt = "CREATE TABLE IF NOT EXISTS CUSTOMER("
 					+ "CUSTOMERID INTEGER IDENTITY,"
+					+ "SALUTATION VARCHAR_IGNORECASE,"
 					+ "NAME1 VARCHAR_IGNORECASE,"
 					+ "NAME2 VARCHAR_IGNORECASE,"
 					+ "STREET VARCHAR_IGNORECASE,"
@@ -53,7 +54,9 @@ public class CreateTables {
 					+ "PAYMENTNETTO INTEGER,"
 					+ "SKONTO VARCHAR_IGNORECASE,"
 					+ "LASTCHANGE DATE,"
-					+ "NOTES VARCHAR_IGNORECASE)";
+					+ "NOTES VARCHAR_IGNORECASE,"
+					+ "BILLINGID INTEGER"
+					+ ")";
 			
 			Statement statement = con.createStatement();
 			statement.execute(stmt);

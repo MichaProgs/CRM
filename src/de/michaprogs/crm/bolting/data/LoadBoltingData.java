@@ -1,4 +1,4 @@
-package de.michaprogs.crm.article.bolting.data;
+package de.michaprogs.crm.bolting.data;
 
 import de.michaprogs.crm.CreateDialog;
 import javafx.fxml.FXMLLoader;

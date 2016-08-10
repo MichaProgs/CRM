@@ -128,6 +128,26 @@
   	-fx-shape: "M-78,640l-6-5.5v-3l6,5l0,0l6-5v3L-78,640L-78,640z";
 }
 
+#tbSidenavigation{
+	-fx-border-width: 0 0 0 0;
+	-fx-border-color: -fx-accent-white;
+	-fx-box-border: -fx-accent-white;
+}
+
+#tbSidenavgation .content{
+	-fx-border-width: 0 0 0 0;
+	-fx-border-color: -fx-accent-white;
+}
+
+#tbSidenavigation .title{
+	-fx-background-color: transparent;
+	-fx-pref-height: 50px;
+}
+
+#tbSidenavigation .title .text{
+	-fx-alignment: CENTER_LEFT;
+}
+
 /***********
  * COMBOBOX
  ***********/
@@ -274,7 +294,21 @@
      -fx-background-color: -fx-accent-blue;
 }
 
-
+/*********
+ * TABLES
+ ********/
+ .table-view .column-header{
+ 	-fx-background-color: transparent;
+ }
+ 
+ .table-view .column-header-background{
+ 	-fx-background-color: transparent;
+ }
+ 
+ .table-view .column-header-background .label{
+ 	
+ 	-fx-background-color: transparent;
+ }
 
 
 

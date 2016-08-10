@@ -3,10 +3,12 @@ package de.michaprogs.crm.customer.add;
 import java.time.LocalDate;
 
 import de.michaprogs.crm.AbortAlert;
+import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.customer.ModelCustomer;
+import de.michaprogs.crm.customer.search.LoadCustomerSearch;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,6 +22,7 @@ import javafx.stage.Stage;
 public class ControllerCustomerAdd {
 
 	@FXML private TextField tfCustomerID;
+	@FXML private ComboBox<String> cbSalutation;
 	@FXML private TextField tfName1;
 	@FXML private TextField tfName2;
 	@FXML private TextField tfStreet;
@@ -43,11 +46,39 @@ public class ControllerCustomerAdd {
 	@FXML private TextField tfSkonto;
 	@FXML private TextField tfPaymentNetto;
 	
+	@FXML private TextField tfCustomerIDBilling;
+	@FXML private ComboBox<String> cbSalutationBilling;
+	@FXML private TextField tfName1Billing;
+	@FXML private TextField tfName2Billing;
+	@FXML private TextField tfStreetBilling;
+	@FXML private ComboBox<String> cbLandBilling;
+	@FXML private TextField tfZipBilling;
+	@FXML private TextField tfLocationBilling;
+	
+	@FXML private TextField tfPhoneBilling;
+	@FXML private TextField tfMobileBilling;
+	@FXML private TextField tfFaxBilling;
+	@FXML private TextField tfEmailBilling;
+	@FXML private TextField tfWebBilling;
+	@FXML private TextField tfContactBilling;
+	@FXML private TextField tfUstIDBilling;
+	
+	@FXML private ComboBox<String> cbPaymentBilling;
+	@FXML private TextField tfIBANBilling;
+	@FXML private TextField tfBICBilling;
+	@FXML private TextField tfBankBilling;
+	@FXML private TextField tfPaymentSkontoBilling;
+	@FXML private TextField tfSkontoBilling;
+	@FXML private TextField tfPaymentNettoBilling;
+	
 	@FXML private Label lblLastChange;
 	@FXML private TextArea taNotes;
 	
 	@FXML private Button btnSave;
 	@FXML private Button btnAbort;
+	
+	@FXML private Button btnBillingAdd;
+	@FXML private Button btnBillingDelete;
 	
 	private Stage stage;
 	private int createdCustomerID = 0;
@@ -58,12 +89,17 @@ public class ControllerCustomerAdd {
 		
 		new InitCombos().initComboLand(cbLand);
 		new InitCombos().initComboPayment(cbPayment);
+		new InitCombos().initComboSalutation(cbSalutation);
 		
-		tfCustomerID.setText("");
-		tfZip.setText("");
+		new InitCombos().initComboLand(cbLandBilling);
+		new InitCombos().initComboPayment(cbPaymentBilling);
+		new InitCombos().initComboSalutation(cbSalutationBilling);
 		
 		initBtnSave();
 		initBtnAbort();
+		
+		initBtnBillingAdd();
+		initBtnBillingDelete();
 		
 	}
 	
@@ -85,6 +121,7 @@ public class ControllerCustomerAdd {
 					
 					customer.insertCustomer(
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
+						cbSalutation.getSelectionModel().getSelectedItem(),
 						tfName1.getText(), 
 						tfName2.getText(), 
 						tfStreet.getText(), 
@@ -109,7 +146,9 @@ public class ControllerCustomerAdd {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
 						
 						String.valueOf(LocalDate.now()),
-						taNotes.getText()
+						taNotes.getText(),
+						
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())
 					);					
 					
 					createdCustomerID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText());
@@ -143,6 +182,93 @@ public class ControllerCustomerAdd {
 					}else{
 						//TODO RESET FIELDS
 					}
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnBillingAdd(){
+		
+		btnBillingAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				LoadCustomerSearch customerSearch = new LoadCustomerSearch(true);
+				if(customerSearch.getController().getSelectedCustomerID() != 0){
+					
+					ModelCustomer customer = new ModelCustomer();
+					customer.selectCustomer(customerSearch.getController().getSelectedCustomerID());
+					
+					tfCustomerIDBilling.setText(String.valueOf(customer.getCustomerID()));
+					tfName1Billing.setText(customer.getName1());
+					tfName2Billing.setText(customer.getName2());
+					tfStreetBilling.setText(customer.getStreet());
+					cbLandBilling.getSelectionModel().select(customer.getLand());
+					tfZipBilling.setText(String.valueOf(customer.getZip()));
+					tfLocationBilling.setText(customer.getLocation());
+					
+					tfPhoneBilling.setText(customer.getPhone());
+					tfMobileBilling.setText(customer.getMobile());
+					tfFaxBilling.setText(customer.getFax());
+					tfEmailBilling.setText(customer.getEmail());
+					tfWebBilling.setText(customer.getWeb());
+					tfContactBilling.setText(customer.getContact());
+					tfUstIDBilling.setText(customer.getUstID());
+					
+					cbPaymentBilling.getSelectionModel().select(customer.getPayment());
+					tfIBANBilling.setText(customer.getIBAN());
+					tfBICBilling.setText(customer.getBIC());
+					tfBankBilling.setText(customer.getBank());
+					tfPaymentNettoBilling.setText(String.valueOf(customer.getPaymentNetto()));
+					tfPaymentSkontoBilling.setText(String.valueOf(customer.getPaymentSkonto()));
+					tfSkontoBilling.setText(String.valueOf(customer.getSkonto()));
+					
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnBillingDelete(){
+		
+		btnBillingDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				DeleteAlert delete = new DeleteAlert();
+				if(delete.getDelete()){
+					
+					tfCustomerIDBilling.clear();
+					cbSalutationBilling.getSelectionModel().selectFirst();
+					tfName1Billing.clear();
+					tfName2Billing.clear();
+					tfStreetBilling.clear();
+					cbLandBilling.getSelectionModel().selectFirst();
+					tfZipBilling.clear();
+					tfLocationBilling.clear();
+					
+					tfPhoneBilling.clear();
+					tfMobileBilling.clear();
+					tfFaxBilling.clear();
+					tfEmailBilling.clear();
+					tfWebBilling.clear();
+					tfContactBilling.clear();
+					tfUstIDBilling.clear();
+					
+					cbPaymentBilling.getSelectionModel().selectFirst();
+					tfBankBilling.clear();
+					tfIBANBilling.clear();
+					tfBICBilling.clear();
+					tfBankBilling.clear();
+					tfPaymentSkontoBilling.clear();
+					tfPaymentNettoBilling.clear();
+					tfSkontoBilling.clear();
+					
 				}
 				
 			}

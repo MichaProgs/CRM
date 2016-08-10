@@ -17,8 +17,8 @@
 			<AnchorPane styleClass="Headbar">
 				<StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 					<HBox StackPane.alignment="CENTER_LEFT" alignment="CENTER_LEFT">
-						<Button text="Speichern" />
-						<Button text="Abbrechen" />
+						<Button text="Speichern" styleClass="btnTopbar" />
+						<Button text="Abbrechen" styleClass="btnTopbar" />
 					</HBox>
 				</StackPane>
 			</AnchorPane>
@@ -30,9 +30,9 @@
 					<left>
 						<!-- SIDENAVIGATION -->
 						<VBox>
-							<Button fx:id="btnBolting" text="Verschraubungen" />
-							<Button fx:id="btnBarrelsize" text="Gebindegrößen" />
-							<Button fx:id="btnWarehouse" text="Lager" />
+							<Button fx:id="btnBolting" text="Verschraubungen" id="btnSidebar" />
+							<Button fx:id="btnBarrelsize" text="Gebindegrößen" id="btnSidebar" />
+							<Button fx:id="btnWarehouse" text="Lager" id="btnSidebar" />
 						</VBox>						
 					</left>
 					<center>

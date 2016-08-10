@@ -1,4 +1,4 @@
-package de.michaprogs.crm.article.barrelsize.add;
+package de.michaprogs.crm.offer.add;
 
 import de.michaprogs.crm.CreateDialog;
 import javafx.fxml.FXMLLoader;
@@ -6,17 +6,17 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class LoadBarrelsizeAdd{
-	
+public class LoadOfferAdd {
+
 	private AnchorPane root;
-	private ControllerBarrelsizeAdd controller;
+	private ControllerOfferAdd controller;
 	private Stage stage = new Stage();
 	
-	public LoadBarrelsizeAdd(boolean createDialog){
+	public LoadOfferAdd(boolean createDialog){
 		
 		try{
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewBarrelsizeAdd.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewOfferAdd.fxml"));
 			root = loader.load();
 			controller = loader.getController();
 			
@@ -31,12 +31,17 @@ public class LoadBarrelsizeAdd{
 		
 	}
 
+	/*
+	 * GETTER & SETTER
+	 */
 	public AnchorPane getContent() {
 		return root;
 	}
 
-	public ControllerBarrelsizeAdd getController() {
+	public ControllerOfferAdd getController() {
 		return controller;
 	}
+	
+	
 	
 }

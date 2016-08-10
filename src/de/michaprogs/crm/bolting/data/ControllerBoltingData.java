@@ -1,7 +1,7 @@
-package de.michaprogs.crm.article.bolting.data;
+package de.michaprogs.crm.bolting.data;
 
 import de.michaprogs.crm.GraphicButton;
-import de.michaprogs.crm.article.bolting.ModelBolting;
+import de.michaprogs.crm.bolting.ModelBolting;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

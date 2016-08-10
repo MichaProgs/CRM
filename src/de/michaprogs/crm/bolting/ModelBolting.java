@@ -1,4 +1,4 @@
-package de.michaprogs.crm.article.bolting;
+package de.michaprogs.crm.bolting;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
