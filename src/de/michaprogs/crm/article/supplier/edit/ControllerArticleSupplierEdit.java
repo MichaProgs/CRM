@@ -8,6 +8,7 @@ import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
+import de.michaprogs.crm.supplier.SelectSupplier;
 import de.michaprogs.crm.supplier.search.LoadSupplierSearch;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -151,8 +152,7 @@ public class ControllerArticleSupplierEdit {
 	 */
 	private void selectSupplier(int _supplierID){
 		
-		ModelSupplier supplier = new ModelSupplier();
-		supplier.selectSupplier(_supplierID);
+		ModelSupplier supplier = new SelectSupplier(new ModelSupplier(_supplierID)).getModelSupplier();
 		
 		if(! supplier.getName1().equals("")){
 			
@@ -191,9 +191,7 @@ public class ControllerArticleSupplierEdit {
 								ObservableList<ModelArticleSupplier> obsListArticleSupplier,
 								int indexOfEdit){
 		
-		ModelSupplier supplier = new ModelSupplier();
-		supplier.selectSupplier(supplierID);
-		
+		ModelSupplier supplier = new SelectSupplier(new ModelSupplier(supplierID)).getModelSupplier();		
 		
 		this.tfSupplierID.setText(String.valueOf(supplierID));
 		this.tfName1.setText(supplier.getName1());

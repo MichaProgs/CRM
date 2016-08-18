@@ -8,7 +8,11 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
+import de.michaprogs.crm.supplier.DeleteSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
+import de.michaprogs.crm.supplier.SelectSupplier;
+import de.michaprogs.crm.supplier.UpdateSupplier;
+import de.michaprogs.crm.supplier.ValidateSupplierSave;
 import de.michaprogs.crm.supplier.add.LoadSupplierAdd;
 import de.michaprogs.crm.supplier.search.LoadSupplierSearch;
 import javafx.event.ActionEvent;
@@ -157,12 +161,10 @@ public class ControllerSupplierData {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				ModelSupplier supplier = new ModelSupplier();
-				
-				if(supplier.validate(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
-										tfName1.getText())){
+				if(new ValidateSupplierSave(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
+											tfName1.getText()).isValid()){
 					
-					supplier.updateSupplier(
+					new UpdateSupplier(new ModelSupplier(
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
 						tfName1.getText(), 
 						tfName2.getText(), 
@@ -185,7 +187,7 @@ public class ControllerSupplierData {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
 						String.valueOf(LocalDate.now()),
 						taNotes.getText()
-					);
+					));
 					
 					hboxBtnTopbar.getChildren().remove(btnEditSave);
 					hboxBtnTopbar.getChildren().remove(btnEditAbort);
@@ -241,7 +243,7 @@ public class ControllerSupplierData {
 				DeleteAlert delete = new DeleteAlert();
 				if(delete.getDelete()){
 					
-					new ModelSupplier().deleteSupplier(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()));
+					new DeleteSupplier(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()));
 					resetAllFields();
 					setButtonState();
 					
@@ -257,39 +259,32 @@ public class ControllerSupplierData {
 	 */
 	private void selectSupplier(int _supplierID){
 		
-		ModelSupplier supplier = new ModelSupplier();
-		supplier.selectSupplier(_supplierID);
+		ModelSupplier supplier = new SelectSupplier(new ModelSupplier(_supplierID)).getModelSupplier();
+			
+		this.tfSupplierID.setText(String.valueOf(supplier.getSupplierID()));
+		this.tfName1.setText(supplier.getName1());
+		this.tfName2.setText(supplier.getName2());
+		this.tfStreet.setText(supplier.getStreet());
+		this.cbLand.getSelectionModel().select(supplier.getLand());
+		this.tfZip.setText(String.valueOf(supplier.getZip()));
+		this.tfLocation.setText(supplier.getLocation());
 		
-		if(! supplier.getName1().equals("")){
-			
-			this.tfSupplierID.setText(String.valueOf(supplier.getSupplierID()));
-			this.tfName1.setText(supplier.getName1());
-			this.tfName2.setText(supplier.getName2());
-			this.tfStreet.setText(supplier.getStreet());
-			this.cbLand.getSelectionModel().select(supplier.getLand());
-			this.tfZip.setText(String.valueOf(supplier.getZip()));
-			this.tfLocation.setText(supplier.getLocation());
-			
-			this.tfPhone.setText(supplier.getPhone());
-			this.tfFax.setText(supplier.getFax());
-			this.tfEmail.setText(supplier.getEmail());
-			this.tfWeb.setText(supplier.getWeb());
-			this.tfContact.setText(supplier.getContact());
-			this.tfUstID.setText(supplier.getUstID());
-			
-			this.cbPayment.getSelectionModel().select(supplier.getPayment());
-			this.tfIBAN.setText(supplier.getIBAN());
-			this.tfBIC.setText(supplier.getBIC());
-			this.tfBank.setText(supplier.getBank());
-			this.tfPaymentSkonto.setText(String.valueOf(supplier.getPaymentSkonto()));
-			this.tfPaymentNetto.setText(String.valueOf(supplier.getPaymentNetto()));
-			this.tfSkonto.setText(String.valueOf(supplier.getSkonto()));
-			
-			setButtonState();
-			
-		}else{
-			System.out.println("Keine Daten gefunden!");
-		}
+		this.tfPhone.setText(supplier.getPhone());
+		this.tfFax.setText(supplier.getFax());
+		this.tfEmail.setText(supplier.getEmail());
+		this.tfWeb.setText(supplier.getWeb());
+		this.tfContact.setText(supplier.getContact());
+		this.tfUstID.setText(supplier.getUstID());
+		
+		this.cbPayment.getSelectionModel().select(supplier.getPayment());
+		this.tfIBAN.setText(supplier.getIBAN());
+		this.tfBIC.setText(supplier.getBIC());
+		this.tfBank.setText(supplier.getBank());
+		this.tfPaymentSkonto.setText(String.valueOf(supplier.getPaymentSkonto()));
+		this.tfPaymentNetto.setText(String.valueOf(supplier.getPaymentNetto()));
+		this.tfSkonto.setText(String.valueOf(supplier.getSkonto()));
+		
+		setButtonState();
 		
 	}
 	

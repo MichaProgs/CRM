@@ -3,6 +3,7 @@ package de.michaprogs.crm.article.search;
 import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.article.ModelArticle;
+import de.michaprogs.crm.article.SearchArticle;
 import de.michaprogs.crm.barrelsize.data.LoadBarrelsizeData;
 import de.michaprogs.crm.bolting.data.LoadBoltingData;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
@@ -234,8 +235,7 @@ public class ControllerArticleSearch {
 	 */
 	private void search(){
 		
-		ModelArticle article = new ModelArticle();
-		article.searchArticle(
+		SearchArticle search = new SearchArticle(
 			tfArticleID.getText(),
 			tfDescription1.getText(), 
 			tfDescription2.getText(),
@@ -243,7 +243,7 @@ public class ControllerArticleSearch {
 			tfBolting.getText()
 		);
 		
-		tvArticleSearch.setItems(article.getObsListSearch());
+		tvArticleSearch.setItems(search.getObsListSearch());
 		if(tvArticleSearch.getItems().size() > 0){
 			tvArticleSearch.getSelectionModel().selectFirst();
 			tvArticleSearch.requestFocus();

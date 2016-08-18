@@ -16,6 +16,9 @@
 			<MenuItem fx:id="itemSupplier" text="Hersteller" />
 			<MenuItem fx:id="itemStock" text="Lager" />
 		</Menu>
+		<Menu text="Dokumente">
+			<MenuItem fx:id="itemOffer" text="Angebot" />
+		</Menu>
 		<Menu text="Optionen">
 			<MenuItem fx:id="itemProperties" text="Einstellungen" />
 		</Menu>

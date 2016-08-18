@@ -29,6 +29,10 @@ public class TextFieldDouble extends TextField{
 				
 				if(oldValue){
 					
+					if(getText().isEmpty()){
+						setText("0.00");
+					}
+					
 					//If inputstring has a comma it will be replaced by a dot
 					if(getText().contains(",")){
 						setText(getText().replace(",", "."));

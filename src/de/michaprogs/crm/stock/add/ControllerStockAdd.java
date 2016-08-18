@@ -6,11 +6,14 @@ import java.time.LocalDate;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
+import de.michaprogs.crm.article.SelectArticle;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
+import de.michaprogs.crm.stock.InsertStock;
 import de.michaprogs.crm.stock.ModelStock;
 import de.michaprogs.crm.supplier.ModelSupplier;
+import de.michaprogs.crm.supplier.SelectSupplier;
 import de.michaprogs.crm.supplier.search.LoadSupplierSearch;
 import de.michaprogs.crm.warehouse.ModelWarehouse;
 import de.michaprogs.crm.warehouse.data.LoadWarehouseData;
@@ -109,18 +112,16 @@ public class ControllerStockAdd {
 				
 				if(tvStock.getItems().size() != 0){
 					
-					ModelStock stock = new ModelStock();
-					
 					for(int i = 0; i < tvStock.getItems().size(); i++){
 						
-						stock.insertStock(
+						new InsertStock(new ModelStock(
 							tvStock.getItems().get(i).getArticleID(), 
 							tvStock.getItems().get(i).getSupplierID(),
 							tvStock.getItems().get(i).getWarehouseID(),
 							tvStock.getItems().get(i).getAmount(),
 							tvStock.getItems().get(i).getEk(),
 							tvStock.getItems().get(i).getDate()
-						);
+						));
 						
 					}
 					
@@ -293,10 +294,9 @@ public class ControllerStockAdd {
 	/*
 	 * DATABASE METHODS
 	 */
-	private void selectArticle(int articleID){
+	private void selectArticle(int _articleID){
 		
-		ModelArticle article = new ModelArticle();
-		article.selectArticle(articleID);
+		ModelArticle article = new SelectArticle(new ModelArticle(_articleID)).getModelArticle();
 		
 		if(! article.getDescription1().isEmpty()){
 			
@@ -315,10 +315,9 @@ public class ControllerStockAdd {
 		
 	}
 	
-	private void selectSupplier(int supplierID){
+	private void selectSupplier(int _supplierID){
 		
-		ModelSupplier supplier = new ModelSupplier();
-		supplier.selectSupplier(supplierID);
+		ModelSupplier supplier = new SelectSupplier(new ModelSupplier(_supplierID)).getModelSupplier();
 		
 		if(! supplier.getName1().isEmpty()){
 			

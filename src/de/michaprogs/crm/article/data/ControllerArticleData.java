@@ -7,10 +7,16 @@ import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.article.DeleteArticle;
 import de.michaprogs.crm.article.ModelArticle;
+import de.michaprogs.crm.article.SelectArticle;
+import de.michaprogs.crm.article.UpdateArticle;
+import de.michaprogs.crm.article.ValidateArticleSave;
 import de.michaprogs.crm.article.add.LoadArticleAdd;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
+import de.michaprogs.crm.article.supplier.SelectArticleSupplier;
+import de.michaprogs.crm.article.supplier.UpdateArticleSupplier;
 import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
 import de.michaprogs.crm.article.supplier.edit.LoadArticleSupplierEdit;
 import de.michaprogs.crm.barrelsize.data.LoadBarrelsizeData;
@@ -21,6 +27,7 @@ import de.michaprogs.crm.components.TextFieldDesity;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
 import de.michaprogs.crm.stock.ModelStock;
+import de.michaprogs.crm.stock.SelectStock;
 import de.michaprogs.crm.warehouse.ModelWarehouse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -70,7 +77,7 @@ public class ControllerArticleData{
 	@FXML private ComboBox<String> cbTax;
 	
 	@FXML private ImageView ivImage;
-		  private String imageFilepath;
+		  private String imageFilepath = "";
 	@FXML private TextArea taLongtext;
 	
 	@FXML private TextField tfWarehouseID;
@@ -101,7 +108,7 @@ public class ControllerArticleData{
 	@FXML private TableView<ModelArticleSupplier> tvArticleSupplier;
 	@FXML private TableColumn<ModelArticleSupplier, Integer> tcSupplierID;
 	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierName1;
-	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierArticleID;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierArticleID; //SupplierArticleID could be with chars
 	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierDescription1;
 	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierDescription2;
 	@FXML private TableColumn<ModelArticleSupplier, BigDecimal> tcSupplierEk;
@@ -248,49 +255,40 @@ public class ControllerArticleData{
 			@Override
 			public void handle(ActionEvent event) {
 				
-				/* UPDATE ARTICLE */
-				ModelArticle article = new ModelArticle();				
-				if(article.validate(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
-									tfDescription1.getText())){
+				/* UPDATE ARTICLE */			
+				if(new ValidateArticleSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
+											tfDescription1.getText()).isValid()){
 					
-					article.updateArticle(
+					new UpdateArticle(new ModelArticle(
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
 						tfDescription1.getText(), 
 						tfDescription2.getText(), 
 						cbCategory.getSelectionModel().getSelectedItem(),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfEanID.getText()),
-						
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfEanID.getText()),						
 						tfBarrelsize.getText(),
 						tfBolting.getText(),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfLength.getText()),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfWidth.getText()),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfHeight.getText()),
 						new Validate().new ValidateDoubleTwoDigits().validateDouble(tfWeight.getText()),
-						new Validate().new ValidateDoubleFourDigits().validateDouble(tfDesity.getText()),
-						
+						new Validate().new ValidateDoubleFourDigits().validateDouble(tfDesity.getText()),						
 						new Validate().new ValidateCurrency().validateCurrency(tfEk.getText()), 
 						new Validate().new ValidateCurrency().validateCurrency(tfVk.getText()), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()), 
 						cbAmountUnit.getSelectionModel().getSelectedItem(), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()),
-						taLongtext.getText(),
-	
-						imageFilepath, //IMAGEFILEPATH
-						
+						taLongtext.getText(),	
+						imageFilepath, //IMAGEFILEPATH						
 						0, //STOCK MIN
 						0, //STOCK MAX
-						0, //STOCK ALERT
-						
+						0, //STOCK ALERT						
 						String.valueOf(LocalDate.now())
-					);
+					));
 					
 					/* UPDATE ARTICLE SUPPLIER */
-					ModelArticleSupplier articleSupplier = new ModelArticleSupplier();
-					articleSupplier.deleteArticleSupplier(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()));
-					
 					for(int i = 0; i < tvArticleSupplier.getItems().size(); i++){
 						
-						articleSupplier.insertArticleSupplier(
+						new UpdateArticleSupplier(new ModelArticleSupplier(
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
 							tvArticleSupplier.getItems().get(i).getSupplierID(), 
 							tvArticleSupplier.getItems().get(i).getSupplierArticleID(), 
@@ -299,7 +297,7 @@ public class ControllerArticleData{
 							tvArticleSupplier.getItems().get(i).getSupplierEk(), 
 							tvArticleSupplier.getItems().get(i).getSupplierPriceUnit(), 
 							tvArticleSupplier.getItems().get(i).getSupplierAmountUnit()
-						);
+						));
 						
 					}
 					
@@ -354,10 +352,9 @@ public class ControllerArticleData{
 				DeleteAlert delete = new DeleteAlert();
 				
 				if(delete.getDelete()){
-					new ModelArticle().deleteArticle(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()));
+					new DeleteArticle(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()));
 					resetAllFields();
 					setButtonState();
-//					cbStock.setDisable(true);
 				}
 				
 			}
@@ -640,66 +637,50 @@ public class ControllerArticleData{
 	/*
 	 * DATABASE METHODS
 	 */
-	private void selectArticle(int articleID){
+	private void selectArticle(int _articleID){
+		 
+		ModelArticle article = new SelectArticle(new ModelArticle(_articleID)).getModelArticle(); 
 		
-		/*
-		 * Main Article Data
-		 */
-		ModelArticle article = new ModelArticle();
-		article.selectArticle(articleID);
+		/* ARTICLE DATA */
+		tfArticleID.setText(String.valueOf(article.getArticleID()));
+		tfDescription1.setText(article.getDescription1());
+		tfDescription2.setText(article.getDescription2());
+		cbCategory.getSelectionModel().select(article.getCategory());
+		tfEanID.setText(String.valueOf(article.getEanID()));
 		
-		if(! article.getDescription1().isEmpty()){
-			
-			tfArticleID.setText(String.valueOf(article.getArticleID()));
-			tfDescription1.setText(article.getDescription1());
-			tfDescription2.setText(article.getDescription2());
-			cbCategory.getSelectionModel().select(article.getCategory());
-			tfEanID.setText(String.valueOf(article.getEanID()));
-			
-			tfBarrelsize.setText(article.getBarrelsize());
-			tfBolting.setText(article.getBolting());
-			tfLength.setText(String.valueOf(article.getLength()));
-			tfWidth.setText(String.valueOf(article.getWidth()));
-			tfHeight.setText(String.valueOf(article.getHeight()));
-			tfWeight.setText(String.valueOf(article.getWeight()));
-			tfDesity.setText(String.valueOf(article.getDesity()));
-			
-			tfEk.setText(String.valueOf(article.getEk()));
-			tfVk.setText(String.valueOf(article.getVk()));
-			cbPriceUnit.getSelectionModel().select(String.valueOf(article.getPriceUnit()));
-			cbAmountUnit.getSelectionModel().select(article.getAmountUnit());
-			cbTax.getSelectionModel().select(article.getTax());
-			
-			taLongtext.setText(article.getLongtext());
-			
-			lblSubHeadline.setText(" - " + article.getArticleID() + " " + article.getDescription1());
-			lblLastChange.setText(article.getLastChange()); 
-			
-			imageFilepath = article.getImageFilepath();		
-			if(	! article.getImageFilepath().equals("")){
-				ivImage.setImage(new Image(article.getImageFilepath()));
-			}else{
-				ivImage.setImage(null);
-			}
-			
-			/*
-			 * ARTICLE SUPPLIER
-			 */
-			ModelArticleSupplier articleSupplier = new ModelArticleSupplier();
-			articleSupplier.selectArticleSupplier(articleID);
-			tvArticleSupplier.setItems(articleSupplier.getObsListArticleSupplier());
+		tfBarrelsize.setText(article.getBarrelsize());
+		tfBolting.setText(article.getBolting());
+		tfLength.setText(String.valueOf(article.getLength()));
+		tfWidth.setText(String.valueOf(article.getWidth()));
+		tfHeight.setText(String.valueOf(article.getHeight()));
+		tfWeight.setText(String.valueOf(article.getWeight()));
+		tfDesity.setText(String.valueOf(article.getDesity()));
 		
-			/*
-			 * STOCK
-			 */
-			selectStock(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), cbWarehouse.getSelectionModel().getSelectedItem());
-			
-			setButtonState();
-			
+		tfEk.setText(String.valueOf(article.getEk()));
+		tfVk.setText(String.valueOf(article.getVk()));
+		cbPriceUnit.getSelectionModel().select(String.valueOf(article.getPriceUnit()));
+		cbAmountUnit.getSelectionModel().select(article.getAmountUnit());
+		cbTax.getSelectionModel().select(article.getTax());
+		
+		taLongtext.setText(article.getLongtext());
+		
+		lblSubHeadline.setText(" - " + article.getArticleID() + " " + article.getDescription1());
+		lblLastChange.setText(article.getLastChange()); 
+		
+		imageFilepath = article.getImageFilepath();		
+		if(	! article.getImageFilepath().equals("")){
+			ivImage.setImage(new Image(article.getImageFilepath()));
 		}else{
-			System.out.println("Keinen Artikel gefunden");
-			//TODO RESET FIELDS
+			ivImage.setImage(null);
 		}
+		
+		/* ARTICLE SUPPLIER */
+		tvArticleSupplier.setItems(new SelectArticleSupplier(new ModelArticleSupplier(_articleID)).getObsListArticleSupplier());
+	
+		/* STOCK */
+		selectStock(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), cbWarehouse.getSelectionModel().getSelectedItem());
+		
+		setButtonState();
 		
 	}
 	
@@ -710,9 +691,7 @@ public class ControllerArticleData{
 
 		int _warehouseID = warehouse.getWarehouseID();
 		
-		ModelStock stock = new ModelStock();		
-		stock.selectStock(_articleID, _warehouseID); 
-		tvStock.setItems(stock.getObsListStock());
+		tvStock.setItems(new SelectStock(_articleID, _warehouseID).getObsListStock());
 		
 		//Calculate Total Stock and Average Price
 		double totalStock = 0.00;

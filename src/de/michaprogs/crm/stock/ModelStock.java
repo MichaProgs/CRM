@@ -1,15 +1,6 @@
 package de.michaprogs.crm.stock;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import de.michaprogs.crm.article.ModelArticle;
-import de.michaprogs.crm.database.DBConnect;
-import de.michaprogs.crm.supplier.ModelSupplier;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class ModelStock {
 
@@ -34,13 +25,6 @@ public class ModelStock {
 	private BigDecimal ek;
 	private String priceUnit;
 	private String date;
-	
-	private ObservableList<ModelStock> obsListStock = FXCollections.observableArrayList();
-	
-	/* DATEBASE */
-	private Connection con;
-	private PreparedStatement ps;
-	private ResultSet rs;
 	
 	public ModelStock(){}
 	
@@ -121,121 +105,38 @@ public class ModelStock {
 		this.date = _date;
 		
 	}
-
-	public void insertStock(	int _articleID,
-								int _supplierID,
-								int _warehouseID,
-								double _amount,
-								BigDecimal _ek,
-								String _date){
+	
+	/**
+	 * Constructor for Database (Insert Stock)
+	 * @param _articleID
+	 * @param _supplierID
+	 * @param _warehouseID
+	 * @param _amount
+	 * @param _ek
+	 * @param _date
+	 */
+	public ModelStock(	int _articleID,
+						int _supplierID,
+						int _warehouseID,
+						double _amount,
+						BigDecimal _ek,
+						String _date){
 		
-		try{
-			
-			String stmt = "INSERT INTO stock( articleID, "
-											+ "supplierID,"
-											+ "warehouseID,"
-											+ "amount,"
-											+ "ek,"
-											+ "date) "
-											+ "VALUES(?,?,?,?,?,?)";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setInt(i, _articleID);
-			i++;
-			ps.setInt(i, _supplierID);
-			i++;
-			ps.setInt(i, _warehouseID);
-			i++;
-			ps.setDouble(i, _amount);
-			i++;
-			ps.setBigDecimal(i, _ek);
-			i++;
-			ps.setString(i, _date);
-			i++;
-			
-			ps.execute();
-			
-			System.out.println("Wareneingang zu Aritkel " + _articleID + " zu Lager " + _warehouseID + " hinzugefügt!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
+		this.articleID = _articleID;
+		this.supplierID = _supplierID;
+		this.warehouseID = _warehouseID;
+		this.amount = _amount;
+		this.ek = _ek;
+		this.date = _date;
 		
 	}
-	
-	public void selectStock(int _articleID, int _warehouseID){
-		
-		try{
-			
-			String stmt = "SELECT * FROM stock WHERE articleID = ? AND warehouseID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setInt(i, _articleID);
-			i++;
-			ps.setInt(i, _warehouseID);
-			i++;
-			
-			rs = ps.executeQuery();
-			
-			ModelSupplier supplier = new ModelSupplier();
-			ModelArticle article = new ModelArticle();
-			
-			while(rs.next()){
-				
-				supplier.selectSupplier(rs.getInt("supplierID"));
-				article.selectArticle(rs.getInt("articleID"));
-								
-				obsListStock.add(new ModelStock(
-					rs.getInt("supplierID"), 
-					supplier.getName1(),
-					rs.getDouble("amount"), 
-					article.getAmountUnit(), 
-					rs.getBigDecimal("ek"), 
-					String.valueOf(article.getPriceUnit()), 
-					rs.getString("date")
-				));
-				
-			}
-			
-			System.out.println("Bestand zu Artikel " + _articleID + " in Lager " + _warehouseID + " aus Datenbank geladen!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
-		
-	}
-	
 	
 	/*
-	 * CLOSE CONNECTION
+	 * GETTER & SETTER
 	 */
-	private void closeConnection(){
-		
-		try{
-			if(con != null)
-				con.close();
-			if(ps != null)
-				ps.close();
-			if(rs != null)
-				rs.close();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-	}
-
 	public int getArticleID() {
 		return articleID;
 	}
-
 
 	public String getDescription1() {
 		return description1;
@@ -325,10 +226,5 @@ public class ModelStock {
 	public String getDate() {
 		return date;
 	}
-	
-	public ObservableList<ModelStock> getObsListStock(){
-		return obsListStock;
-	}
-	
-	
+		
 }

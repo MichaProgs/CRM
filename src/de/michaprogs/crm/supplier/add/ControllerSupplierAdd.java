@@ -7,7 +7,9 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
+import de.michaprogs.crm.supplier.InsertSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
+import de.michaprogs.crm.supplier.ValidateSupplierSave;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -48,8 +50,6 @@ public class ControllerSupplierAdd {
 	@FXML private Button btnSave;
 	@FXML private Button btnAbort;
 	
-	//Panels & Nodes
-	
 	private Stage stage;
 	private int createdSupplierID = 0;
 	
@@ -83,12 +83,10 @@ public class ControllerSupplierAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				ModelSupplier supplier = new ModelSupplier();
-				
-				if(	supplier.validate(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
-					tfName1.getText())){
+				if(	new ValidateSupplierSave(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
+					tfName1.getText()).isValid()){
 					
-					supplier.insertSupplier(
+					new InsertSupplier(new ModelSupplier(
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
 						tfName1.getText(), 
 						tfName2.getText(), 
@@ -111,7 +109,7 @@ public class ControllerSupplierAdd {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
 						String.valueOf(LocalDate.now()),
 						taNotes.getText()
-					);					
+					));					
 					
 					createdSupplierID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText());
 					

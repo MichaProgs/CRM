@@ -5,6 +5,7 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
 import de.michaprogs.crm.supplier.ModelSupplier;
+import de.michaprogs.crm.supplier.SearchSupplier;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -208,8 +209,7 @@ public class ControllerSupplierSearch {
 	
 	private void search(){
 		
-		ModelSupplier supplier = new ModelSupplier();
-		supplier.searchSupplier(
+		SearchSupplier search = new SearchSupplier(
 			tfSupplierID.getText(), 
 			tfName1.getText(), 
 			tfName2.getText(), 
@@ -220,7 +220,7 @@ public class ControllerSupplierSearch {
 			tfPhone.getText()
 		);
 		
-		tvSupplierSearch.setItems(supplier.getObsListSearch());
+		tvSupplierSearch.setItems(search.getObsListSearch());
 		if(tvSupplierSearch.getItems().size() > 0){
 			tvSupplierSearch.getSelectionModel().selectFirst();
 			tvSupplierSearch.requestFocus();

@@ -1,13 +1,5 @@
 package de.michaprogs.crm.supplier;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import de.michaprogs.crm.database.DBConnect;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 public class ModelSupplier {
 
 	private int supplierID;
@@ -35,13 +27,6 @@ public class ModelSupplier {
 	
 	private String lastChange;
 	private String notes;
-	
-	private ObservableList<ModelSupplier> obsListSearch = FXCollections.observableArrayList();
-	
-	//Database
-	private Connection con;
-	private PreparedStatement ps;
-	private ResultSet rs;
 	
 	public ModelSupplier(){}
 	
@@ -76,451 +61,91 @@ public class ModelSupplier {
 		
 	}
 	
-	public void insertSupplier(	int _supplierID,
-								String _name1,
-								String _name2,
-								String _street,
-								String _land,
-								int _zip,
-								String _location,
-								String _phone,
-								String _fax,
-								String _email,
-								String _web,
-								String _contact,
-								String _ustID,
-								String _payment,
-								String _IBAN,
-								String _BIC,
-								String _bank,
-								int _paymentSkonto,
-								int _paymentNetto,
-								int _skonto,
-								String _lastChange,
-								String _notes){
-		
-		try{
-			
-			String stmt = "INSERT INTO supplier ("
-												+ "supplierID,"
-												+ "name1,"
-												+ "name2,"
-												+ "street,"
-												+ "land,"
-												+ "zip,"
-												+ "location,"
-												+ "phone,"
-												+ "fax,"
-												+ "email,"
-												+ "web,"
-												+ "contactperson,"
-												+ "ustID,"
-												+ "payment,"
-												+ "iban,"
-												+ "bic,"
-												+ "bank,"
-												+ "paymentskonto,"
-												+ "paymentnetto,"
-												+ "skonto,"
-												+ "lastChange,"
-												+ "notes)"
-												+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			
-			int i = 1;
-			ps.setInt(i, _supplierID);
-			i++;
-			ps.setString(i, _name1);
-			i++;
-			ps.setString(i, _name2);
-			i++;
-			ps.setString(i, _street);
-			i++;
-			if(_land == null){ //if the combobox is empty the string would be 'null'
-				_land = "";
-			}
-			ps.setString(i, _land);
-			i++;
-			ps.setInt(i, _zip);
-			i++;
-			ps.setString(i, _location);
-			i++;
-			ps.setString(i, _phone);
-			i++;
-			ps.setString(i, _fax);
-			i++;
-			ps.setString(i, _email);
-			i++;
-			ps.setString(i, _web);
-			i++;
-			ps.setString(i, _contact);
-			i++;
-			ps.setString(i, _ustID);
-			i++;
-			if(_payment == null){ //if the combobox is empty the string would be 'null'
-				_payment = "";
-			}
-			ps.setString(i, _payment);
-			i++;
-			ps.setString(i, _IBAN);
-			i++;
-			ps.setString(i, _BIC);
-			i++;
-			ps.setString(i, _bank);
-			i++;
-			ps.setInt(i, _paymentSkonto);
-			i++;
-			ps.setInt(i, _paymentNetto);
-			i++;
-			ps.setInt(i, _skonto);
-			i++;
-			ps.setString(i, _lastChange);
-			i++;
-			ps.setString(i, _notes);
-			i++;
-			
-			ps.execute();
-			
-			System.out.println("Lieferant " + _supplierID + " " + _name1 + " wurde zur Datenbank hinzugefügt");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				closeConnection();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
-	public void selectSupplier(int _supplierID){
-	
-		try{
-			
-			String stmt = "SELECT * FROM supplier WHERE supplierID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			
-			int i = 1;
-			ps.setInt(i, _supplierID);
-			i++;
-			
-			rs = ps.executeQuery();
-			while(rs.next()){
-				
-				this.supplierID = rs.getInt("supplierID");
-				this.name1 = rs.getString("name1");
-				this.name2 = rs.getString("name2");
-				this.street = rs.getString("street");
-				this.land = rs.getString("land");
-				this.zip = rs.getInt("zip");
-				this.location = rs.getString("location");
-				
-				this.phone = rs.getString("phone");
-				this.fax = rs.getString("fax");
-				this.email = rs.getString("email");
-				this.web = rs.getString("web");
-				this.contact = rs.getString("contactperson");
-				this.ustID = rs.getString("ustID");
-				
-				this.payment = rs.getString("payment");
-				this.IBAN = rs.getString("iban");
-				this.BIC = rs.getString("bic");
-				this.bank = rs.getString("bank");
-				this.paymentSkonto = rs.getInt("paymentSkonto");
-				this.paymentNetto = rs.getInt("paymentNetto");
-				this.skonto = rs.getInt("skonto");
-				
-				this.lastChange = rs.getString("lastChange");
-				this.notes = rs.getString("notes");
-				
-			}
-			
-			System.out.println("Lieferant " + supplierID + " " + name1 + " wurde aus Datenbank geladen");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				closeConnection();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
-	public void searchSupplier(	String _supplierID, //Search as String
-								String _name1,
-								String _name2,
-								String _street,
-								String _land,
-								String _zip, //Search as String
-								String _location,
-								String _phone){
-		
-		try{
-			
-			String stmt = "SELECT * FROM supplier WHERE    supplierID LIKE ? AND "
-														+ "name1 LIKE ? AND "
-														+ "name2 LIKE ? AND "
-														+ "street LIKE ? AND "
-														+ "land LIKE ? AND "
-														+ "zip LIKE ? AND "
-														+ "location LIKE ? AND "
-														+ "phone LIKE ? ";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			
-			int i = 1;
-			ps.setString(i, _supplierID + "%");
-			i++;
-			ps.setString(i, _name1 + "%");
-			i++;
-			ps.setString(i, _name2 + "%");
-			i++;
-			ps.setString(i, _street + "%");
-			i++;
-			if(_land == null){ 
-				_land = "";
-			}
-			ps.setString(i, _land + "%");
-			i++;
-			ps.setString(i, _zip + "%");
-			i++;
-			ps.setString(i, _location + "%");
-			i++;
-			ps.setString(i, _phone + "%"); 
-			
-			rs = ps.executeQuery();
-			while(rs.next()){
-				
-				obsListSearch.add(new ModelSupplier(
-					rs.getInt("supplierID"), 
-					rs.getString("name1"), 
-					rs.getString("name2"),
-					rs.getString("street"),
-					rs.getString("land"), 
-					rs.getInt("zip"), 
-					rs.getString("location"),
-					rs.getString("phone")
-				));
-				
-			}
-			
-			System.out.println("Alle Lieferanten mit übereinstimmenden Suchfaktoren aus Datenbank geladen!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				closeConnection();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
-	public void updateSupplier(	int _supplierID,
-								String _name1,
-								String _name2,
-								String _street,
-								String _land,
-								int _zip,
-								String _location,
-								String _phone,
-								String _fax,
-								String _email,
-								String _web,
-								String _contact,
-								String _ustID,
-								String _payment,
-								String _IBAN,
-								String _BIC,
-								String _bank,
-								int _paymentSkonto,
-								int _paymentNetto,
-								int _skonto,
-								String _lastChange,
-								String _notes){
-		
-		try{
-			
-			String stmt = "UPDATE supplier SET name1 = ?,"
-												+ "name2 = ?,"
-												+ "street = ?,"
-												+ "land = ?,"
-												+ "zip = ?,"
-												+ "location = ?,"
-												+ "phone = ?,"
-												+ "fax = ?,"
-												+ "email = ?,"
-												+ "web = ?,"
-												+ "contactperson = ?,"
-												+ "ustID = ?,"
-												+ "payment = ?,"
-												+ "iban = ?,"
-												+ "bic = ?,"
-												+ "bank = ?,"
-												+ "paymentskonto = ?,"
-												+ "paymentnetto = ?,"
-												+ "skonto = ?,"
-												+ "lastChange = ?,"
-												+ "notes = ? "
-												
-												+ "WHERE supplierID = ?"; //Always Last
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			
-			int i = 1;
-			ps.setString(i, _name1);
-			i++;
-			ps.setString(i, _name2);
-			i++;
-			ps.setString(i, _street);
-			i++;
-			if(_land == null){ //if the combobox is empty the string would be 'null'
-				_land = "";
-			}
-			ps.setString(i, _land);
-			i++;
-			ps.setInt(i, _zip);
-			i++;
-			ps.setString(i, _location);
-			i++;
-			ps.setString(i, _phone);
-			i++;
-			ps.setString(i, _fax);
-			i++;
-			ps.setString(i, _email);
-			i++;
-			ps.setString(i, _web);
-			i++;
-			ps.setString(i, _contact);
-			i++;
-			ps.setString(i, _ustID);
-			i++;
-			if(_payment == null){ //if the combobox is empty the string would be 'null'
-				_payment = "";
-			}
-			ps.setString(i, _payment);
-			i++;
-			ps.setString(i, _IBAN);
-			i++;
-			ps.setString(i, _BIC);
-			i++;
-			ps.setString(i, _bank);
-			i++;
-			ps.setInt(i, _paymentSkonto);
-			i++;
-			ps.setInt(i, _paymentNetto);
-			i++;
-			ps.setInt(i, _skonto);
-			i++;
-			ps.setString(i, _lastChange);
-			i++;
-			ps.setString(i, _notes);
-			i++;
-			ps.setInt(i, _supplierID); //Always Last
-			i++;
-			
-			ps.execute();
-			
-			System.out.println("Änderungen an Lieferant " + _supplierID + " " + _name1 + " wurde in Datenbank gespeichert!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				closeConnection();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
-
-	public void deleteSupplier(int _supplierID){
-		
-		try{
-			
-			String stmt = "DELETE FROM supplier WHERE supplierID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			
-			int i = 1;
-			ps.setInt(i, _supplierID);
-			i++;
-			
-			ps.execute();
-			
-			System.out.println("Lieferant " + _supplierID + " wurde aus der Datenbank gelöscht");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				closeConnection();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
-	/*
-	 * CLOSE CONNECTION
+	/**
+	 * Constructor for Database (Insert Supplier)
+	 * Constructor for Database (Update Supplier)
+	 * @param _supplierID
+	 * @param _name1
+	 * @param _name2
+	 * @param _street
+	 * @param _land
+	 * @param _zip
+	 * @param _location
+	 * @param _phone
+	 * @param _fax
+	 * @param _email
+	 * @param _web
+	 * @param _contact
+	 * @param _ustID
+	 * @param _payment
+	 * @param _IBAN
+	 * @param _BIC
+	 * @param _bank
+	 * @param _paymentSkonto
+	 * @param _paymentNetto
+	 * @param _skonto
+	 * @param _lastChange
+	 * @param _notes
 	 */
-	private void closeConnection(){
+	public ModelSupplier(	int _supplierID,
+							String _name1,
+							String _name2,
+							String _street,
+							String _land,
+							int _zip,
+							String _location,
+							String _phone,
+							String _fax,
+							String _email,
+							String _web,
+							String _contact,
+							String _ustID,
+							String _payment,
+							String _IBAN,
+							String _BIC,
+							String _bank,
+							int _paymentSkonto,
+							int _paymentNetto,
+							int _skonto,
+							String _lastChange,
+							String _notes){
 		
-		try{
-			
-			if(rs != null)
-				rs.close();
-			if(ps != null)
-				ps.close();
-			if(con != null)
-				con.close();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		this.supplierID = _supplierID;
+		this.name1 = _name1;
+		this.name2 = _name2;
+		this.street = _street;
+		this.land = _land;
+		this.zip = _zip;
+		this.location = _location;
+		this.phone = _phone;
+		this.fax = _fax;
+		this.email = _email;
+		this.web = _web;
+		this.contact = _contact;
+		this.ustID = _ustID;
+		this.payment = _payment;
+		this.IBAN = _IBAN;
+		this.BIC = _BIC;
+		this.bank = _bank;
+		this.paymentSkonto = _paymentSkonto;
+		this.paymentNetto = _paymentNetto;
+		this.skonto = _skonto;
+		this.lastChange = _lastChange;
+		this.notes = _notes;
 		
 	}
 	
-	/*
-	 * VALIDATION
+	/**
+	 * Constructor for Database (Select Supplier)
+	 * Constructor for Database (Delete Supplier)
+	 * @param _supplierID
 	 */
-	public boolean validate(	int _supplierID,
-								String _name1){
-		
-		if( 	_supplierID != 0 &&
-			! 	_name1.isEmpty() ){
-			return true;
-		}else if(_supplierID == 0){
-			System.out.println("Bitte gültige Lieferanten-Nr. wählen!");
-			return false;
-		}else if(_name1.isEmpty()){
-			System.out.println("Bitte gültigen Name1 wählen!");
-			return false;
-		}else{
-			System.err.println("***ModelSupplier.java -> validate: Unbekannter Fehler");
-			return false;
-		}
-		
+	public ModelSupplier(	int _supplierID){
+		this.supplierID = _supplierID;
 	}
-
+	
 	/*
-	 * GETTER & SETTER
+	 * GETTER
 	 */
 	public int getSupplierID() {
 		return supplierID;
@@ -610,8 +235,95 @@ public class ModelSupplier {
 		return notes;
 	}
 	
-	public ObservableList<ModelSupplier> getObsListSearch(){
-		return obsListSearch;
+	/*
+	 * SETTER
+	 */
+	public void setSupplierID(int supplierID) {
+		this.supplierID = supplierID;
 	}
+
+	public void setName1(String name1) {
+		this.name1 = name1;
+	}
+
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public void setLand(String land) {
+		this.land = land;
+	}
+
+	public void setZip(int zip) {
+		this.zip = zip;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setWeb(String web) {
+		this.web = web;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
+	public void setUstID(String ustID) {
+		this.ustID = ustID;
+	}
+
+	public void setPayment(String payment) {
+		this.payment = payment;
+	}
+
+	public void setIBAN(String iBAN) {
+		IBAN = iBAN;
+	}
+
+	public void setBIC(String bIC) {
+		BIC = bIC;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	public void setPaymentSkonto(int paymentSkonto) {
+		this.paymentSkonto = paymentSkonto;
+	}
+
+	public void setPaymentNetto(int paymentNetto) {
+		this.paymentNetto = paymentNetto;
+	}
+
+	public void setSkonto(int skonto) {
+		this.skonto = skonto;
+	}
+
+	public void setLastChange(String lastChange) {
+		this.lastChange = lastChange;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}	
 	
 }

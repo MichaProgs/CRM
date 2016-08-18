@@ -133,7 +133,10 @@
 												<ComboBox fx:id="cbAmountUnit" prefWidth="100" /> <!-- Stk, Ltr, Mtr, etc. -->
 											</HBox>
 											<Label text="USt:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-											<ComboBox fx:id="cbTax" GridPane.columnIndex="1" GridPane.rowIndex="4" /> <!-- 7%, 19% -->
+											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4" alignment="CENTER_LEFT">
+												<ComboBox fx:id="cbTax" style="-fx-pref-width: 155;" /> <!-- 7%, 19% -->
+												<Label text=" %" />
+											</HBox>
 										<padding>
 											<Insets top="10" bottom="10" left="10" right="10" />
 										</padding>	

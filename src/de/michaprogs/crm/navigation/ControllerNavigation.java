@@ -3,7 +3,7 @@ package de.michaprogs.crm.navigation;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.customer.data.LoadCustomerData;
-import de.michaprogs.crm.offer.add.LoadOfferAdd;
+import de.michaprogs.crm.offer.data.LoadOfferData;
 import de.michaprogs.crm.stock.add.LoadStockAdd;
 import de.michaprogs.crm.supplier.data.LoadSupplierData;
 import javafx.event.ActionEvent;
@@ -33,7 +33,7 @@ public class ControllerNavigation {
 	private LoadArticleData articleData = new LoadArticleData();
 	private LoadSupplierData supplierData = new LoadSupplierData(false);
 	private LoadStockAdd stockAdd = new LoadStockAdd(false);
-	private LoadOfferAdd offerAdd = new LoadOfferAdd(false);
+	private LoadOfferData offerData = new LoadOfferData(false);
 	
 	private BorderPane content;
 	
@@ -152,12 +152,12 @@ public class ControllerNavigation {
 	
 	private void initBtnOffer(){
 		
-//		btnOffer.setGraphic(new GraphicButton("file:resources/warehouse_32_blue.png").getGraphicButton());TODO
+		btnOffer.setGraphic(new GraphicButton("file:resources/offer_32_blue.png").getGraphicButton());
 		btnOffer.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				content.setCenter(offerAdd.getContent());
+				content.setCenter(offerData.getContent());
 			}
 		});
 		

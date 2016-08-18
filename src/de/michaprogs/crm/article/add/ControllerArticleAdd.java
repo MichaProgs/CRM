@@ -8,7 +8,10 @@ import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.article.InsertArticle;
 import de.michaprogs.crm.article.ModelArticle;
+import de.michaprogs.crm.article.ValidateArticleSave;
+import de.michaprogs.crm.article.supplier.InsertArticleSupplier;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
 import de.michaprogs.crm.article.supplier.edit.LoadArticleSupplierEdit;
@@ -64,7 +67,7 @@ public class ControllerArticleAdd {
 	@FXML private TableView<ModelArticleSupplier> tvArticleSupplier;
 	@FXML private TableColumn<ModelArticleSupplier, Integer> tcSupplierID;
 	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierName1;
-	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierArticleID;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierArticleID; //SupplierArticleID could be with chars
 	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierDescription1;
 	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierDescription2;
 	@FXML private TableColumn<ModelArticleSupplier, BigDecimal> tcSupplierEk;
@@ -89,7 +92,7 @@ public class ControllerArticleAdd {
 	@FXML private TextArea taLongtext;
 	
 	private Stage stage;
-	private String imageFilepath;
+	private String imageFilepath = "";
 	private int createdArticleID = 0;
 	
 	public ControllerArticleAdd(){}
@@ -135,11 +138,10 @@ public class ControllerArticleAdd {
 			public void handle(ActionEvent event) {
 				
 				/* INSERT ARTICLE */
-				ModelArticle article = new ModelArticle();
-				if(article.validate(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
-										tfDescription1.getText())){
+				if(new ValidateArticleSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
+											tfDescription1.getText()).isValid()){
 					
-					article.insertArticle(
+					new InsertArticle(new ModelArticle(
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
 						tfDescription1.getText(), 
 						tfDescription2.getText(), 
@@ -156,20 +158,19 @@ public class ControllerArticleAdd {
 						new Validate().new ValidateCurrency().validateCurrency(tfVk.getText()), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()), 
 						cbAmountUnit.getSelectionModel().getSelectedItem(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()), 
-						taLongtext.getText(), 
-						imageFilepath,  
-						0, //STOCK MIN 
-						0, //STOCK MAX 
-						0, //STOCK ALERT 
-						String.valueOf(LocalDate.now()) //LAST CHANGE
-					);
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()), 						
+						taLongtext.getText(), 						
+						imageFilepath,  						
+						0, //STOCK MIN TODO
+						0, //STOCK MAX TODO
+						0, //STOCK ALERT TODO						
+						String.valueOf(LocalDate.now()) //LAST CHANGE						
+					));
 					
-					/* INSERT ARTICLE SUPPLIER */
-					ModelArticleSupplier articleSupplier = new ModelArticleSupplier();					
+					/* INSERT ARTICLE SUPPLIER */				
 					for(int i = 0; i < tvArticleSupplier.getItems().size(); i++){
 						
-						articleSupplier.insertArticleSupplier(
+						new InsertArticleSupplier(new ModelArticleSupplier(
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
 							tvArticleSupplier.getItems().get(i).getSupplierID(), 
 							tvArticleSupplier.getItems().get(i).getSupplierArticleID(), 
@@ -178,13 +179,14 @@ public class ControllerArticleAdd {
 							tvArticleSupplier.getItems().get(i).getSupplierEk(), 
 							tvArticleSupplier.getItems().get(i).getSupplierPriceUnit(), 
 							tvArticleSupplier.getItems().get(i).getSupplierAmountUnit()
-						);
+						));
 						
 					}
 					
 					createdArticleID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText());
-					if(stage != null)
+					if(stage != null){
 						stage.close();
+					}
 					
 				}
 				

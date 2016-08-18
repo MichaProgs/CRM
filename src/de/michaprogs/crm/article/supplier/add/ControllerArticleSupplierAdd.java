@@ -6,6 +6,7 @@ import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
+import de.michaprogs.crm.supplier.SelectSupplier;
 import de.michaprogs.crm.supplier.search.LoadSupplierSearch;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -149,8 +150,7 @@ public class ControllerArticleSupplierAdd {
 	 */
 	private void selectSupplier(int _supplierID){
 		
-		ModelSupplier supplier = new ModelSupplier();
-		supplier.selectSupplier(_supplierID);
+		ModelSupplier supplier = new SelectSupplier(new ModelSupplier(_supplierID)).getModelSupplier();
 		
 		if(! supplier.getName1().equals("")){
 			

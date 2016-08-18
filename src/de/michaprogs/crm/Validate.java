@@ -239,11 +239,11 @@ public class Validate {
 			if(checkTotalPrice(vk, amount, priceunit) == true){
 				
 				BigDecimal bdVk = new ValidateCurrency().validateCurrency(vk);
-				int iAmount = new ValidateOnlyInteger().validateOnlyInteger(amount);
+				double dAmount = new ValidateDoubleTwoDigits().validateDouble(amount);
 				int iPriceUnit = new ValidateOnlyIntegerPositive().validateOnlyInteger(priceunit);
 				
 	//			String sTotalPrice = String.valueOf(bdVk.multiply(new BigDecimal(iAmount)).divide(new BigDecimal(iPriceUnit)));
-				BigDecimal totalPrice = new BigDecimal(String.valueOf(bdVk.multiply(new BigDecimal(iAmount)).divide(new BigDecimal(iPriceUnit))));
+				BigDecimal totalPrice = new BigDecimal(String.valueOf(bdVk.multiply(new BigDecimal(dAmount)).divide(new BigDecimal(iPriceUnit))));
 				totalPrice = totalPrice.setScale(decimals, RoundingMode.CEILING);
 				System.out.println("total " + totalPrice);
 				

@@ -1,11 +1,7 @@
 package de.michaprogs.crm.article;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
-import de.michaprogs.crm.database.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -30,7 +26,9 @@ public class ModelArticle {
 	/* Third Block (Price) */
 	private BigDecimal ek;
 	private BigDecimal vk;
+	private BigDecimal total;
 	private int priceUnit;
+	private double amount;
 	private String amountUnit;
 	private int tax;
 	
@@ -47,12 +45,93 @@ public class ModelArticle {
 	
 	private ObservableList<ModelArticle> obsListSearch = FXCollections.observableArrayList();
 	
-	//Database
-	private Connection con = null;
-	private PreparedStatement ps = null;
-	private ResultSet rs = null;
-	
 	public ModelArticle(){}
+	
+	/**
+	 * Constructor for Database (Insert Article)
+	 * Constructor for Database (Update Article)
+	 * @param articleID
+	 * @param description1
+	 * @param description2
+	 * @param category
+	 * @param eanID
+	 * @param barrelsize
+	 * @param bolting
+	 * @param length
+	 * @param width
+	 * @param height
+	 * @param weight
+	 * @param desity
+	 * @param ek
+	 * @param vk
+	 * @param priceUnit
+	 * @param amountUnit
+	 * @param tax
+	 * @param longtext
+	 * @param stockMinUnit
+	 * @param stockMaxUnit
+	 * @param stockAlertUnit
+	 * @param lastChange
+	 * @param imageFilepath
+	 */
+	public ModelArticle(	int articleID, 
+							String description1, 
+							String description2, 
+							String category, 
+							int eanID,
+							String barrelsize, 
+							String bolting, 
+							int length, 
+							int width, 
+							int height, 
+							double weight, 
+							double desity,
+							BigDecimal ek, 
+							BigDecimal vk, 
+							int priceUnit, 
+							String amountUnit, 
+							int tax,
+							String longtext, 
+							String imageFilepath,
+							int stockMinUnit, 
+							int stockMaxUnit, 
+							int stockAlertUnit, 
+							String lastChange) {
+		
+		this.articleID = articleID;
+		this.description1 = description1;
+		this.description2 = description2;
+		this.category = category;
+		this.eanID = eanID;
+		this.barrelsize = barrelsize;
+		this.bolting = bolting;
+		this.length = length;
+		this.width = width;
+		this.height = height;
+		this.weight = weight;
+		this.desity = desity;
+		this.ek = ek;
+		this.vk = vk;
+		this.priceUnit = priceUnit;
+		this.amountUnit = amountUnit;
+		this.tax = tax;
+		this.longtext = longtext;
+		this.stockMinUnit = stockMinUnit;
+		this.stockMaxUnit = stockMaxUnit;
+		this.stockAlertUnit = stockAlertUnit;
+		this.lastChange = lastChange;
+		this.imageFilepath = imageFilepath;
+		
+	}
+
+	/**
+	 * Constructor for Database (Select Article)
+	 * Constructor for Database (Delete Article)
+	 * @param _articleID
+	 */
+	public ModelArticle(	int _articleID){
+		this.articleID = _articleID;
+	}
 	
 	/**
 	 * Constructor for ObservableList (Article Search)
@@ -66,8 +145,7 @@ public class ModelArticle {
 							String _description1,
 							String _description2,
 							String _barrelsize,
-							String _bolting
-							){
+							String _bolting){
 		
 		this.articleID = _articleID;
 		this.description1 = _description1;
@@ -77,422 +155,49 @@ public class ModelArticle {
 		
 	}
 	
-	public void insertArticle(	int _articleID,
-								String _description1,
-								String _description2,
-								String _category,
-								int _eanID,
-								String _barrelsize,
-								String _bolting,
-								int _length,
-								int _width,
-								int _height,
-								double _weight,
-								double _desity,
-								BigDecimal _ek,
-								BigDecimal _vk,
-								int _priceUnit,
-								String _amountUnit,
-								int _tax,
-								String _longtext,
-								String _imageFilepath,
-								int _stockMinUnit,
-								int _stockMaxUnit,
-								int _stockAlertUnit,
-								String _lastChange){
-		
-		try{
-			
-			String stmt = "INSERT INTO article ("
-					+ "articleID,"
-					+ "description1,"
-					+ "description2,"
-					+ "category,"
-					+ "eanID,"
-					+ "barrelsize,"
-					+ "bolting,"
-					+ "length,"
-					+ "width,"
-					+ "height,"
-					+ "weight,"
-					+ "desity,"
-					+ "ek,"
-					+ "vk,"
-					+ "priceunit,"
-					+ "amountunit,"
-					+ "tax,"
-					+ "longtext,"
-					+ "imagefilepath,"
-					+ "stockminunit,"
-					+ "stockmaxunit,"
-					+ "stockalertunit,"
-					+ "lastchange)"
-					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //23
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setInt(i, _articleID);
-			i++;
-			ps.setString(i, _description1);
-			i++;
-			ps.setString(i, _description2);
-			i++;
-			ps.setString(i, _category);
-			i++;
-			ps.setInt(i, _eanID);
-			i++;
-			ps.setString(i, _barrelsize);
-			i++;
-			ps.setString(i, _bolting);
-			i++;
-			ps.setInt(i, _length);
-			i++;
-			ps.setInt(i, _width);
-			i++;
-			ps.setInt(i, _height);
-			i++;
-			ps.setDouble(i, _weight);
-			i++;
-			ps.setDouble(i, _desity);
-			i++;
-			ps.setBigDecimal(i, _ek);
-			i++;
-			ps.setBigDecimal(i, _vk);
-			i++;
-			ps.setInt(i, _priceUnit);
-			i++;
-			ps.setString(i, _amountUnit);
-			i++;
-			ps.setInt(i, _tax);
-			i++;
-			ps.setString(i, _longtext);
-			i++;
-			ps.setString(i, _imageFilepath);
-			i++;
-			ps.setInt(i, _stockMinUnit);
-			i++;
-			ps.setInt(i, _stockMaxUnit);
-			i++;
-			ps.setInt(i, _stockAlertUnit);
-			i++;
-			ps.setString(i, _lastChange);
-			i++;
-			
-			ps.execute();
-			
-			System.out.println("Artikel " + _articleID + " " + _description1 + " wurde der Datenbank hinzugefügt!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				closeConnection();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
-
-	public void searchArticle(	String _articleID, //Search as String
-								String _description1,
-								String _description2,
-								String _barrelsize,
-								String _bolting){
-		
-		try{
-			
-			String stmt = "SELECT * FROM article WHERE 	articleID LIKE ? AND"
-													+ "	description1 LIKE ? AND"
-													+ " description2 LIKE ? AND"
-													+ " barrelsize LIKE ? AND"
-													+ " bolting LIKE ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setString(i, _articleID + "%");
-			i++;
-			ps.setString(i, _description1 + "%");
-			i++;
-			ps.setString(i, _description2 + "%");
-			i++;
-			ps.setString(i, _barrelsize + "%");
-			i++;
-			ps.setString(i, _bolting + "%");
-			i++;
-			
-			rs = ps.executeQuery();
-			while(rs.next()){
-				
-				obsListSearch.add(new ModelArticle(
-					rs.getInt("articleID"), 
-					rs.getString("description1"), 
-					rs.getString("description2"), 
-					rs.getString("barrelsize"), 
-					rs.getString("bolting")
-				));
-				
-			}
-			
-			System.out.println("Alle Artikel mit übereinstimmenden Suchfaktoren aus Datenbank geladen");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				closeConnection();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
-	public void selectArticle(int _articleID){
-		
-		try{
-			
-			String stmt = "SELECT * FROM article WHERE articleID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setInt(i, _articleID);
-			i++;
-			
-			rs = ps.executeQuery();
-			while(rs.next()){
-				
-				this.articleID = rs.getInt("articleID");
-				this.description1 = rs.getString("description1");
-				this.description2 = rs.getString("description2");
-				this.category = rs.getString("category");
-				this.eanID = rs.getInt("eanID");
-				this.barrelsize = rs.getString("barrelsize");
-				this.bolting = rs.getString("bolting");
-				this.length = rs.getInt("length");
-				this.width = rs.getInt("width");
-				this.height = rs.getInt("height");
-				this.weight = rs.getDouble("weight");
-				this.desity = rs.getDouble("desity");
-				this.ek = rs.getBigDecimal("ek");
-				this.vk = rs.getBigDecimal("vk");
-				this.priceUnit = rs.getInt("priceunit");
-				this.amountUnit = rs.getString("amountunit");
-				this.tax = rs.getInt("tax");
-				this.longtext = rs.getString("longtext");
-				this.imageFilepath = rs.getString("imageFilePath");
-				this.stockMinUnit = rs.getInt("stockMinUnit");
-				this.stockMaxUnit = rs.getInt("stockMaxUnit");
-				this.stockAlertUnit = rs.getInt("stockAlertUnit");
-				this.lastChange = rs.getString("lastChange");
-				
-			}
-			
-			System.out.println("Artikel " + articleID + " " + description1 + " aus Datenbank geladen!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				closeConnection();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
-
-	public void updateArticle(	int _articleID,
-								String _description1,
-								String _description2,
-								String _category,
-								int _eanID,
-								String _barrelsize,
-								String _bolting,
-								int _length,
-								int _width,
-								int _height,
-								double _weight,
-								double _desity,
-								BigDecimal _ek,
-								BigDecimal _vk,
-								int _priceUnit,
-								String _amountUnit,
-								int _tax,
-								String _longtext,
-								String _imageFilepath,
-								int _stockMinUnit,
-								int _stockMaxUnit,
-								int _stockAlertUnit,
-								String _lastChange){
-		
-		try{
-			
-			String stmt = "UPDATE article SET  description1 = ?,"
-											+ "description2 = ?,"
-											+ "category = ?,"
-											+ "eanID = ?,"
-											+ "barrelsize = ?,"
-											+ "bolting = ?,"
-											+ "length = ?,"
-											+ "width = ?,"
-											+ "height = ?,"
-											+ "weight = ?,"
-											+ "desity = ?,"
-											+ "ek = ?,"
-											+ "vk = ?,"
-											+ "priceunit = ?,"
-											+ "amountunit = ?,"
-											+ "tax = ?,"
-											+ "longtext = ?,"
-											+ "imagefilepath = ?,"
-											+ "stockminunit = ?,"
-											+ "stockmaxunit = ?,"
-											+ "stockalertunit = ?,"
-											+ "lastchange = ? "
-											+ "WHERE articleID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			
-			int i = 1;
-			ps.setString(i, _description1);
-			i++;
-			ps.setString(i, _description2);
-			i++;
-			ps.setString(i, _category);
-			i++;
-			ps.setInt(i, _eanID);
-			i++;
-			ps.setString(i, _barrelsize);
-			i++;
-			ps.setString(i, _bolting);
-			i++;
-			ps.setInt(i, _length);
-			i++;
-			ps.setInt(i, _width);
-			i++;
-			ps.setInt(i, _height);
-			i++;
-			ps.setDouble(i, _weight);
-			i++;
-			ps.setDouble(i, _desity);
-			i++;
-			ps.setBigDecimal(i, _ek);
-			i++;
-			ps.setBigDecimal(i, _vk);
-			i++;
-			ps.setInt(i, _priceUnit);
-			i++;
-			ps.setString(i, _amountUnit);
-			i++;
-			ps.setInt(i, _tax);
-			i++;
-			ps.setString(i, _longtext);
-			i++;
-			ps.setString(i, _imageFilepath);
-			i++;
-			ps.setInt(i, _stockMinUnit);
-			i++;
-			ps.setInt(i, _stockMaxUnit);
-			i++;
-			ps.setInt(i, _stockAlertUnit);
-			i++;
-			ps.setString(i, _lastChange);
-			i++;
-			
-			//Always Last
-			ps.setInt(i, _articleID);
-			i++;
-			
-			ps.execute();
-			
-			System.out.println("Änderungen an Artikel " + _articleID + " " + _description1 + " wurde in Datenbank gespeichert!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				closeConnection();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
-	public void deleteArticle(int _articleID){
-		
-		try{
-			
-			String stmt = "DELETE FROM article WHERE articleID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			ps.setInt(1, _articleID);
-			ps.execute();
-			
-			System.out.println("Artikel " + _articleID + " wurde aus der Datenbank gelöscht");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try{
-				closeConnection();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
-	/*
-	 * CloseConnection
+	/**
+	 * Constructor for ObservableList (Offer Article)
+	 * @param _articleID
+	 * @param _description1
+	 * @param _description2
+	 * @param _barrelsize
+	 * @param _bolting
+	 * @param _amount
+	 * @param _amountUnit
+	 * @param _vk
+	 * @param _priceUnit
+	 * @param _total
+	 * @param _tax
 	 */
-	private void closeConnection(){
+	public ModelArticle(	int _articleID,
+							String _description1,
+							String _description2,
+							String _barrelsize,
+							String _bolting,
+							double _amount,
+							String _amountUnit,
+							BigDecimal _vk,
+							int _priceUnit,
+							BigDecimal _total,
+							int _tax
+							){
 		
-		try{
-			
-			if(rs != null)
-				rs.close();
-			if(ps != null)
-				ps.close();
-			if(con != null)
-				con.close();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		this.articleID = _articleID;
+		this.description1 = _description1;
+		this.description2 = _description2;
+		this.barrelsize = _barrelsize;
+		this.bolting = _bolting;
+		this.amount = _amount;
+		this.amountUnit = _amountUnit;
+		this.vk = _vk;
+		this.priceUnit = _priceUnit;
+		this.total = _total;
+		this.tax = _tax;
 		
 	}
 	
 	/*
-	 * VALIDATION
-	 */
-	public boolean validate(	int _articleID,
-								String _description1){
-		
-		if(	_articleID != 0 &&
-			! _description1.isEmpty()){
-			return true;
-		}else if(_articleID == 0){
-			System.out.println("Bitte gültige 'Artikelnummer' wählen!");
-			return false;
-		}else if(_description1.isEmpty()){
-			System.out.println("Bitte gültige 'Bezeichnung1' wählen!");
-			return false;
-		}else{
-			System.err.println("***ModelArticle.java -> validate: Unbekannter Fehler!");
-			return false;
-		}
-		
-	}
-
-	/*
-	 * GETTER & SETTER
+	 * GETTER
 	 */
 	public int getArticleID() {
 		return articleID;
@@ -549,11 +254,19 @@ public class ModelArticle {
 	public BigDecimal getVk() {
 		return vk;
 	}
+	
+	public BigDecimal getTotal() {
+		return total;
+	}
 
 	public int getPriceUnit() {
 		return priceUnit;
 	}
 
+	public double getAmount(){
+		return amount;
+	}
+	
 	public String getAmountUnit() {
 		return amountUnit;
 	}
@@ -588,6 +301,114 @@ public class ModelArticle {
 
 	public ObservableList<ModelArticle> getObsListSearch() {
 		return obsListSearch;
+	}
+
+	
+	/*
+	 * SETTER
+	 */
+	public void setArticleID(int articleID) {
+		this.articleID = articleID;
+	}
+
+	public void setDescription1(String description1) {
+		this.description1 = description1;
+	}
+
+	public void setDescription2(String description2) {
+		this.description2 = description2;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public void setEanID(int eanID) {
+		this.eanID = eanID;
+	}
+
+	public void setBarrelsize(String barrelsize) {
+		this.barrelsize = barrelsize;
+	}
+
+	public void setBolting(String bolting) {
+		this.bolting = bolting;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public void setDesity(double desity) {
+		this.desity = desity;
+	}
+
+	public void setEk(BigDecimal ek) {
+		this.ek = ek;
+	}
+
+	public void setVk(BigDecimal vk) {
+		this.vk = vk;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
+
+	public void setPriceUnit(int priceUnit) {
+		this.priceUnit = priceUnit;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public void setAmountUnit(String amountUnit) {
+		this.amountUnit = amountUnit;
+	}
+
+	public void setTax(int tax) {
+		this.tax = tax;
+	}
+
+	public void setLongtext(String longtext) {
+		this.longtext = longtext;
+	}
+
+	public void setStockMinUnit(int stockMinUnit) {
+		this.stockMinUnit = stockMinUnit;
+	}
+
+	public void setStockMaxUnit(int stockMaxUnit) {
+		this.stockMaxUnit = stockMaxUnit;
+	}
+
+	public void setStockAlertUnit(int stockAlertUnit) {
+		this.stockAlertUnit = stockAlertUnit;
+	}
+
+	public void setLastChange(String lastChange) {
+		this.lastChange = lastChange;
+	}
+
+	public void setImageFilepath(String imageFilepath) {
+		this.imageFilepath = imageFilepath;
+	}
+
+	public void setObsListSearch(ObservableList<ModelArticle> obsListSearch) {
+		this.obsListSearch = obsListSearch;
 	}
 	
 }

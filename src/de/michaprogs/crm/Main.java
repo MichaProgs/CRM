@@ -38,6 +38,9 @@ public class Main extends Application {
 			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("CRM");
+			primaryStage.setWidth(1200);
+			primaryStage.setHeight(600);
+			primaryStage.setMaximized(true);
 			primaryStage.show();
 			
 		} catch(Exception e) {

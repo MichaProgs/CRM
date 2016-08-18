@@ -24,6 +24,8 @@ public class CreateTables {
 		createTableWarehouse(new DBConnect().getConnection());
 		createTableStock(new DBConnect().getConnection());
 		
+		createTableOffer(new DBConnect().getConnection());
+		
 	}
 	
 	private void createTableCustomer(Connection con){
@@ -289,6 +291,49 @@ public class CreateTables {
 			statement.execute(stmt);
 			
 			System.out.println("Tabelle 'STOCK' in Datenbank erstellt!");
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void createTableOffer(Connection con){
+		
+		try{
+
+			String stmt1 = "CREATE TABLE IF NOT EXISTS Offer("
+									+ "OFFERID INTEGER IDENTITY NOT NULL,"
+									+ "OFFERDATE VARCHAR_IGNORECASE,"
+									+ "REQUEST VARCHAR_IGNORECASE,"
+									+ "REQUESTDATE VARCHAR_IGNORECASE,"
+									+ "NOTES VARCHAR_IGNORECASE,"
+									+ "CUSTOMERID INTEGER NOT NULL"
+									+ ")";
+			
+			//TODO ADD CLERK (SACHBEARBEITER)
+			
+			String stmt2 = "CREATE TABLE IF NOT EXISTS OfferArticle("
+									+ "OFFERID INTEGER NOT NULL,"	
+									+ "ARTICLEID INTEGER NOT NULL,"
+									+ "AMOUNT DECIMAL(10,2),"
+									+ "EK DECIMAL(10,2),"
+									+ "VK DECIMAL(10,2),"
+									+ "TOTAL DECIMAL(10,2)"
+									+ ")";
+			
+			Statement statement = con.createStatement();
+			statement.execute(stmt1);
+			statement.execute(stmt2);
+			
+			System.out.println("Tabelle 'OFFER' in Datenbank erstellt!");
+			System.out.println("Tabelle 'OFFERARTICLE' in Datenbank erstellt!");
 		
 		}catch(Exception e){
 			e.printStackTrace();
