@@ -88,7 +88,7 @@ public class ControllerArticleSupplierEdit {
 	
 	private void initBtnSave(){
 		
-		btnSave.setGraphic(new GraphicButton("file:resources/save_32.png").getGraphicButton());
+		btnSave.setGraphic(new GraphicButton("save_32.png").getGraphicButton());
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -127,7 +127,7 @@ public class ControllerArticleSupplierEdit {
 	
 	private void initBtnAbort(){
 		
-		btnAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
+		btnAbort.setGraphic(new GraphicButton("cancel_32.png").getGraphicButton());
 		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

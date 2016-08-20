@@ -104,9 +104,9 @@
 										<Label text="Fax:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 										<TextField fx:id="tfFax" GridPane.columnIndex="1" GridPane.rowIndex="2" disable="true" />
 										<Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-										<TextField fx:id="tfEmail" promptText="company@domain.de" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true" />
+										<TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true" />
 										<Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-										<TextField fx:id="tfWeb" promptText="www.domain.de" GridPane.columnIndex="1" GridPane.rowIndex="4" disable="true" />
+										<TextField fx:id="tfWeb" GridPane.columnIndex="1" GridPane.rowIndex="4" disable="true" />
 										<Label text="Ansprechpartner:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 										<TextField fx:id="tfContact" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
 										<Label text="Ust-ID-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
@@ -194,9 +194,9 @@
 											<Label text="Fax:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 											<TextField fx:id="tfFaxBilling" GridPane.columnIndex="1" GridPane.rowIndex="2" disable="true" />
 											<Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-											<TextField fx:id="tfEmailBilling" promptText="company@domain.de" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true" />
+											<TextField fx:id="tfEmailBilling" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true" />
 											<Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-											<TextField fx:id="tfWebBilling" promptText="www.domain.de" GridPane.columnIndex="1" GridPane.rowIndex="4" disable="true" />
+											<TextField fx:id="tfWebBilling" GridPane.columnIndex="1" GridPane.rowIndex="4" disable="true" />
 											<Label text="Ansprechpartner:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 											<TextField fx:id="tfContactBilling" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
 											<Label text="Ust-ID-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="6" />

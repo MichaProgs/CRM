@@ -1,13 +1,5 @@
 package de.michaprogs.crm.customer;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import de.michaprogs.crm.database.DBConnect;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 public class ModelCustomer {
 
 	private int customerID;
@@ -39,13 +31,6 @@ public class ModelCustomer {
 	private String notes;
 	
 	private int billingID;
-
-	private ObservableList<ModelCustomer> obsListCustomer = FXCollections.observableArrayList();
-	
-	//DATABASE
-	private Connection con;
-	private PreparedStatement ps;
-	private ResultSet rs;
 	
 	public ModelCustomer(){}
 	
@@ -80,476 +65,95 @@ public class ModelCustomer {
 		
 	}
 
-
-
-	public void insertCustomer(	int _customerID, 
-								String _salutation,
-								String _name1, 
-								String _name2, 
-								String _street, 
-								String _land, 
-								int _zip,
-								String _location, 
-								
-								String _phone, 
-								String _mobile, 
-								String _fax, 
-								String _email, 
-								String _web, 
-								String _contact,
-								String _ustID,
-								
-								String _payment, 
-								String _IBAN, 
-								String _BIC, 
-								String _bank, 
-								int _paymentSkonto, 
-								int _paymentNetto, 
-								int _skonto,
-								
-								String _lastChange,
-								String _notes,
-								
-								int _billingID) {
-		
-		try{
-			
-			String stmt = "INSERT INTO customer ("
-					+ "customerID,"
-					+ "salutation,"
-					+ "name1,"
-					+ "name2,"
-					+ "street,"
-					+ "land,"
-					+ "zip,"
-					+ "location,"
-					+ "phone,"
-					+ "mobile,"
-					+ "fax,"
-					+ "email,"
-					+ "web,"
-					+ "contactperson,"
-					+ "ustID,"
-					+ "payment,"
-					+ "iban,"
-					+ "bic,"
-					+ "bank,"
-					+ "paymentskonto,"
-					+ "paymentnetto,"
-					+ "skonto,"
-					+ "lastChange,"
-					+ "notes,"
-					+ "billingID)"
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			
-			int i = 1;
-			ps.setInt(i, _customerID);
-			i++;
-			ps.setString(i, _salutation);
-			i++;
-			ps.setString(i, _name1);
-			i++;
-			ps.setString(i, _name2);
-			i++;
-			ps.setString(i, _street);
-			i++;
-			if(_land == null){ //if the combobox is empty the string would be 'null'
-			_land = "";
-			}
-			ps.setString(i, _land);
-			i++;
-			ps.setInt(i, _zip);
-			i++;
-			ps.setString(i, _location);
-			i++;
-			ps.setString(i, _phone);
-			i++;
-			ps.setString(i, _mobile);
-			i++;
-			ps.setString(i, _fax);
-			i++;
-			ps.setString(i, _email);
-			i++;
-			ps.setString(i, _web);
-			i++;
-			ps.setString(i, _contact);
-			i++;
-			ps.setString(i, _ustID);
-			i++;
-			if(_payment == null){ //if the combobox is empty the string would be 'null'
-			_payment = "";
-			}
-			ps.setString(i, _payment);
-			i++;
-			ps.setString(i, _IBAN);
-			i++;
-			ps.setString(i, _BIC);
-			i++;
-			ps.setString(i, _bank);
-			i++;
-			ps.setInt(i, _paymentSkonto);
-			i++;
-			ps.setInt(i, _paymentNetto);
-			i++;
-			ps.setInt(i, _skonto);
-			i++;
-			ps.setString(i, _lastChange);
-			i++;
-			ps.setString(i, _notes);
-			i++;
-			ps.setInt(i, _billingID);
-			i++;
-			
-			ps.execute();
-			
-			System.out.println("Kunde " + _customerID + " " + _name1 + " wurde zur Datenbank hinzugefügt");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
-		
-	}
-	
-	public void selectCustomer(int _customerID){
-		
-		try{
-			
-			String stmt = "SELECT * FROM customer WHERE customerID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			ps.setInt(1, _customerID);
-			
-			rs = ps.executeQuery();
-			while(rs.next()){
-				
-				this.customerID = rs.getInt("customerID");
-				this.salutation = rs.getString("salutation");
-				this.name1 = rs.getString("name1");
-				this.name2 = rs.getString("name2");
-				this.street = rs.getString("street");
-				this.land = rs.getString("land");
-				this.zip = rs.getInt("zip");
-				this.location = rs.getString("location");
-				
-				this.phone = rs.getString("phone");
-				this.mobile = rs.getString("mobile");
-				this.fax = rs.getString("fax");
-				this.email = rs.getString("email");
-				this.web = rs.getString("web");
-				this.contact = rs.getString("contactperson");
-				this.ustID = rs.getString("ustID");
-				
-				this.payment = rs.getString("payment");
-				this.IBAN = rs.getString("IBAN");
-				this.BIC = rs.getString("BIC");
-				this.bank = rs.getString("bank");
-				this.paymentSkonto = rs.getInt("paymentSkonto");
-				this.paymentNetto = rs.getInt("paymentNetto");
-				this.skonto = rs.getInt("skonto");
-				
-				this.notes = rs.getString("notes");
-				this.lastChange = rs.getString("lastChange");
-				
-				this.billingID = rs.getInt("billingID");
-				
-			}
-			
-			System.out.println("Kunde " + customerID + " " + name1 + " aus Datenbank geladen!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
-		
-	}
-	
-	public void searchCustomer(	String _customerID, //Search as String
-								String _name1,
-								String _name2,
-								String _street,
-								String _land,
-								String _zip, //Search as String
-								String _location,
-								
-								String _phone,
-								String _mobile,
-								String _fax,
-								String _email
-								){
-		
-		try{
-			
-			String stmt = "SELECT * FROM customer WHERE customerID LIKE ? AND "
-													+ "name1 LIKE ? AND "
-													+ "name2 LIKE ? AND "
-													+ "street LIKE ? AND "
-													+ "land LIKE ? AND "
-													+ "zip LIKE ? AND "
-													+ "location LIKE ? AND "
-													+ "phone LIKE ? AND "
-													+ "mobile LIKE ? AND "
-													+ "fax LIKE ? AND "
-													+ "email LIKE ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setString(i, _customerID + "%");
-			i++;
-			ps.setString(i, _name1 + "%");
-			i++;
-			ps.setString(i, _name2 + "%");
-			i++;
-			ps.setString(i, _street + "%");
-			i++;
-			if(_land == null){ 
-				_land = "";
-			}
-			ps.setString(i, _land + "%");
-			i++;
-			ps.setString(i, _zip + "%");
-			i++;
-			ps.setString(i, _location + "%");
-			i++;			
-			ps.setString(i, _phone + "%");
-			i++;
-			ps.setString(i, _mobile + "%");
-			i++;
-			ps.setString(i, _fax + "%");
-			i++;
-			ps.setString(i, _email + "%");
-			i++;
-			
-			rs = ps.executeQuery();
-			while(rs.next()){
-								
-				this.obsListCustomer.add(new ModelCustomer(
-					rs.getInt("customerID"), 
-					rs.getString("name1"), 
-					rs.getString("name2"), 
-					rs.getString("street"), 
-					rs.getString("land"), 
-					rs.getInt("zip"), 
-					rs.getString("location"), 
-					rs.getString("phone")
-				));
-				
-			}
-			
-			System.out.println("Alle Kunden mit übereinstimmenden Suchfaktoren aus Datenbank geladen!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
-		
-	}
-	
-	public void updateCustomer(	int _customerID, 
-								String _salutation,
-								String _name1, 
-								String _name2, 
-								String _street, 
-								String _land, 
-								int _zip,
-								String _location, 
-								
-								String _phone, 
-								String _mobile, 
-								String _fax, 
-								String _email, 
-								String _web, 
-								String _contact,
-								String _ustID,
-								
-								String _payment, 
-								String _IBAN, 
-								String _BIC, 
-								String _bank, 
-								int _paymentSkonto, 
-								int _paymentNetto, 
-								int _skonto,
-								
-								String _lastChange,
-								String _notes,
-								
-								int _billingID
-								){
-	
-		try{
-			
-			String stmt = "UPDATE customer SET salutation = ?,"
-											+ "name1 = ?,"
-											+ "name2 = ?,"
-											+ "street = ?,"
-											+ "land = ?,"
-											+ "zip = ?,"
-											+ "location = ?,"
-											+ "phone = ?,"
-											+ "mobile = ?,"
-											+ "fax = ?,"
-											+ "email = ?,"
-											+ "web = ?,"
-											+ "contactperson = ?,"
-											+ "ustID = ?,"
-											+ "payment = ?,"
-											+ "iban = ?,"
-											+ "bic = ?,"
-											+ "bank = ?,"
-											+ "paymentSkonto = ?,"
-											+ "paymentNetto = ?,"
-											+ "skonto = ?,"
-											+ "lastChange = ?,"
-											+ "notes = ?,"
-											+ "billingID = ? "
-											
-											+ "WHERE customerID = ?"; //ALWAYS LAST!
-											
-
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			
-			int i = 1;
-			ps.setString(i, _salutation);
-			i++;
-			ps.setString(i, _name1);
-			i++;
-			ps.setString(i, _name2);
-			i++;
-			ps.setString(i, _street);
-			i++;
-			if(_land == null){ //if the combobox is empty the string would be 'null'
-			_land = "";
-			}
-			ps.setString(i, _land);
-			i++;
-			ps.setInt(i, _zip);
-			i++;
-			ps.setString(i, _location);
-			i++;
-			ps.setString(i, _phone);
-			i++;
-			ps.setString(i, _mobile);
-			i++;
-			ps.setString(i, _fax);
-			i++;
-			ps.setString(i, _email);
-			i++;
-			ps.setString(i, _web);
-			i++;
-			ps.setString(i, _contact);
-			i++;
-			ps.setString(i, _ustID);
-			i++;
-			if(_payment == null){ //if the combobox is empty the string would be 'null'
-			_payment = "";
-			}
-			ps.setString(i, _payment);
-			i++;
-			ps.setString(i, _IBAN);
-			i++;
-			ps.setString(i, _BIC);
-			i++;
-			ps.setString(i, _bank);
-			i++;
-			ps.setInt(i, _paymentSkonto);
-			i++;
-			ps.setInt(i, _paymentNetto);
-			i++;
-			ps.setInt(i, _skonto);
-			i++;
-			ps.setString(i, _lastChange);
-			i++;
-			ps.setString(i, _notes);
-			i++;
-			ps.setInt(i, _billingID);
-			i++;
-			
-			//ALWAYS LAST
-			ps.setInt(i, _customerID);
-			i++;
-			
-			ps.execute();
-			
-			System.out.println("Änderungen an Kunde " + _customerID + " " + _name1 + " wurden in Datenbank gespeichert!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
-		
-	}
-	
-	public void deleteCustomer( int _customerID, String _name1){
-		
-		try{
-			
-			String stmt = "DELETE FROM customer WHERE customerID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			ps.setInt(1, _customerID);
-			ps.execute();
-			
-			System.out.println("Kunde " + _customerID + " " + _name1 + " wurde aus Datenbank gelöscht!" );
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
-		
-	}
-	
-	/*
-	 * VALIDATION
+	/**
+	 * Constructor for Database (Insert Customer)
+	 * Constrcutor for Database (Update Customer)
+	 * @param customerID
+	 * @param salutation
+	 * @param name1
+	 * @param name2
+	 * @param street
+	 * @param land
+	 * @param zip
+	 * @param location
+	 * @param phone
+	 * @param mobile
+	 * @param fax
+	 * @param email
+	 * @param web
+	 * @param contact
+	 * @param ustID
+	 * @param payment
+	 * @param IBAN
+	 * @param BIC
+	 * @param bank
+	 * @param paymentSkonto
+	 * @param paymentNetto
+	 * @param skonto
+	 * @param lastChange
+	 * @param notes
+	 * @param billingID
 	 */
-	public boolean validate(	int _customerID,
-								String _name1){
+	public ModelCustomer(	int customerID, 
+							String salutation, 
+							String name1, 
+							String name2, 
+							String street, 
+							String land,
+							int zip, 
+							String location, 
+							String phone, 
+							String mobile, 
+							String fax, 
+							String email, 
+							String web, 
+							String contact,
+							String ustID, 
+							String payment, 
+							String IBAN, 
+							String BIC, 
+							String bank, 
+							int paymentSkonto, 
+							int paymentNetto,
+							int skonto, 
+							String lastChange, 
+							String notes, 
+							int billingID) {
 		
-		if( 	_customerID != 0 &&
-			! 	_name1.isEmpty() ){
-			return true;
-		}else if(_customerID == 0){
-			System.out.println("Bitte gültige Kunden-Nr. wählen!");
-			return false;
-		}else if(_name1.isEmpty()){
-			System.out.println("Bitte gültigen Name1 wählen!");
-			return false;
-		}else{
-			System.err.println("***ModelCustomer.java -> validate: Unbekannter Fehler");
-			return false;
-		}
+		this.customerID = customerID;
+		this.salutation = salutation;
+		this.name1 = name1;
+		this.name2 = name2;
+		this.street = street;
+		this.zip = zip;
+		this.location = location;
+		this.phone = phone;
+		this.mobile = mobile;
+		this.fax = fax;
+		this.email = email;
+		this.web = web;
+		this.contact = contact;
+		this.ustID = ustID;
+		this.payment = payment;
+		this.IBAN = IBAN;
+		this.BIC = BIC;
+		this.bank = bank;
+		this.paymentSkonto = paymentSkonto;
+		this.paymentNetto = paymentNetto;
+		this.skonto = skonto;
+		this.lastChange = lastChange;
+		this.notes = notes;
+		this.billingID = billingID;
 		
 	}
 	
-	/*
-	 * CLOSE CONNECTION
+	/**
+	 * Consrtuctor for Database (Select Article)
+	 * Constructor forDatabase (Delete Article)
+	 * @param customerID
 	 */
-	private void closeConnection(){
-		
-		try{
-			
-			if(con != null)
-				con.close();
-			if(ps != null)
-				ps.close();
-			if(rs != null)
-				rs.close();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
+	public ModelCustomer(int customerID){
+		this.customerID = customerID;
 	}
 
 	/*
@@ -559,106 +163,208 @@ public class ModelCustomer {
 		return customerID;
 	}
 
-	public String getSalutation(){
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
+	}
+
+	public String getSalutation() {
 		return salutation;
 	}
-	
+
+	public void setSalutation(String salutation) {
+		this.salutation = salutation;
+	}
+
 	public String getName1() {
 		return name1;
+	}
+
+	public void setName1(String name1) {
+		this.name1 = name1;
 	}
 
 	public String getName2() {
 		return name2;
 	}
 
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
+
 	public String getStreet() {
 		return street;
 	}
 
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
 	public String getLand() {
+		//Empty ComboBox = null
+		if(land == null){
+			land = "";
+		}
 		return land;
+	}
+
+	public void setLand(String land) {
+		this.land = land;
 	}
 
 	public int getZip() {
 		return zip;
 	}
 
+	public void setZip(int zip) {
+		this.zip = zip;
+	}
+
 	public String getLocation() {
 		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getPhone() {
 		return phone;
 	}
 
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public String getMobile() {
 		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public String getFax() {
 		return fax;
 	}
 
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+
 	public String getEmail() {
 		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getWeb() {
 		return web;
 	}
 
+	public void setWeb(String web) {
+		this.web = web;
+	}
+
 	public String getContact() {
 		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
 
 	public String getUstID() {
 		return ustID;
 	}
 
+	public void setUstID(String ustID) {
+		this.ustID = ustID;
+	}
+
 	public String getPayment() {
+		//Empty ComboBox = null
+		if(payment == null){
+			payment = "";
+		}
 		return payment;
+	}
+
+	public void setPayment(String payment) {
+		this.payment = payment;
 	}
 
 	public String getIBAN() {
 		return IBAN;
 	}
 
+	public void setIBAN(String iBAN) {
+		IBAN = iBAN;
+	}
+
 	public String getBIC() {
 		return BIC;
+	}
+
+	public void setBIC(String bIC) {
+		BIC = bIC;
 	}
 
 	public String getBank() {
 		return bank;
 	}
 
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
 	public int getPaymentSkonto() {
 		return paymentSkonto;
+	}
+
+	public void setPaymentSkonto(int paymentSkonto) {
+		this.paymentSkonto = paymentSkonto;
 	}
 
 	public int getPaymentNetto() {
 		return paymentNetto;
 	}
 
+	public void setPaymentNetto(int paymentNetto) {
+		this.paymentNetto = paymentNetto;
+	}
+
 	public int getSkonto() {
 		return skonto;
+	}
+
+	public void setSkonto(int skonto) {
+		this.skonto = skonto;
 	}
 
 	public String getLastChange() {
 		return lastChange;
 	}
 
+	public void setLastChange(String lastChange) {
+		this.lastChange = lastChange;
+	}
+
 	public String getNotes() {
 		return notes;
 	}
-	
-	public int getBillingID(){
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public int getBillingID() {
 		return billingID;
 	}
 
-	public ObservableList<ModelCustomer> getObsListCustomer() {
-		return obsListCustomer;
+	public void setBillingID(int billingID) {
+		this.billingID = billingID;
 	}
-	
-	
 	
 }

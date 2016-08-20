@@ -165,6 +165,7 @@ public class ModelArticle {
 	 * @param _amount
 	 * @param _amountUnit
 	 * @param _vk
+	 * @param _ek
 	 * @param _priceUnit
 	 * @param _total
 	 * @param _tax
@@ -177,6 +178,7 @@ public class ModelArticle {
 							double _amount,
 							String _amountUnit,
 							BigDecimal _vk,
+							BigDecimal _ek,
 							int _priceUnit,
 							BigDecimal _total,
 							int _tax
@@ -190,6 +192,7 @@ public class ModelArticle {
 		this.amount = _amount;
 		this.amountUnit = _amountUnit;
 		this.vk = _vk;
+		this.ek = _ek;
 		this.priceUnit = _priceUnit;
 		this.total = _total;
 		this.tax = _tax;

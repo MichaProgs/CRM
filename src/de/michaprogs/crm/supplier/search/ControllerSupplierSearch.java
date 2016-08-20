@@ -82,7 +82,7 @@ public class ControllerSupplierSearch {
 	
 	private void initBtnSearch(){
 		
-		btnSearch.setGraphic(new GraphicButton("file:resources/search_32.png").getGraphicButton());
+		btnSearch.setGraphic(new GraphicButton("search_32.png").getGraphicButton());
 		btnSearch.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -95,7 +95,7 @@ public class ControllerSupplierSearch {
 	
 	private void initBtnSelect(){
 		
-		btnSelect.setGraphic(new GraphicButton("file:resources/select_32.png").getGraphicButton());
+		btnSelect.setGraphic(new GraphicButton("select_32.png").getGraphicButton());
 		btnSelect.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -108,7 +108,7 @@ public class ControllerSupplierSearch {
 	
 	private void initBtnReset(){
 		
-		btnReset.setGraphic(new GraphicButton("file:resources/clear_32.png").getGraphicButton());
+		btnReset.setGraphic(new GraphicButton("clear_32.png").getGraphicButton());
 		btnReset.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -121,7 +121,7 @@ public class ControllerSupplierSearch {
 	
 	private void initBtnAbort(){
 		
-		btnAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
+		btnAbort.setGraphic(new GraphicButton("cancel_32.png").getGraphicButton());
 		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

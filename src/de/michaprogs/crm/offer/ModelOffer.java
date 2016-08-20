@@ -190,8 +190,9 @@ public class ModelOffer {
 					rs.getDouble("amount"), 
 					article.getAmountUnit(), 
 					rs.getBigDecimal("vk"),
+					rs.getBigDecimal("ek"),
 					article.getPriceUnit(), 
-					article.getTotal(),
+					rs.getBigDecimal("total"),
 					article.getTax()
 				));
 						

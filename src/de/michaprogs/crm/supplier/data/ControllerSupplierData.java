@@ -97,7 +97,7 @@ public class ControllerSupplierData {
 	 */
 	private void initBtnSearch(){
 		
-		btnSearch.setGraphic(new GraphicButton("file:resources/search_32.png").getGraphicButton());
+		btnSearch.setGraphic(new GraphicButton("search_32.png").getGraphicButton());
 		btnSearch.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -116,7 +116,7 @@ public class ControllerSupplierData {
 	
 	private void initBtnNew(){
 		
-		btnNew.setGraphic(new GraphicButton("file:resources/new_32.png").getGraphicButton());
+		btnNew.setGraphic(new GraphicButton("new_32.png").getGraphicButton());
 		btnNew.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -135,7 +135,7 @@ public class ControllerSupplierData {
 	
 	private void initBtnEdit(){
 		
-		btnEdit.setGraphic(new GraphicButton("file:resources/edit_32.png").getGraphicButton());
+		btnEdit.setGraphic(new GraphicButton("edit_32.png").getGraphicButton());
 		btnEdit.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -155,7 +155,7 @@ public class ControllerSupplierData {
 	private void initBtnEditSave(){
 		
 		btnEditSave.getStyleClass().add("btnTopbar");
-		btnEditSave.setGraphic(new GraphicButton("file:resources/save_32.png").getGraphicButton());
+		btnEditSave.setGraphic(new GraphicButton("save_32.png").getGraphicButton());
 		btnEditSave.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -205,7 +205,7 @@ public class ControllerSupplierData {
 	private void initBtnEditAbort(){
 		
 		btnEditAbort.getStyleClass().add("btnTopbar");
-		btnEditAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
+		btnEditAbort.setGraphic(new GraphicButton("cancel_32.png").getGraphicButton());
 		btnEditAbort.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -234,7 +234,7 @@ public class ControllerSupplierData {
 	
 	private void initBtnDelete(){
 		
-		btnDelete.setGraphic(new GraphicButton("file:resources/delete_32.png").getGraphicButton());
+		btnDelete.setGraphic(new GraphicButton("delete_32.png").getGraphicButton());
 		btnDelete.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

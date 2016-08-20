@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import de.michaprogs.crm.AbortAlert;
+import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
@@ -15,22 +16,31 @@ import de.michaprogs.crm.article.add.LoadArticleAdd;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.customer.ModelCustomer;
+import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
 import de.michaprogs.crm.offer.ModelOffer;
 import de.michaprogs.crm.offer.add.LoadOfferAdd;
 import de.michaprogs.crm.offer.search.LoadOfferSearch;
+import de.michaprogs.crm.position.add.LoadAddPosition;
+import de.michaprogs.crm.position.edit.LoadEditPosition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.converter.LocalDateStringConverter;
@@ -99,21 +109,6 @@ public class ControllerOfferData {
 	@FXML private TextField tfSkontoBilling;
 	@FXML private TextField tfPaymentNettoBilling;
 	
-	/* ARTICLEDATA */
-	@FXML private TextField tfArticleID;
-	@FXML private TextField tfDescription1;
-	@FXML private TextField tfDescription2;
-	@FXML private TextField tfBarrelsize;
-	@FXML private TextField tfBolting;
-	
-	@FXML private TextFieldDouble tfAmount;
-	@FXML private ComboBox<String> cbAmountUnit;
-	@FXML private TextFieldDouble tfEk;
-	@FXML private ComboBox<String> cbPriceUnitEk;
-	@FXML private TextFieldDouble tfVk;
-	@FXML private ComboBox<String> cbPriceUnitVk;
-	@FXML private ComboBox<String> cbTax;
-	
 	/* ARTICLETABLE */
 	@FXML private TableView<ModelArticle> tvArticle;
 	@FXML private TableColumn<Integer, ModelArticle> tcArticleID;
@@ -136,8 +131,10 @@ public class ControllerOfferData {
 	@FXML private Button btnDelete;
 	
 	@FXML private Button btnCustomerSearch;
-	@FXML private Button btnArticleSearch;
+	
 	@FXML private Button btnArticleAdd;
+	@FXML private Button btnArticleEdit;
+	@FXML private Button btnArticleDelete;
 	
 	private Stage stage;
 	
@@ -149,10 +146,6 @@ public class ControllerOfferData {
 		new InitCombos().initComboSalutation(cbSalutationBilling);
 		new InitCombos().initComboLand(cbLand);
 		new InitCombos().initComboLand(cbLandBilling);
-		new InitCombos().initComboAmountUnit(cbAmountUnit);
-		new InitCombos().initComboPriceUnit(cbPriceUnitEk);
-		new InitCombos().initComboPriceUnit(cbPriceUnitVk);
-		new InitCombos().initComboTax(cbTax);
 		
 		tfOfferDate.setValue(LocalDate.now());
 		tfRequestDate.setValue(LocalDate.now());
@@ -165,11 +158,14 @@ public class ControllerOfferData {
 		initBtnEditAbort();
 		
 		initBtnCustomerSearch();
-		initBtnArticleSearch();
 		initBtnArticleAdd();
+		initBtnArticleEdit();
+		initBtnArticleDelete();
 		
 		/* TABLES */
 		initTableArticle();
+		
+		setButtonState();
 		
 	}
 	
@@ -193,89 +189,37 @@ public class ControllerOfferData {
 		
 	}
 	
-	private void initBtnArticleSearch(){
-		
-		btnArticleSearch.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				
-				LoadArticleSearch articleSearch = new LoadArticleSearch(true);
-				if(articleSearch.getController().getSelectedArticleID() != 0){
-					
-					ModelArticle article = new SelectArticle(new ModelArticle(articleSearch.getController().getSelectedArticleID())).getModelArticle();
-					
-					tfArticleID.setText(String.valueOf(article.getArticleID()));
-					tfDescription1.setText(article.getDescription1());
-					tfDescription2.setText(article.getDescription2());
-					tfBarrelsize.setText(article.getBarrelsize());
-					tfBolting.setText(article.getBolting());
-					tfEk.setText(String.valueOf(article.getEk()));
-					cbPriceUnitEk.getSelectionModel().select(String.valueOf(article.getPriceUnit()));					
-					cbPriceUnitVk.getSelectionModel().select(String.valueOf(article.getPriceUnit()));
-					cbAmountUnit.getSelectionModel().select(article.getAmountUnit());
-					
-					//ACTIVATE TEXTFIELDS
-					tfAmount.setDisable(false);
-					tfEk.setDisable(false);
-					tfVk.setDisable(false);
-					
-					btnArticleAdd.setDisable(false);
-					
-				}
-				
-			}
-		});
-		
-	}
-	
 	private void initBtnArticleAdd(){
 		
 		btnArticleAdd.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				
-				if(! tfArticleID.getText().equals("")){
-					
-					/* CALULATE TOTAL PRICE */
-					if(tfAmount.getText().isEmpty()){
-						tfAmount.setText("0.00");
-					}else if(tfEk.getText().isEmpty()){
-						tfEk.setText("0.00");
-					}else if(tfVk.getText().isEmpty()){
-						tfVk.setText("0.00");
-					}
-					
-					double amount = Double.parseDouble(tfAmount.getText());
-					int priceUnit = Integer.parseInt(cbPriceUnitVk.getSelectionModel().getSelectedItem());
-					BigDecimal vk = new BigDecimal(tfVk.getText());					
-					BigDecimal total = new BigDecimal(String.valueOf(vk.multiply(new BigDecimal(amount)).divide(new BigDecimal(priceUnit))));
-					total = total.setScale(2, RoundingMode.CEILING);
-					/*----------------------*/
-					
-					tvArticle.getItems().add(new ModelArticle(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()),
-						tfDescription1.getText(),
-						tfDescription2.getText(),
-						tfBarrelsize.getText(),
-						tfBolting.getText(),
-						new Validate().new ValidateDoubleTwoDigits().validateDouble(tfAmount.getText()),
-						cbAmountUnit.getSelectionModel().getSelectedItem(),
-						new Validate().new ValidateCurrency().validateCurrency(tfVk.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnitVk.getSelectionModel().getSelectedItem()),
-						total,
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem())
-					));
-					
-					resetFieldsArticle();			
-					tfAmount.setDisable(true);
-					tfEk.setDisable(true);
-					tfVk.setDisable(true);
-					btnArticleAdd.setDisable(true);
-					
-				}
-				
+				addArticle();
+			}
+		});
+		
+	}
+	
+	private void initBtnArticleEdit(){
+		
+		btnArticleEdit.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				editArticle();
+			}
+		});
+		
+	}
+
+	private void initBtnArticleDelete(){
+		
+		btnArticleAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				deleteArticle();
 			}
 		});
 		
@@ -283,7 +227,7 @@ public class ControllerOfferData {
 	
 	private void initBtnSearch(){
 		
-		btnSearch.setGraphic(new GraphicButton("file:resources/search_32.png").getGraphicButton());
+		btnSearch.setGraphic(new GraphicButton("search_32.png").getGraphicButton());
 		btnSearch.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -301,7 +245,7 @@ public class ControllerOfferData {
 	
 	private void initBtnNew(){
 		
-		btnNew.setGraphic(new GraphicButton("file:resources/new_32.png").getGraphicButton());
+		btnNew.setGraphic(new GraphicButton("new_32.png").getGraphicButton());
 		btnNew.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -320,7 +264,7 @@ public class ControllerOfferData {
 	
 	private void initBtnEdit(){
 		
-		btnEdit.setGraphic(new GraphicButton("file:resources/edit_32.png").getGraphicButton());
+		btnEdit.setGraphic(new GraphicButton("edit_32.png").getGraphicButton());
 		btnEdit.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -332,6 +276,9 @@ public class ControllerOfferData {
 				enableFields();				
 				setButtonState();
 				
+				
+
+				
 			}
 		});
 		
@@ -340,7 +287,7 @@ public class ControllerOfferData {
 	private void initBtnEditSave(){
 		
 		btnEditSave.getStyleClass().add("btnTopbar");
-		btnEditSave.setGraphic(new GraphicButton("file:resources/save_32.png").getGraphicButton());
+		btnEditSave.setGraphic(new GraphicButton("save_32.png").getGraphicButton());
 		btnEditSave.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -365,7 +312,11 @@ public class ControllerOfferData {
 					
 					if(stage != null){
 						stage.close();
-					}else{
+					}else{						
+						hboxBtnTopbar.getChildren().remove(btnEditSave);
+						hboxBtnTopbar.getChildren().remove(btnEditAbort);
+						
+						disableFields();
 						setButtonState();
 					}
 					
@@ -379,7 +330,7 @@ public class ControllerOfferData {
 	private void initBtnEditAbort(){
 		
 		btnEditAbort.getStyleClass().add("btnTopbar");
-		btnEditAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
+		btnEditAbort.setGraphic(new GraphicButton("cancel_32.png").getGraphicButton());
 		btnEditAbort.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -390,6 +341,10 @@ public class ControllerOfferData {
 					if(stage != null){
 						stage.close();
 					}else{
+						hboxBtnTopbar.getChildren().remove(btnEditSave);
+						hboxBtnTopbar.getChildren().remove(btnEditAbort);
+						
+						disableFields();
 						setButtonState();
 					}					
 				}
@@ -418,6 +373,45 @@ public class ControllerOfferData {
 		
 	}
 	
+	private void editArticle(){
+		
+		if(tvArticle.getSelectionModel().getSelectedItems().size() > 0){
+			
+			LoadEditPosition editPos = new LoadEditPosition(true, tvArticle.getItems(), tvArticle.getSelectionModel().getSelectedIndex());
+			tvArticle.setItems(editPos.getController().getObsListArticle());
+			if(tvArticle.getItems().size() > 0){
+				tvArticle.getSelectionModel().selectFirst();
+			}
+			
+		}else{
+			System.out.println("Bitte 1 Zeile markieren!");
+		}
+		
+	}
+	
+	private void addArticle(){
+		
+		LoadAddPosition addPos = new LoadAddPosition(true, tvArticle.getItems());
+		tvArticle.setItems(addPos.getController().getObsListArticle());
+		if(tvArticle.getItems().size() > 0){
+			tvArticle.getSelectionModel().selectFirst();
+		}
+		
+	}
+	
+	private void deleteArticle(){
+		
+		if(tvArticle.getSelectionModel().getSelectedItems().size() == 1){
+			DeleteAlert delete = new DeleteAlert();
+			if(delete.getDelete()){
+				tvArticle.getItems().remove(tvArticle.getSelectionModel().getSelectedIndex());
+			}
+		}else{
+			System.out.println("Bitte 1 Zeile markieren!");
+		}
+				
+	}
+	
 	/*
 	 * DATABASE METHODS
 	 */
@@ -436,7 +430,9 @@ public class ControllerOfferData {
 			
 			tvArticle.setItems(offer.getObsListArticle());
 			
-			lblSubHeadline.setText(" - " + tfOfferID.getText() + " " + tfName1.getText() + ", " + tfZip.getText() + " " + tfLocation.getText());
+			lblSubHeadline.setText("- " + tfOfferID.getText() + " " + tfName1.getText() + ", " + tfZip.getText() + " " + tfLocation.getText());
+			
+			setButtonState();
 			
 		}else{
 			resetFields();
@@ -446,8 +442,7 @@ public class ControllerOfferData {
 	
 	private void selectCustomer(int _customerID){
 		
-		ModelCustomer customer = new ModelCustomer();
-		customer.selectCustomer(_customerID);
+		ModelCustomer customer = new SelectCustomer(new ModelCustomer(_customerID)).getModelCustomer();
 		
 		tfCustomerID.setText(String.valueOf(customer.getCustomerID()));
 		cbSalutation.getSelectionModel().select(customer.getSalutation());
@@ -478,33 +473,33 @@ public class ControllerOfferData {
 		//ALWAYS LAST - OTHERWISE THE DATA IN THE MODEL WOULD BE OVERWRITTEN
 		if(customer.getBillingID() != 0){
 			
-			customer.selectCustomer(customer.getBillingID());
+			ModelCustomer customerBilling = new SelectCustomer(new ModelCustomer(customer.getBillingID())).getModelCustomer();
 			
-			tfCustomerIDBilling.setText(String.valueOf(customer.getCustomerID()));
-			cbSalutationBilling.getSelectionModel().select(customer.getSalutation());
-			tfName1Billing.setText(customer.getName1());
-			tfName2Billing.setText(customer.getName2());
-			tfStreetBilling.setText(customer.getStreet());
-			cbLandBilling.getSelectionModel().select(customer.getLand());
-			tfZipBilling.setText(String.valueOf(customer.getZip()));
-			tfLocationBilling.setText(customer.getLocation());
+			tfCustomerIDBilling.setText(String.valueOf(customerBilling.getCustomerID()));
+			cbSalutationBilling.getSelectionModel().select(customerBilling.getSalutation());
+			tfName1Billing.setText(customerBilling.getName1());
+			tfName2Billing.setText(customerBilling.getName2());
+			tfStreetBilling.setText(customerBilling.getStreet());
+			cbLandBilling.getSelectionModel().select(customerBilling.getLand());
+			tfZipBilling.setText(String.valueOf(customerBilling.getZip()));
+			tfLocationBilling.setText(customerBilling.getLocation());
 			
-			tfPhoneBilling.setText(customer.getPhone());
-			tfMobileBilling.setText(customer.getMobile());
-			tfFaxBilling.setText(customer.getFax());
-			tfEmailBilling.setText(customer.getEmail());
-			tfWebBilling.setText(customer.getWeb());
-			tfContactBilling.setText(customer.getContact());
-			tfUstIDBilling.setText(customer.getUstID());
+			tfPhoneBilling.setText(customerBilling.getPhone());
+			tfMobileBilling.setText(customerBilling.getMobile());
+			tfFaxBilling.setText(customerBilling.getFax());
+			tfEmailBilling.setText(customerBilling.getEmail());
+			tfWebBilling.setText(customerBilling.getWeb());
+			tfContactBilling.setText(customerBilling.getContact());
+			tfUstIDBilling.setText(customerBilling.getUstID());
 			
-			cbPaymentBilling.getSelectionModel().select(customer.getPayment());
-			tfBankBilling.setText(customer.getBank());
-			tfIBANBilling.setText(customer.getIBAN());
-			tfBICBilling.setText(customer.getBIC());
-			tfBankBilling.setText(customer.getBank());
-			tfPaymentSkontoBilling.setText(String.valueOf(customer.getPaymentSkonto()));
-			tfPaymentNettoBilling.setText(String.valueOf(customer.getPaymentNetto()));
-			tfSkontoBilling.setText(String.valueOf(customer.getSkonto()));
+			cbPaymentBilling.getSelectionModel().select(customerBilling.getPayment());
+			tfBankBilling.setText(customerBilling.getBank());
+			tfIBANBilling.setText(customerBilling.getIBAN());
+			tfBICBilling.setText(customerBilling.getBIC());
+			tfBankBilling.setText(customerBilling.getBank());
+			tfPaymentSkontoBilling.setText(String.valueOf(customerBilling.getPaymentSkonto()));
+			tfPaymentNettoBilling.setText(String.valueOf(customerBilling.getPaymentNetto()));
+			tfSkontoBilling.setText(String.valueOf(customerBilling.getSkonto()));
 			
 		}else{				
 			resetFieldsBilling();				
@@ -556,7 +551,6 @@ public class ControllerOfferData {
 		resetFieldsBilling();
 		
 		/* ARTICLE */
-		resetFieldsArticle();
 		tvArticle.getItems().clear();
 		
 	}
@@ -591,45 +585,35 @@ public class ControllerOfferData {
 		
 	}
 	
-	private void resetFieldsArticle(){
-		
-		tfArticleID.clear();
-		tfDescription1.clear();
-		tfDescription2.clear();
-		tfBarrelsize.clear();
-		tfBolting.clear();
-		tfAmount.clear();
-		cbAmountUnit.getSelectionModel().selectFirst();
-		tfEk.clear();
-		cbPriceUnitEk.getSelectionModel().selectFirst();
-		tfVk.clear();
-		cbPriceUnitVk.getSelectionModel().selectFirst();
-		cbTax.getSelectionModel().selectFirst();
-		
-	}
-	
 	private void enableFields(){
 		
 		/* OFFER */
 		tfOfferDate.setDisable(false);
 		tfRequest.setDisable(false);
 		tfRequestDate.setDisable(false);
+		taNotes.setDisable(false);
 		
 		/* CUSTOMER */
 		btnCustomerSearch.setDisable(false);
-		
-		/* ARTICLE */
-		btnArticleSearch.setDisable(false);
 		
 	}
 	
 	private void disableFields(){
 		
+		/* OFFER */
+		tfOfferDate.setDisable(true);
+		tfRequest.setDisable(true);
+		tfRequestDate.setDisable(true);
+		taNotes.setDisable(true);
+		
+		/* CUSTOMER */
+		btnCustomerSearch.setDisable(true);
+		
 	}
 	
 	private void setButtonState(){
 		
-		if(tfArticleID.getText().equals("")){
+		if(tfOfferID.getText().equals("")){
 			
 			btnEdit.setDisable(true);
 			btnDelete.setDisable(true);
@@ -646,6 +630,44 @@ public class ControllerOfferData {
 				btnNew.setDisable(true);
 				btnSearch.setDisable(true);
 				btnEdit.setDisable(true);
+				
+				btnArticleAdd.setDisable(false);
+				if(tvArticle.getItems().size() > 0){
+					btnArticleDelete.setDisable(false);
+					btnArticleEdit.setDisable(false);
+				}else{
+					btnArticleDelete.setDisable(true);
+					btnArticleEdit.setDisable(true);
+				}
+				
+				/* TABLE ARTICLE */
+				tvArticle.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+					@Override
+					public void handle(KeyEvent event) {
+						
+						if(event.getCode().equals(KeyCode.ENTER)){
+							editArticle();
+						}
+						
+					}
+				});
+				
+				tvArticle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+					@Override
+					public void handle(MouseEvent event) {
+
+						if(event.getButton().equals(MouseButton.SECONDARY)){
+							tvArticle.setContextMenu(new ContextMenuTableArticle());
+						}
+						
+						if(event.getClickCount() == 2){
+							editArticle();
+						}
+						
+					}
+				});
 												
 			}else{
 				
@@ -653,6 +675,14 @@ public class ControllerOfferData {
 				btnNew.setDisable(false);
 				btnEdit.setDisable(false);
 				btnDelete.setDisable(false);
+				
+				btnArticleAdd.setDisable(true);
+				btnArticleDelete.setDisable(true);
+				btnArticleEdit.setDisable(true);
+				
+				tvArticle.setOnKeyPressed(null);
+				tvArticle.setOnMouseClicked(null);
+				tvArticle.setContextMenu(null);
 				
 			}
 		}
@@ -663,6 +693,64 @@ public class ControllerOfferData {
 	 */
 	public void setStage(Stage stage){
 		this.stage = stage;
+	}
+
+	/*
+	 * CONTEXT MENU
+	 */
+	private class ContextMenuTableArticle extends ContextMenu{
+		
+		private MenuItem miAdd = new MenuItem("Hinzufügen..");
+		private MenuItem miEdit = new MenuItem("Bearbeiten..");
+		private MenuItem miDelete = new MenuItem("Löschen");
+		
+		public ContextMenuTableArticle(){
+			
+			//initialize
+			initMiAdd();
+			initMiEdit();
+			initMiDelete();
+			
+			this.getItems().addAll(miAdd, miEdit, miDelete);			
+			
+		}
+		
+		private void initMiAdd(){
+			
+			miAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					addArticle();
+				}
+			});
+			
+		}
+		
+		private void initMiEdit(){
+			
+			miEdit.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					editArticle();
+				}
+			});
+			
+		}
+
+		private void initMiDelete(){
+	
+			miDelete.setOnAction(new EventHandler<ActionEvent>() {
+		
+				@Override
+				public void handle(ActionEvent event) {
+					deleteArticle();
+				}
+			});
+	
+		}
+		
 	}
 	
 }

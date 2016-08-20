@@ -62,7 +62,7 @@ public class ControllerNavigation {
 	
 	private void initBtnCollapse(){
 		
-		btnCollapse.setGraphic(new GraphicButton("file:resources/menu_collapse_32.png").getGraphicButton());
+		btnCollapse.setGraphic(new GraphicButton("menu_collapse_32.png").getGraphicButton());
 		btnCollapse.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -100,7 +100,7 @@ public class ControllerNavigation {
 	
 	private void initBtnCustomer(){
 		
-		btnCustomer.setGraphic(new GraphicButton("file:resources/customer_32_blue.png").getGraphicButton());
+		btnCustomer.setGraphic(new GraphicButton("customer_32_blue.png").getGraphicButton());
 		btnCustomer.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -113,7 +113,7 @@ public class ControllerNavigation {
 	
 	private void initBtnArticle(){
 		
-		btnArticle.setGraphic(new GraphicButton("file:resources/article_32_blue.png").getGraphicButton());
+		btnArticle.setGraphic(new GraphicButton("article_32_blue.png").getGraphicButton());
 		btnArticle.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -126,7 +126,7 @@ public class ControllerNavigation {
 	
 	private void initBtnSupplier(){
 		
-		btnSupplier.setGraphic(new GraphicButton("file:resources/supplier_32_blue.png").getGraphicButton());
+		btnSupplier.setGraphic(new GraphicButton("supplier_32_blue.png").getGraphicButton());
 		btnSupplier.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -139,7 +139,7 @@ public class ControllerNavigation {
 	
 	private void initBtnStock(){
 		
-		btnStock.setGraphic(new GraphicButton("file:resources/warehouse_32_blue.png").getGraphicButton());
+		btnStock.setGraphic(new GraphicButton("warehouse_32_blue.png").getGraphicButton());
 		btnStock.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -152,7 +152,7 @@ public class ControllerNavigation {
 	
 	private void initBtnOffer(){
 		
-		btnOffer.setGraphic(new GraphicButton("file:resources/offer_32_blue.png").getGraphicButton());
+		btnOffer.setGraphic(new GraphicButton("offer_32_blue.png").getGraphicButton());
 		btnOffer.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

@@ -7,7 +7,10 @@ import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.customer.InsertCustomer;
 import de.michaprogs.crm.customer.ModelCustomer;
+import de.michaprogs.crm.customer.SelectCustomer;
+import de.michaprogs.crm.customer.ValidateCustomerSave;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -108,18 +111,16 @@ public class ControllerCustomerAdd {
 	 */
 	private void initBtnSave(){
 	
-		btnSave.setGraphic(new GraphicButton("file:resources/save_32.png").getGraphicButton());
+		btnSave.setGraphic(new GraphicButton("save_32.png").getGraphicButton());
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				
-				ModelCustomer customer = new ModelCustomer();
+				if(new ValidateCustomerSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
+												tfName1.getText()).isValid()){
 				
-				if(	customer.validate(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
-					tfName1.getText())){
-					
-					customer.insertCustomer(
+					new InsertCustomer(new ModelCustomer(
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
 						cbSalutation.getSelectionModel().getSelectedItem(),
 						tfName1.getText(), 
@@ -149,7 +150,7 @@ public class ControllerCustomerAdd {
 						taNotes.getText(),
 						
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())
-					);					
+					));					
 					
 					createdCustomerID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText());
 					
@@ -169,7 +170,7 @@ public class ControllerCustomerAdd {
 	
 	private void initBtnAbort(){
 		
-		btnAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
+		btnAbort.setGraphic(new GraphicButton("cancel_32.png").getGraphicButton());
 		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -199,8 +200,7 @@ public class ControllerCustomerAdd {
 				LoadCustomerSearch customerSearch = new LoadCustomerSearch(true);
 				if(customerSearch.getController().getSelectedCustomerID() != 0){
 					
-					ModelCustomer customer = new ModelCustomer();
-					customer.selectCustomer(customerSearch.getController().getSelectedCustomerID());
+					ModelCustomer customer = new SelectCustomer(new ModelCustomer()).getModelCustomer();
 					
 					tfCustomerIDBilling.setText(String.valueOf(customer.getCustomerID()));
 					tfName1Billing.setText(customer.getName1());

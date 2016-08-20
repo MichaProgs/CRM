@@ -3,6 +3,7 @@ package de.michaprogs.crm.customer.search;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.customer.ModelCustomer;
+import de.michaprogs.crm.customer.SearchCustomer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -78,7 +79,7 @@ public class ControllerCustomerSearch {
 	 */
 	private void initBtnSearch(){
 		
-		btnSearch.setGraphic(new GraphicButton("file:resources/search_32.png").getGraphicButton());
+		btnSearch.setGraphic(new GraphicButton("search_32.png").getGraphicButton());
 		btnSearch.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -91,7 +92,7 @@ public class ControllerCustomerSearch {
 	
 	private void initBtnReset(){
 		
-		btnReset.setGraphic(new GraphicButton("file:resources/clear_32.png").getGraphicButton());
+		btnReset.setGraphic(new GraphicButton("clear_32.png").getGraphicButton());
 		btnReset.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -104,7 +105,7 @@ public class ControllerCustomerSearch {
 	
 	private void initBtnSelect(){
 		
-		btnSelect.setGraphic(new GraphicButton("file:resources/select_32.png").getGraphicButton());
+		btnSelect.setGraphic(new GraphicButton("select_32.png").getGraphicButton());
 		btnSelect.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -117,7 +118,7 @@ public class ControllerCustomerSearch {
 	
 	private void initBtnAbort(){
 		
-		btnAbort.setGraphic(new GraphicButton("file:resources/cancel_32.png").getGraphicButton());
+		btnAbort.setGraphic(new GraphicButton("cancel_32.png").getGraphicButton());
 		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -210,8 +211,7 @@ public class ControllerCustomerSearch {
 	 */
 	private void search(){
 		
-		ModelCustomer customer = new ModelCustomer();
-		customer.searchCustomer(
+		SearchCustomer searchCustomer = new SearchCustomer(
 			tfCustomerID.getText(), 
 			tfName1.getText(), 
 			tfName2.getText(), 
@@ -225,7 +225,7 @@ public class ControllerCustomerSearch {
 			tfEmail.getText()
 		);
 		
-		tvCustomerSearch.setItems(customer.getObsListCustomer());
+		tvCustomerSearch.setItems(searchCustomer.getObsListSearch());
 		if(tvCustomerSearch.getItems().size() > 0){
 			tvCustomerSearch.getSelectionModel().selectFirst();
 			tvCustomerSearch.requestFocus();
