@@ -1,7 +1,6 @@
 package de.michaprogs.crm.offer.data;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import de.michaprogs.crm.AbortAlert;
@@ -9,16 +8,15 @@ import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
-import de.michaprogs.crm.Validate.ValidateOnlyInteger;
 import de.michaprogs.crm.article.ModelArticle;
-import de.michaprogs.crm.article.SelectArticle;
-import de.michaprogs.crm.article.add.LoadArticleAdd;
-import de.michaprogs.crm.article.search.LoadArticleSearch;
-import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
 import de.michaprogs.crm.offer.ModelOffer;
+import de.michaprogs.crm.offer.SelectOffer;
+import de.michaprogs.crm.offer.UpdateOffer;
+import de.michaprogs.crm.offer.SelectOffer.Selection;
+import de.michaprogs.crm.offer.ValidateOfferSave;
 import de.michaprogs.crm.offer.add.LoadOfferAdd;
 import de.michaprogs.crm.offer.search.LoadOfferSearch;
 import de.michaprogs.crm.position.add.LoadAddPosition;
@@ -43,7 +41,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.util.converter.LocalDateStringConverter;
 
 public class ControllerOfferData {
 
@@ -142,11 +139,13 @@ public class ControllerOfferData {
 	
 	@FXML private void initialize(){
 		
+		/* COMBO BOX */
 		new InitCombos().initComboSalutation(cbSalutation);
 		new InitCombos().initComboSalutation(cbSalutationBilling);
 		new InitCombos().initComboLand(cbLand);
 		new InitCombos().initComboLand(cbLandBilling);
 		
+		/* DATE FIELDS */
 		tfOfferDate.setValue(LocalDate.now());
 		tfRequestDate.setValue(LocalDate.now());
 		
@@ -215,7 +214,7 @@ public class ControllerOfferData {
 
 	private void initBtnArticleDelete(){
 		
-		btnArticleAdd.setOnAction(new EventHandler<ActionEvent>() {
+		btnArticleDelete.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
@@ -235,7 +234,7 @@ public class ControllerOfferData {
 				
 				LoadOfferSearch offerSearch = new LoadOfferSearch(true);
 				if(offerSearch.getController().getSelectedOfferID() != 0){
-					selectOffer(offerSearch.getController().getSelectedOfferID());
+					selectOffer(offerSearch.getController().getSelectedOfferID(), offerSearch.getController().getSelectedOfferCustomerID());
 				}
 				
 			}
@@ -254,7 +253,7 @@ public class ControllerOfferData {
 				LoadOfferAdd offerAdd = new LoadOfferAdd(true);
 				int createdOfferID = offerAdd.getController().getCreatedOfferID();
 				if(createdOfferID != 0){
-					selectOffer(createdOfferID);
+					selectOffer(createdOfferID, offerAdd.getController().getCreatedOfferCustomerID());
 				}
 				
 			}
@@ -293,14 +292,13 @@ public class ControllerOfferData {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				ModelOffer offer = new ModelOffer();
-				if(offer.validate(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
-									new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
-									String.valueOf(tfOfferDate.getValue()),
-									String.valueOf(tfRequestDate.getValue()),
-									tvArticle.getItems())){
+				if(new ValidateOfferSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
+											new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
+											String.valueOf(tfOfferDate.getValue()),
+											String.valueOf(tfRequestDate.getValue()),
+											tvArticle.getItems()).isValid()){
 					
-					offer.updateOffer(
+					new UpdateOffer(new ModelOffer(
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
 						String.valueOf(tfOfferDate.getValue()), 
 						tfRequest.getText(), 
@@ -308,7 +306,7 @@ public class ControllerOfferData {
 						taNotes.getText(), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
 						tvArticle.getItems()
-					);
+					));
 					
 					if(stage != null){
 						stage.close();
@@ -415,19 +413,23 @@ public class ControllerOfferData {
 	/*
 	 * DATABASE METHODS
 	 */
-	private void selectOffer(int _offerID){
+	private void selectOffer(int _offerID, int _customerID){
 		
-		ModelOffer offer = new ModelOffer();
-		offer.selectOffer(_offerID);
+		ModelOffer offer = new SelectOffer(new ModelOffer(_offerID, _customerID), Selection.SPECIFIC_OFFER).getModelOffer();
 		
 		if(offer.getCustomerID() != 0){
 		
+			/* MAIN DATA */
 			tfOfferID.setText(String.valueOf(offer.getOfferID()));
 			tfOfferDate.setValue(LocalDate.parse(offer.getOfferDate()));
 			selectCustomer(offer.getCustomerID());
 			tfRequest.setText(offer.getRequest());
-			tfRequestDate.setValue(LocalDate.parse(offer.getRequestDate()));	
+			tfRequestDate.setValue(LocalDate.parse(offer.getRequestDate()));
 			
+			/* NOTES */
+			taNotes.setText(offer.getNotes());
+			
+			/* ARTICLE */
 			tvArticle.setItems(offer.getObsListArticle());
 			
 			lblSubHeadline.setText("- " + tfOfferID.getText() + " " + tfName1.getText() + ", " + tfZip.getText() + " " + tfLocation.getText());
@@ -694,7 +696,7 @@ public class ControllerOfferData {
 	public void setStage(Stage stage){
 		this.stage = stage;
 	}
-
+	
 	/*
 	 * CONTEXT MENU
 	 */

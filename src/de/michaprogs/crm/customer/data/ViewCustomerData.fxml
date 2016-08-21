@@ -256,7 +256,19 @@
 									</Tab>
 									
 									<Tab text="Angebote" closable="false">
-										<Label text="FOLGT" />
+										<AnchorPane>
+											<TableView fx:id="tvOffer" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+												<columnResizePolicy>
+						                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+						               			</columnResizePolicy>
+												<columns>
+													<TableColumn fx:id="tcOfferID" text="Angebot-Nr." />
+													<TableColumn fx:id="tcOfferClerk" text="Sachbearbeiter" />
+													<TableColumn fx:id="tcOfferRequest" text="Anfrage" />
+													<TableColumn fx:id="tcOfferDate" text="Datum" />
+												</columns>
+											</TableView>
+										</AnchorPane>
 									</Tab>
 									
 									<Tab text="Lieferscheine" closable="false">

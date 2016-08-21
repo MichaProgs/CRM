@@ -4,6 +4,7 @@ import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
 import de.michaprogs.crm.offer.ModelOffer;
+import de.michaprogs.crm.offer.SearchOffer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -49,6 +50,7 @@ public class ControllerOfferSearch {
 	
 	private Stage stage;
 	private int selectedOfferID = 0;
+	private int selectedOfferCustomerID = 0;
 	
 	public ControllerOfferSearch(){}
 	
@@ -150,9 +152,7 @@ public class ControllerOfferSearch {
 					tvOfferSearch.getItems().size() > 0 &&
 					tcOfferID.getCellData(tvOfferSearch.getSelectionModel().getSelectedIndex()) != null){
 					
-					selectedOfferID = tcOfferID.getCellData(tvOfferSearch.getSelectionModel().getSelectedIndex());
-					if(stage != null)
-						stage.close();
+					select();
 					
 				}
 			}
@@ -163,7 +163,7 @@ public class ControllerOfferSearch {
 			@Override
 			public void handle(KeyEvent event) {
 				if(event.getCode().equals(KeyCode.ENTER)){
-					select();
+					select();					
 				}
 			}
 		});
@@ -184,10 +184,10 @@ public class ControllerOfferSearch {
 		}; 
 		
 		tfOfferID.setOnAction(ae);
-		tfOfferDate.setOnAction(ae);
+//		tfOfferDate.setOnAction(ae);
 		tfCustomerID.setOnAction(ae);
 		tfRequest.setOnAction(ae);
-		tfRequestDate.setOnAction(ae);
+//		tfRequestDate.setOnAction(ae);
 		
 	}
 	
@@ -196,8 +196,7 @@ public class ControllerOfferSearch {
 	 */
 	private void search(){
 		
-		ModelOffer offer = new ModelOffer();
-		offer.searchOffer(
+		SearchOffer search = new SearchOffer(
 			tfOfferID.getText(),
 			String.valueOf(tfOfferDate.getValue()), 
 			tfCustomerID.getText(),
@@ -205,7 +204,7 @@ public class ControllerOfferSearch {
 			String.valueOf(tfRequestDate.getValue())
 		);
 		
-		tvOfferSearch.setItems(offer.getObsListOfferSearch());
+		tvOfferSearch.setItems(search.getObsListSearch());
 		if(tvOfferSearch.getItems().size() > 0){
 			tvOfferSearch.getSelectionModel().selectFirst();
 			tvOfferSearch.requestFocus();
@@ -222,7 +221,9 @@ public class ControllerOfferSearch {
 	private void select(){
 		
 		if(tvOfferSearch.getSelectionModel().getSelectedItems().size() == 1 ){
-			selectedOfferID = tvOfferSearch.getItems().get(tvOfferSearch.getSelectionModel().getSelectedIndex()).getArticleID();
+			
+			selectedOfferID = tvOfferSearch.getItems().get(tvOfferSearch.getSelectionModel().getSelectedIndex()).getOfferID();
+			selectedOfferCustomerID = tvOfferSearch.getItems().get(tvOfferSearch.getSelectionModel().getSelectedIndex()).getCustomerID();
 			
 			if(stage != null){
 				stage.close();
@@ -249,8 +250,7 @@ public class ControllerOfferSearch {
 		
 		this.tvOfferSearch.getItems().clear();
 		this.lblSubHeadline.setText("");
-		
-		
+				
 	}
 	
 	/*
@@ -265,6 +265,10 @@ public class ControllerOfferSearch {
 	 */
 	public int getSelectedOfferID(){
 		return selectedOfferID;
+	}
+	
+	public int getSelectedOfferCustomerID(){
+		return selectedOfferCustomerID;
 	}
 	
 }

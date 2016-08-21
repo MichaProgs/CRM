@@ -230,7 +230,7 @@ public class ControllerEditPosition {
 		tfEk.setText(String.valueOf(obsListArticle.get(index).getEk()));
 		cbPriceUnitEk.getSelectionModel().select(String.valueOf(obsListArticle.get(index).getPriceUnit()));
 		tfVk.setText(String.valueOf(obsListArticle.get(index).getVk()));
-		cbPriceUnitEk.getSelectionModel().select(String.valueOf(obsListArticle.get(index).getPriceUnit()));
+		cbPriceUnitVk.getSelectionModel().select(String.valueOf(obsListArticle.get(index).getPriceUnit()));
 		cbTax.getSelectionModel().select(obsListArticle.get(index).getTax());
 	
 	}

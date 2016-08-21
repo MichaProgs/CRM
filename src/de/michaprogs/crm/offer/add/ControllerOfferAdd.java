@@ -12,7 +12,9 @@ import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
+import de.michaprogs.crm.offer.InsertOffer;
 import de.michaprogs.crm.offer.ModelOffer;
+import de.michaprogs.crm.offer.ValidateOfferSave;
 import de.michaprogs.crm.position.add.LoadAddPosition;
 import de.michaprogs.crm.position.edit.LoadEditPosition;
 import javafx.event.ActionEvent;
@@ -120,6 +122,7 @@ public class ControllerOfferAdd {
 	
 	private Stage stage;
 	private int createdOfferID;
+	private int createdOfferCustomerID;
 	
 	public ControllerOfferAdd(){}
 	
@@ -274,14 +277,13 @@ public class ControllerOfferAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				ModelOffer offer = new ModelOffer();
-				if(offer.validate(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
-									new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
-									String.valueOf(tfOfferDate.getValue()),
-									String.valueOf(tfRequestDate.getValue()),
-									tvArticle.getItems())){
+				if(new ValidateOfferSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
+											new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
+											String.valueOf(tfOfferDate.getValue()),
+											String.valueOf(tfRequestDate.getValue()),
+											tvArticle.getItems()).isValid()){
 					
-					offer.insertOffer(
+					new InsertOffer(new ModelOffer(
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
 						String.valueOf(tfOfferDate.getValue()), 
 						tfRequest.getText(), 
@@ -289,9 +291,10 @@ public class ControllerOfferAdd {
 						taNotes.getText(), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
 						tvArticle.getItems()
-					);
+					));
 					
 					createdOfferID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText());
+					createdOfferCustomerID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText());
 					
 					if(stage != null){
 						stage.close();
@@ -499,6 +502,10 @@ public class ControllerOfferAdd {
 	
 	public int getCreatedOfferID(){
 		return createdOfferID;
+	}
+	
+	public int getCreatedOfferCustomerID(){
+		return createdOfferCustomerID;
 	}
 	
 	/*

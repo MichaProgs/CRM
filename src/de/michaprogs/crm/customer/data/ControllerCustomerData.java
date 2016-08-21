@@ -13,14 +13,20 @@ import de.michaprogs.crm.customer.UpdateCustomer;
 import de.michaprogs.crm.customer.ValidateCustomerSave;
 import de.michaprogs.crm.customer.add.LoadCustomerAdd;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
+import de.michaprogs.crm.offer.ModelOffer;
+import de.michaprogs.crm.offer.SelectOffer;
+import de.michaprogs.crm.offer.SelectOffer.Selection;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -28,6 +34,7 @@ public class ControllerCustomerData {
 
 	@FXML private Label lblSubHeadline;
 	
+	/* MAIN DATA */
 	@FXML private TextField tfCustomerID;
 	@FXML private ComboBox<String> cbSalutation;
 	@FXML private TextField tfName1;
@@ -37,6 +44,7 @@ public class ControllerCustomerData {
 	@FXML private TextField tfZip;
 	@FXML private TextField tfLocation;
 	
+	/* CONTACT DATA */
 	@FXML private TextField tfPhone;
 	@FXML private TextField tfMobile;
 	@FXML private TextField tfFax;
@@ -45,6 +53,7 @@ public class ControllerCustomerData {
 	@FXML private TextField tfContact;
 	@FXML private TextField tfUstID;
 	
+	/* PAYMENT DATA */
 	@FXML private ComboBox<String> cbPayment;
 	@FXML private TextField tfIBAN;
 	@FXML private TextField tfBIC;
@@ -53,6 +62,7 @@ public class ControllerCustomerData {
 	@FXML private TextField tfPaymentNetto;
 	@FXML private TextField tfSkonto;
 	
+	/* BILLING MAIN DATA */
 	@FXML private TextField tfCustomerIDBilling;
 	@FXML private ComboBox<String> cbSalutationBilling;
 	@FXML private TextField tfName1Billing;
@@ -62,6 +72,7 @@ public class ControllerCustomerData {
 	@FXML private TextField tfZipBilling;
 	@FXML private TextField tfLocationBilling;
 	
+	/* BILLING CONTACT DATA */
 	@FXML private TextField tfPhoneBilling;
 	@FXML private TextField tfMobileBilling;
 	@FXML private TextField tfFaxBilling;
@@ -70,6 +81,7 @@ public class ControllerCustomerData {
 	@FXML private TextField tfContactBilling;
 	@FXML private TextField tfUstIDBilling;
 	
+	/* BILLING PAYMENT DATA */
 	@FXML private ComboBox<String> cbPaymentBilling;
 	@FXML private TextField tfIBANBilling;
 	@FXML private TextField tfBICBilling;
@@ -78,9 +90,20 @@ public class ControllerCustomerData {
 	@FXML private TextField tfSkontoBilling;
 	@FXML private TextField tfPaymentNettoBilling;
 	
+	/* NOTES */
 	@FXML private TextArea taNotes;
+	
+	/* LAST CHANGE */
 	@FXML private Label lblLastChange;
 	
+	/* OFFER */
+	@FXML private TableView<ModelOffer> tvOffer;
+	@FXML private TableColumn<ModelOffer, Integer> tcOfferID;
+	@FXML private TableColumn<ModelOffer, String> tcOfferClerk;
+	@FXML private TableColumn<ModelOffer, String> tcOfferRequest;
+	@FXML private TableColumn<ModelOffer, String> tcOfferDate;
+	
+	/* BUTTONS */
 	@FXML private Button btnSearch;
 	@FXML private Button btnNew;
 	@FXML private Button btnEdit;
@@ -117,6 +140,9 @@ public class ControllerCustomerData {
 		
 		initBtnBillingAdd();
 		initBtnBillingDelete();
+		
+		/* TABLES */
+		initTableOffer();
 		
 		setButtonState();
 		
@@ -351,6 +377,18 @@ public class ControllerCustomerData {
 	}
 	
 	/*
+	 * TABLES
+	 */
+	private void initTableOffer(){
+		
+		tcOfferID.setCellValueFactory(new PropertyValueFactory<>("offerID"));
+		tcOfferClerk.setCellValueFactory(new PropertyValueFactory<>("clerk"));
+		tcOfferRequest.setCellValueFactory(new PropertyValueFactory<>("request"));
+		tcOfferDate.setCellValueFactory(new PropertyValueFactory<>("offerDate"));
+		
+	}
+	
+	/*
 	 * DATABASE METHODS
 	 */
 	private void selectCustomer(int _customerID){
@@ -388,6 +426,10 @@ public class ControllerCustomerData {
 		
 		lblSubHeadline.setText("- " + customer.getCustomerID() + " " + customer.getName1() + ", " + customer.getZip() + " " + customer.getLocation());
 		
+		/* OFFER */
+		selectOffer(_customerID);
+		
+		/* BILLING */
 		//ALWAYS LAST - OTHERWISE THE DATA IN THE MODEL WOULD BE OVERWRITTEN
 		if(customer.getBillingID() != 0){
 			
@@ -424,6 +466,16 @@ public class ControllerCustomerData {
 		}
 		
 		setButtonState();
+		
+	}
+	
+	private void selectOffer(int _customerID){
+		
+		if(_customerID != 0){
+			tvOffer.setItems(new SelectOffer(new ModelOffer(_customerID), Selection.ALL_OFFER_FROM_CUSTOMER).getObsListOffer());
+		}else{
+			System.out.println("Bitte gültige Kundennummer wählen!");
+		}
 		
 	}
 	

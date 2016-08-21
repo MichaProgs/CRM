@@ -1,13 +1,8 @@
 package de.michaprogs.crm.offer;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import de.michaprogs.crm.article.ModelArticle;
-import de.michaprogs.crm.article.SelectArticle;
-import de.michaprogs.crm.database.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -31,13 +26,7 @@ public class ModelOffer {
 	private BigDecimal ek;
 	private BigDecimal vk;
 	
-	private ObservableList<ModelOffer> obsListOfferSearch = FXCollections.observableArrayList();
 	private ObservableList<ModelArticle> obsListArticle = FXCollections.observableArrayList();
-	
-	/* DATEBASE */
-	private Connection con;
-	private PreparedStatement ps;
-	private ResultSet rs;
 	
 	public ModelOffer(){}
 	
@@ -63,353 +52,54 @@ public class ModelOffer {
 		
 	}
 	
-	public void insertOffer(	int _offerID,
-								String _offerDate,
-								String _request,
-								String _requestDate,
-								String _notes,
-								int _customerID,
-								ObservableList<ModelArticle> _obsListArticle){
-		
-		try{
-			
-			String stmt = "INSERT INTO offer ("
-					+ "offerID,"
-					+ "offerDate,"
-					+ "request,"
-					+ "requestDate,"
-					+ "notes,"
-					+ "customerID"
-					+ ")"
-					+ "VALUES(?,?,?,?,?,?)"; //6
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setInt(i, _offerID);
-			i++;
-			ps.setString(i, _offerDate);
-			i++;
-			ps.setString(i, _request);
-			i++;
-			ps.setString(i, _requestDate);
-			i++;
-			ps.setString(i, _notes);
-			i++;
-			ps.setInt(i, _customerID);
-			i++;
-			
-			ps.execute();
-			
-			System.out.println("Angebot " + _offerID + " wurde der Datenbank hinzugefügt!");
-			
-			/* OFFER ARTICLE */
-			String stmtOfferArticle = "INSERT INTO offerarticle ("
-													+ "offerID,"
-													+ "articleID,"
-													+ "amount,"
-													+ "ek,"
-													+ "vk,"
-													+ "total"
-													+ ")"
-													+ "VALUES(?,?,?,?,?,?)"; //6
-			
-			for(int index = 0; index < _obsListArticle.size(); index++){
-				
-				con = new DBConnect().getConnection();
-				ps = con.prepareStatement(stmtOfferArticle);
-				int count = 1;
-				ps.setInt(count, _offerID);
-				count++;
-				ps.setInt(count, _obsListArticle.get(index).getArticleID());
-				count++;
-				ps.setDouble(count, _obsListArticle.get(index).getAmount());
-				count++;
-				ps.setBigDecimal(count, _obsListArticle.get(index).getEk());
-				count++;
-				ps.setBigDecimal(count, _obsListArticle.get(index).getVk());
-				count++;
-				ps.setBigDecimal(count, _obsListArticle.get(index).getTotal());
-				count++;
-				
-				ps.execute();
-				
-				System.out.println("Angebots-Artikel " + _obsListArticle.get(index).getArticleID() + " " + _obsListArticle.get(index).getDescription1() + " wurde der Datenbank hinzugefügt!");
-				
-			}
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
-		
-	}
-	
-	public void selectOffer(	int _offerID){
-		
-		try{
-		
-			String stmt = "SELECT * FROM offer WHERE offerID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setInt(i, _offerID);
-			i++;
-			
-			rs = ps.executeQuery();
-			while(rs.next()){
-				
-				this.offerID = rs.getInt("offerID");
-				this.offerDate = rs.getString("offerDate");
-				this.request = rs.getString("request");
-				this.requestDate = rs.getString("requestDate");
-				this.notes = rs.getString("notes");
-				this.customerID = rs.getInt("customerID");
-				
-			}
-			
-			System.out.println("Angebot " + _offerID + " wurde aus Datenbank geladen!");
-			
-			/* OFFER ARTICLE */
-			String stmtOfferArticle = "SELECT * FROM offerArticle WHERE offerID = ?";
-			ps = con.prepareStatement(stmtOfferArticle);
-			ps.setInt(1, _offerID);
-			rs = ps.executeQuery();
-			while(rs.next()){
-				
-				ModelArticle article = new SelectArticle(new ModelArticle(rs.getInt("articleID"))).getModelArticle();
-				
-				obsListArticle.add(new ModelArticle(
-					rs.getInt("articleID"), 
-					article.getDescription1(), 
-					article.getDescription2(),
-					article.getBarrelsize(), 
-					article.getBolting(), 
-					rs.getDouble("amount"), 
-					article.getAmountUnit(), 
-					rs.getBigDecimal("vk"),
-					rs.getBigDecimal("ek"),
-					article.getPriceUnit(), 
-					rs.getBigDecimal("total"),
-					article.getTax()
-				));
-						
-				System.out.println("Angebots-Artikel " + articleID + " wurde aus Datenbank geladen!");
-				
-			}
-		
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
-		
-	}
-	
-	public void searchOffer(	String _offerID, //Search as String
-								String _offerDate,
-								String _customerID, //Search as String
-								String _request,
-								String _requestDate
-								){
-		
-		try{
-			
-			String stmt = "SELECT * FROM offer WHERE   offerID LIKE ? AND "
-													+ "offerDate LIKE ? AND "
-													+ "customerID LIKE ? AND "
-													+ "request LIKE ? AND "
-													+ "requestDate LIKE ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setString(i, _offerID + "%");
-			i++;
-			if(_offerDate.equals("null")){
-				_offerDate = "";
-			}
-			ps.setString(i, _offerDate + "%");
-			i++;
-			ps.setString(i, _customerID + "%");
-			i++;
-			ps.setString(i, _request + "%");
-			i++;
-			if(_requestDate.equals("null")){
-				_requestDate = "";
-			}
-			ps.setString(i, _requestDate + "%");
-			i++;
-			
-			rs = ps.executeQuery();
-			while(rs.next()){
-				
-				obsListOfferSearch.add(new ModelOffer(
-					rs.getInt("offerID"),
-					rs.getString("offerDate"),
-					rs.getInt("customerID"),
-					rs.getString("request"),
-					rs.getString("requestDate")
-				));
-				
-			}
-			
-			System.out.println("Alle Angebote mit Übereinstimmenden Suchkriterien wurden geladen!");
-					
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
-		
-	}
-	
-	public void updateOffer(	int _offerID,
-								String _offerDate,
-								String _request,
-								String _requestDate,
-								String _notes,
-								int _customerID,
-								ObservableList<ModelArticle> _obsListArticle){
-		
-		try{
-			
-			String stmt = "UPDATE offer SET offerDate = ?,"
-										+ "request = ?,"
-										+ "requestDate = ?,"
-										+ "notes = ?,"
-										+ "customerID = ? "
-										
-										+ "WHERE offerID = ?"; //ALWAYS LAST!
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setString(i, _offerDate);
-			i++;
-			ps.setString(i, _request);
-			i++;
-			ps.setString(i, _requestDate);
-			i++;
-			ps.setString(i, _notes);
-			i++;
-			ps.setInt(i, _customerID);
-			i++;
-			ps.setInt(i, _offerID);
-			i++;
-			
-			ps.execute();
-			
-			System.out.println("Änderungen an Angebot " + _offerID + " wurden in Datenbank gespeichert!");
-			
-			/* OFFER ARTICLE */
-			String stmtDeleteOfferArticle = "DELETE FROM offerarticle WHERE offerID = ?";
-			ps = con.prepareStatement(stmtDeleteOfferArticle);
-			ps.setInt(1, _offerID);
-			ps.execute();
-			
-			System.out.println("Angebots-Artikel zu Angebot " + _offerID + " wurden aus Datenbank gelöscht!");
-			
-			String stmtOfferArticle = "INSERT INTO offerarticle ("
-													+ "offerID,"
-													+ "articleID,"
-													+ "amount,"
-													+ "ek,"
-													+ "vk,"
-													+ "total"
-													+ ")"
-													+ "VALUES(?,?,?,?,?,?)"; //6
-			
-			for(int index = 0; index < _obsListArticle.size(); index++){
-				
-				con = new DBConnect().getConnection();
-				ps = con.prepareStatement(stmtOfferArticle);
-				int count = 1;
-				ps.setInt(count, _offerID);
-				count++;
-				ps.setInt(count, _obsListArticle.get(index).getArticleID());
-				count++;
-				ps.setDouble(count, _obsListArticle.get(index).getAmount());
-				count++;
-				ps.setBigDecimal(count, _obsListArticle.get(index).getEk());
-				count++;
-				ps.setBigDecimal(count, _obsListArticle.get(index).getVk());
-				count++;
-				ps.setBigDecimal(count, _obsListArticle.get(index).getTotal());
-				count++;
-				
-				ps.execute();
-				
-				System.out.println("Angebots-Artikel " + _obsListArticle.get(index).getArticleID() + " " + _obsListArticle.get(index).getDescription1() + " wurde der Datenbank hinzugefügt!");
-				
-			}
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			closeConnection();
-		}
-		
-	}
-	
-	/*
-	 * VALIDATION
+	/**
+	 * Constructor for Database (Insert Offer)
+	 * Constructor for Database (Update Offer)
+	 * @param _offerID
+	 * @param _offerDate
+	 * @param _request
+	 * @param _requestDate
+	 * @param _notes
+	 * @param _customerID
+	 * @param _obsListArticle
 	 */
-	public boolean validate(	int _offerID,
-								int _customerID,
-								String _offerDate,
-								String _requestDate,
-								ObservableList<ModelArticle> _obsListArticle){
-		
-		if(_offerID != 0 && _customerID != 0 && _obsListArticle.size() > 0 && ! _offerDate.equals("") && ! _requestDate.equals("")){
-			return true;
-		}else if(_offerID == 0){
-			System.out.println("Bitte gültige Angebots-Nr. verwenden!");
-			return false;
-		}else if(_customerID == 0){
-			System.out.println("Bitte gültige Kunden-Nr. wählen!");
-			return false;
-		}else if(_offerDate.equals("")){
-			System.out.println("Bitte gültiges Angebots-Datum wählen!");
-			return false;
-		}else if(_requestDate.equals("")){
-			System.out.println("Bitte gülties Anfrage-Datum wählen!");
-			return false;
-		}else if(_obsListArticle.size() == 0){
-			System.out.println("Bitte mindestens 1 Artikel angeben!");
-			return false;
-		}else{
-			System.out.println("***ModelOffer.java -> validate(): Unbekannter Fehler");
-			return false;
-		}
-		
+	public ModelOffer(	int _offerID,
+						String _offerDate,
+						String _request,
+						String _requestDate,
+						String _notes,
+						int _customerID,
+						ObservableList<ModelArticle> _obsListArticle){
+
+		this.offerID = _offerID;
+		this.offerDate = _offerDate;
+		this.request = _request;
+		this.requestDate = _requestDate;
+		this.notes = _notes;
+		this.customerID = _customerID;
+		this.obsListArticle = _obsListArticle;
+
 	}
 	
-	/*
-	 * CLOSE CONNECTION
+	/**
+	 * Constructor for Database (Select Offer) <br>
+	 * Constructor for Database (Delete Offer)
+	 * @param _offerID
+	 * @param _customerID
 	 */
-	private void closeConnection(){
-		
-		try{
-			
-			if(con != null)
-				con.close();
-			
-			if(ps != null)
-				ps.close();
-			
-			if(rs != null)
-				rs.close();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
+	public ModelOffer(	int _offerID, int _customerID){		
+		this.offerID = _offerID;		
+		this.customerID = _customerID;
+	}
+	
+	/**
+	 * Constructor for Database (Select Offer Customer)
+	 * @param _customerID
+	 */
+	public ModelOffer(	int _customerID){
+		this.customerID = _customerID;
 	}
 
-	
 	/*
 	 * GETTER & SETTER
 	 */
@@ -417,49 +107,88 @@ public class ModelOffer {
 		return offerID;
 	}
 
+	public void setOfferID(int offerID) {
+		this.offerID = offerID;
+	}
+
 	public String getOfferDate() {
 		return offerDate;
+	}
+
+	public void setOfferDate(String offerDate) {
+		this.offerDate = offerDate;
 	}
 
 	public String getRequest() {
 		return request;
 	}
 
+	public void setRequest(String request) {
+		this.request = request;
+	}
+
 	public String getRequestDate() {
 		return requestDate;
+	}
+
+	public void setRequestDate(String requestDate) {
+		this.requestDate = requestDate;
 	}
 
 	public String getNotes() {
 		return notes;
 	}
 
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
 	public int getCustomerID() {
 		return customerID;
+	}
+
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
 	}
 
 	public int getArticleID() {
 		return articleID;
 	}
 
+	public void setArticleID(int articleID) {
+		this.articleID = articleID;
+	}
+
 	public double getAmount() {
 		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 	public BigDecimal getEk() {
 		return ek;
 	}
 
+	public void setEk(BigDecimal ek) {
+		this.ek = ek;
+	}
+
 	public BigDecimal getVk() {
 		return vk;
 	}
 
-	public ObservableList<ModelOffer> getObsListOfferSearch() {
-		return obsListOfferSearch;
+	public void setVk(BigDecimal vk) {
+		this.vk = vk;
 	}
-	
-	public ObservableList<ModelArticle> getObsListArticle(){
+
+	public ObservableList<ModelArticle> getObsListArticle() {
 		return obsListArticle;
 	}
-	
+
+	public void setObsListArticle(ObservableList<ModelArticle> obsListArticle) {
+		this.obsListArticle = obsListArticle;
+	}
 	
 }
