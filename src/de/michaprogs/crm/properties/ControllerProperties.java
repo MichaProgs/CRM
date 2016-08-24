@@ -2,6 +2,7 @@ package de.michaprogs.crm.properties;
 
 import de.michaprogs.crm.barrelsize.add.LoadBarrelsizeAdd;
 import de.michaprogs.crm.bolting.add.LoadBoltingAdd;
+import de.michaprogs.crm.clerk.add.LoadClerkAdd;
 import de.michaprogs.crm.warehouse.add.LoadWarehouseAdd;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,6 +18,7 @@ public class ControllerProperties {
 	@FXML private Button btnBolting;
 	@FXML private Button btnBarrelsize;
 	@FXML private Button btnWarehouse;
+	@FXML private Button btnClerk;
 	
 	private Stage stage;
 	
@@ -30,6 +32,7 @@ public class ControllerProperties {
 		initBtnBolting();
 		initBtnBarrelsize();
 		initBtnWarehouse();
+		initBtnClerk();
 		
 	}
 	
@@ -67,6 +70,18 @@ public class ControllerProperties {
 			@Override
 			public void handle(ActionEvent event) {
 				content.setCenter(new LoadWarehouseAdd(false).getContent());
+			}
+		});
+		
+	}
+	
+	private void initBtnClerk(){
+		
+		btnClerk.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				content.setCenter(new LoadClerkAdd(false).getContent());
 			}
 		});
 		

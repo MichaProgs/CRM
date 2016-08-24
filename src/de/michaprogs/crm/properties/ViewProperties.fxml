@@ -33,6 +33,7 @@
 							<Button fx:id="btnBolting" text="Verschraubungen" id="btnSidebar" />
 							<Button fx:id="btnBarrelsize" text="Gebindegrößen" id="btnSidebar" />
 							<Button fx:id="btnWarehouse" text="Lager" id="btnSidebar" />
+							<Button fx:id="btnClerk" text="Sachbearbeiter" id="btnSidebar" />
 						</VBox>						
 					</left>
 					<center>
