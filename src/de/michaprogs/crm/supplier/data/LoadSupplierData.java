@@ -12,13 +12,17 @@ public class LoadSupplierData {
 	private ControllerSupplierData controller;
 	private Stage stage = new Stage();
 	
-	public LoadSupplierData(boolean createDialog){
+	public LoadSupplierData(boolean createDialog, int supplierID){
 		
 		try{
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewSupplierData.fxml"));
 			root = loader.load();
 			controller = loader.getController();
+			
+			if(supplierID != 0){
+				controller.selectSupplier(supplierID);
+			}
 			
 			if(createDialog){
 				controller.setStage(stage);

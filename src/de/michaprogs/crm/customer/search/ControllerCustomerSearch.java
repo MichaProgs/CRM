@@ -275,6 +275,8 @@ public class ControllerCustomerSearch {
 		
 		tvCustomerSearch.getItems().clear();
 		
+		lblSubHeadline.setText("");
+		
 	}
 	
 	/*

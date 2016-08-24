@@ -1,6 +1,7 @@
 package de.michaprogs.crm.navigation;
 
 import de.michaprogs.crm.GraphicButton;
+import de.michaprogs.crm.Main;
 import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.customer.data.LoadCustomerData;
 import de.michaprogs.crm.offer.data.LoadOfferData;
@@ -12,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 
 public class ControllerNavigation {
 	
@@ -29,17 +29,20 @@ public class ControllerNavigation {
 	@FXML private TitledPane tpMainData;
 	@FXML private TitledPane tpDocuments;
 	
-	private LoadCustomerData customerData = new LoadCustomerData(false);
-	private LoadArticleData articleData = new LoadArticleData();
-	private LoadSupplierData supplierData = new LoadSupplierData(false);
+	private LoadCustomerData customerData;
+	private LoadArticleData articleData;
+	private LoadSupplierData supplierData = new LoadSupplierData(false,0);
 	private LoadStockAdd stockAdd = new LoadStockAdd(false);
-	private LoadOfferData offerData = new LoadOfferData(false);
+	private LoadOfferData offerData = new LoadOfferData(false,0,0);
 	
-	private BorderPane content;
+	private Main main;
 	
 	public ControllerNavigation(){}
 	
-	@FXML private void initialize(){		
+	@FXML private void initialize(){	
+		
+		customerData = new LoadCustomerData(false, main);
+		articleData = new LoadArticleData(false, main);
 		
 		//Buttons
 		initBtnCollapse();
@@ -53,13 +56,15 @@ public class ControllerNavigation {
 	}
 	
 	/**
-	 *  set by main-class 
-	 *	@param content - the contentpane (borderpane) where the panels are changed 
-	 */	
-	public void setContent(BorderPane content){
-		this.content = content;
+	 *  set by main-class via loading class  
+	 */		
+	public void setMain(Main main){
+		this.main = main;
 	}
 	
+	/*
+	 * BUTTONS
+	 */
 	private void initBtnCollapse(){
 		
 		btnCollapse.setGraphic(new GraphicButton("menu_collapse_32.png").getGraphicButton());
@@ -104,8 +109,8 @@ public class ControllerNavigation {
 		btnCustomer.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
-			public void handle(ActionEvent event) {
-				content.setCenter(customerData.getContent());
+			public void handle(ActionEvent event) {					
+				main.getContentPane().setCenter(customerData.getContent());
 			}
 		});
 		
@@ -118,7 +123,7 @@ public class ControllerNavigation {
 
 			@Override
 			public void handle(ActionEvent event) {
-				content.setCenter(articleData.getContent());
+				main.getContentPane().setCenter(articleData.getContent());
 			}
 		});
 		
@@ -131,7 +136,7 @@ public class ControllerNavigation {
 
 			@Override
 			public void handle(ActionEvent event) {
-				content.setCenter(supplierData.getContent());
+				main.getContentPane().setCenter(supplierData.getContent());
 			}
 		});
 		
@@ -144,7 +149,7 @@ public class ControllerNavigation {
 
 			@Override
 			public void handle(ActionEvent event) {
-				content.setCenter(stockAdd.getContent());
+				main.getContentPane().setCenter(stockAdd.getContent());
 			}
 		});
 		
@@ -157,7 +162,7 @@ public class ControllerNavigation {
 
 			@Override
 			public void handle(ActionEvent event) {
-				content.setCenter(offerData.getContent());
+				main.getContentPane().setCenter(offerData.getContent());
 			}
 		});
 		

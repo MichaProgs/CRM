@@ -60,6 +60,7 @@ public class SelectOffer {
 				mo.setRequestDate(rs.getString("requestDate"));
 				mo.setNotes(rs.getString("notes"));
 				mo.setCustomerID(rs.getInt("customerID"));
+				mo.setClerkID(rs.getInt("clerkID"));
 				
 				obsListOffer.add(new ModelOffer(
 					rs.getInt("offerID"), 

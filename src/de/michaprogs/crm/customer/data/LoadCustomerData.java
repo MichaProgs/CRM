@@ -1,7 +1,7 @@
 package de.michaprogs.crm.customer.data;
 
 import de.michaprogs.crm.CreateDialog;
-import javafx.fxml.FXML;
+import de.michaprogs.crm.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -9,17 +9,18 @@ import javafx.stage.Stage;
 
 public class LoadCustomerData {
 
-	@FXML private AnchorPane root;
-	@FXML private ControllerCustomerData controller;
+	private AnchorPane root;
+	private ControllerCustomerData controller = new ControllerCustomerData();
 	private Stage stage = new Stage();
 	
-	public LoadCustomerData(boolean createDialog){
+	public LoadCustomerData(boolean createDialog, Main main){
 		
 		try{
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewCustomerData.fxml"));
+			controller.setMain(main);
+			loader.setController(controller);
 			root = loader.load();
-			controller = loader.getController();
 			
 			if(createDialog){
 				controller.setStage(stage);

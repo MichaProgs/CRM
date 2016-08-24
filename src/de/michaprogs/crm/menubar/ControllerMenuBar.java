@@ -2,6 +2,7 @@ package de.michaprogs.crm.menubar;
 
 
 import de.michaprogs.crm.GraphicMenuItem;
+import de.michaprogs.crm.Main;
 import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.customer.data.LoadCustomerData;
 import de.michaprogs.crm.offer.data.LoadOfferData;
@@ -12,7 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.BorderPane;
 
 public class ControllerMenuBar {
 
@@ -25,17 +25,21 @@ public class ControllerMenuBar {
 	
 	@FXML private MenuItem itemProperties;
 	
-	private LoadCustomerData customerData = new LoadCustomerData(false);
-	private LoadArticleData articleData = new LoadArticleData();
-	private LoadSupplierData supplierData = new LoadSupplierData(false);
-	private LoadOfferData offerData = new LoadOfferData(false);
+	private LoadCustomerData customerData;
+	private LoadArticleData articleData;
+	private LoadSupplierData supplierData = new LoadSupplierData(false,0);
+	private LoadOfferData offerData = new LoadOfferData(false,0,0);
 	private LoadStockAdd stockAdd = new LoadStockAdd(false);
 	
-	private BorderPane content;
+	private Main main;
 	
 	public ControllerMenuBar(){}
 	
 	@FXML private void initialize(){
+		
+		//Content
+		customerData = new LoadCustomerData(false, main);
+		articleData  = new LoadArticleData(false, main);
 		
 		//MenuItems
 		initItemCustomer();
@@ -59,7 +63,7 @@ public class ControllerMenuBar {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				content.setCenter(articleData.getContent());
+				main.getContentPane().setCenter(articleData.getContent());
 			}
 		});
 		
@@ -72,7 +76,7 @@ public class ControllerMenuBar {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				content.setCenter(supplierData.getContent());
+				main.getContentPane().setCenter(supplierData.getContent());
 			}
 		});
 		
@@ -85,7 +89,7 @@ public class ControllerMenuBar {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				content.setCenter(stockAdd.getContent());
+				main.getContentPane().setCenter(stockAdd.getContent());
 			}
 		});
 		
@@ -98,7 +102,7 @@ public class ControllerMenuBar {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				content.setCenter(customerData.getContent());
+				main.getContentPane().setCenter(customerData.getContent());
 			}
 		});
 		
@@ -111,7 +115,7 @@ public class ControllerMenuBar {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				content.setCenter(offerData.getContent());
+				main.getContentPane().setCenter(offerData.getContent());
 			}
 		});
 
@@ -131,11 +135,10 @@ public class ControllerMenuBar {
 	}
 	
 	/**
-	 *  set by main-class 
-	 *	@param content - the contentpane (borderpane) where the panels are changed 
+	 *  set by main-class via loader class
 	 */	
-	public void setContent(BorderPane content){
-		this.content = content;
+	public void setMain(Main main){
+		this.main = main;
 	}
 	
 }

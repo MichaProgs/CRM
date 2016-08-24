@@ -12,13 +12,17 @@ public class LoadOfferData {
 	private ControllerOfferData controller;
 	private Stage stage = new Stage();
 	
-	public LoadOfferData(boolean createDialog){
+	public LoadOfferData(boolean createDialog, int offerID, int customerID){
 		
 		try{
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewOfferData.fxml"));
 			root = loader.load();
 			controller = loader.getController();
+			
+			if(offerID != 0 && customerID != 0){
+				controller.selectOffer(offerID, customerID);
+			}
 			
 			if(createDialog){
 				controller.setStage(stage);

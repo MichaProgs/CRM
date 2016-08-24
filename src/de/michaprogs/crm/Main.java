@@ -1,6 +1,5 @@
 package de.michaprogs.crm;
 	
-import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.customer.data.LoadCustomerData;
 import de.michaprogs.crm.database.CreateTables;
 import de.michaprogs.crm.menubar.LoadMenuBar;
@@ -13,35 +12,35 @@ import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
 	
+	private Stage stage;
+	private BorderPane contentPane = new BorderPane();;
+	
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage stage) {
 
 		try {
 			
+			this.stage = stage;
+			
 			new CreateTables();
-			BorderPane root = new BorderPane();
 			
-			LoadMenuBar menubar = new LoadMenuBar(false);
-			LoadNavigation navigation = new LoadNavigation();
-//			LoadArticleData articleData = new LoadArticleData();
-			LoadCustomerData customerData = new LoadCustomerData(false);
+			LoadMenuBar menubar = new LoadMenuBar(false, this);			
+			LoadNavigation navigation = new LoadNavigation(this);			
+			LoadCustomerData customerData = new LoadCustomerData(false, this);	
 			
-			navigation.getController().setContent(root);
-			menubar.getController().setContent(root);
+			contentPane.setTop(menubar.getContent());
+			contentPane.setLeft(navigation.getContent());			
+			contentPane.setCenter(customerData.getContent());
 			
-			root.setTop(menubar.getContent());
-			root.setLeft(navigation.getContent());			
-			root.setCenter(customerData.getContent());
-			
-			Scene scene = new Scene(root);
+			Scene scene = new Scene(contentPane);
 			scene.getStylesheets().add("style.css");
 			
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("CRM");
-			primaryStage.setWidth(1200);
-			primaryStage.setHeight(600);
-			primaryStage.setMaximized(true);
-			primaryStage.show();
+			stage.setScene(scene);
+			stage.setTitle("CRM");
+			stage.setWidth(1200);
+			stage.setHeight(600);
+			stage.setMaximized(true);
+			stage.show();
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -51,6 +50,14 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	public Stage getStage(){
+		return stage;
+	}
+	
+	public BorderPane getContentPane(){
+		return contentPane;
 	}
 
 }

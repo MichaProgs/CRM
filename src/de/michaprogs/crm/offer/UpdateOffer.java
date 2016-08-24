@@ -19,7 +19,8 @@ public class UpdateOffer {
 										+ "request = ?,"
 										+ "requestDate = ?,"
 										+ "notes = ?,"
-										+ "customerID = ? "
+										+ "customerID = ?,"
+										+ "clerkID = ? "
 										
 										+ "WHERE offerID = ?"; //ALWAYS LAST!
 			
@@ -36,6 +37,10 @@ public class UpdateOffer {
 			i++;
 			ps.setInt(i, mo.getCustomerID());
 			i++;
+			ps.setInt(i, mo.getClerkID());
+			i++;
+			
+			//ALWAYS LAST!
 			ps.setInt(i, mo.getOfferID());
 			i++;
 			

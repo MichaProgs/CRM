@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
+import de.michaprogs.crm.Main;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.customer.DeleteCustomer;
 import de.michaprogs.crm.customer.ModelCustomer;
@@ -16,12 +17,16 @@ import de.michaprogs.crm.customer.search.LoadCustomerSearch;
 import de.michaprogs.crm.offer.ModelOffer;
 import de.michaprogs.crm.offer.SelectOffer;
 import de.michaprogs.crm.offer.SelectOffer.Selection;
+import de.michaprogs.crm.offer.add.LoadOfferAdd;
+import de.michaprogs.crm.offer.data.LoadOfferData;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -29,6 +34,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class ControllerCustomerData {
 
@@ -117,6 +123,7 @@ public class ControllerCustomerData {
 	@FXML private HBox hboxBtnTopbar;
 	
 	private Stage stage;
+	private Main main;
 	
 	public ControllerCustomerData(){}
 	
@@ -386,6 +393,8 @@ public class ControllerCustomerData {
 		tcOfferRequest.setCellValueFactory(new PropertyValueFactory<>("request"));
 		tcOfferDate.setCellValueFactory(new PropertyValueFactory<>("offerDate"));
 		
+		tvOffer.setContextMenu(new ContextMenuTableOffer());
+		
 	}
 	
 	/*
@@ -649,11 +658,98 @@ public class ControllerCustomerData {
 		}
 	}
 	
+	private boolean editable(){
+		
+		if(hboxBtnTopbar.getChildren().contains(btnEditSave)){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+	
 	/*
 	 * GETTER & SETTER
 	 */
 	public void setStage(Stage stage){
 		this.stage = stage;
+	}
+	
+	public void setMain(Main main){
+		this.main = main;
+	}
+
+	/*
+	 * CONTEXT MENU
+	 */
+	private class ContextMenuTableOffer extends ContextMenu{
+		
+		private MenuItem itemGoTo = new MenuItem("Gehe zu..");
+		private MenuItem itemNew = new MenuItem("Hinzufügen..");
+		
+		public ContextMenuTableOffer(){
+			
+			initItemGoTo();
+			initItemNew();
+			
+			this.getItems().addAll(	itemGoTo,
+									itemNew);
+			
+			this.setOnShowing(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent event) {
+					
+					if(editable()){						
+						itemNew.setDisable(false);
+						itemGoTo.setDisable(false);						
+					}else{
+						itemNew.setDisable(true);
+						itemGoTo.setDisable(false);
+					}
+					
+				}
+			});
+			
+		}
+		
+		private void initItemGoTo(){
+			
+			itemGoTo.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {	
+					
+					if(tvOffer.getSelectionModel().getSelectedItems().size() == 1){
+						main.getContentPane().setCenter(new LoadOfferData(	false, 
+																			tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getOfferID(), 
+																			tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getCustomerID()
+														).getContent());				
+					}else{
+						System.out.println("Bitte 1 Zeile markieren!");
+					}
+				}
+			});
+			
+		}
+		
+		private void initItemNew(){
+			
+			itemNew.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					LoadOfferAdd offerAdd = new LoadOfferAdd(true, new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()));
+					if(offerAdd.getController().getCreatedOfferID() != 0){
+						main.getContentPane().setCenter(	new LoadOfferData(false,
+															offerAdd.getController().getCreatedOfferID(),
+															offerAdd.getController().getCreatedOfferCustomerID()).getContent());
+					}
+				}
+			});
+			
+		}
+		
 	}
 	
 }

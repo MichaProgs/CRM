@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="anchorpaneSidebar" id="anchorpaneSidebar" prefWidth="250" maxWidth="250" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.navigation.ControllerNavigation">
+<AnchorPane fx:id="anchorpaneSidebar" id="anchorpaneSidebar" prefWidth="250" maxWidth="250" xmlns:fx="http://javafx.com/fxml/1" >
 	<VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" >
 		<AnchorPane styleClass="Headbar">
 			<StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">

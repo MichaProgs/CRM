@@ -26,7 +26,7 @@
 <?import de.michaprogs.crm.components.TextFieldDesity?>
 <?import de.michaprogs.crm.components.ComboWarehouse?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.customer.data.ControllerCustomerData">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" >
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 		<!-- FLEX NAVI -->
 		<top>

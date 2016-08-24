@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
+import de.michaprogs.crm.Main;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.DeleteArticle;
 import de.michaprogs.crm.article.ModelArticle;
@@ -28,6 +29,7 @@ import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
 import de.michaprogs.crm.stock.ModelStock;
 import de.michaprogs.crm.stock.SelectStock;
+import de.michaprogs.crm.supplier.data.LoadSupplierData;
 import de.michaprogs.crm.warehouse.ModelWarehouse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -39,6 +41,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -46,11 +49,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.WindowEvent;
 
 public class ControllerArticleData{
 	
@@ -126,6 +126,7 @@ public class ControllerArticleData{
 	
 	//Panels & Nodes
 	@FXML private HBox hboxBtnTopbar;
+	private Main main;
 	
 	public ControllerArticleData(){}
 	
@@ -401,71 +402,6 @@ public class ControllerArticleData{
 		
 	}
 	
-//	private void initBtnPrint(){
-//		
-//		btnPrint.setGraphic(setGraphicButton("file:img/Print_32.png"));
-//		btnPrint.setOnAction(new EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				
-//				ChoiceDialog<String> cd = new ChoiceDialog<>();
-//				cd.setTitle("Auswahl");
-//				cd.setHeaderText("Welche Aktion möchten Sie ausführen?");
-//				cd.getItems().add("Drucken");
-//				cd.getItems().add("Datei erstellen");
-//				cd.setSelectedItem("Drucken");
-//				cd.showAndWait();
-//				
-//				if(cd.getResult().equals("Datei erstellen")){
-//					
-//					try{
-//					
-//						File f = new File("files/" + tfArticleID.getText() + " " + tfDescription1.getText() + ".txt");
-//						BufferedWriter out = new BufferedWriter(new FileWriter(f));
-//						out.write("Artikel-Nr.: " + tfArticleID.getText());
-//						out.newLine();
-//						out.write("Kurztext1: " + tfDescription1.getText());
-//						out.newLine();
-//						out.write("Kurztext2: " + tfDescription2.getText());
-//						out.newLine();
-//						out.write("Kategorie: " + cbCategory.getSelectionModel().getSelectedItem());
-//						out.newLine();
-//						out.write("EAN-Nr.: " + tfEanID.getText());
-//						out.newLine();
-//						out.newLine();
-//						out.write("Gebindegröße: " + tfBarrelsize.getText());
-//						out.newLine();
-//						out.write("Verschraubung: " + tfBolting.getText());
-//						out.newLine();
-//						out.write("Länge x Breite x Höhe:: " + tfLength.getText() + " x " + tfWidth.getText() + " x " + tfHeight.getText());
-//						out.newLine();
-//						out.write("Gewicht: " + tfWeight.getText());
-//						out.newLine();
-//						out.write("Dichte: " + tfDesity.getText());
-//						out.newLine();
-//						out.newLine();
-//						out.write("EK: " + tfEk.getText());
-//						out.newLine();
-//						out.write("VK: " + tfVk.getText());
-//						out.newLine();
-//						out.write("Preiseinheit: " + cbPriceUnit.getSelectionModel().getSelectedItem() + " " + cbAmountUnit.getSelectionModel().getSelectedItem());
-//						out.newLine();
-//						out.write("Ust: " + cbTax.getSelectionModel().getSelectedItem());
-//						out.close();
-//						
-//						System.out.println("Datei mit Artikeldaten " + tfArticleID.getText() + " " + tfDescription1.getText() + " wurde erstellt!");
-//						
-//					}catch(Exception e){
-//						e.printStackTrace();
-//					}
-//					
-//				}
-//				
-//			}
-//		});
-//		
-//	}
 
 	/******************************
 	 * BUTTONS TITLED PANE SUPPLIER
@@ -570,53 +506,7 @@ public class ControllerArticleData{
 		this.tcSupplierPriceUnit.setCellValueFactory(new PropertyValueFactory<>("supplierPriceUnit"));
 		this.tcSupplierAmountUnit.setCellValueFactory(new PropertyValueFactory<>("supplierAmountUnit"));
 		
-		tvArticleSupplier.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				
-				//When the data is editable
-				if(	hboxBtnTopbar.getChildren().contains(btnEditSave) &&
-					hboxBtnTopbar.getChildren().contains(btnEditAbort)){
-					
-					tvArticleSupplier.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-						@Override
-						public void handle(KeyEvent event) {
-							
-							if(event.getCode().equals(KeyCode.DELETE)){
-								deleteArticleSupplier();
-							}else if(event.getCode().equals(KeyCode.ENTER)){
-								editArticleSupplier();
-							}
-							
-						}
-					});
-					
-					tvArticleSupplier.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-						@Override
-						public void handle(MouseEvent event) {
-							
-							if(	event.getButton().equals(MouseButton.SECONDARY) &&
-								event.getClickCount() == 1){
-								tvArticleSupplier.setContextMenu(new ContextMenuArticleSupplier());
-							}else if(	event.getButton().equals(MouseButton.PRIMARY) &&
-										event.getClickCount() == 2){
-								editArticleSupplier();
-							}
-							
-						}
-					});
-					
-				}else{
-					tvArticleSupplier.setOnKeyPressed(null);
-					tvArticleSupplier.setOnMouseClicked(null);
-					tvArticleSupplier.setContextMenu(null);
-				}
-				
-			}
-		});
+		tvArticleSupplier.setContextMenu(new ContextMenuArticleSupplier());
 		
 	}
 	
@@ -947,6 +837,10 @@ public class ControllerArticleData{
 		}
 	}
 	
+	public void setMain(Main main){
+		this.main = main;
+	}
+	
 	/*
 	 * CONTEXT-MENU
 	 */
@@ -956,6 +850,8 @@ public class ControllerArticleData{
 		private MenuItem miEdit = new MenuItem("Bearbeiten..");
 		private MenuItem miDelete = new MenuItem("Löschen");
 		
+		private MenuItem miGoTo = new MenuItem("Gehe zu..");
+		
 		public ContextMenuArticleSupplier(){
 			
 			//initialize
@@ -963,7 +859,32 @@ public class ControllerArticleData{
 			initMiEdit();
 			initMiDelete();
 			
-			this.getItems().addAll(miAdd, miEdit, miDelete);			
+			initMiGoTo();
+			
+			this.getItems().addAll(miAdd, miEdit, miDelete, new SeparatorMenuItem(), miGoTo);
+			this.setOnShowing(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent event) {
+					
+					if(hboxBtnTopbar.getChildren().contains(btnEditSave)){
+						
+						miAdd.setDisable(false);
+						miEdit.setDisable(false);
+						miDelete.setDisable(false);
+						miGoTo.setDisable(false);
+						
+					}else{
+						
+						miAdd.setDisable(true);
+						miEdit.setDisable(true);
+						miDelete.setDisable(true);
+						miGoTo.setDisable(false);
+						
+					}
+					
+				}
+			});
 			
 		}
 		
@@ -1001,6 +922,24 @@ public class ControllerArticleData{
 				}
 			});
 	
+		}
+		
+		private void initMiGoTo(){
+			
+			miGoTo.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+
+					if(tvArticleSupplier.getSelectionModel().getSelectedItems().size() == 1){
+						main.getContentPane().setCenter(new LoadSupplierData(false, tvArticleSupplier.getItems().get(tvArticleSupplier.getSelectionModel().getSelectedIndex()).getSupplierID()).getContent());
+					}else{
+						System.out.println("Bitte 1 Zeile markieren!");
+					}
+					
+				}
+			});
+			
 		}
 		
 	}

@@ -257,7 +257,7 @@ public class ControllerSupplierData {
 	/*
 	 * DATABASE METHODS
 	 */
-	private void selectSupplier(int _supplierID){
+	public void selectSupplier(int _supplierID){
 		
 		ModelSupplier supplier = new SelectSupplier(new ModelSupplier(_supplierID)).getModelSupplier();
 			

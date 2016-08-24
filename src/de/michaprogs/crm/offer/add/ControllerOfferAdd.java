@@ -9,6 +9,10 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
+import de.michaprogs.crm.clerk.ModelClerk;
+import de.michaprogs.crm.clerk.SelectClerk;
+import de.michaprogs.crm.clerk.SelectClerk.Selection;
+import de.michaprogs.crm.clerk.data.LoadClerkData;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
@@ -44,6 +48,13 @@ public class ControllerOfferAdd {
 	@FXML private TextField tfRequest;
 	@FXML private DatePicker tfRequestDate;
 	@FXML private TextArea taNotes;
+	
+	/* CLERK */
+	@FXML private TextField tfClerkID;
+	@FXML private TextField tfClerk;
+	@FXML private TextField tfClerkPhone;
+	@FXML private TextField tfClerkFax;
+	@FXML private TextField tfClerkEmail;
 	
 	/* CUSTOMER DELIVERYADRESS */
 	@FXML private TextField tfCustomerID;
@@ -112,6 +123,7 @@ public class ControllerOfferAdd {
 	@FXML private TableColumn<Integer, ModelArticle> tcTax;	
 	
 	@FXML private Button btnCustomerSearch;
+	@FXML private Button btnClerkSearch;
 	@FXML private Button btnArticleAdd;
 	@FXML private Button btnArticleEdit;
 	@FXML private Button btnArticleDelete;
@@ -138,6 +150,7 @@ public class ControllerOfferAdd {
 		
 		/* BUTTONS */
 		initBtnCustomerSearch();
+		initBtnClerkSearch();
 		initBtnArticleAdd();
 		initBtnArticleEdit();
 		initBtnArticleDelete();
@@ -162,70 +175,7 @@ public class ControllerOfferAdd {
 				
 				LoadCustomerSearch customerSearch = new LoadCustomerSearch(true);
 				if(customerSearch.getController().getSelectedCustomerID() != 0){
-					
-					ModelCustomer customer = new SelectCustomer(new ModelCustomer(customerSearch.getController().getSelectedCustomerID())).getModelCustomer();
-										
-					tfCustomerID.setText(String.valueOf(customer.getCustomerID()));
-					cbSalutation.getSelectionModel().select(customer.getSalutation());
-					tfName1.setText(customer.getName1());
-					tfName2.setText(customer.getName2());
-					tfStreet.setText(customer.getStreet());
-					cbLand.getSelectionModel().select(customer.getLand());
-					tfZip.setText(String.valueOf(customer.getZip()));
-					tfLocation.setText(customer.getLocation());
-					
-					tfPhone.setText(customer.getPhone());
-					tfMobile.setText(customer.getMobile());
-					tfFax.setText(customer.getFax());
-					tfEmail.setText(customer.getEmail());
-					tfWeb.setText(customer.getWeb());
-					tfContact.setText(customer.getContact());
-					tfUstID.setText(customer.getUstID());
-					
-					cbPayment.getSelectionModel().select(customer.getPayment());
-					tfBank.setText(customer.getBank());
-					tfIBAN.setText(customer.getIBAN());
-					tfBIC.setText(customer.getBIC());
-					tfBank.setText(customer.getBank());
-					tfPaymentSkonto.setText(String.valueOf(customer.getPaymentSkonto()));
-					tfPaymentNetto.setText(String.valueOf(customer.getPaymentNetto()));
-					tfSkonto.setText(String.valueOf(customer.getSkonto()));
-					
-					//ALWAYS LAST - OTHERWISE THE DATA IN THE MODEL WOULD BE OVERWRITTEN
-					if(customer.getBillingID() != 0){
-						
-						ModelCustomer customerBilling = new SelectCustomer(new ModelCustomer(customer.getBillingID())).getModelCustomer();
-						
-						tfCustomerIDBilling.setText(String.valueOf(customerBilling.getCustomerID()));
-						cbSalutationBilling.getSelectionModel().select(customerBilling.getSalutation());
-						tfName1Billing.setText(customerBilling.getName1());
-						tfName2Billing.setText(customerBilling.getName2());
-						tfStreetBilling.setText(customerBilling.getStreet());
-						cbLandBilling.getSelectionModel().select(customerBilling.getLand());
-						tfZipBilling.setText(String.valueOf(customerBilling.getZip()));
-						tfLocationBilling.setText(customerBilling.getLocation());
-						
-						tfPhoneBilling.setText(customerBilling.getPhone());
-						tfMobileBilling.setText(customerBilling.getMobile());
-						tfFaxBilling.setText(customerBilling.getFax());
-						tfEmailBilling.setText(customerBilling.getEmail());
-						tfWebBilling.setText(customerBilling.getWeb());
-						tfContactBilling.setText(customerBilling.getContact());
-						tfUstIDBilling.setText(customerBilling.getUstID());
-						
-						cbPaymentBilling.getSelectionModel().select(customerBilling.getPayment());
-						tfBankBilling.setText(customerBilling.getBank());
-						tfIBANBilling.setText(customerBilling.getIBAN());
-						tfBICBilling.setText(customerBilling.getBIC());
-						tfBankBilling.setText(customerBilling.getBank());
-						tfPaymentSkontoBilling.setText(String.valueOf(customerBilling.getPaymentSkonto()));
-						tfPaymentNettoBilling.setText(String.valueOf(customerBilling.getPaymentNetto()));
-						tfSkontoBilling.setText(String.valueOf(customerBilling.getSkonto()));
-						
-					}else{				
-						resetFieldsBilling();				
-					}
-					
+					selectCustomer(customerSearch.getController().getSelectedCustomerID());					
 				}
 				
 			}
@@ -233,6 +183,30 @@ public class ControllerOfferAdd {
 		
 	}
 		
+	private void initBtnClerkSearch(){
+		
+		btnClerkSearch.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				LoadClerkData clerkData = new LoadClerkData(true);
+				if(clerkData.getController().getSelectedClerkID() != 0){
+					
+					ModelClerk clerk = new SelectClerk(new ModelClerk(clerkData.getController().getSelectedClerkID()), Selection.SELECT_SPECIFIC).getModelClerk();
+					tfClerkID.setText(String.valueOf(clerk.getClerkID()));
+					tfClerk.setText(clerk.getName());
+					tfClerkPhone.setText(clerk.getPhone());
+					tfClerkFax.setText(clerk.getFax());
+					tfClerkEmail.setText(clerk.getEmail());
+					
+				}
+				
+			}
+		});
+		
+	}
+	
 	private void initBtnArticleAdd(){
 		
 		btnArticleAdd.setOnAction(new EventHandler<ActionEvent>() {
@@ -290,6 +264,7 @@ public class ControllerOfferAdd {
 						String.valueOf(tfRequestDate.getValue()), 
 						taNotes.getText(), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfClerkID.getText()),
 						tvArticle.getItems()
 					));
 					
@@ -415,6 +390,76 @@ public class ControllerOfferAdd {
 			System.out.println("Bitte 1 Zeile markieren!");
 		}
 				
+	}
+	
+	/*
+	 * DATABASE METHODS
+	 */
+	public void selectCustomer(int _customerID){
+	
+		ModelCustomer customer = new SelectCustomer(new ModelCustomer(_customerID)).getModelCustomer();
+		
+		tfCustomerID.setText(String.valueOf(customer.getCustomerID()));
+		cbSalutation.getSelectionModel().select(customer.getSalutation());
+		tfName1.setText(customer.getName1());
+		tfName2.setText(customer.getName2());
+		tfStreet.setText(customer.getStreet());
+		cbLand.getSelectionModel().select(customer.getLand());
+		tfZip.setText(String.valueOf(customer.getZip()));
+		tfLocation.setText(customer.getLocation());
+		
+		tfPhone.setText(customer.getPhone());
+		tfMobile.setText(customer.getMobile());
+		tfFax.setText(customer.getFax());
+		tfEmail.setText(customer.getEmail());
+		tfWeb.setText(customer.getWeb());
+		tfContact.setText(customer.getContact());
+		tfUstID.setText(customer.getUstID());
+		
+		cbPayment.getSelectionModel().select(customer.getPayment());
+		tfBank.setText(customer.getBank());
+		tfIBAN.setText(customer.getIBAN());
+		tfBIC.setText(customer.getBIC());
+		tfBank.setText(customer.getBank());
+		tfPaymentSkonto.setText(String.valueOf(customer.getPaymentSkonto()));
+		tfPaymentNetto.setText(String.valueOf(customer.getPaymentNetto()));
+		tfSkonto.setText(String.valueOf(customer.getSkonto()));
+		
+		//ALWAYS LAST - OTHERWISE THE DATA IN THE MODEL WOULD BE OVERWRITTEN
+		if(customer.getBillingID() != 0){
+			
+			ModelCustomer customerBilling = new SelectCustomer(new ModelCustomer(customer.getBillingID())).getModelCustomer();
+			
+			tfCustomerIDBilling.setText(String.valueOf(customerBilling.getCustomerID()));
+			cbSalutationBilling.getSelectionModel().select(customerBilling.getSalutation());
+			tfName1Billing.setText(customerBilling.getName1());
+			tfName2Billing.setText(customerBilling.getName2());
+			tfStreetBilling.setText(customerBilling.getStreet());
+			cbLandBilling.getSelectionModel().select(customerBilling.getLand());
+			tfZipBilling.setText(String.valueOf(customerBilling.getZip()));
+			tfLocationBilling.setText(customerBilling.getLocation());
+			
+			tfPhoneBilling.setText(customerBilling.getPhone());
+			tfMobileBilling.setText(customerBilling.getMobile());
+			tfFaxBilling.setText(customerBilling.getFax());
+			tfEmailBilling.setText(customerBilling.getEmail());
+			tfWebBilling.setText(customerBilling.getWeb());
+			tfContactBilling.setText(customerBilling.getContact());
+			tfUstIDBilling.setText(customerBilling.getUstID());
+			
+			cbPaymentBilling.getSelectionModel().select(customerBilling.getPayment());
+			tfBankBilling.setText(customerBilling.getBank());
+			tfIBANBilling.setText(customerBilling.getIBAN());
+			tfBICBilling.setText(customerBilling.getBIC());
+			tfBankBilling.setText(customerBilling.getBank());
+			tfPaymentSkontoBilling.setText(String.valueOf(customerBilling.getPaymentSkonto()));
+			tfPaymentNettoBilling.setText(String.valueOf(customerBilling.getPaymentNetto()));
+			tfSkontoBilling.setText(String.valueOf(customerBilling.getSkonto()));
+			
+		}else{				
+			resetFieldsBilling();				
+		}
+		
 	}
 	
 	/*

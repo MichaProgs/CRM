@@ -20,6 +20,9 @@ public class ModelOffer {
 	/* CUSTOMER */
 	private int customerID;
 	
+	/* CLERK */
+	private int clerkID;
+	
 	/* ARTICLE */
 	private int articleID;
 	private double amount;
@@ -61,6 +64,7 @@ public class ModelOffer {
 	 * @param _requestDate
 	 * @param _notes
 	 * @param _customerID
+	 * @param _clerkID
 	 * @param _obsListArticle
 	 */
 	public ModelOffer(	int _offerID,
@@ -69,6 +73,7 @@ public class ModelOffer {
 						String _requestDate,
 						String _notes,
 						int _customerID,
+						int _clerkID,
 						ObservableList<ModelArticle> _obsListArticle){
 
 		this.offerID = _offerID;
@@ -77,6 +82,7 @@ public class ModelOffer {
 		this.requestDate = _requestDate;
 		this.notes = _notes;
 		this.customerID = _customerID;
+		this.clerkID = _clerkID;
 		this.obsListArticle = _obsListArticle;
 
 	}
@@ -149,6 +155,14 @@ public class ModelOffer {
 
 	public void setCustomerID(int customerID) {
 		this.customerID = customerID;
+	}
+	
+	public int getClerkID() {
+		return clerkID;
+	}
+
+	public void setClerkID(int clerkID) {
+		this.clerkID = clerkID;
 	}
 
 	public int getArticleID() {

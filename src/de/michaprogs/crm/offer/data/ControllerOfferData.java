@@ -9,6 +9,9 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
+import de.michaprogs.crm.clerk.ModelClerk;
+import de.michaprogs.crm.clerk.SelectClerk;
+import de.michaprogs.crm.clerk.data.LoadClerkData;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
@@ -53,6 +56,13 @@ public class ControllerOfferData {
 	@FXML private TextField tfRequest;
 	@FXML private DatePicker tfRequestDate;
 	@FXML private TextArea taNotes;
+	
+	/* CLERK */
+	@FXML private TextField tfClerkID;
+	@FXML private TextField tfClerk;
+	@FXML private TextField tfClerkPhone;
+	@FXML private TextField tfClerkFax;
+	@FXML private TextField tfClerkEmail;
 	
 	/* CUSTOMER DELIVERYADRESS */
 	@FXML private TextField tfCustomerID;
@@ -128,6 +138,7 @@ public class ControllerOfferData {
 	@FXML private Button btnDelete;
 	
 	@FXML private Button btnCustomerSearch;
+	@FXML private Button btnClerkSearch;
 	
 	@FXML private Button btnArticleAdd;
 	@FXML private Button btnArticleEdit;
@@ -157,6 +168,8 @@ public class ControllerOfferData {
 		initBtnEditAbort();
 		
 		initBtnCustomerSearch();
+		initBtnClerkSearch();
+		
 		initBtnArticleAdd();
 		initBtnArticleEdit();
 		initBtnArticleDelete();
@@ -181,6 +194,23 @@ public class ControllerOfferData {
 				LoadCustomerSearch customerSearch = new LoadCustomerSearch(true);
 				if(customerSearch.getController().getSelectedCustomerID() != 0){
 					selectCustomer(customerSearch.getController().getSelectedCustomerID());					
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnClerkSearch(){
+		
+		btnClerkSearch.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				LoadClerkData clerkData = new LoadClerkData(true);
+				if(clerkData.getController().getSelectedClerkID() != 0){
+					selectClerk(clerkData.getController().getSelectedClerkID());
 				}
 				
 			}
@@ -250,7 +280,7 @@ public class ControllerOfferData {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadOfferAdd offerAdd = new LoadOfferAdd(true);
+				LoadOfferAdd offerAdd = new LoadOfferAdd(true, 0);
 				int createdOfferID = offerAdd.getController().getCreatedOfferID();
 				if(createdOfferID != 0){
 					selectOffer(createdOfferID, offerAdd.getController().getCreatedOfferCustomerID());
@@ -274,9 +304,6 @@ public class ControllerOfferData {
 				
 				enableFields();				
 				setButtonState();
-				
-				
-
 				
 			}
 		});
@@ -305,6 +332,7 @@ public class ControllerOfferData {
 						String.valueOf(tfRequestDate.getValue()), 
 						taNotes.getText(), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfClerkID.getText()),
 						tvArticle.getItems()
 					));
 					
@@ -413,7 +441,7 @@ public class ControllerOfferData {
 	/*
 	 * DATABASE METHODS
 	 */
-	private void selectOffer(int _offerID, int _customerID){
+	public void selectOffer(int _offerID, int _customerID){
 		
 		ModelOffer offer = new SelectOffer(new ModelOffer(_offerID, _customerID), Selection.SPECIFIC_OFFER).getModelOffer();
 		
@@ -425,6 +453,9 @@ public class ControllerOfferData {
 			selectCustomer(offer.getCustomerID());
 			tfRequest.setText(offer.getRequest());
 			tfRequestDate.setValue(LocalDate.parse(offer.getRequestDate()));
+			
+			/* CLERK */
+			selectClerk(offer.getClerkID());
 			
 			/* NOTES */
 			taNotes.setText(offer.getNotes());
@@ -506,6 +537,17 @@ public class ControllerOfferData {
 		}else{				
 			resetFieldsBilling();				
 		}
+		
+	}
+	
+	private void selectClerk(	int _clerkID){
+		
+		ModelClerk clerk = new SelectClerk(new ModelClerk(_clerkID), de.michaprogs.crm.clerk.SelectClerk.Selection.SELECT_SPECIFIC).getModelClerk();
+		tfClerkID.setText(String.valueOf(clerk.getClerkID()));
+		tfClerk.setText(clerk.getName());
+		tfClerkPhone.setText(clerk.getPhone());
+		tfClerkFax.setText(clerk.getFax());
+		tfClerkEmail.setText(clerk.getEmail());		
 		
 	}
 	
@@ -598,6 +640,9 @@ public class ControllerOfferData {
 		/* CUSTOMER */
 		btnCustomerSearch.setDisable(false);
 		
+		/* CLERK */
+		btnClerkSearch.setDisable(false);
+		
 	}
 	
 	private void disableFields(){
@@ -610,6 +655,9 @@ public class ControllerOfferData {
 		
 		/* CUSTOMER */
 		btnCustomerSearch.setDisable(true);
+		
+		/* CLERK */
+		btnClerkSearch.setDisable(true);
 		
 	}
 	
