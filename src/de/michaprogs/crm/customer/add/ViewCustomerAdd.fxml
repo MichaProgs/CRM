@@ -241,6 +241,11 @@
 								</VBox>
 							</TitledPane>
 							
+							<!-- CONTACTS -->
+							<TitledPane text="Ansprechpartner" expanded="false" >
+								<fx:include source="../../contact/data/ViewContactData.fxml" fx:id="contactData" />
+							</TitledPane>
+							
 							<!-- LONGTEXT / NOTES -->
 							<TitledPane text="Langtext / Notizen" expanded="false"> 
 								<AnchorPane>

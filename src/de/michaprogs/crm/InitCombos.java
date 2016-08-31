@@ -84,6 +84,8 @@ public class InitCombos {
 			"CZ"
 		);
 		
+		cbLand.getSelectionModel().selectFirst();
+		
 	}
 	
 	public void initComboPayment(ComboBox<String> cbPayment){

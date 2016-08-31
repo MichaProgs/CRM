@@ -1,5 +1,9 @@
 package de.michaprogs.crm.supplier;
 
+import de.michaprogs.crm.contact.ModelContact;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class ModelSupplier {
 
 	private int supplierID;
@@ -27,6 +31,8 @@ public class ModelSupplier {
 	
 	private String lastChange;
 	private String notes;
+	
+	private ObservableList<ModelContact> obsListContact = FXCollections.observableArrayList();
 	
 	public ModelSupplier(){}
 	
@@ -145,185 +151,203 @@ public class ModelSupplier {
 	}
 	
 	/*
-	 * GETTER
+	 * GETTER & SETTER
 	 */
 	public int getSupplierID() {
 		return supplierID;
+	}
+
+	public void setSupplierID(int supplierID) {
+		this.supplierID = supplierID;
 	}
 
 	public String getName1() {
 		return name1;
 	}
 
-	public String getName2() {
-		return name2;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public String getLand() {
-		return land;
-	}
-
-	public int getZip() {
-		return zip;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public String getFax() {
-		return fax;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getWeb() {
-		return web;
-	}
-
-	public String getContact() {
-		return contact;
-	}
-
-	public String getUstID() {
-		return ustID;
-	}
-
-	public String getPayment() {
-		return payment;
-	}
-
-	public String getIBAN() {
-		return IBAN;
-	}
-
-	public String getBIC() {
-		return BIC;
-	}
-
-	public String getBank() {
-		return bank;
-	}
-
-	public int getPaymentSkonto() {
-		return paymentSkonto;
-	}
-
-	public int getPaymentNetto() {
-		return paymentNetto;
-	}
-
-	public int getSkonto() {
-		return skonto;
-	}
-
-	public String getLastChange() {
-		return lastChange;
-	}	
-	
-	public String getNotes(){
-		return notes;
-	}
-	
-	/*
-	 * SETTER
-	 */
-	public void setSupplierID(int supplierID) {
-		this.supplierID = supplierID;
-	}
-
 	public void setName1(String name1) {
 		this.name1 = name1;
+	}
+
+	public String getName2() {
+		return name2;
 	}
 
 	public void setName2(String name2) {
 		this.name2 = name2;
 	}
 
+	public String getStreet() {
+		return street;
+	}
+
 	public void setStreet(String street) {
 		this.street = street;
+	}
+
+	public String getLand() {
+		//Empty ComboBox = null
+		if(land == null){
+			land = "";
+		}
+		return land;
 	}
 
 	public void setLand(String land) {
 		this.land = land;
 	}
 
+	public int getZip() {
+		return zip;
+	}
+
 	public void setZip(int zip) {
 		this.zip = zip;
+	}
+
+	public String getLocation() {
+		return location;
 	}
 
 	public void setLocation(String location) {
 		this.location = location;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getFax() {
+		return fax;
 	}
 
 	public void setFax(String fax) {
 		this.fax = fax;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getWeb() {
+		return web;
 	}
 
 	public void setWeb(String web) {
 		this.web = web;
 	}
 
+	public String getContact() {
+		return contact;
+	}
+
 	public void setContact(String contact) {
 		this.contact = contact;
+	}
+
+	public String getUstID() {
+		return ustID;
 	}
 
 	public void setUstID(String ustID) {
 		this.ustID = ustID;
 	}
 
+	public String getPayment() {
+		//Empty ComboBox = null
+		if(payment == null){
+			payment = "";
+		}
+		return payment;
+	}
+
 	public void setPayment(String payment) {
 		this.payment = payment;
+	}
+
+	public String getIBAN() {
+		return IBAN;
 	}
 
 	public void setIBAN(String iBAN) {
 		IBAN = iBAN;
 	}
 
+	public String getBIC() {
+		return BIC;
+	}
+
 	public void setBIC(String bIC) {
 		BIC = bIC;
+	}
+
+	public String getBank() {
+		return bank;
 	}
 
 	public void setBank(String bank) {
 		this.bank = bank;
 	}
 
+	public int getPaymentSkonto() {
+		return paymentSkonto;
+	}
+
 	public void setPaymentSkonto(int paymentSkonto) {
 		this.paymentSkonto = paymentSkonto;
+	}
+
+	public int getPaymentNetto() {
+		return paymentNetto;
 	}
 
 	public void setPaymentNetto(int paymentNetto) {
 		this.paymentNetto = paymentNetto;
 	}
 
+	public int getSkonto() {
+		return skonto;
+	}
+
 	public void setSkonto(int skonto) {
 		this.skonto = skonto;
+	}
+
+	public String getLastChange() {
+		return lastChange;
 	}
 
 	public void setLastChange(String lastChange) {
 		this.lastChange = lastChange;
 	}
 
+	public String getNotes() {
+		return notes;
+	}
+
 	public void setNotes(String notes) {
 		this.notes = notes;
-	}	
+	}
+
+	public ObservableList<ModelContact> getObsListContact() {
+		return obsListContact;
+	}
+
+	public void setObsListContact(ObservableList<ModelContact> obsListContact) {
+		this.obsListContact = obsListContact;
+	}
+	
+	
 	
 }
+	
+
+

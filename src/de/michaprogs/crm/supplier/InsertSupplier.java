@@ -3,7 +3,10 @@ package de.michaprogs.crm.supplier;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import de.michaprogs.crm.contact.InsertSupplierContact;
+import de.michaprogs.crm.contact.ModelContact;
 import de.michaprogs.crm.database.DBConnect;
+import javafx.collections.ObservableList;
 
 public class InsertSupplier {
 
@@ -11,7 +14,7 @@ public class InsertSupplier {
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public InsertSupplier(ModelSupplier ms){
+	public InsertSupplier(ModelSupplier ms, ObservableList<ModelContact> obsListContact){
 		
 		try{
 			
@@ -92,6 +95,20 @@ public class InsertSupplier {
 			ps.execute();
 			
 			System.out.println("Lieferant " + ms.getSupplierID() + " " + ms.getName1() + " wurde zur Datenbank hinzugefügt");
+			
+			for(int index = 0; index < obsListContact.size(); index++){
+				
+				new InsertSupplierContact(new ModelContact(
+					ms.getSupplierID(),
+					obsListContact.get(index).getSalutation(), 
+					obsListContact.get(index).getName(), 
+					obsListContact.get(index).getPhone(), 
+					obsListContact.get(index).getFax(), 
+					obsListContact.get(index).getEmail(), 
+					obsListContact.get(index).getDepartment()
+				));
+				
+			}
 			
 		}catch(Exception e){
 			e.printStackTrace();

@@ -7,6 +7,7 @@ import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.contact.data.ControllerContactData;
 import de.michaprogs.crm.customer.InsertCustomer;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 
 public class ControllerCustomerAdd {
 
+	/* MAIN DATA */
 	@FXML private TextField tfCustomerID;
 	@FXML private ComboBox<String> cbSalutation;
 	@FXML private TextField tfName1;
@@ -49,6 +51,7 @@ public class ControllerCustomerAdd {
 	@FXML private TextField tfSkonto;
 	@FXML private TextField tfPaymentNetto;
 	
+	/* BILLING */
 	@FXML private TextField tfCustomerIDBilling;
 	@FXML private ComboBox<String> cbSalutationBilling;
 	@FXML private TextField tfName1Billing;
@@ -74,9 +77,16 @@ public class ControllerCustomerAdd {
 	@FXML private TextField tfSkontoBilling;
 	@FXML private TextField tfPaymentNettoBilling;
 	
-	@FXML private Label lblLastChange;
+	/* CONTACTS - NESTED CONTROLLER */
+	@FXML private ControllerContactData contactDataController; //fx:id + 'Controller'
+	
+	/* NOTES */
 	@FXML private TextArea taNotes;
 	
+	/* LAST CHANGE */
+	@FXML private Label lblLastChange;
+	
+	/* BUTTONS */
 	@FXML private Button btnSave;
 	@FXML private Button btnAbort;
 	
@@ -120,37 +130,39 @@ public class ControllerCustomerAdd {
 				if(new ValidateCustomerSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
 												tfName1.getText()).isValid()){
 				
-					new InsertCustomer(new ModelCustomer(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
-						cbSalutation.getSelectionModel().getSelectedItem(),
-						tfName1.getText(), 
-						tfName2.getText(), 
-						tfStreet.getText(), 
-						cbLand.getSelectionModel().getSelectedItem(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
-						tfLocation.getText(), 
-						
-						tfPhone.getText(), 
-						tfMobile.getText(),
-						tfFax.getText(), 
-						tfEmail.getText(), 
-						tfWeb.getText(), 
-						tfContact.getText(), 
-						tfUstID.getText(), 
-						
-						cbPayment.getSelectionModel().getSelectedItem(), 
-						tfIBAN.getText(), 
-						tfBIC.getText(), 
-						tfBank.getText(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
-						
-						String.valueOf(LocalDate.now()),
-						taNotes.getText(),
-						
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())
-					));					
+					new InsertCustomer(
+						new ModelCustomer(
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
+							cbSalutation.getSelectionModel().getSelectedItem(),
+							tfName1.getText(), 
+							tfName2.getText(), 
+							tfStreet.getText(), 
+							cbLand.getSelectionModel().getSelectedItem(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
+							tfLocation.getText(), 
+							
+							tfPhone.getText(), 
+							tfMobile.getText(),
+							tfFax.getText(), 
+							tfEmail.getText(), 
+							tfWeb.getText(), 
+							tfContact.getText(), 
+							tfUstID.getText(), 
+							
+							cbPayment.getSelectionModel().getSelectedItem(), 
+							tfIBAN.getText(), 
+							tfBIC.getText(), 
+							tfBank.getText(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
+							
+							String.valueOf(LocalDate.now()),
+							taNotes.getText(),
+							
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())),
+						contactDataController.getObsListContact()
+					);					
 					
 					createdCustomerID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText());
 					

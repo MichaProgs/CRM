@@ -5,27 +5,24 @@ import java.sql.PreparedStatement;
 
 import de.michaprogs.crm.database.DBConnect;
 
-public class DeleteCustomer {
+public class DeleteCustomerContacts {
 
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public DeleteCustomer(int _customerID){
+	public DeleteCustomerContacts(int _customerID){
 		
 		try{
 			
-			String stmt = "DELETE FROM customer WHERE customerID = ?";
+			String stmt = "DELETE FROM customercontacts WHERE customerID = ?";
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
 			ps.setInt(1, _customerID);
 			ps.execute();
 			
-			System.out.println("Kunde " + _customerID + " wurde aus Datenbank gelöscht!" );
-			
-			/* CONTACTS */
-			new DeleteCustomerContacts(_customerID);
+			System.out.println("Alle Kontakte von " + _customerID + " wurde aus Datenbank gelöscht!" );
 			
 		}catch(Exception e){
 			e.printStackTrace();

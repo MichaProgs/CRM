@@ -6,7 +6,7 @@ public class UpdateArticleSupplier {
 		
 		try{
 			
-			new DeleteArticleSupplier(mas.getArticleID());
+//			new DeleteArticleSupplier(mas.getArticleID());
 			new InsertArticleSupplier(mas);
 			
 		}catch(Exception e){

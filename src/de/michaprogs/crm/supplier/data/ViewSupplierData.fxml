@@ -141,6 +141,11 @@
 								</AnchorPane>
 							</TitledPane>	
 							
+							<!-- CONTACTS -->
+							<TitledPane text="Ansprechpartner" expanded="false" >
+								<fx:include source="../../contact/data/ViewContactData.fxml" fx:id="contactData" />
+							</TitledPane>
+							
 						</VBox>
 					</left>
 				<padding>

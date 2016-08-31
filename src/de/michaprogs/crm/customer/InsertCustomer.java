@@ -3,7 +3,9 @@ package de.michaprogs.crm.customer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import de.michaprogs.crm.contact.ModelContact;
 import de.michaprogs.crm.database.DBConnect;
+import javafx.collections.ObservableList;
 
 public class InsertCustomer {
 
@@ -11,7 +13,7 @@ public class InsertCustomer {
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public InsertCustomer(ModelCustomer mc){
+	public InsertCustomer(ModelCustomer mc, ObservableList<ModelContact> obsListContacts){
 		
 		try{
 			
@@ -42,8 +44,7 @@ public class InsertCustomer {
 				+ "notes,"
 				+ "billingID)"
 				+ "VALUES "
-				+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
-				+ ")";
+				+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
@@ -103,6 +104,10 @@ public class InsertCustomer {
 			ps.execute();
 			
 			System.out.println("Kunde " + mc.getCustomerID() + " " + mc.getName1() + " wurde zur Datenbank hinzugefügt");
+			
+			/* CONTACTS */
+			new InsertCustomerContacts(mc.getCustomerID(), obsListContacts);
+			
 			
 		}catch(Exception e){
 			e.printStackTrace();

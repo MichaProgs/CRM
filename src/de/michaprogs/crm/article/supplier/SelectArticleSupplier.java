@@ -34,7 +34,7 @@ public class SelectArticleSupplier {
 			rs = ps.executeQuery();
 			while(rs.next()){
 				
-				ModelSupplier supplier = new SelectSupplier(new ModelSupplier(rs.getInt("articleID"))).getModelSupplier();
+				ModelSupplier supplier = new SelectSupplier(new ModelSupplier(rs.getInt("supplierID"))).getModelSupplier();
 				
 				obsListArticleSupplier.add(new ModelArticleSupplier(
 					rs.getInt("supplierID"),

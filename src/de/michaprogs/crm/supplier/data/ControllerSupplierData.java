@@ -6,8 +6,11 @@ import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
+import de.michaprogs.crm.Main;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
+import de.michaprogs.crm.contact.ModelContact;
+import de.michaprogs.crm.contact.data.ControllerContactData;
 import de.michaprogs.crm.supplier.DeleteSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.SelectSupplier;
@@ -15,6 +18,7 @@ import de.michaprogs.crm.supplier.UpdateSupplier;
 import de.michaprogs.crm.supplier.ValidateSupplierSave;
 import de.michaprogs.crm.supplier.add.LoadSupplierAdd;
 import de.michaprogs.crm.supplier.search.LoadSupplierSearch;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -52,6 +56,9 @@ public class ControllerSupplierData {
 	
 	@FXML private TextArea taNotes;
 	
+	/* CONTACTS - NESTED CONTROLLER! */
+	@FXML private ControllerContactData contactDataController; //fx:id + 'Controller'
+	
 	//Buttons
 	@FXML private Button btnSearch;
 	@FXML private Button btnNew;
@@ -64,10 +71,9 @@ public class ControllerSupplierData {
 	@FXML private HBox hboxBtnTopbar;
 	
 	private Stage stage;
+	private Main main;
 	
-	public ControllerSupplierData(){
-		
-	}
+	public ControllerSupplierData(){}
 	
 	@FXML private void initialize(){
 		
@@ -186,8 +192,9 @@ public class ControllerSupplierData {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
 						String.valueOf(LocalDate.now()),
-						taNotes.getText()
-					));
+						taNotes.getText()),
+						contactDataController.getObsListContact()
+					);
 					
 					hboxBtnTopbar.getChildren().remove(btnEditSave);
 					hboxBtnTopbar.getChildren().remove(btnEditAbort);
@@ -261,6 +268,7 @@ public class ControllerSupplierData {
 		
 		ModelSupplier supplier = new SelectSupplier(new ModelSupplier(_supplierID)).getModelSupplier();
 			
+		/* MAIN DATA */
 		this.tfSupplierID.setText(String.valueOf(supplier.getSupplierID()));
 		this.tfName1.setText(supplier.getName1());
 		this.tfName2.setText(supplier.getName2());
@@ -269,6 +277,7 @@ public class ControllerSupplierData {
 		this.tfZip.setText(String.valueOf(supplier.getZip()));
 		this.tfLocation.setText(supplier.getLocation());
 		
+		/* CONTACT DATA */
 		this.tfPhone.setText(supplier.getPhone());
 		this.tfFax.setText(supplier.getFax());
 		this.tfEmail.setText(supplier.getEmail());
@@ -276,6 +285,7 @@ public class ControllerSupplierData {
 		this.tfContact.setText(supplier.getContact());
 		this.tfUstID.setText(supplier.getUstID());
 		
+		/* PAYMENT DATA */
 		this.cbPayment.getSelectionModel().select(supplier.getPayment());
 		this.tfIBAN.setText(supplier.getIBAN());
 		this.tfBIC.setText(supplier.getBIC());
@@ -283,6 +293,12 @@ public class ControllerSupplierData {
 		this.tfPaymentSkonto.setText(String.valueOf(supplier.getPaymentSkonto()));
 		this.tfPaymentNetto.setText(String.valueOf(supplier.getPaymentNetto()));
 		this.tfSkonto.setText(String.valueOf(supplier.getSkonto()));
+		
+		/* NOTES */
+		this.taNotes.setText(supplier.getNotes());
+		
+		/* CONTACTS */
+		this.contactDataController.setTableData(supplier.getObsListContact());
 		
 		setButtonState();
 		
@@ -388,6 +404,20 @@ public class ControllerSupplierData {
 				btnEdit.setDisable(true);
 				btnDelete.setDisable(true);
 				
+				/* CONTACTS */
+				contactDataController.getButtonContactAdd().setDisable(false);
+				if(contactDataController.getObsListContact().size() > 0){
+					contactDataController.getButtonContactEdit().setDisable(false);
+					contactDataController.getButtonContactDelete().setDisable(false);
+				}
+				
+			}else{
+				
+				/* CONTACTS */
+				contactDataController.getButtonContactAdd().setDisable(true);
+				contactDataController.getButtonContactEdit().setDisable(true);
+				contactDataController.getButtonContactDelete().setDisable(true);
+				
 			}
 			
 		}else{
@@ -396,6 +426,11 @@ public class ControllerSupplierData {
 			btnNew.setDisable(false);
 			btnEdit.setDisable(true);
 			btnDelete.setDisable(true);
+			
+			/* CONTACTS */
+			contactDataController.getButtonContactAdd().setDisable(true);
+			contactDataController.getButtonContactEdit().setDisable(true);
+			contactDataController.getButtonContactDelete().setDisable(true);
 			
 		}
 		

@@ -64,6 +64,9 @@ public class SelectCustomer {
 			
 			System.out.println("Kunde " + mc.getCustomerID() + " " + mc.getName1() + " aus Datenbank geladen!");
 			
+			/* CONTACTS */
+			new SelectCustomerContacts(mc);
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{

@@ -3,7 +3,9 @@ package de.michaprogs.crm.customer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import de.michaprogs.crm.contact.ModelContact;
 import de.michaprogs.crm.database.DBConnect;
+import javafx.collections.ObservableList;
 
 public class UpdateCustomer {
 
@@ -11,7 +13,7 @@ public class UpdateCustomer {
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public UpdateCustomer(ModelCustomer mc){
+	public UpdateCustomer(ModelCustomer mc, ObservableList<ModelContact> obsListContacts){
 		
 		try{
 			
@@ -104,6 +106,9 @@ public class UpdateCustomer {
 			ps.execute();
 			
 			System.out.println("Änderungen an Kunde " + mc.getCustomerID() + " " + mc.getName1() + " wurden in Datenbank gespeichert!");
+			
+			/* CONTACTS */
+			new UpdateCustomerContacts(mc.getCustomerID(), obsListContacts);
 			
 		}catch(Exception e){
 			e.printStackTrace();

@@ -6,7 +6,13 @@ import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.clerk.ModelClerk;
+import de.michaprogs.crm.clerk.add.LoadClerkAdd;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
+import de.michaprogs.crm.contact.InsertSupplierContact;
+import de.michaprogs.crm.contact.ModelContact;
+import de.michaprogs.crm.contact.data.ControllerContactData;
+import de.michaprogs.crm.contact.data.LoadContactData;
 import de.michaprogs.crm.supplier.InsertSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.ValidateSupplierSave;
@@ -15,6 +21,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -44,9 +52,13 @@ public class ControllerSupplierAdd {
 	@FXML private TextFieldOnlyInteger tfPaymentNetto;
 	@FXML private TextFieldOnlyInteger tfSkonto;
 	
+	/* NOTES */
 	@FXML private TextArea taNotes;
 	
-	//Buttons
+	/* CONTACT - NESTED CONTROLLER! */
+	@FXML private ControllerContactData contactDataController; //fx:id + 'Controller'
+	
+	/* BUTTONS */
 	@FXML private Button btnSave;
 	@FXML private Button btnAbort;
 	
@@ -70,11 +82,10 @@ public class ControllerSupplierAdd {
 		initBtnAbort();
 		
 	}
-	
-	public void setStage(Stage stage){
-		this.stage = stage;
-	}
-	
+
+	/*
+	 * BUTTONS
+	 */
 	private void initBtnSave(){
 		
 		btnSave.setGraphic(new GraphicButton("save_32.png").getGraphicButton());
@@ -108,8 +119,9 @@ public class ControllerSupplierAdd {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
 						String.valueOf(LocalDate.now()),
-						taNotes.getText()
-					));					
+						taNotes.getText()),
+						contactDataController.getObsListContact()
+					);			
 					
 					createdSupplierID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText());
 					
@@ -150,10 +162,14 @@ public class ControllerSupplierAdd {
 		});
 		
 	}
-	
+			
 	/*
 	 * GETTER & SETTER
 	 */
+	public void setStage(Stage stage){
+		this.stage = stage;
+	}
+	
 	public int getCreatedSupplierID(){
 		return createdSupplierID;
 	}

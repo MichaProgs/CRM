@@ -1,5 +1,9 @@
 package de.michaprogs.crm.customer;
 
+import de.michaprogs.crm.contact.ModelContact;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class ModelCustomer {
 
 	private int customerID;
@@ -31,6 +35,9 @@ public class ModelCustomer {
 	private String notes;
 	
 	private int billingID;
+	
+	/* CONTACTS */
+	private ObservableList<ModelContact> obsListContacts = FXCollections.observableArrayList();
 	
 	public ModelCustomer(){}
 	
@@ -168,6 +175,10 @@ public class ModelCustomer {
 	}
 
 	public String getSalutation() {
+		//Empty ComboBox = null
+		if(salutation == null){
+			salutation = "";
+		}
 		return salutation;
 	}
 
@@ -366,5 +377,17 @@ public class ModelCustomer {
 	public void setBillingID(int billingID) {
 		this.billingID = billingID;
 	}
+
+	
+	public ObservableList<ModelContact> getObsListContacts() {
+		return obsListContacts;
+	}
+	
+
+	public void setObsListContacts(ObservableList<ModelContact> obsListContacts) {
+		this.obsListContacts = obsListContacts;
+	}
+	
+	
 	
 }

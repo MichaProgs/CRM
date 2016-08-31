@@ -3,7 +3,11 @@ package de.michaprogs.crm.supplier;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import de.michaprogs.crm.contact.DeleteSupplierContact;
+import de.michaprogs.crm.contact.InsertSupplierContact;
+import de.michaprogs.crm.contact.ModelContact;
 import de.michaprogs.crm.database.DBConnect;
+import javafx.collections.ObservableList;
 
 public class UpdateSupplier {
 
@@ -11,7 +15,7 @@ public class UpdateSupplier {
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public UpdateSupplier(ModelSupplier ms){
+	public UpdateSupplier(ModelSupplier ms, ObservableList<ModelContact> obsListContact){
 		
 		try{
 			
@@ -92,6 +96,21 @@ public class UpdateSupplier {
 			ps.execute();
 			
 			System.out.println("Änderungen an Lieferant " + ms.getSupplierID() + " " + ms.getName1() + " wurde in Datenbank gespeichert!");
+			
+			new DeleteSupplierContact(ms.getSupplierID());
+			for(int index = 0; index < obsListContact.size(); index++){
+				
+				new InsertSupplierContact(new ModelContact(
+					ms.getSupplierID(),
+					obsListContact.get(index).getSalutation(), 
+					obsListContact.get(index).getName(), 
+					obsListContact.get(index).getPhone(), 
+					obsListContact.get(index).getFax(), 
+					obsListContact.get(index).getEmail(), 
+					obsListContact.get(index).getDepartment()
+				));
+				
+			}
 			
 		}catch(Exception e){
 			e.printStackTrace();

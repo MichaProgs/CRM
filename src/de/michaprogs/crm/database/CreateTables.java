@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.sql.Statement;
 
 public class CreateTables {
-
-	private Connection con = null;
 	
 	public CreateTables(){
 		
 //		dropTable(new DBConnect().getConnection());
 		
 		createTableCustomer(new DBConnect().getConnection());
+		createTableCustomerContacts(new DBConnect().getConnection());
+		
 		createTableArticle(new DBConnect().getConnection());
 		
 		createTableBarrelsize(new DBConnect().getConnection());
@@ -19,6 +19,7 @@ public class CreateTables {
 		createTableClerk(new DBConnect().getConnection());
 		
 		createTableSupplier(new DBConnect().getConnection());
+		createTableSupplierContacts(new DBConnect().getConnection());
 		
 		createTableArticleSupplier(new DBConnect().getConnection());
 		
@@ -65,6 +66,36 @@ public class CreateTables {
 			statement.execute(stmt);
 			
 			System.out.println("Tabelle 'CUSTOMER' in Datenbank erstellt!");
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void createTableCustomerContacts(Connection con){
+		
+		try{
+
+			String stmt = "CREATE TABLE IF NOT EXISTS CustomerContacts("	
+									+ "CUSTOMERID INTEGER NOT NULL,"
+									+ "SALUTATION VARCHAR_IGNORECASE,"
+									+ "NAME VARCHAR_IGNORECASE,"
+									+ "PHONE VARCHAR_IGNORECASE,"
+									+ "FAX VARCHAR_IGNORECASE,"
+									+ "EMAIL VARCHAR_IGNORECASE,"
+									+ "DEPARTMENT VARCHAR_IGNORECASE)";
+			
+			Statement statement = con.createStatement();
+			statement.execute(stmt);
+			
+			System.out.println("Tabelle 'CUSTOMERCONTACTS' in Datenbank erstellt!");
 		
 		}catch(Exception e){
 			e.printStackTrace();
@@ -250,6 +281,36 @@ public class CreateTables {
 		
 	}
 	
+	private void createTableSupplierContacts(Connection con){
+		
+		try{
+
+			String stmt = "CREATE TABLE IF NOT EXISTS SupplierContacts("	
+									+ "SUPPLIERID INTEGER NOT NULL,"
+									+ "SALUTATION VARCHAR_IGNORECASE,"
+									+ "NAME VARCHAR_IGNORECASE,"
+									+ "PHONE VARCHAR_IGNORECASE,"
+									+ "FAX VARCHAR_IGNORECASE,"
+									+ "EMAIL VARCHAR_IGNORECASE,"
+									+ "DEPARTMENT VARCHAR_IGNORECASE)";
+			
+			Statement statement = con.createStatement();
+			statement.execute(stmt);
+			
+			System.out.println("Tabelle 'SUPPLIERCONTACTS' in Datenbank erstellt!");
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				closeConnection();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
 	private void createTableArticleSupplier(Connection con){
 		
 		try{
@@ -383,8 +444,8 @@ public class CreateTables {
 	private void closeConnection(){
 		
 		try{
-			if(con != null)
-				con.close();
+//			if(con != null)
+//				con.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}

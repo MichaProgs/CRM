@@ -7,6 +7,7 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Main;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.contact.data.ControllerContactData;
 import de.michaprogs.crm.customer.DeleteCustomer;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
@@ -95,6 +96,9 @@ public class ControllerCustomerData {
 	@FXML private TextField tfPaymentSkontoBilling;
 	@FXML private TextField tfSkontoBilling;
 	@FXML private TextField tfPaymentNettoBilling;
+	
+	/* CONTACTS - NESTED CONTROLLER */
+	@FXML private ControllerContactData contactDataController; //fx:id + 'Controller'
 	
 	/* NOTES */
 	@FXML private TextArea taNotes;
@@ -226,37 +230,39 @@ public class ControllerCustomerData {
 				if(new ValidateCustomerSave(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
 											tfName1.getText()).isValid()){
 					
-					new UpdateCustomer(new ModelCustomer(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
-						cbSalutation.getSelectionModel().getSelectedItem(),
-						tfName1.getText(), 
-						tfName2.getText(),
-						tfStreet.getText(), 
-						cbLand.getSelectionModel().getSelectedItem(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
-						tfLocation.getText(), 
-						
-						tfPhone.getText(), 
-						tfMobile.getText(), 
-						tfFax.getText(), 
-						tfEmail.getText(),
-						tfWeb.getText(), 
-						tfContact.getText(), 
-						tfUstID.getText(), 
-						
-						cbPayment.getSelectionModel().getSelectedItem(), 
-						tfIBAN.getText(), 
-						tfBIC.getText(), 
-						tfBank.getText(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()), 
-						
-						String.valueOf(LocalDate.now()), 
-						taNotes.getText(),
-						
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())
-					));
+					new UpdateCustomer(
+						new ModelCustomer(
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
+							cbSalutation.getSelectionModel().getSelectedItem(),
+							tfName1.getText(), 
+							tfName2.getText(),
+							tfStreet.getText(), 
+							cbLand.getSelectionModel().getSelectedItem(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
+							tfLocation.getText(), 
+							
+							tfPhone.getText(), 
+							tfMobile.getText(), 
+							tfFax.getText(), 
+							tfEmail.getText(),
+							tfWeb.getText(), 
+							tfContact.getText(), 
+							tfUstID.getText(), 
+							
+							cbPayment.getSelectionModel().getSelectedItem(), 
+							tfIBAN.getText(), 
+							tfBIC.getText(), 
+							tfBank.getText(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()), 
+							
+							String.valueOf(LocalDate.now()), 
+							taNotes.getText(),
+							
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())),
+						contactDataController.getObsListContact()
+					);
 					
 					hboxBtnTopbar.getChildren().remove(btnEditAbort);
 					hboxBtnTopbar.getChildren().remove(btnEditSave);
@@ -429,6 +435,8 @@ public class ControllerCustomerData {
 		tfPaymentSkonto.setText(String.valueOf(customer.getPaymentSkonto()));
 		tfPaymentNetto.setText(String.valueOf(customer.getPaymentNetto()));
 		tfSkonto.setText(String.valueOf(customer.getSkonto()));
+		
+		contactDataController.setTableData(customer.getObsListContacts());
 		
 		taNotes.setText(customer.getNotes());
 		lblLastChange.setText(customer.getLastChange());
@@ -628,6 +636,9 @@ public class ControllerCustomerData {
 			btnEdit.setDisable(true);
 			btnDelete.setDisable(true);
 			
+			/* CONTACTS */
+			contactDataController.getButtonContactAdd().setDisable(true);
+			
 		}else{
 			
 			btnEdit.setDisable(false);
@@ -641,9 +652,17 @@ public class ControllerCustomerData {
 				btnSearch.setDisable(true);
 				btnEdit.setDisable(true);
 				
+				/* BILLING */
 				btnBillingAdd.setDisable(false);
 				btnBillingDelete.setDisable(false);
 								
+				/* CONTACTS */
+				contactDataController.getButtonContactAdd().setDisable(false);
+				if(contactDataController.getObsListContact().size() > 0){
+					contactDataController.getButtonContactDelete().setDisable(false);
+					contactDataController.getButtonContactEdit().setDisable(false);
+				}
+				
 			}else{
 				
 				btnSearch.setDisable(false);
@@ -651,8 +670,14 @@ public class ControllerCustomerData {
 				btnEdit.setDisable(false);
 				btnDelete.setDisable(false);
 				
+				/* BILLING */
 				btnBillingAdd.setDisable(true);
 				btnBillingDelete.setDisable(true);
+				
+				/* CONTACTS */
+				contactDataController.getButtonContactAdd().setDisable(true);
+				contactDataController.getButtonContactDelete().setDisable(true);
+				contactDataController.getButtonContactEdit().setDisable(true);
 				
 			}
 		}

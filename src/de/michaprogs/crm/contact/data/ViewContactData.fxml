@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.contact.data.ControllerContactData" styleClass="AnchorPaneContent">
+	<VBox spacing="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" >
+		<TableView fx:id="tvContact">
+			<columnResizePolicy>
+      			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+   			</columnResizePolicy>
+			<columns>
+				<TableColumn fx:id="tcContactSalutation" text="Anrede" />
+				<TableColumn fx:id="tcContactName" text="Name" />
+				<TableColumn fx:id="tcContactPhone" text="Telefon" />
+				<TableColumn fx:id="tcContactFax" text="Fax" />
+				<TableColumn fx:id="tcContactEmail" text="Email" />
+				<TableColumn fx:id="tcContactDepartment" text="Abteilung" />
+			</columns>
+		</TableView>
+		<HBox spacing="10" alignment="CENTER_RIGHT">
+			<Button fx:id="btnContactAdd" text="Hinzufügen.." />
+			<Button fx:id="btnContactEdit" text="Bearbeiten.." />
+			<Button fx:id="btnContactDelete" text="Löschen" />
+		</HBox>
+	</VBox>
+</AnchorPane>
+

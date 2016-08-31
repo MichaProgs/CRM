@@ -8,6 +8,8 @@ import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.Validate.ValidateOnlyInteger;
+import de.michaprogs.crm.article.DeleteArticle;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.clerk.ModelClerk;
 import de.michaprogs.crm.clerk.SelectClerk;
@@ -166,6 +168,7 @@ public class ControllerOfferData {
 		initBtnEdit();
 		initBtnEditSave();
 		initBtnEditAbort();
+		initBtnDelete();
 		
 		initBtnCustomerSearch();
 		initBtnClerkSearch();
@@ -373,6 +376,27 @@ public class ControllerOfferData {
 						disableFields();
 						setButtonState();
 					}					
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnDelete(){
+		
+		btnDelete.setGraphic(new GraphicButton("delete_32.png").getGraphicButton());
+		btnDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+
+				DeleteAlert delete = new DeleteAlert();
+				
+				if(delete.getDelete()){
+					new DeleteArticle(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()));
+					resetFields();
+					setButtonState();
 				}
 				
 			}

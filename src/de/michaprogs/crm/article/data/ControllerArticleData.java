@@ -15,6 +15,7 @@ import de.michaprogs.crm.article.UpdateArticle;
 import de.michaprogs.crm.article.ValidateArticleSave;
 import de.michaprogs.crm.article.add.LoadArticleAdd;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
+import de.michaprogs.crm.article.supplier.DeleteArticleSupplier;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.article.supplier.SelectArticleSupplier;
 import de.michaprogs.crm.article.supplier.UpdateArticleSupplier;
@@ -49,6 +50,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.WindowEvent;
 
@@ -287,6 +289,7 @@ public class ControllerArticleData{
 					));
 					
 					/* UPDATE ARTICLE SUPPLIER */
+					new DeleteArticleSupplier(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()));
 					for(int i = 0; i < tvArticleSupplier.getItems().size(); i++){
 						
 						new UpdateArticleSupplier(new ModelArticleSupplier(
@@ -508,6 +511,22 @@ public class ControllerArticleData{
 		
 		tvArticleSupplier.setContextMenu(new ContextMenuArticleSupplier());
 		
+		tvArticleSupplier.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+
+				if(	event.getClickCount() == 2 &&
+					tvArticleSupplier.getSelectionModel().getSelectedItems().size() == 1 &&
+					isEditable()){					
+					editArticleSupplier();					
+				}else{
+					System.out.println("Bitte 1 Zeile markieren!");
+				}
+				
+			}
+		});
+		
 	}
 	
 	private void initTableStock(){
@@ -595,7 +614,7 @@ public class ControllerArticleData{
 		}
 		
 		if(tvStock.getItems().size() != 0){
-			averagePrice.divide(new BigDecimal(tvStock.getItems().size())); //TODO doesn't work
+			averagePrice = averagePrice.divide(new BigDecimal(tvStock.getItems().size()));
 		}
 		
 		lblStock.setText("Es sind " + totalStock + " " + cbAmountUnit.getSelectionModel().getSelectedItem() + " am Lager (Durchschnittspreis: " + averagePrice + ")");
@@ -707,6 +726,17 @@ public class ControllerArticleData{
 		
 	}
 
+	private boolean isEditable(){
+		
+		if(	hboxBtnTopbar.getChildren().contains(btnEditSave) &&
+			hboxBtnTopbar.getChildren().contains(btnEditAbort)){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+	
 	/*
 	 * DATABASE METHODS
 	 */
@@ -872,7 +902,7 @@ public class ControllerArticleData{
 						miAdd.setDisable(false);
 						miEdit.setDisable(false);
 						miDelete.setDisable(false);
-						miGoTo.setDisable(false);
+						miGoTo.setDisable(true);
 						
 					}else{
 						

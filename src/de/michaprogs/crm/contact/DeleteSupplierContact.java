@@ -1,40 +1,37 @@
-package de.michaprogs.crm.customer;
+package de.michaprogs.crm.contact;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import de.michaprogs.crm.database.DBConnect;
 
-public class DeleteCustomer {
+public class DeleteSupplierContact {
 
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public DeleteCustomer(int _customerID){
+	public DeleteSupplierContact(int supplierID){
 		
 		try{
 			
-			String stmt = "DELETE FROM customer WHERE customerID = ?";
+			String stmt = "DELETE FROM suppliercontacts WHERE supplierID = ?";
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
-			ps.setInt(1, _customerID);
+			int i = 1;
+			ps.setInt(i, supplierID);
+			i++;
+			
 			ps.execute();
 			
-			System.out.println("Kunde " + _customerID + " wurde aus Datenbank gelöscht!" );
-			
-			/* CONTACTS */
-			new DeleteCustomerContacts(_customerID);
+			System.out.println("Alle Lieferantekontakte von Lieferant " + supplierID + " wurden aus Datenbank gelöscht!");
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
 			try{
-				if(con != null)
-					con.close();
-				if(ps != null)
-					ps.close();
+				
 			}catch(Exception e){
 				e.printStackTrace();
 			}
