@@ -131,5 +131,4 @@ INSERT INTO SUPPLIERCONTACTS VALUES(5001,'Name','Telefon','Fax','Email','Abteilu
 INSERT INTO SUPPLIERCONTACTS VALUES(5002,'Name_Update','Telefon_Update','Fax_Update','Email_Update','Abteilung_Update','Firma')
 INSERT INTO SUPPLIERCONTACTS VALUES(5002,'Musterfrau','089 - 123','089 - 456','musterfrau@domain.de','Musterabteilung','Frau')
 INSERT INTO SUPPLIERCONTACTS VALUES(5002,'Mustermann Max','089 - 987','089 - 654','max.mustermann@domain.de','CEO','Herr')
-INSERT INTO SUPPLIERCONTACTS VALUES(5002,'Test','','','','','Herr')
-INSERT INTO CUSTOMERCONTACTS VALUES(12345,'Herr','Name_Update','Telefon','Fax','Email','Abteilung')
+INSERT INTO CUSTOMERCONTACTS VALUES(12345,'Herr','Name','Telefon','Fax','Email','Abteilung')

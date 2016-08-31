@@ -4,15 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import de.michaprogs.crm.contact.ModelContact;
 import de.michaprogs.crm.database.DBConnect;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class SelectSupplier {
 
 	private ModelSupplier ms;
-	private ObservableList<ModelContact> obsListContact = FXCollections.observableArrayList();
 	
 	/* DATABASE */
 	private Connection con;
@@ -68,33 +64,7 @@ public class SelectSupplier {
 			System.out.println("Lieferant " + ms.getSupplierID() + " " + ms.getName1() + " wurde aus Datenbank geladen!");
 			
 			/* CONTACTS */
-			
-			stmt = "SELECT * FROM suppliercontacts WHERE supplierID = ?";
-			
-			ps = con.prepareStatement(stmt);
-			
-			i = 1;
-			ps.setInt(i, ms.getSupplierID());
-			i++;
-			
-			rs = ps.executeQuery();
-			while(rs.next()){
-				
-				obsListContact.add(new ModelContact(
-					ms.getSupplierID(),
-					rs.getString("salutation"),
-					rs.getString("name"),
-					rs.getString("phone"),
-					rs.getString("fax"),
-					rs.getString("email"),
-					rs.getString("department")
-				));
-				
-			}
-			
-			ms.setObsListContact(obsListContact);
-			
-			System.out.println("Alle Kontakte zu Lieferant " + ms.getSupplierID() + " " + ms.getName1() + " wurden aus Datenbank geladen!");
+			new SelectSupplierContacts(ms);
 			
 		}catch(Exception e){
 			e.printStackTrace();

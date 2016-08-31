@@ -28,6 +28,9 @@ public class DeleteSupplier {
 			
 			System.out.println("Lieferant " + _supplierID + " wurde aus der Datenbank gelöscht");
 			
+			/* CONTACTS */
+			new DeleteSupplierContacts(_supplierID);
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{

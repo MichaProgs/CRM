@@ -19,6 +19,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -109,6 +112,34 @@ public class ControllerContactData {
 		
 		tvContact.setContextMenu(new ContextMenuTableContacts());
 		
+		tvContact.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+
+				if(event.getClickCount() == 2){
+					editContact();
+				}
+				
+			}
+		});
+		
+		tvContact.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+
+				if(event.getCode().equals(KeyCode.DELETE)){
+					deleteContact();
+				}else if(event.getCode().equals(KeyCode.ENTER)){ //THROWS EXCEPTION IF TABLE IE EMPTY..
+					editContact();
+				}else if(event.getCode().equals(KeyCode.ADD)){
+					addContact();
+				}
+				
+			}
+		});
+		
 	}
 	
 	/*
@@ -116,34 +147,42 @@ public class ControllerContactData {
 	 */
 	private void addContact(){	
 		
-		LoadContactAdd contactAdd = new LoadContactAdd(true, main, tvContact.getItems());
-		tvContact.setItems(contactAdd.getController().getObsListContact());	
-		setButtonState();
+		if(! btnContactAdd.isDisabled()){
+			LoadContactAdd contactAdd = new LoadContactAdd(true, main, tvContact.getItems());
+			tvContact.setItems(contactAdd.getController().getObsListContact());	
+			setButtonState();
+		}
 		
 	}
 	
 	private void editContact(){
 		
-		if(tvContact.getSelectionModel().getSelectedItems().size() == 1){
-			LoadContactEdit contactEdit = new LoadContactEdit(true, main, tvContact.getItems(), tvContact.getSelectionModel().getSelectedIndex());
-			tvContact.setItems(contactEdit.getController().getObsListContact());
-			setButtonState();
-		}else{
-			System.out.println("Bitte 1 Zeile markieren!");
+		if(! btnContactEdit.isDisabled()){
+			if(tvContact.getSelectionModel().getSelectedItems().size() == 1){
+				
+				LoadContactEdit contactEdit = new LoadContactEdit(true, main, tvContact.getItems(), tvContact.getSelectionModel().getSelectedIndex());
+				tvContact.setItems(contactEdit.getController().getObsListContact()); //TODO NO CHANGES (TO SEE) BUT LIST IS CHANGED
+				setButtonState();
+				
+			}else{
+				System.out.println("Bitte 1 Zeile markieren!");
+			}
 		}
 		
 	}
 	
 	private void deleteContact(){
 		
-		if(tvContact.getSelectionModel().getSelectedItems().size() == 1){
-			DeleteAlert delete = new DeleteAlert();
-			if(delete.getDelete()){
-				tvContact.getItems().remove(tvContact.getSelectionModel().getSelectedIndex());
-				setButtonState();
+		if(! btnContactDelete.isDisabled()){
+			if(tvContact.getSelectionModel().getSelectedItems().size() == 1){
+				DeleteAlert delete = new DeleteAlert();
+				if(delete.getDelete()){
+					tvContact.getItems().remove(tvContact.getSelectionModel().getSelectedIndex());
+					setButtonState();
+				}
+			}else{
+				System.out.println("Bitte 1 Zeile markieren!");
 			}
-		}else{
-			System.out.println("Bitte 1 Zeile markieren!");
 		}
 		
 	}

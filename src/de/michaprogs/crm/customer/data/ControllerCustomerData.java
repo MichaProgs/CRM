@@ -270,7 +270,7 @@ public class ControllerCustomerData {
 					disableFields();
 					setButtonState();
 					
-					//Reload ArticleData
+					//Reload CustomerData
 					if(stage != null){
 						stage.close();
 					}else{
@@ -298,7 +298,7 @@ public class ControllerCustomerData {
 				disableFields();
 				setButtonState();
 
-				//Reload ArticleData
+				//Reload CustomerData
 				selectCustomer(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()));				
 				
 			}

@@ -6,13 +6,8 @@ import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
-import de.michaprogs.crm.clerk.ModelClerk;
-import de.michaprogs.crm.clerk.add.LoadClerkAdd;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
-import de.michaprogs.crm.contact.InsertSupplierContact;
-import de.michaprogs.crm.contact.ModelContact;
 import de.michaprogs.crm.contact.data.ControllerContactData;
-import de.michaprogs.crm.contact.data.LoadContactData;
 import de.michaprogs.crm.supplier.InsertSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.ValidateSupplierSave;
@@ -21,8 +16,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -97,29 +90,30 @@ public class ControllerSupplierAdd {
 				if(	new ValidateSupplierSave(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
 					tfName1.getText()).isValid()){
 					
-					new InsertSupplier(new ModelSupplier(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
-						tfName1.getText(), 
-						tfName2.getText(), 
-						tfStreet.getText(), 
-						cbLand.getSelectionModel().getSelectedItem(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
-						tfLocation.getText(), 
-						tfPhone.getText(), 
-						tfFax.getText(), 
-						tfEmail.getText(), 
-						tfWeb.getText(), 
-						tfContact.getText(), 
-						tfUstID.getText(), 
-						cbPayment.getSelectionModel().getSelectedItem(), 
-						tfIBAN.getText(), 
-						tfBIC.getText(), 
-						tfBank.getText(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
-						String.valueOf(LocalDate.now()),
-						taNotes.getText()),
+					new InsertSupplier(
+						new ModelSupplier(
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
+							tfName1.getText(), 
+							tfName2.getText(), 
+							tfStreet.getText(), 
+							cbLand.getSelectionModel().getSelectedItem(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
+							tfLocation.getText(), 
+							tfPhone.getText(), 
+							tfFax.getText(), 
+							tfEmail.getText(), 
+							tfWeb.getText(), 
+							tfContact.getText(), 
+							tfUstID.getText(), 
+							cbPayment.getSelectionModel().getSelectedItem(), 
+							tfIBAN.getText(), 
+							tfBIC.getText(), 
+							tfBank.getText(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
+							String.valueOf(LocalDate.now()),
+							taNotes.getText()),
 						contactDataController.getObsListContact()
 					);			
 					

@@ -1,17 +1,17 @@
-package de.michaprogs.crm.contact;
+package de.michaprogs.crm.supplier;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import de.michaprogs.crm.database.DBConnect;
 
-public class DeleteSupplierContact {
+public class DeleteSupplierContacts {
 
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public DeleteSupplierContact(int supplierID){
+	public DeleteSupplierContacts(	int _supplierID){
 		
 		try{
 			
@@ -19,19 +19,23 @@ public class DeleteSupplierContact {
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
+			
 			int i = 1;
-			ps.setInt(i, supplierID);
+			ps.setInt(i, _supplierID);
 			i++;
 			
 			ps.execute();
 			
-			System.out.println("Alle Lieferantekontakte von Lieferant " + supplierID + " wurden aus Datenbank gelöscht!");
+			System.out.println("Alle Kontakte von Lieferant " + _supplierID + " wurden aus der Datenbank gelöscht!");
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
 			try{
-				
+				if(con != null)
+					con.close();
+				if(ps != null)
+					ps.close();
 			}catch(Exception e){
 				e.printStackTrace();
 			}

@@ -32,7 +32,7 @@ public class ModelSupplier {
 	private String lastChange;
 	private String notes;
 	
-	private ObservableList<ModelContact> obsListContact = FXCollections.observableArrayList();
+	private ObservableList<ModelContact> obsListContacts = FXCollections.observableArrayList();
 	
 	public ModelSupplier(){}
 	
@@ -337,12 +337,12 @@ public class ModelSupplier {
 		this.notes = notes;
 	}
 
-	public ObservableList<ModelContact> getObsListContact() {
-		return obsListContact;
+	public ObservableList<ModelContact> getObsListContacts() {
+		return obsListContacts;
 	}
 
-	public void setObsListContact(ObservableList<ModelContact> obsListContact) {
-		this.obsListContact = obsListContact;
+	public void setObsListContacts(ObservableList<ModelContact> obsListContacts) {
+		this.obsListContacts = obsListContacts;
 	}
 	
 	

@@ -9,7 +9,6 @@ import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Main;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
-import de.michaprogs.crm.contact.ModelContact;
 import de.michaprogs.crm.contact.data.ControllerContactData;
 import de.michaprogs.crm.supplier.DeleteSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
@@ -18,7 +17,6 @@ import de.michaprogs.crm.supplier.UpdateSupplier;
 import de.michaprogs.crm.supplier.ValidateSupplierSave;
 import de.michaprogs.crm.supplier.add.LoadSupplierAdd;
 import de.michaprogs.crm.supplier.search.LoadSupplierSearch;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -298,7 +296,7 @@ public class ControllerSupplierData {
 		this.taNotes.setText(supplier.getNotes());
 		
 		/* CONTACTS */
-		this.contactDataController.setTableData(supplier.getObsListContact());
+		this.contactDataController.setTableData(supplier.getObsListContacts());
 		
 		setButtonState();
 		
