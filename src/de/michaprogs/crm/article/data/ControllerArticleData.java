@@ -1,6 +1,7 @@
 package de.michaprogs.crm.article.data;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import de.michaprogs.crm.DeleteAlert;
@@ -15,12 +16,11 @@ import de.michaprogs.crm.article.UpdateArticle;
 import de.michaprogs.crm.article.ValidateArticleSave;
 import de.michaprogs.crm.article.add.LoadArticleAdd;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
-import de.michaprogs.crm.article.supplier.DeleteArticleSupplier;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
-import de.michaprogs.crm.article.supplier.SelectArticleSupplier;
-import de.michaprogs.crm.article.supplier.UpdateArticleSupplier;
 import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
 import de.michaprogs.crm.article.supplier.edit.LoadArticleSupplierEdit;
+import de.michaprogs.crm.articlecategory.ModelArticleCategory;
+import de.michaprogs.crm.articlecategory.SelectArticleCategory;
 import de.michaprogs.crm.barrelsize.data.LoadBarrelsizeData;
 import de.michaprogs.crm.bolting.data.LoadBoltingData;
 import de.michaprogs.crm.components.ComboWarehouse;
@@ -50,6 +50,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.WindowEvent;
@@ -138,7 +140,8 @@ public class ControllerArticleData{
 		
 		/* ComboBoxes */
 		new InitCombos().initComboAmountUnit(cbAmountUnit);
-		new InitCombos().initComboCategory(cbCategory);
+//		new InitCombos().initComboCategory(cbCategory);
+		cbCategory.setItems(new SelectArticleCategory(new ModelArticleCategory()).getModelArticleCategory().getObsListArticleCategoriesComboBox());
 		new InitCombos().initComboPriceUnit(cbPriceUnit);
 		new InitCombos().initComboTax(cbTax);
 		
@@ -262,48 +265,33 @@ public class ControllerArticleData{
 				if(new ValidateArticleSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
 											tfDescription1.getText()).isValid()){
 					
-					new UpdateArticle(new ModelArticle(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
-						tfDescription1.getText(), 
-						tfDescription2.getText(), 
-						cbCategory.getSelectionModel().getSelectedItem(),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfEanID.getText()),						
-						tfBarrelsize.getText(),
-						tfBolting.getText(),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfLength.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfWidth.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfHeight.getText()),
-						new Validate().new ValidateDoubleTwoDigits().validateDouble(tfWeight.getText()),
-						new Validate().new ValidateDoubleFourDigits().validateDouble(tfDesity.getText()),						
-						new Validate().new ValidateCurrency().validateCurrency(tfEk.getText()), 
-						new Validate().new ValidateCurrency().validateCurrency(tfVk.getText()), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()), 
-						cbAmountUnit.getSelectionModel().getSelectedItem(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()),
-						taLongtext.getText(),	
-						imageFilepath, //IMAGEFILEPATH						
-						0, //STOCK MIN
-						0, //STOCK MAX
-						0, //STOCK ALERT						
-						String.valueOf(LocalDate.now())
-					));
-					
-					/* UPDATE ARTICLE SUPPLIER */
-					new DeleteArticleSupplier(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()));
-					for(int i = 0; i < tvArticleSupplier.getItems().size(); i++){
-						
-						new UpdateArticleSupplier(new ModelArticleSupplier(
+					new UpdateArticle(
+						new ModelArticle(
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
-							tvArticleSupplier.getItems().get(i).getSupplierID(), 
-							tvArticleSupplier.getItems().get(i).getSupplierArticleID(), 
-							tvArticleSupplier.getItems().get(i).getSupplierDescription1(), 
-							tvArticleSupplier.getItems().get(i).getSupplierDescription2(), 
-							tvArticleSupplier.getItems().get(i).getSupplierEk(), 
-							tvArticleSupplier.getItems().get(i).getSupplierPriceUnit(), 
-							tvArticleSupplier.getItems().get(i).getSupplierAmountUnit()
-						));
-						
-					}
+							tfDescription1.getText(), 
+							tfDescription2.getText(), 
+							String.valueOf(cbCategory.getSelectionModel().getSelectedItem()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfEanID.getText()),						
+							tfBarrelsize.getText(),
+							tfBolting.getText(),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfLength.getText()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfWidth.getText()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfHeight.getText()),
+							new Validate().new ValidateDoubleTwoDigits().validateDouble(tfWeight.getText()),
+							new Validate().new ValidateDoubleFourDigits().validateDouble(tfDesity.getText()),						
+							new Validate().new ValidateCurrency().validateCurrency(tfEk.getText()), 
+							new Validate().new ValidateCurrency().validateCurrency(tfVk.getText()), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()), 
+							cbAmountUnit.getSelectionModel().getSelectedItem(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()),
+							taLongtext.getText(),	
+							imageFilepath, //IMAGEFILEPATH						
+							0, //STOCK MIN
+							0, //STOCK MAX
+							0, //STOCK ALERT						
+							String.valueOf(LocalDate.now())),
+						tvArticleSupplier.getItems()
+					);
 					
 					hboxBtnTopbar.getChildren().remove(btnEditAbort);
 					hboxBtnTopbar.getChildren().remove(btnEditSave);
@@ -397,6 +385,7 @@ public class ControllerArticleData{
 				DeleteAlert delete = new DeleteAlert();
 				if(delete.getDelete()){
 					ivImage.setImage(null);
+					imageFilepath = "";
 					btnImageDelete.setVisible(false);
 				}
 					
@@ -516,12 +505,31 @@ public class ControllerArticleData{
 			@Override
 			public void handle(MouseEvent event) {
 
-				if(	event.getClickCount() == 2 &&
-					tvArticleSupplier.getSelectionModel().getSelectedItems().size() == 1 &&
-					isEditable()){					
-					editArticleSupplier();					
+				if(tvArticleSupplier.getSelectionModel().getSelectedItems().size() == 1){
+					
+					if(	event.getClickCount() == 2 &&
+						isEditable()){					
+						editArticleSupplier();
+					}
+				
 				}else{
 					System.out.println("Bitte 1 Zeile markieren!");
+				}
+				
+			}
+		});
+		
+		tvArticleSupplier.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+
+				if(	event.getCode().equals(KeyCode.DELETE) &&
+					isEditable()){
+					deleteArticleSupplier();
+				}else if(	event.getCode().equals(KeyCode.ENTER) &&
+							isEditable()){
+					editArticleSupplier();
 				}
 				
 			}
@@ -573,8 +581,10 @@ public class ControllerArticleData{
 		
 		taLongtext.setText(article.getLongtext());
 		
+		/* TITLE */
 		lblSubHeadline.setText(" - " + article.getArticleID() + " " + article.getDescription1());
-		lblLastChange.setText(article.getLastChange()); 
+		lblLastChange.setText(article.getLastChange());
+		main.getStage().setTitle(main.getProgramName() + " - Artikelstamm " + article.getArticleID() + " " + article.getDescription1());
 		
 		imageFilepath = article.getImageFilepath();		
 		if(	! article.getImageFilepath().equals("")){
@@ -584,7 +594,7 @@ public class ControllerArticleData{
 		}
 		
 		/* ARTICLE SUPPLIER */
-		tvArticleSupplier.setItems(new SelectArticleSupplier(new ModelArticleSupplier(_articleID)).getObsListArticleSupplier());
+		tvArticleSupplier.setItems(article.getObsListArticleSupplier());
 	
 		/* STOCK */
 		selectStock(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), cbWarehouse.getSelectionModel().getSelectedItem());
@@ -615,9 +625,10 @@ public class ControllerArticleData{
 		
 		if(tvStock.getItems().size() != 0){
 			averagePrice = averagePrice.divide(new BigDecimal(tvStock.getItems().size()));
+			averagePrice = averagePrice.setScale(2, RoundingMode.CEILING);
 		}
 		
-		lblStock.setText("Es sind " + totalStock + " " + cbAmountUnit.getSelectionModel().getSelectedItem() + " am Lager (Durchschnittspreis: " + averagePrice + ")");
+		lblStock.setText("Es sind " + totalStock + " " + cbAmountUnit.getSelectionModel().getSelectedItem() + " am Lager (Durchschnittspreis: " + averagePrice + " EUR / " +  cbPriceUnit.getSelectionModel().getSelectedItem() + ")");
 		
 	}
 			
@@ -962,7 +973,7 @@ public class ControllerArticleData{
 				public void handle(ActionEvent event) {
 
 					if(tvArticleSupplier.getSelectionModel().getSelectedItems().size() == 1){
-						main.getContentPane().setCenter(new LoadSupplierData(false, tvArticleSupplier.getItems().get(tvArticleSupplier.getSelectionModel().getSelectedIndex()).getSupplierID()).getContent());
+						main.getContentPane().setCenter(new LoadSupplierData(false, tvArticleSupplier.getItems().get(tvArticleSupplier.getSelectionModel().getSelectedIndex()).getSupplierID(), main).getContent());
 					}else{
 						System.out.println("Bitte 1 Zeile markieren!");
 					}

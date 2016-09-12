@@ -9,7 +9,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.contact.data.ControllerContactData" styleClass="AnchorPaneContent">
 	<VBox spacing="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" >
-		<TableView fx:id="tvContact">
+		<TableView fx:id="tvContact" prefHeight="200">
 			<columnResizePolicy>
       			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
    			</columnResizePolicy>

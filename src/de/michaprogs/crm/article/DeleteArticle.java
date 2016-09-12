@@ -3,7 +3,10 @@ package de.michaprogs.crm.article;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import de.michaprogs.crm.article.supplier.DeleteArticleSupplier;
+import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.database.DBConnect;
+import tray.notification.NotificationType;
 
 public class DeleteArticle {
 
@@ -21,6 +24,13 @@ public class DeleteArticle {
 			ps = con.prepareStatement(stmt);
 			ps.setInt(1, _articleID);
 			ps.execute();
+			
+			/* ARTICLE SUPPLIER */
+			new DeleteArticleSupplier(_articleID);
+			
+			new Notification(	"Gelöscht!", 
+								"Artikel " + _articleID + " wurde erfolgreich gelöscht!", 
+								NotificationType.SUCCESS);
 			
 			System.out.println("Artikel " + _articleID + " wurde aus der Datenbank gelöscht");
 			

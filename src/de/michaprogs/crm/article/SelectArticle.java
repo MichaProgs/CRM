@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import de.michaprogs.crm.article.supplier.SelectArticleSupplier;
 import de.michaprogs.crm.database.DBConnect;
 
 public class SelectArticle {
@@ -57,6 +58,8 @@ public class SelectArticle {
 				ma.setLastChange(rs.getString("lastChange"));
 				
 			}
+			
+			new SelectArticleSupplier(ma);
 			
 			System.out.println("Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " aus Datenbank geladen!");
 			

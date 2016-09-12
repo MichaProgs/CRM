@@ -4,23 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.database.DBConnect;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.SelectSupplier;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class SelectArticleSupplier {
-
-	private ObservableList<ModelArticleSupplier> obsListArticleSupplier = FXCollections.observableArrayList();
 	
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
 	private ResultSet rs;
 	
-	public SelectArticleSupplier(ModelArticleSupplier mas){
-		
+	public SelectArticleSupplier(ModelArticle ma){
+			
 		try{
 			
 			String stmt = "SELECT * FROM articlesupplier WHERE articleID = ?";
@@ -28,7 +25,7 @@ public class SelectArticleSupplier {
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
 			int i = 1;
-			ps.setInt(i, mas.getArticleID());
+			ps.setInt(i, ma.getArticleID());
 			i++;
 			
 			rs = ps.executeQuery();
@@ -36,7 +33,7 @@ public class SelectArticleSupplier {
 				
 				ModelSupplier supplier = new SelectSupplier(new ModelSupplier(rs.getInt("supplierID"))).getModelSupplier();
 				
-				obsListArticleSupplier.add(new ModelArticleSupplier(
+				ma.getObsListArticleSupplier().add(new ModelArticleSupplier(
 					rs.getInt("supplierID"),
 					supplier.getName1(),
 					rs.getString("supplierArticleID"),
@@ -49,7 +46,7 @@ public class SelectArticleSupplier {
 				
 			}
 			
-			System.out.println("Alle Artikelhersteller zu Artikel " + mas.getArticleID() + " geladen");
+			System.out.println("Alle Artikelhersteller zu Artikel " + ma.getArticleID() + " geladen");
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -66,10 +63,6 @@ public class SelectArticleSupplier {
 			}
 		}
 		
-	}
-	
-	public ObservableList<ModelArticleSupplier> getObsListArticleSupplier(){
-		return obsListArticleSupplier;
 	}
 	
 }

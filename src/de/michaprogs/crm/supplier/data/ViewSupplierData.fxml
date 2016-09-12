@@ -16,8 +16,10 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.supplier.data.ControllerSupplierData">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" >
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 		<!-- FLEX NAVI -->
 		<top>
@@ -40,8 +42,9 @@
 			<ScrollPane>
 				<BorderPane>
 					<top>
-						<HBox>
+						<HBox spacing="10" alignment="CENTER_LEFT">
 							<Label id="lblHeadline" text="Lieferanten" />
+							<Label fx:id="lblSubHeadline" id="lblSubHeadline" />
 						<padding>
 							<Insets bottom="10" />
 						</padding>

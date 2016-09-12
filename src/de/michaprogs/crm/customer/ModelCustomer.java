@@ -132,6 +132,7 @@ public class ModelCustomer {
 		this.name1 = name1;
 		this.name2 = name2;
 		this.street = street;
+		this.land = land;
 		this.zip = zip;
 		this.location = location;
 		this.phone = phone;

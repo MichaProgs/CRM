@@ -441,6 +441,8 @@ public class ControllerCustomerData {
 		taNotes.setText(customer.getNotes());
 		lblLastChange.setText(customer.getLastChange());
 		
+		/* TITLE */
+		main.getStage().setTitle((main.getProgramName().concat(" - Kundenstamm " + customer.getCustomerID() + " " + customer.getName1() + ", " + customer.getZip() + " " + customer.getLocation())));
 		lblSubHeadline.setText("- " + customer.getCustomerID() + " " + customer.getName1() + ", " + customer.getZip() + " " + customer.getLocation());
 		
 		/* OFFER */
@@ -748,7 +750,8 @@ public class ControllerCustomerData {
 					if(tvOffer.getSelectionModel().getSelectedItems().size() == 1){
 						main.getContentPane().setCenter(new LoadOfferData(	false, 
 																			tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getOfferID(), 
-																			tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getCustomerID()
+																			tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getCustomerID(),
+																			main
 														).getContent());				
 					}else{
 						System.out.println("Bitte 1 Zeile markieren!");
@@ -768,7 +771,9 @@ public class ControllerCustomerData {
 					if(offerAdd.getController().getCreatedOfferID() != 0){
 						main.getContentPane().setCenter(	new LoadOfferData(false,
 															offerAdd.getController().getCreatedOfferID(),
-															offerAdd.getController().getCreatedOfferCustomerID()).getContent());
+															offerAdd.getController().getCreatedOfferCustomerID(),
+															main
+														).getContent());
 					}
 				}
 			});

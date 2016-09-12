@@ -130,7 +130,7 @@ public class ControllerCustomerAdd {
 				if(new ValidateCustomerSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
 												tfName1.getText()).isValid()){
 				
-					new InsertCustomer(
+					InsertCustomer insert = new InsertCustomer(
 						new ModelCustomer(
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
 							cbSalutation.getSelectionModel().getSelectedItem(),
@@ -164,12 +164,15 @@ public class ControllerCustomerAdd {
 						contactDataController.getObsListContact()
 					);					
 					
-					createdCustomerID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText());
-					
-					if(stage != null){
-						stage.close();
-					}else{
-						//TODO RESET FIELDS
+					if(insert.wasSuccessful()){
+						
+						createdCustomerID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText());						
+						if(stage != null){
+							stage.close();
+						}else{
+							//TODO RESET FIELDS
+						}
+						
 					}
 					
 				}

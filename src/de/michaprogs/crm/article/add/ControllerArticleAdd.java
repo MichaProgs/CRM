@@ -11,10 +11,11 @@ import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.InsertArticle;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.article.ValidateArticleSave;
-import de.michaprogs.crm.article.supplier.InsertArticleSupplier;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.article.supplier.add.LoadArticleSupplierAdd;
 import de.michaprogs.crm.article.supplier.edit.LoadArticleSupplierEdit;
+import de.michaprogs.crm.articlecategory.ModelArticleCategory;
+import de.michaprogs.crm.articlecategory.SelectArticleCategory;
 import de.michaprogs.crm.barrelsize.data.LoadBarrelsizeData;
 import de.michaprogs.crm.bolting.data.LoadBoltingData;
 import de.michaprogs.crm.components.ImageFileChooser;
@@ -103,7 +104,7 @@ public class ControllerArticleAdd {
 		
 		/* ComboBoxes */
 		new InitCombos().initComboAmountUnit(cbAmountUnit);
-		new InitCombos().initComboCategory(cbCategory);
+		cbCategory.setItems(new SelectArticleCategory(new ModelArticleCategory()).getModelArticleCategory().getObsListArticleCategoriesComboBox());
 		new InitCombos().initComboPriceUnit(cbPriceUnit);
 		new InitCombos().initComboTax(cbTax);
 		
@@ -141,51 +142,41 @@ public class ControllerArticleAdd {
 				if(new ValidateArticleSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
 											tfDescription1.getText()).isValid()){
 					
-					new InsertArticle(new ModelArticle(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
-						tfDescription1.getText(), 
-						tfDescription2.getText(), 
-						cbCategory.getSelectionModel().getSelectedItem(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfEanID.getText()), 
-						tfBarrelsize.getText(), 
-						tfBolting.getText(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfLength.getText()), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfWidth.getText()), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfHeight.getText()), 
-						new Validate().new ValidateDoubleTwoDigits().validateDouble(tfWeight.getText()),
-						new Validate().new ValidateDoubleFourDigits().validateDouble(tfDesity.getText()),
-						new Validate().new ValidateCurrency().validateCurrency(tfEk.getText()), 
-						new Validate().new ValidateCurrency().validateCurrency(tfVk.getText()), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()), 
-						cbAmountUnit.getSelectionModel().getSelectedItem(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()), 						
-						taLongtext.getText(), 						
-						imageFilepath,  						
-						0, //STOCK MIN TODO
-						0, //STOCK MAX TODO
-						0, //STOCK ALERT TODO						
-						String.valueOf(LocalDate.now()) //LAST CHANGE						
-					));
-					
-					/* INSERT ARTICLE SUPPLIER */				
-					for(int i = 0; i < tvArticleSupplier.getItems().size(); i++){
-						
-						new InsertArticleSupplier(new ModelArticleSupplier(
+					InsertArticle insert = new InsertArticle(
+						new ModelArticle(
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
-							tvArticleSupplier.getItems().get(i).getSupplierID(), 
-							tvArticleSupplier.getItems().get(i).getSupplierArticleID(), 
-							tvArticleSupplier.getItems().get(i).getSupplierDescription1(), 
-							tvArticleSupplier.getItems().get(i).getSupplierDescription2(), 
-							tvArticleSupplier.getItems().get(i).getSupplierEk(), 
-							tvArticleSupplier.getItems().get(i).getSupplierPriceUnit(), 
-							tvArticleSupplier.getItems().get(i).getSupplierAmountUnit()
-						));
-						
-					}
+							tfDescription1.getText(), 
+							tfDescription2.getText(), 
+							cbCategory.getSelectionModel().getSelectedItem(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfEanID.getText()), 
+							tfBarrelsize.getText(), 
+							tfBolting.getText(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfLength.getText()), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfWidth.getText()), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfHeight.getText()), 
+							new Validate().new ValidateDoubleTwoDigits().validateDouble(tfWeight.getText()),
+							new Validate().new ValidateDoubleFourDigits().validateDouble(tfDesity.getText()),
+							new Validate().new ValidateCurrency().validateCurrency(tfEk.getText()), 
+							new Validate().new ValidateCurrency().validateCurrency(tfVk.getText()), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()), 
+							cbAmountUnit.getSelectionModel().getSelectedItem(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()), 						
+							taLongtext.getText(), 						
+							imageFilepath,  						
+							0, //STOCK MIN TODO
+							0, //STOCK MAX TODO
+							0, //STOCK ALERT TODO						
+							String.valueOf(LocalDate.now())), //LAST CHANGE
+						tvArticleSupplier.getItems()
+					);
 					
-					createdArticleID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText());
-					if(stage != null){
-						stage.close();
+					
+					
+					if(insert.wasSuccessful()){
+						createdArticleID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText());
+						if(stage != null){
+							stage.close();
+						}
 					}
 					
 				}

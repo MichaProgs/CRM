@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TreeView?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.properties.ControllerProperties">
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -29,11 +30,17 @@
 				<BorderPane fx:id="content">
 					<left>
 						<!-- SIDENAVIGATION -->
-						<VBox>
+						<VBox>						
+							<TreeView fx:id="treeNavigation">
+							</TreeView>
+						
+						<!--  
 							<Button fx:id="btnBolting" text="Verschraubungen" id="btnSidebar" />
 							<Button fx:id="btnBarrelsize" text="Gebindegrößen" id="btnSidebar" />
 							<Button fx:id="btnWarehouse" text="Lager" id="btnSidebar" />
 							<Button fx:id="btnClerk" text="Sachbearbeiter" id="btnSidebar" />
+						-->
+							
 						</VBox>						
 					</left>
 					<center>

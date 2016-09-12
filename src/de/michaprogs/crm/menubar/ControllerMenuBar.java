@@ -27,8 +27,8 @@ public class ControllerMenuBar {
 	
 	private LoadCustomerData customerData;
 	private LoadArticleData articleData;
-	private LoadSupplierData supplierData = new LoadSupplierData(false,0);
-	private LoadOfferData offerData = new LoadOfferData(false,0,0);
+	private LoadSupplierData supplierData;
+	private LoadOfferData offerData;
 	private LoadStockAdd stockAdd = new LoadStockAdd(false);
 	
 	private Main main;
@@ -40,6 +40,8 @@ public class ControllerMenuBar {
 		//Content
 		customerData = new LoadCustomerData(false, main);
 		articleData  = new LoadArticleData(false, main);
+		supplierData =  new LoadSupplierData(false, 0, main);
+		offerData = new LoadOfferData(false, 0, 0, main);
 		
 		//MenuItems
 		initItemCustomer();

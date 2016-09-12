@@ -23,7 +23,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.DatePicker?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.offer.data.ControllerOfferData">	
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" >	
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 		<!-- FLEX NAVI -->
 		<top>

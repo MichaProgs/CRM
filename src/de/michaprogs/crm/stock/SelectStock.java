@@ -40,7 +40,7 @@ public class SelectStock {
 			
 			while(rs.next()){
 				
-				ModelSupplier supplier = new SelectSupplier(new ModelSupplier(rs.getInt("articleID"))).getModelSupplier();
+				ModelSupplier supplier = new SelectSupplier(new ModelSupplier(rs.getInt("supplierID"))).getModelSupplier();
 				ModelArticle article = new SelectArticle(new ModelArticle(rs.getInt("articleID"))).getModelArticle();
 								
 				obsListStock.add(new ModelStock(

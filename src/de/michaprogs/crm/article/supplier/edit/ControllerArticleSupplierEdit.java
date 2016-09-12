@@ -6,6 +6,8 @@ import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.Validate.ValidateCurrency;
+import de.michaprogs.crm.Validate.ValidateOnlyInteger;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.SelectSupplier;

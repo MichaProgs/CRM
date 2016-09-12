@@ -2,16 +2,24 @@ package de.michaprogs.crm.article;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLIntegrityConstraintViolationException;
 
+import de.michaprogs.crm.article.supplier.InsertArticleSupplier;
+import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
+import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.database.DBConnect;
+import javafx.collections.ObservableList;
+import tray.notification.NotificationType;
 
 public class InsertArticle {
 
+	private boolean wasSuccessful = false;
+	
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public InsertArticle(ModelArticle ma){
+	public InsertArticle(ModelArticle ma, ObservableList<ModelArticleSupplier> obsListArticleSupplier){
 		
 		try{
 			
@@ -94,7 +102,22 @@ public class InsertArticle {
 			
 			ps.execute();
 			
-			System.out.println("Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " wurde der Datenbank hinzugefügt!");
+			/* ARTICLE SUPPLIER */				
+			new InsertArticleSupplier(ma.getArticleID(), obsListArticleSupplier);
+			
+			new Notification(	"Gespeichert!", 
+								"Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " wurde erfolgreich gespeichert!", 
+								NotificationType.SUCCESS);
+			
+			System.out.println("Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " wurde erfolgreich gespeichert!");
+			
+			wasSuccessful = true;
+			
+		}catch(SQLIntegrityConstraintViolationException e){
+			
+			new Notification(	"Speichern nicht möglich!", 
+								"Kundennummer bereits vergeben!", 
+								NotificationType.ERROR);
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -109,6 +132,10 @@ public class InsertArticle {
 			}
 		}
 		
+	}
+	
+	public boolean wasSuccessful(){
+		return wasSuccessful;
 	}
 	
 }

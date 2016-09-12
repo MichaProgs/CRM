@@ -3,7 +3,12 @@ package de.michaprogs.crm.article;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
+import de.michaprogs.crm.article.supplier.UpdateArticleSupplier;
+import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.database.DBConnect;
+import javafx.collections.ObservableList;
+import tray.notification.NotificationType;
 
 public class UpdateArticle {
 
@@ -11,7 +16,7 @@ public class UpdateArticle {
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public UpdateArticle(ModelArticle ma){
+	public UpdateArticle(ModelArticle ma, ObservableList<ModelArticleSupplier> obsListArticleSupplier){
 		
 		try{
 			
@@ -93,6 +98,13 @@ public class UpdateArticle {
 			i++;
 			
 			ps.execute();
+			
+			/* ARTICLE SUPPLIER */
+			new UpdateArticleSupplier(ma.getArticleID(), obsListArticleSupplier);
+			
+			new Notification(	"Bearbeitet!", 
+								"Der Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " wurde erfolgreich bearbeitet!", 
+								NotificationType.SUCCESS); 
 			
 			System.out.println("Änderungen an Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " wurde in Datenbank gespeichert!");
 			

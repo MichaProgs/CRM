@@ -2,47 +2,55 @@ package de.michaprogs.crm.article;
 
 import java.math.BigDecimal;
 
+import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ModelArticle {
 
 	/* First Block (Main-Data) */
-	private int articleID;
-	private String description1;
-	private String description2;
-	private String category;
-	private int eanID;
+	private int articleID = 0;
+	private String description1 = "";
+	private String description2 = "";
+	private String category = "";
+	private int eanID = 0;
 	
 	/* Second Block (Weight & Size) */
-	private String barrelsize;
-	private String bolting;
-	private int length;
-	private int width;
-	private int height;
-	private double weight;
-	private double desity;
+	private String barrelsize = "";
+	private String bolting = "";
+	private int length = 0;
+	private int width = 0;
+	private int height = 0;
+	private double weight = 0;
+	private double desity = 0;
 	
 	/* Third Block (Price) */
-	private BigDecimal ek;
-	private BigDecimal vk;
-	private BigDecimal total;
-	private int priceUnit;
-	private double amount;
-	private String amountUnit;
-	private int tax;
+	private BigDecimal ek = new BigDecimal("0.00");
+	private BigDecimal vk = new BigDecimal("0.00");
+	private BigDecimal total = new BigDecimal("0.00");
+	private int priceUnit = 0;
+	private double amount = 0.00;
+	private String amountUnit = "";
+	private int tax = 0;
 	
 	/* Longtext */
-	private String longtext;
+	private String longtext = "";
+	
+	/* ARTICLE SUPPLIER */
+	private ObservableList<ModelArticleSupplier> obsListArticleSupplier = FXCollections.observableArrayList();
 	
 	/* Stock */
-	private int stockMinUnit;
-	private int stockMaxUnit;
-	private int stockAlertUnit;
+	private int stockMinUnit = 0;
+	private int stockMaxUnit = 0;
+	private int stockAlertUnit = 0;
 	
-	private String lastChange;
-	private String imageFilepath;
+	/* LAST CHANGE */
+	private String lastChange = "";
 	
+	/* IMAGE */
+	private String imageFilepath = "";
+	
+	/* SEARCH */
 	private ObservableList<ModelArticle> obsListSearch = FXCollections.observableArrayList();
 	
 	public ModelArticle(){}
@@ -412,6 +420,14 @@ public class ModelArticle {
 
 	public void setObsListSearch(ObservableList<ModelArticle> obsListSearch) {
 		this.obsListSearch = obsListSearch;
+	}
+
+	public ObservableList<ModelArticleSupplier> getObsListArticleSupplier() {
+		return obsListArticleSupplier;
+	}
+
+	public void setObsListArticleSupplier(ObservableList<ModelArticleSupplier> obsListArticleSupplier) {
+		this.obsListArticleSupplier = obsListArticleSupplier;
 	}
 	
 }

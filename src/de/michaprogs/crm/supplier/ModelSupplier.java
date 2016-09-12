@@ -1,6 +1,7 @@
 package de.michaprogs.crm.supplier;
 
 import de.michaprogs.crm.contact.ModelContact;
+import de.michaprogs.crm.supplier.article.ModelSupplierArticle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -33,6 +34,7 @@ public class ModelSupplier {
 	private String notes;
 	
 	private ObservableList<ModelContact> obsListContacts = FXCollections.observableArrayList();
+	private ObservableList<ModelSupplierArticle> obsListSupplierArticle = FXCollections.observableArrayList();
 	
 	public ModelSupplier(){}
 	
@@ -343,6 +345,16 @@ public class ModelSupplier {
 
 	public void setObsListContacts(ObservableList<ModelContact> obsListContacts) {
 		this.obsListContacts = obsListContacts;
+	}
+
+	
+	public ObservableList<ModelSupplierArticle> getObsListSupplierArticle() {
+		return obsListSupplierArticle;
+	}
+	
+
+	public void setObsListSupplierArticle(ObservableList<ModelSupplierArticle> obsListSupplierArticle) {
+		this.obsListSupplierArticle = obsListSupplierArticle;
 	}
 	
 	

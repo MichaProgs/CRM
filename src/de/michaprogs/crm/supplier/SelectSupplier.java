@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import de.michaprogs.crm.article.supplier.SelectArticleSupplier;
 import de.michaprogs.crm.database.DBConnect;
 
 public class SelectSupplier {
@@ -61,10 +62,10 @@ public class SelectSupplier {
 				
 			}
 			
-			System.out.println("Lieferant " + ms.getSupplierID() + " " + ms.getName1() + " wurde aus Datenbank geladen!");
-			
 			/* CONTACTS */
 			new SelectSupplierContacts(ms);
+
+			System.out.println("Lieferant " + ms.getSupplierID() + " " + ms.getName1() + " wurde aus Datenbank geladen!");
 			
 		}catch(Exception e){
 			e.printStackTrace();

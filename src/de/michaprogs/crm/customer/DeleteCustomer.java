@@ -3,7 +3,9 @@ package de.michaprogs.crm.customer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.database.DBConnect;
+import tray.notification.NotificationType;
 
 public class DeleteCustomer {
 
@@ -22,10 +24,11 @@ public class DeleteCustomer {
 			ps.setInt(1, _customerID);
 			ps.execute();
 			
-			System.out.println("Kunde " + _customerID + " wurde aus Datenbank gelöscht!" );
-			
 			/* CONTACTS */
 			new DeleteCustomerContacts(_customerID);
+			
+			new Notification("Gelöscht!", "Der Kunde " + _customerID + " wurde erfolgreich gelöscht!" , NotificationType.SUCCESS);
+			System.out.println("Kunde " + _customerID + " wurde erfolgreich gelöscht!");
 			
 		}catch(Exception e){
 			e.printStackTrace();

@@ -1,6 +1,7 @@
 package de.michaprogs.crm.supplier.data;
 
 import de.michaprogs.crm.CreateDialog;
+import de.michaprogs.crm.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -9,16 +10,17 @@ import javafx.stage.Stage;
 public class LoadSupplierData {
 
 	private AnchorPane root;
-	private ControllerSupplierData controller;
+	private ControllerSupplierData controller = new ControllerSupplierData();
 	private Stage stage = new Stage();
 	
-	public LoadSupplierData(boolean createDialog, int supplierID){
+	public LoadSupplierData(boolean createDialog, int supplierID, Main main){
 		
 		try{
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewSupplierData.fxml"));
+			controller.setMain(main);
+			loader.setController(controller);
 			root = loader.load();
-			controller = loader.getController();
 			
 			if(supplierID != 0){
 				controller.selectSupplier(supplierID);

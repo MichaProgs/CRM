@@ -11,12 +11,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 public class ControllerNavigation {
 	
-	@FXML private AnchorPane anchorpaneSidebar;
+	@FXML private AnchorPane apSide;
+	@FXML private ScrollPane spSide;
+	@FXML private BorderPane bpSide;
 	
 	@FXML private Button btnCollapse;
 	
@@ -31,9 +35,9 @@ public class ControllerNavigation {
 	
 	private LoadCustomerData customerData;
 	private LoadArticleData articleData;
-	private LoadSupplierData supplierData = new LoadSupplierData(false,0);
+	private LoadSupplierData supplierData;
 	private LoadStockAdd stockAdd = new LoadStockAdd(false);
-	private LoadOfferData offerData = new LoadOfferData(false,0,0);
+	private LoadOfferData offerData;
 	
 	private Main main;
 	
@@ -43,6 +47,8 @@ public class ControllerNavigation {
 		
 		customerData = new LoadCustomerData(false, main);
 		articleData = new LoadArticleData(false, main);
+		supplierData = new LoadSupplierData(false, 0, main);
+		offerData = new LoadOfferData(false,0,0, main);
 		
 		//Buttons
 		initBtnCollapse();
@@ -73,7 +79,7 @@ public class ControllerNavigation {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				if(anchorpaneSidebar.getPrefWidth() != 50){
+				if(spSide.getPrefWidth() != 90){
 					tpMainData.setText("DATEN");
 					tpDocuments.setText("DOC'S");
 					
@@ -82,7 +88,10 @@ public class ControllerNavigation {
 					btnSupplier.setText("");
 					btnOffer.setText("");
 					btnStock.setText("");
-					anchorpaneSidebar.setPrefWidth(50);
+					
+					spSide.setPrefWidth(90);
+					bpSide.setPrefWidth(90);
+					apSide.setPrefWidth(90);
 				}else{
 					/* SAME TEXT AS IN THE FXML FILE */
 					tpMainData.setText("STAMMDATEN");
@@ -94,7 +103,9 @@ public class ControllerNavigation {
 					tpDocuments.setText("DOKUMENTE");
 					btnOffer.setText("ANGEBOT");
 					/* SAME WIDTH AS IN THE FXML FILE */
-					anchorpaneSidebar.setPrefWidth(250);
+					spSide.setPrefWidth(250);
+					bpSide.setPrefWidth(250);
+					apSide.setPrefWidth(250);
 				}
 				
 				
@@ -111,6 +122,8 @@ public class ControllerNavigation {
 			@Override
 			public void handle(ActionEvent event) {					
 				main.getContentPane().setCenter(customerData.getContent());
+				main.getStage().setTitle(main.getProgramName() + " - Kundenstamm");
+				setSizeToScene();
 			}
 		});
 		
@@ -124,6 +137,8 @@ public class ControllerNavigation {
 			@Override
 			public void handle(ActionEvent event) {
 				main.getContentPane().setCenter(articleData.getContent());
+				main.getStage().setTitle(main.getProgramName() + " - Artikelstamm");
+				setSizeToScene();
 			}
 		});
 		
@@ -137,6 +152,8 @@ public class ControllerNavigation {
 			@Override
 			public void handle(ActionEvent event) {
 				main.getContentPane().setCenter(supplierData.getContent());
+				main.getStage().setTitle(main.getProgramName() + " - Lieferanten");
+				setSizeToScene();
 			}
 		});
 		
@@ -150,6 +167,8 @@ public class ControllerNavigation {
 			@Override
 			public void handle(ActionEvent event) {
 				main.getContentPane().setCenter(stockAdd.getContent());
+				main.getStage().setTitle(main.getProgramName() + " - Lager");
+				setSizeToScene();
 			}
 		});
 		
@@ -163,9 +182,16 @@ public class ControllerNavigation {
 			@Override
 			public void handle(ActionEvent event) {
 				main.getContentPane().setCenter(offerData.getContent());
+				main.getStage().setTitle(main.getProgramName() + " - Angebot");
+				setSizeToScene();
 			}
 		});
 		
+	}
+	
+	private void setSizeToScene(){
+		if(! main.getStage().isMaximized())
+			main.getStage().sizeToScene();
 	}
 	
 }

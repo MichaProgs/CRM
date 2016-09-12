@@ -8,8 +8,8 @@ import javafx.collections.ObservableList;
 public class ModelArticleSupplier {
 
 	private int supplierID;
-	private String supplierName1;
 	private int articleID;
+	private String supplierName1;
 	private String supplierArticleID;
 	private String supplierDescription1;
 	private String supplierDescription2;
@@ -53,7 +53,7 @@ public class ModelArticleSupplier {
 	}
 	
 	/**
-	 * Constructor for Database (Insert ArticleSupplier)
+	 * Constructor for Database (Insert ArticleSupplier) <br>
 	 * Constructor for Database (Update ArticleSupplier)
 	 * @param _articleID
 	 * @param _supplierID
@@ -156,6 +156,46 @@ public class ModelArticleSupplier {
 	
 	public ObservableList<ModelArticleSupplier> getObsListArticleSupplier(){
 		return obsListArticleSupplier;
+	}
+
+	public void setSupplierID(int supplierID) {
+		this.supplierID = supplierID;
+	}
+
+	public void setSupplierName1(String supplierName1) {
+		this.supplierName1 = supplierName1;
+	}
+
+	public void setArticleID(int articleID) {
+		this.articleID = articleID;
+	}
+
+	public void setSupplierArticleID(String supplierArticleID) {
+		this.supplierArticleID = supplierArticleID;
+	}
+
+	public void setSupplierDescription1(String supplierDescription1) {
+		this.supplierDescription1 = supplierDescription1;
+	}
+
+	public void setSupplierDescription2(String supplierDescription2) {
+		this.supplierDescription2 = supplierDescription2;
+	}
+
+	public void setSupplierEk(BigDecimal supplierEk) {
+		this.supplierEk = supplierEk;
+	}
+
+	public void setSupplierPriceUnit(int supplierPriceUnit) {
+		this.supplierPriceUnit = supplierPriceUnit;
+	}
+
+	public void setSupplierAmountUnit(String supplierAmountUnit) {
+		this.supplierAmountUnit = supplierAmountUnit;
+	}
+
+	public void setObsListArticleSupplier(ObservableList<ModelArticleSupplier> obsListArticleSupplier) {
+		this.obsListArticleSupplier = obsListArticleSupplier;
 	}
 	
 }

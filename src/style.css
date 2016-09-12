@@ -205,6 +205,10 @@
 	-fx-background-color: #ffffff;
 }
 
+.button:focused{
+	-fx-border-color: -fx-accent-blue;
+}
+
 #btnCollapse{
 	-fx-border-width: 0 0 0 0;
 	-fx-background-color: transparent;
@@ -308,6 +312,10 @@
  .table-view .column-header-background .label{
  	
  	-fx-background-color: transparent;
+ }
+ 
+ .tc-align-right{
+ 	-fx-alignment: center-right;
  }
 
 /*************

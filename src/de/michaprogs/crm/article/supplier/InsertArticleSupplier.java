@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import de.michaprogs.crm.database.DBConnect;
+import javafx.collections.ObservableList;
 
 public class InsertArticleSupplier {
 
@@ -11,7 +12,7 @@ public class InsertArticleSupplier {
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public InsertArticleSupplier(ModelArticleSupplier mas){
+	public InsertArticleSupplier(int articleID, ObservableList<ModelArticleSupplier> obsListArticleSupplier){
 		
 		try{
 			
@@ -29,27 +30,32 @@ public class InsertArticleSupplier {
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setInt(i, mas.getArticleID());
-			i++;
-			ps.setInt(i, mas.getSupplierID());
-			i++;
-			ps.setString(i, mas.getSupplierArticleID());
-			i++;
-			ps.setString(i, mas.getSupplierDescription1());
-			i++;
-			ps.setString(i, mas.getSupplierDescription2());
-			i++;
-			ps.setBigDecimal(i, mas.getSupplierEk());
-			i++;
-			ps.setInt(i, mas.getSupplierPriceUnit());
-			i++;
-			ps.setString(i, mas.getSupplierAmountUnit());
-			i++;
 			
-			ps.execute();
-			
-			System.out.println("Hersteller " + mas.getSupplierID() + " zu Artikel " + mas.getArticleID() + " wurde der Datenbank hinzugefügt!");
+			for(int index = 0; index < obsListArticleSupplier.size(); index++){			
+				
+				int i = 1;
+				ps.setInt(i, articleID);
+				i++;
+				ps.setInt(i, obsListArticleSupplier.get(index).getSupplierID());
+				i++;
+				ps.setString(i, obsListArticleSupplier.get(index).getSupplierArticleID());
+				i++;
+				ps.setString(i, obsListArticleSupplier.get(index).getSupplierDescription1());
+				i++;
+				ps.setString(i, obsListArticleSupplier.get(index).getSupplierDescription2());
+				i++;
+				ps.setBigDecimal(i, obsListArticleSupplier.get(index).getSupplierEk());
+				i++;
+				ps.setInt(i, obsListArticleSupplier.get(index).getSupplierPriceUnit());
+				i++;
+				ps.setString(i, obsListArticleSupplier.get(index).getSupplierAmountUnit());
+				i++;
+				
+				ps.execute();
+				
+				System.out.println("Hersteller " + obsListArticleSupplier.get(index).getSupplierID() + " zu Artikel " + obsListArticleSupplier.get(index).getSupplierArticleID() + " wurde der Datenbank hinzugefügt!");
+				
+			}
 			
 		}catch(Exception e){
 			e.printStackTrace();

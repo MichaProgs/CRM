@@ -41,7 +41,7 @@
 					      			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 					   			</columnResizePolicy>
 								<columns>
-									<TableColumn fx:id="tcSalutation" text="Salutation" />
+									<TableColumn fx:id="tcSalutation" text="Anrede" />
 									<TableColumn fx:id="tcName" text="Name" />
 									<TableColumn fx:id="tcPhone" text="Telefon" />
 									<TableColumn fx:id="tcFax" text="Fax" />

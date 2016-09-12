@@ -321,6 +321,11 @@ public class Validate {
 					stringToValidate = stringToValidate.concat(".00");
 				}
 				
+				//If stringToValidate is empty it will be automatically set to 0.00
+				else if(stringToValidate.isEmpty()){
+					stringToValidate = "0.00";
+				}
+				
 				return new BigDecimal(stringToValidate);
 				
 			}else{
@@ -340,7 +345,7 @@ public class Validate {
 		 */
 		public boolean checkCurrency(String stringToValidate){
 			
-			if(stringToValidate.matches(regex)){	
+			if(stringToValidate.matches(regex) || stringToValidate.equals("")){	
 				return true;
 			}else{
 				System.err.println("*ERROR CURRENCY* The String: " + stringToValidate + " must be formatted like #,00 or #.00 or #");
@@ -528,7 +533,7 @@ public class Validate {
 			}else if(	! stringToValidate.contains(",") ||
 						! stringToValidate.contains(".")){
 				return Double.valueOf(stringToValidate.concat(".00"));
-			}else if(stringToValidate.equals("")){
+			}else if(stringToValidate.isEmpty()){
 				return 0.00;
 			}else{
 				return 0.00;
@@ -560,7 +565,7 @@ public class Validate {
 			}else if(	! stringToValidate.contains(",") ||
 						! stringToValidate.contains(".")){
 				return Double.valueOf(stringToValidate.concat(".0000"));
-			}else if(stringToValidate.equals("")){
+			}else if(stringToValidate.isEmpty()){
 				return 0.0000;
 			}else{
 				return 0.0000;

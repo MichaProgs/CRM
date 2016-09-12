@@ -22,6 +22,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -29,6 +30,8 @@ import javafx.stage.Stage;
 
 public class ControllerSupplierData {
 
+	@FXML private Label lblSubHeadline;
+	
 	@FXML private TextFieldOnlyInteger tfSupplierID;
 	@FXML private TextField tfName1;
 	@FXML private TextField tfName2;
@@ -56,7 +59,7 @@ public class ControllerSupplierData {
 	
 	/* CONTACTS - NESTED CONTROLLER! */
 	@FXML private ControllerContactData contactDataController; //fx:id + 'Controller'
-	
+		
 	//Buttons
 	@FXML private Button btnSearch;
 	@FXML private Button btnNew;
@@ -295,6 +298,10 @@ public class ControllerSupplierData {
 		/* NOTES */
 		this.taNotes.setText(supplier.getNotes());
 		
+		/* TITLE */
+		this.lblSubHeadline.setText("- " + supplier.getSupplierID() + " " + supplier.getName1() + ", " + supplier.getZip() + " " + supplier.getLocation());
+		main.getStage().setTitle(main.getProgramName() + " - Artikelstamm " + supplier.getSupplierID() + " " + supplier.getName1() + ", " + supplier.getZip() + " " + supplier.getLocation());
+		
 		/* CONTACTS */
 		this.contactDataController.setTableData(supplier.getObsListContacts());
 		
@@ -439,6 +446,10 @@ public class ControllerSupplierData {
 	 */
 	public void setStage(Stage stage){
 		this.stage = stage;
+	}
+	
+	public void setMain(Main main){
+		this.main = main;
 	}
 	
 }

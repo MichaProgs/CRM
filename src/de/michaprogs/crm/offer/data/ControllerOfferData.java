@@ -7,8 +7,8 @@ import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
+import de.michaprogs.crm.Main;
 import de.michaprogs.crm.Validate;
-import de.michaprogs.crm.Validate.ValidateOnlyInteger;
 import de.michaprogs.crm.article.DeleteArticle;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.clerk.ModelClerk;
@@ -147,6 +147,7 @@ public class ControllerOfferData {
 	@FXML private Button btnArticleDelete;
 	
 	private Stage stage;
+	private Main main;
 	
 	public ControllerOfferData(){}
 	
@@ -415,10 +416,13 @@ public class ControllerOfferData {
 		this.tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));
 		this.tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));
 		this.tcAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+		this.tcAmount.getStyleClass().add("tc-align-right");
 		this.tcAmountUnit.setCellValueFactory(new PropertyValueFactory<>("amountUnit"));
 		this.tcVk.setCellValueFactory(new PropertyValueFactory<>("vk"));
+		this.tcVk.getStyleClass().add("tc-align-right");
 		this.tcPriceUnit.setCellValueFactory(new PropertyValueFactory<>("priceUnit"));
 		this.tcTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+		this.tcTotal.getStyleClass().add("tc-align-right");
 		this.tcTax.setCellValueFactory(new PropertyValueFactory<>("tax"));
 		
 	}
@@ -487,7 +491,9 @@ public class ControllerOfferData {
 			/* ARTICLE */
 			tvArticle.setItems(offer.getObsListArticle());
 			
+			/* TITLE */
 			lblSubHeadline.setText("- " + tfOfferID.getText() + " " + tfName1.getText() + ", " + tfZip.getText() + " " + tfLocation.getText());
+			main.getStage().setTitle(main.getProgramName() + " - Angebot " + offer.getOfferID() + " " + tfName1.getText() + ", " + tfZip.getText() + " " + tfLocation.getText());
 			
 			setButtonState();
 			
@@ -767,6 +773,10 @@ public class ControllerOfferData {
 	 */
 	public void setStage(Stage stage){
 		this.stage = stage;
+	}
+	
+	public void setMain(Main main){
+		this.main = main;
 	}
 	
 	/*

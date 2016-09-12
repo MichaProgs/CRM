@@ -2,13 +2,18 @@ package de.michaprogs.crm.customer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLIntegrityConstraintViolationException;
 
+import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.contact.ModelContact;
 import de.michaprogs.crm.database.DBConnect;
 import javafx.collections.ObservableList;
+import tray.notification.NotificationType;
 
 public class InsertCustomer {
 
+	private boolean wasSuccessful = false;
+	
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
@@ -103,11 +108,22 @@ public class InsertCustomer {
 			
 			ps.execute();
 			
-			System.out.println("Kunde " + mc.getCustomerID() + " " + mc.getName1() + " wurde zur Datenbank hinzugefügt");
-			
 			/* CONTACTS */
 			new InsertCustomerContacts(mc.getCustomerID(), obsListContacts);
 			
+			new Notification(	"Gespeichert!", 
+								"Kunde " + mc.getCustomerID() + " " + mc.getName1() + " wurde erfolgreich gespeichert!", 
+								NotificationType.SUCCESS);
+			
+			System.out.println("Kunde " + mc.getCustomerID() + " " + mc.getName1() + " wurde zur Datenbank hinzugefügt");
+			
+			wasSuccessful = true;
+			
+		}catch(SQLIntegrityConstraintViolationException e){
+		
+			new Notification(	"Speichern nicht möglich!", 
+								"Kundennummer bereits vorhanden!", 
+								NotificationType.ERROR);
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -122,6 +138,10 @@ public class InsertCustomer {
 			}
 		}
 		
+	}
+	
+	public boolean wasSuccessful(){
+		return wasSuccessful;
 	}
 	
 }
