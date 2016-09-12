@@ -7,13 +7,15 @@ import de.michaprogs.crm.navigation.LoadNavigation;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
 	
 	private Stage stage;
-	private BorderPane contentPane = new BorderPane();;
+	private BorderPane contentPane = new BorderPane();
+	private String programName = "Fluid CRM";
 	
 	@Override
 	public void start(Stage stage) {
@@ -36,7 +38,8 @@ public class Main extends Application {
 			scene.getStylesheets().add("style.css");
 			
 			stage.setScene(scene);
-			stage.setTitle("CRM");
+			stage.setTitle(programName);
+			stage.getIcons().add(new Image("file:resources/app_icon.png"));
 			stage.setWidth(1200);
 			stage.setHeight(600);
 			stage.setMaximized(true);
@@ -58,6 +61,10 @@ public class Main extends Application {
 	
 	public BorderPane getContentPane(){
 		return contentPane;
+	}
+	
+	public String getProgramName(){
+		return programName;
 	}
 
 }
