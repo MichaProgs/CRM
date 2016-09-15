@@ -36,6 +36,7 @@
 						<!-- BtnEditSave is added with Java-Code -->
 						<!-- BtnEditAbort ist added with Java-Code -->
 						<Button fx:id="btnDelete" text="Löschen" styleClass="btnTopbar" />
+						<Button fx:id="btnDocument" text="Dokument" styleClass="btnTopbar" />
 					</HBox>
 				</StackPane>
 			</AnchorPane>

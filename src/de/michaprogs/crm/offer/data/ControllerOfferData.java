@@ -2,12 +2,14 @@ package de.michaprogs.crm.offer.data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.FormatStyle;
 
 import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Main;
+import de.michaprogs.crm.ParseDateDDMMYYYY;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.DeleteArticle;
 import de.michaprogs.crm.article.ModelArticle;
@@ -17,6 +19,7 @@ import de.michaprogs.crm.clerk.data.LoadClerkData;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
+import de.michaprogs.crm.offer.DocumentOffer;
 import de.michaprogs.crm.offer.ModelOffer;
 import de.michaprogs.crm.offer.SelectOffer;
 import de.michaprogs.crm.offer.UpdateOffer;
@@ -46,6 +49,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.converter.LocalDateStringConverter;
 
 public class ControllerOfferData {
 
@@ -138,6 +142,7 @@ public class ControllerOfferData {
 	      private Button btnEditSave = new Button("Speichern");
 	      private Button btnEditAbort = new Button("Abbrechen");
 	@FXML private Button btnDelete;
+	@FXML private Button btnDocument;
 	
 	@FXML private Button btnCustomerSearch;
 	@FXML private Button btnClerkSearch;
@@ -170,6 +175,7 @@ public class ControllerOfferData {
 		initBtnEditSave();
 		initBtnEditAbort();
 		initBtnDelete();
+		initBtnDocument();
 		
 		initBtnCustomerSearch();
 		initBtnClerkSearch();
@@ -399,6 +405,60 @@ public class ControllerOfferData {
 					resetFields();
 					setButtonState();
 				}
+				
+			}
+		});
+		
+	}
+	
+	private void initBtnDocument(){
+		
+		btnDocument.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+
+				new DocumentOffer(
+					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText()), 
+					cbSalutationBilling.getSelectionModel().getSelectedItem(), 
+					tfName1Billing.getText(), 
+					tfName2Billing.getText(), 
+					tfStreetBilling.getText(),
+					cbLandBilling.getSelectionModel().getSelectedItem(),
+					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZipBilling.getText()), 
+					tfLocationBilling.getText(),
+					tfPhoneBilling.getText(),
+					tfFaxBilling.getText(),
+					tfEmailBilling.getText(),
+					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNettoBilling.getText()),
+					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkontoBilling.getText()),
+					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkontoBilling.getText()),
+					cbPaymentBilling.getSelectionModel().getSelectedItem(),
+					
+					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
+					cbSalutation.getSelectionModel().getSelectedItem(), 
+					tfName1.getText(), 
+					tfName2.getText(), 
+					tfStreet.getText(),
+					cbLand.getSelectionModel().getSelectedItem(),
+					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
+					tfLocation.getText(), 
+					
+					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
+					new ParseDateDDMMYYYY(String.valueOf(tfOfferDate.getValue())).getDateDDMMYYYY(),
+					tfRequest.getText(), 
+					new ParseDateDDMMYYYY(String.valueOf(tfRequestDate.getValue())).getDateDDMMYYYY(),
+					
+					tfClerk.getText(),
+					tfClerkPhone.getText(),
+					tfClerkFax.getText(),
+					tfClerkEmail.getText(),
+					
+					tvArticle.getItems().size(),
+					tvArticle.getItems(), 
+					true);
+				
+				//TODO OTHER DATA
 				
 			}
 		});
@@ -710,6 +770,7 @@ public class ControllerOfferData {
 				btnNew.setDisable(true);
 				btnSearch.setDisable(true);
 				btnEdit.setDisable(true);
+				btnDocument.setDisable(true);
 				
 				btnArticleAdd.setDisable(false);
 				if(tvArticle.getItems().size() > 0){
@@ -754,6 +815,7 @@ public class ControllerOfferData {
 				btnSearch.setDisable(false);
 				btnNew.setDisable(false);
 				btnEdit.setDisable(false);
+				btnDelete.setDisable(false);
 				btnDelete.setDisable(false);
 				
 				btnArticleAdd.setDisable(true);
