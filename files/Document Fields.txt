@@ -1,38 +1,84 @@
-Following fields can be used in the word-file:
+FOLLOWING FIELDS CAN BE USED IN THE WORDFILE	
 
-ADRESS (BILLING):
+	/* BILLING ADRESS */
+	private final String SALUTATION_BILLING = "SALUTATION_BILLING";
+	private final String CUSTOMERID_BILLING = "CUSTOMERID_BILLING";
+	private final String NAME1_BILLING = "NAME1_BILLING";
+	private final String NAME2_BILLING = "NAME2_BILLING";
+	private final String STREET_BILLING = "STREET_BILLING";
+	private final String LAND_BILLING = "LAND_BILLING";
+	private final String ZIP_BILLING = "ZIP_BILLING";
+	private final String LOCATION_BILLING = "LOCATION_BILLING";
+	
+	private final String CONTACT_BILLING = "CONTACT_BILLING";
+	private final String PHONE_BILLING = "PHONE_BILLING";
+	private final String FAX_BILLING = "FAX_BILLING";
+	private final String EMAIL_BILLING = "EMAIL_BILLING";
+	
+	private final String PAYMENTART_BILLING = "PAYMENTART_BILLING";
+	private final String IBAN_BILLING = "IBAN_BILLING";
+	private final String BIC_BILLING = "BIC_BILLING";
+	private final String BANK_BILLING = "BANK_BILLING";
+	private final String PAYMENTTIME_SKONTO_BILLING = "PAYMENTTIME_SKONTO_BILLING";
+	private final String PAYMENTTIME_NETTO_BILLING = "PAYMENTTIME_NETTO_BILLING";
+	private final String SKONTO_BILLING = "PAYMENTTIME_SKONTO_BILLING";
+	
+	/* DELIVERYADRESS */
+	private final String SALUTATION_DELIVERY = "SALUTATION_DELIVERY";
+	private final String CUSTOMERID_DELIVERY = "CUSTOMERID_DELIVERY";
+	private final String NAME1_DELIVERY = "NAME1_DELIVERY";
+	private final String NAME2_DELIVERY = "NAME2_DELIVERY";
+	private final String STREET_DELIVERY = "STREET_DELIVERY";
+	private final String LAND_DELIVERY = "LAND_DELIVERY";
+	private final String ZIP_DELIVERY = "ZIP_DELIVERY";
+	private final String LOCATION_DELIVERY = "LOCATION_DELIVERY";
+	
+	private final String CONTACT_DELIVERY = "CONTACT_DELIVERY";
+	private final String PHONE_DELIVERY = "PHONE_DELIVERY";
+	private final String FAX_DELIVERY = "FAX_DELIVERY";
+	private final String EMAIL_DELIVERY = "EMAIL_DELIVERY";
+	
+	private final String PAYMENTART_DELIVERY = "PAYMENTART_DELIVERY";
+	private final String IBAN_DELIVERY = "IBAN_DELIVERY";
+	private final String BIC_DELIVERY = "BIC_DELIVERY";
+	private final String BANK_DELIVERY = "BANK_DELIVERY";
+	private final String PAYMENTTIME_SKONTO_DELIVERY = "PAYMENTTIME_SKONTO_DELIVERY";
+	private final String PAYMENTTIME_NETTO_DELIVERY = "PAYMENTTIME_NETTO_DELIVERY";
+	private final String SKONTO_DELIVERY = "PAYMENTTIME_SKONTO_DELIVERY";	
+	
+	/* OFFER-INFORMATION */
+	private final String OFFERID = "OFFERID";
+	private final String OFFERDATE = "OFFERDATE";
+	private final String REQUESTART = "REQUESTART";
+	private final String REQUESTDATE = "REQUESTDATE";
+	private final String NOTES = "NOTES";
+	
+	/* CLERK */
+	private final String CLERKNAME = "CLERKNAME";
+	private final String CLERKPHONE = "CLERKPHONE";
+	private final String CLERKFAX = "CLERKFAX";
+	private final String CLERKEMAIL = "CLERKEMAIL";	
+	
+	/* ARTICLE */
+	private final String BARRELSIZE = "BARRELSIZE";
+	private final String BOLTING = "BOLTING";	
+	private final String ARTICLEPOS = "ARTICLEPOS";
+	private final String ARTICLEID = "ARTICLEID";
+	private final String DESCRIPTION1 = "DESCRIPTION1";
+	private final String DESCRIPTION2 = "DESCRIPTION2";
+	private final String AMOUNT = "AMOUNT_";
+	private final String PRICEUNIT = "PRICEUNIT";
+	private final String AMOUNTUNIT = "AUNIT";
+	private final String VKPRICE = "VKPRICE";
+	private final String TOTALPRICE = "TOTALPRICE";
 
-CUSTOMERID
-NAME1
-NAME2
-STREET
-LAND
-ZIP
-LOCATION
-FAX
-EMAIL
-PHONE
+THE ARTICLE/POSITION TABLE MUST HAVE A HEADLINE-ROW WITH MINIMAL ONE OF THE FOLLOWING DESCRIPTION:
+	- Pos.
+	- Art-Nr.
+	- Bezeichnung
+	- Menge
+	- Einheit / ME / PE
+	- VK / E-Preis / Preis
+	- VK-Gesamt / G-Preis / Total
 
-FIRST TABLE (INFORMATIONS):
-
-CUSTOMERID
-OFFERID
-OFFERDATE
-REQUESTART
-REQUESTDATE
-CLERKNAME
-CLERKPHONE
-CLERKFAX
-CLERKEMAIL
-
-SECOND TABLE (ARTICLE)
-
-ARTICLEPOS
-ARTICLEID
-DESCRIPTION1
-DESCRIPTION2
-AMOUNT_ (with underscore!)
-PRICEUNIT
-AMOUNTUNIT
-VKPRICE
-TOTALPRICE
+AFTER THE HEADLINE ROW ONE EMPTY ROW IS NEEDED
