@@ -418,47 +418,126 @@ public class ControllerOfferData {
 			@Override
 			public void handle(ActionEvent event) {
 
-				new DocumentOffer(
-					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText()), 
-					cbSalutationBilling.getSelectionModel().getSelectedItem(), 
-					tfName1Billing.getText(), 
-					tfName2Billing.getText(), 
-					tfStreetBilling.getText(),
-					cbLandBilling.getSelectionModel().getSelectedItem(),
-					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZipBilling.getText()), 
-					tfLocationBilling.getText(),
-					tfPhoneBilling.getText(),
-					tfFaxBilling.getText(),
-					tfEmailBilling.getText(),
-					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNettoBilling.getText()),
-					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkontoBilling.getText()),
-					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkontoBilling.getText()),
-					cbPaymentBilling.getSelectionModel().getSelectedItem(),
-					
-					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
-					cbSalutation.getSelectionModel().getSelectedItem(), 
-					tfName1.getText(), 
-					tfName2.getText(), 
-					tfStreet.getText(),
-					cbLand.getSelectionModel().getSelectedItem(),
-					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
-					tfLocation.getText(), 
-					
-					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
-					new ParseDateDDMMYYYY(String.valueOf(tfOfferDate.getValue())).getDateDDMMYYYY(),
-					tfRequest.getText(), 
-					new ParseDateDDMMYYYY(String.valueOf(tfRequestDate.getValue())).getDateDDMMYYYY(),
-					
-					tfClerk.getText(),
-					tfClerkPhone.getText(),
-					tfClerkFax.getText(),
-					tfClerkEmail.getText(),
-					
-					tvArticle.getItems().size(),
-					tvArticle.getItems(), 
-					true);
+//				new DocumentOffer(
+//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText()), 
+//					cbSalutationBilling.getSelectionModel().getSelectedItem(), 
+//					tfName1Billing.getText(), 
+//					tfName2Billing.getText(), 
+//					tfStreetBilling.getText(),
+//					cbLandBilling.getSelectionModel().getSelectedItem(),
+//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZipBilling.getText()), 
+//					tfLocationBilling.getText(),
+//					tfPhoneBilling.getText(),
+//					tfFaxBilling.getText(),
+//					tfEmailBilling.getText(),
+//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNettoBilling.getText()),
+//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkontoBilling.getText()),
+//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkontoBilling.getText()),
+//					cbPaymentBilling.getSelectionModel().getSelectedItem(),
+//					
+//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
+//					cbSalutation.getSelectionModel().getSelectedItem(), 
+//					tfName1.getText(), 
+//					tfName2.getText(), 
+//					tfStreet.getText(),
+//					cbLand.getSelectionModel().getSelectedItem(),
+//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
+//					tfLocation.getText(), 
+//					
+//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
+//					new ParseDateDDMMYYYY(String.valueOf(tfOfferDate.getValue())).getDateDDMMYYYY(),
+//					tfRequest.getText(), 
+//					new ParseDateDDMMYYYY(String.valueOf(tfRequestDate.getValue())).getDateDDMMYYYY(),
+//					
+//					tfClerk.getText(),
+//					tfClerkPhone.getText(),
+//					tfClerkFax.getText(),
+//					tfClerkEmail.getText(),
+//					
+//					tvArticle.getItems().size(),
+//					tvArticle.getItems(), 
+//					true);
 				
-				//TODO OTHER DATA
+				new DocumentOffer(
+					/* BILLING */
+					new ModelCustomer(
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText()), 
+						cbSalutationBilling.getSelectionModel().getSelectedItem(), 
+						tfName1Billing.getText(), 
+						tfName2Billing.getText(), 
+						tfStreetBilling.getText(), 
+						cbLandBilling.getSelectionModel().getSelectedItem(), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZipBilling.getText()), 
+						tfLocationBilling.getText(), 
+						
+						tfPhoneBilling.getText(), 
+						tfMobileBilling.getText(), 
+						tfFaxBilling.getText(), 
+						tfEmailBilling.getText(), 
+						tfWebBilling.getText(), 
+						tfContactBilling.getText(), 
+						tfUstIDBilling.getText(), 
+						
+						cbPaymentBilling.getSelectionModel().getSelectedItem(), 
+						tfIBANBilling.getText(), 
+						tfBICBilling.getText(), 
+						tfBankBilling.getText(), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkontoBilling.getText()),
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNettoBilling.getText()), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkontoBilling.getText()), 
+						"", 
+						"", 
+						0), 
+					
+					/* DELIVERY */
+					new ModelCustomer(
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
+						cbSalutation.getSelectionModel().getSelectedItem(), 
+						tfName1.getText(), 
+						tfName2.getText(), 
+						tfStreet.getText(), 
+						cbLand.getSelectionModel().getSelectedItem(), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
+						tfLocation.getText(), 
+						
+						tfPhone.getText(), 
+						tfMobile.getText(), 
+						tfFax.getText(), 
+						tfEmail.getText(), 
+						tfWeb.getText(), 
+						tfContact.getText(), 
+						tfUstID.getText(), 
+						
+						cbPayment.getSelectionModel().getSelectedItem(), 
+						tfIBAN.getText(), 
+						tfBIC.getText(), 
+						tfBank.getText(), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()), 
+						"", 
+						"", 
+						0), 
+					
+					/* OFFER AND ARTICLE */
+					new ModelOffer(
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
+						new ParseDateDDMMYYYY(String.valueOf(tfOfferDate.getValue())).getDateDDMMYYYY(), 
+						tfRequest.getText(), 
+						new ParseDateDDMMYYYY(String.valueOf(tfRequestDate.getValue())).getDateDDMMYYYY(), 
+						taNotes.getText(), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfClerkID.getText()), 
+						tvArticle.getItems()), 
+					
+					/* CLERK */
+					new ModelClerk(
+						"", 
+						tfClerk.getText(), 
+						tfClerkPhone.getText(),
+						tfClerkFax.getText(), 
+						tfClerkEmail.getText(), 
+						""));
 				
 			}
 		});

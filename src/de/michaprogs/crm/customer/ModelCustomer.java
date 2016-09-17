@@ -73,7 +73,7 @@ public class ModelCustomer {
 	}
 
 	/**
-	 * Constructor for Database (Insert Customer)
+	 * Constructor for Database (Insert Customer) <br>
 	 * Constrcutor for Database (Update Customer)
 	 * @param customerID
 	 * @param salutation
