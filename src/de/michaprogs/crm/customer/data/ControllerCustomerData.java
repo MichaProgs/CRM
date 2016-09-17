@@ -339,7 +339,7 @@ public class ControllerCustomerData {
 				LoadCustomerSearch customerSearch = new LoadCustomerSearch(true);
 				if(customerSearch.getController().getSelectedCustomerID() != 0){
 					
-					ModelCustomer customer = new SelectCustomer(new ModelCustomer(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()))).getModelCustomer();
+					ModelCustomer customer = new SelectCustomer(new ModelCustomer(customerSearch.getController().getSelectedCustomerID())).getModelCustomer();
 					
 					tfCustomerIDBilling.setText(String.valueOf(customer.getCustomerID()));
 					tfName1Billing.setText(customer.getName1());
