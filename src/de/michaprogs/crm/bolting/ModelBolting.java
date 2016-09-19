@@ -85,30 +85,7 @@ public class ModelBolting {
 		
 	}
 	
-	public void deleteBolting(int _boltingID, String _bolting){
 	
-		try{
-			
-			String stmt = "DELETE FROM bolting WHERE boltingID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			ps.setInt(1, _boltingID);
-			ps.execute();
-			
-			System.out.println("Verschraubung " + _boltingID + " " + _bolting + " aus Datenbank gelöscht!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try {
-				closeConnection();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}	
-		
-	}
 	
 	private void closeConnection(){
 		

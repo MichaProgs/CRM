@@ -85,30 +85,7 @@ public class ModelBarrelsize {
 		
 	}
 	
-	public void deleteBarrelsize(int _barrelsizeID, String _barrelsize){
 	
-		try{
-			
-			String stmt = "DELETE FROM barrelsize WHERE barrelsizeID = ?";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			ps.setInt(1, _barrelsizeID);
-			ps.execute();
-			
-			System.out.println("Gebindegröße " + _barrelsizeID + " " + _barrelsize + " aus Datenbank gelöscht!");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try {
-				closeConnection();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-	}
 	
 	private void closeConnection(){
 		
