@@ -19,19 +19,19 @@ public class InitCombos {
 		
 	}
 	
-	public void initComboAmountUnit(ComboBox<String> cbAmountUnit){
-		
-		cbAmountUnit.getItems().addAll(
-			"STK",
-			"LTR",
-			"METER",
-			"KG",
-			"TO"
-		);
-		
-		cbAmountUnit.getSelectionModel().select(0);
-		
-	}
+//	public void initComboAmountUnit(ComboBox<String> cbAmountUnit){
+//		
+//		cbAmountUnit.getItems().addAll(
+//			"STK",
+//			"LTR",
+//			"METER",
+//			"KG",
+//			"TO"
+//		);
+//		
+//		cbAmountUnit.getSelectionModel().select(0);
+//		
+//	}
 	
 	public void initComboTax(ComboBox<String> cbTax){
 		
@@ -44,20 +44,20 @@ public class InitCombos {
 		
 	}
 	
-	public void initComboCategory(ComboBox<String> cbCategory){
-		
-		cbCategory.getItems().addAll(
-			"",
-			"Gas",
-			"Gas-Zubehör",
-			"Heizöl",
-			"Diesel",
-			"Schmierstoffe"
-		);
-		
-		cbCategory.getSelectionModel().select(0);
-		
-	}
+//	public void initComboCategory(ComboBox<String> cbCategory){
+//		
+//		cbCategory.getItems().addAll(
+//			"",
+//			"Gas",
+//			"Gas-Zubehör",
+//			"Heizöl",
+//			"Diesel",
+//			"Schmierstoffe"
+//		);
+//		
+//		cbCategory.getSelectionModel().select(0);
+//		
+//	}
 	
 	public void initComboOfferEnd(ComboBox<String> cbOfferEnd){
 		

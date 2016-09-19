@@ -4,6 +4,8 @@ import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.amountunit.ModelAmountUnit;
+import de.michaprogs.crm.amountunit.SelectAmountUnit;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.SelectSupplier;
@@ -54,7 +56,7 @@ public class ControllerArticleSupplierAdd {
 		tfArticleID.setText(""); //The custom component 'TextFieldOnlyInteger' sets 0 automatically
 		
 		//ComboBoxes
-		new InitCombos().initComboAmountUnit(cbAmountUnit);
+		cbAmountUnit.setItems(new SelectAmountUnit(new ModelAmountUnit()).getModelAmountUnit().getObsListAmountUnitsComboBox());
 		new InitCombos().initComboPriceUnit(cbPriceUnit);
 		new InitCombos().initComboLand(cbLand);
 		

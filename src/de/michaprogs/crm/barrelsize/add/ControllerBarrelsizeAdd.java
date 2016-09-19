@@ -1,7 +1,10 @@
 package de.michaprogs.crm.barrelsize.add;
 
 import de.michaprogs.crm.DeleteAlert;
+import de.michaprogs.crm.barrelsize.DeleteBarrelsize;
 import de.michaprogs.crm.barrelsize.ModelBarrelsize;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,8 +16,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ControllerBarrelsizeAdd {
@@ -31,7 +32,7 @@ public class ControllerBarrelsizeAdd {
 	
 	//Buttons
 	@FXML private Button btnAdd;
-	@FXML private Button btnAbort;
+	@FXML private Button btnDelete;
 	
 	private Stage stage;
 	
@@ -39,17 +40,15 @@ public class ControllerBarrelsizeAdd {
 	
 	@FXML private void initialize(){
 		
-		this.tcBarrelsizeID.setCellValueFactory(new PropertyValueFactory<>("barrelsizeID"));
-		this.tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));		
-		
-		initTableDoubleClick();
-		
-		//Init Buttons
-		initBtnAbort();
+		/* BUTTONS */
 		initBtnAdd();
+		initBtnDelete();
+		
+		/* TABLES */
+		initTableBarrelsize();
 		
 		//Load all barrelsize from Database and show
-		refreshTableBarrelsize();
+		refreshTable();
 		
 	}
 	
@@ -57,17 +56,16 @@ public class ControllerBarrelsizeAdd {
 		this.stage = stage;
 	}
 	
-	private void initBtnAbort(){
+	/*
+	 * BUTTONS
+	 */
+	private void initBtnDelete(){
 		
-		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
+		btnDelete.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				if(stage != null){
-					stage.close();
-				}else{
-					tfBarrelsize.clear();
-				}
+				deleteBarrelsize();
 			}
 		});	
 	}
@@ -80,7 +78,7 @@ public class ControllerBarrelsizeAdd {
 			public void handle(ActionEvent event) {
 				
 				new ModelBarrelsize().insertbarrelsize(tfBarrelsize.getText());
-				refreshTableBarrelsize();
+				refreshTable();
 				tfBarrelsize.clear();
 				
 			}
@@ -88,29 +86,45 @@ public class ControllerBarrelsizeAdd {
 		
 	}
 	
-	private void initTableDoubleClick(){
+	/*
+	 * TABLES
+	 */
+	private void initTableBarrelsize(){
 		
-		tvBarrelsize.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		tcBarrelsizeID.setCellValueFactory(new PropertyValueFactory<>("barrelsizeID"));
+		tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));	
+		
+		tvBarrelsize.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelBarrelsize>() {
 
 			@Override
-			public void handle(MouseEvent event) {
-				
-				if(	event.getButton().equals(MouseButton.SECONDARY) &&
-					event.getClickCount() == 1){
-					tvBarrelsize.setContextMenu(new ContextMenuTable());
-				}
-				
-				if(tvBarrelsize.getSelectionModel().getSelectedItems().size() == 1){
-					lblSubHeadline.setText(tcBarrelsize.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()));
-				}
-					
-				
+			public void changed(ObservableValue<? extends ModelBarrelsize> observable, ModelBarrelsize oldValue,
+					ModelBarrelsize newValue) {
+				lblSubHeadline.setText(tcBarrelsize.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()));				
 			}
+			
 		});
+		
+		tvBarrelsize.setContextMenu(new ContextMenuTable());
 		
 	}
 	
-	private void refreshTableBarrelsize(){		
+	/*
+	 * DATABASE METHODS
+	 */
+	private void deleteBarrelsize(){
+		
+		if(tvBarrelsize.getSelectionModel().getSelectedItems().size() == 1){
+			if(new DeleteAlert().getDelete()){
+				new DeleteBarrelsize(tcBarrelsizeID.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()));
+				refreshTable();
+			}
+		}else{
+			System.out.println("Bitte 1 Zeile markieren!");
+		}
+		
+	}
+
+	private void refreshTable(){		
 		ModelBarrelsize barrelsize = new ModelBarrelsize();
 		barrelsize.selectBarrelsizes();
 		tvBarrelsize.setItems(barrelsize.getObsListBarrelsizes());	
@@ -118,7 +132,7 @@ public class ControllerBarrelsizeAdd {
 	
 	private class ContextMenuTable extends ContextMenu{
 		
-		private MenuItem itemDelete;
+		private MenuItem itemDelete = new MenuItem("Löschen");
 		
 		public ContextMenuTable(){
 			
@@ -130,21 +144,11 @@ public class ControllerBarrelsizeAdd {
 		
 		private void initItemDelete(){
 			
-			itemDelete = new MenuItem("Löschen");
 			itemDelete.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
 				public void handle(ActionEvent event) {
-					
-					DeleteAlert delete = new DeleteAlert();
-					if(delete.getDelete()){
-						ModelBarrelsize barrelsize = new ModelBarrelsize();
-						barrelsize.deleteBarrelsize(tcBarrelsizeID.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()), 
-													tcBarrelsize.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()));
-					
-						refreshTableBarrelsize();
-					}
-					
+					deleteBarrelsize();					
 				}
 			});
 			

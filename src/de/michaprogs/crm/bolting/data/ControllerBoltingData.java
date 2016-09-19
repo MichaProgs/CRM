@@ -2,6 +2,8 @@ package de.michaprogs.crm.bolting.data;
 
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.bolting.ModelBolting;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,8 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ControllerBoltingData {
@@ -34,14 +34,12 @@ public class ControllerBoltingData {
 		
 	}
 	
-	@FXML private void initialize(){
+	@FXML private void initialize(){	
 		
-		this.tcBoltingID.setCellValueFactory(new PropertyValueFactory<>("boltingID"));
-		this.tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));		
+		/* TABLES */
+		initTableBolting();
 		
-		initTableDoubleClick();
-		
-		//Init Buttons
+		/* BUTTONS */
 		initBtnSelect();
 		initBtnAbort();
 		
@@ -96,29 +94,20 @@ public class ControllerBoltingData {
 		});	
 	}
 	
-	private void initTableDoubleClick(){
+	private void initTableBolting(){
 		
-		tvBolting.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
+		tcBoltingID.setCellValueFactory(new PropertyValueFactory<>("boltingID"));
+		tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));	
+		
+		tvBolting.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelBolting>() {
+			
 			@Override
-			public void handle(MouseEvent event) {
-				
-				if(	event.getClickCount() == 2 &&
-					event.getButton().equals(MouseButton.PRIMARY)){
-					
-					selectedBolting = tvBolting.getItems().get(tvBolting.getSelectionModel().getSelectedIndex()).getBolting();
-					
-					if(stage != null){
-						stage.close();
-					}
-					
-				}
-				
-				if(tvBolting.getSelectionModel().getSelectedItems().size() == 1){
-					lblSubHeadline.setText(tvBolting.getItems().get(tvBolting.getSelectionModel().getSelectedIndex()).getBolting());
-				}
+			public void changed(ObservableValue<? extends ModelBolting> observable, ModelBolting oldValue,
+					ModelBolting newValue) {
+				lblSubHeadline.setText(tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));	
 				
 			}
+			
 		});
 		
 	}

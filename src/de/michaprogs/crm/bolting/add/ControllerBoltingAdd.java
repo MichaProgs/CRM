@@ -1,7 +1,10 @@
 package de.michaprogs.crm.bolting.add;
 
 import de.michaprogs.crm.DeleteAlert;
+import de.michaprogs.crm.bolting.DeleteBolting;
 import de.michaprogs.crm.bolting.ModelBolting;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,8 +16,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ControllerBoltingAdd {
@@ -31,7 +32,7 @@ public class ControllerBoltingAdd {
 	
 	//Buttons
 	@FXML private Button btnAdd;
-	@FXML private Button btnAbort;
+	@FXML private Button btnDelete;
 	
 	private Stage stage;
 	
@@ -41,35 +42,27 @@ public class ControllerBoltingAdd {
 	
 	@FXML private void initialize(){
 		
-		this.tcBoltingID.setCellValueFactory(new PropertyValueFactory<>("boltingID"));
-		this.tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));		
-		
 		initTableBolting();
 		
 		//Init Buttons
-		initBtnAbort();
+		initBtnDelete();
 		initBtnAdd();
 		
 		//Load all Bolting from Database and show
-		refreshTableBolting();
+		refreshTable();
 		
 	}
 	
 	/*
 	 * BUTTONS
 	 */
-	private void initBtnAbort(){
+	private void initBtnDelete(){
 		
-		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
+		btnDelete.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				if(stage != null){
-					stage.close();
-				}else{
-					tfBolting.clear();
-				}
-									
+													
 			}
 		});	
 	}
@@ -82,7 +75,7 @@ public class ControllerBoltingAdd {
 			public void handle(ActionEvent event) {
 				
 				new ModelBolting().insertBolting(tfBolting.getText());
-				refreshTableBolting();
+				refreshTable();
 				tfBolting.clear();
 				
 			}
@@ -95,32 +88,44 @@ public class ControllerBoltingAdd {
 	 */
 	private void initTableBolting(){
 		
-		tvBolting.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
+		tcBoltingID.setCellValueFactory(new PropertyValueFactory<>("boltingID"));
+		tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));	
+		
+		tvBolting.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelBolting>() {
+			
 			@Override
-			public void handle(MouseEvent event) {
-				
-				if(	event.getButton().equals(MouseButton.SECONDARY) &&
-					event.getClickCount() == 2){
-					tvBolting.setContextMenu(new ContextMenuTable());				
-				}
-				
-				if(tvBolting.getSelectionModel().getSelectedItems().size() == 1){
-					lblSubHeadline.setText(tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));
-				}
+			public void changed(ObservableValue<? extends ModelBolting> observable, ModelBolting oldValue,
+					ModelBolting newValue) {
+				lblSubHeadline.setText(tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));	
 				
 			}
+			
 		});
+		
+		tvBolting.setContextMenu(new ContextMenuTable());
 		
 	}
 	
 	/*
 	 * DATABASE METHODS
 	 */
-	private void refreshTableBolting(){		
+	private void refreshTable(){		
 		ModelBolting bolting = new ModelBolting();
 		bolting.selectBoltings();
 		tvBolting.setItems(bolting.getObsListBoltings());	
+	}
+	
+	private void deleteBolting(){
+		
+		if(tvBolting.getSelectionModel().getSelectedItems().size() == 1){
+			if(new DeleteAlert().getDelete()){
+				new DeleteBolting(tcBoltingID.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));
+				refreshTable();
+			}
+		}else{
+			System.out.println("Bitte 1 Zeile markieren!");
+		}
+		
 	}
 	
 	/*
@@ -132,7 +137,7 @@ public class ControllerBoltingAdd {
 	
 	private class ContextMenuTable extends ContextMenu{
 		
-		private MenuItem itemDelete;
+		private MenuItem itemDelete = new MenuItem("Löschen");;
 		
 		public ContextMenuTable(){
 			
@@ -144,22 +149,11 @@ public class ControllerBoltingAdd {
 		
 		private void initItemDelete(){
 			
-			itemDelete = new MenuItem("Löschen");
 			itemDelete.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
 				public void handle(ActionEvent event) {
-					
-					DeleteAlert delete = new DeleteAlert();
-					if(delete.getDelete()){
-						ModelBolting bolting = new ModelBolting();
-						bolting.deleteBolting(	tcBoltingID.getCellData(tvBolting.getSelectionModel().getSelectedIndex()), 
-												tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));
-					
-						refreshTableBolting();
-					
-					}
-					
+					deleteBolting();
 				}
 			});
 			

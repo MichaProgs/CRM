@@ -2,6 +2,8 @@ package de.michaprogs.crm.barrelsize.data;
 
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.barrelsize.ModelBarrelsize;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,8 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ControllerBarrelsizeData {
@@ -34,16 +34,14 @@ public class ControllerBarrelsizeData {
 		
 	}
 	
-	@FXML private void initialize(){
+	@FXML private void initialize(){	
 		
-		this.tcBarrelsizeID.setCellValueFactory(new PropertyValueFactory<>("barrelsizeID"));
-		this.tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));		
-		
-		initTableDoubleClick();
-		
-		//Init Buttons
+		/* BUTTONS */
 		initBtnAbort();
 		initBtnSelect();
+		
+		/* TABLES */
+		initTableBarrelsize();
 		
 		//Load all barrelsize from Database and show
 		refreshTablebarrelsize();
@@ -96,29 +94,19 @@ public class ControllerBarrelsizeData {
 		});	
 	}
 	
-	private void initTableDoubleClick(){
+	private void initTableBarrelsize(){
 		
-		tvBarrelsize.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		tcBarrelsizeID.setCellValueFactory(new PropertyValueFactory<>("barrelsizeID"));
+		tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));	
+		
+		tvBarrelsize.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelBarrelsize>() {
 
 			@Override
-			public void handle(MouseEvent event) {
-				
-				if(	event.getClickCount() == 2 &&
-					event.getButton().equals(MouseButton.PRIMARY)){
-					
-					selectedBarrelsize = tvBarrelsize.getItems().get(tvBarrelsize.getSelectionModel().getSelectedIndex()).getBarrelsize();
-					
-					if(stage != null){
-						stage.close();
-					}
-					
-				}
-				
-				if(tvBarrelsize.getSelectionModel().getSelectedItems().size() == 1){
-					lblSubHeadline.setText(tvBarrelsize.getItems().get(tvBarrelsize.getSelectionModel().getSelectedIndex()).getBarrelsize());
-				}
-				
+			public void changed(ObservableValue<? extends ModelBarrelsize> observable, ModelBarrelsize oldValue,
+					ModelBarrelsize newValue) {
+				lblSubHeadline.setText(tcBarrelsize.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()));				
 			}
+			
 		});
 		
 	}

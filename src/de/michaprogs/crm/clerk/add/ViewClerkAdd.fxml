@@ -58,6 +58,7 @@
 								<TextField fx:id="tfEmail" promptText="Email" />
 								<TextField fx:id="tfDepartment" promptText="Abteilung" />
 								<Button text="Hinzufügen" fx:id="btnAdd" />
+								<Button text="Löschen" fx:id="btnDelete" />
 							</HBox>
 						
 						</VBox>					

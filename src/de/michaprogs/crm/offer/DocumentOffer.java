@@ -43,6 +43,7 @@ public class DocumentOffer {
 	private final String PAYMENTTIME_SKONTO_BILLING = "PAYMENTTIME_SKONTO_BILLING";
 	private final String PAYMENTTIME_NETTO_BILLING = "PAYMENTTIME_NETTO_BILLING";
 	private final String SKONTO_BILLING = "PAYMENTTIME_SKONTO_BILLING";
+	private final String PAYMENTTIME_SKONTO_NETTO_BILLING = "PAYMENTTIME_SKONTO_NETTO_BILLING";
 	
 	/* DELIVERYADRESS */
 	private final String SALUTATION_DELIVERY = "SALUTATION_DELIVERY";
@@ -66,6 +67,7 @@ public class DocumentOffer {
 	private final String PAYMENTTIME_SKONTO_DELIVERY = "PAYMENTTIME_SKONTO_DELIVERY";
 	private final String PAYMENTTIME_NETTO_DELIVERY = "PAYMENTTIME_NETTO_DELIVERY";
 	private final String SKONTO_DELIVERY = "PAYMENTTIME_SKONTO_DELIVERY";	
+	private final String PAYMENTTIME_SKONTO_NETTO_DELIVERY = "PAYMENTTIME_SKONTO_NETTO_DELIVERY";
 	
 	/* OFFER-INFORMATION */
 	private final String OFFERID = "OFFERID";
@@ -109,6 +111,8 @@ public class DocumentOffer {
 							ModelOffer modelOffer,
 							ModelClerk modelClerk
 							){
+		
+		System.out.println(modelCustomerDelivery.getBillingID());
 		
 		//IF THERE IS NO BILLINGADRESS THE DELIVERYADRESS IS USED FOR BOTH
 		if(modelCustomerDelivery.getBillingID() == 0){
@@ -265,6 +269,12 @@ public class DocumentOffer {
 			r.setText(text.replace(PAYMENTTIME_SKONTO_BILLING, String.valueOf(modelCustomerBilling.getPaymentSkonto())), 0);
 		}else if(text.contains(SKONTO_BILLING)){
 			r.setText(text.replace(SKONTO_BILLING, String.valueOf(modelCustomerBilling.getSkonto())), 0);
+		}else if(text.contains(PAYMENTTIME_SKONTO_NETTO_BILLING)){
+			if(modelCustomerBilling.getPaymentSkonto() != 0){
+				r.setText(text.replace(PAYMENTTIME_SKONTO_NETTO_BILLING, modelCustomerBilling.getPaymentSkonto() + " Tage " + modelCustomerBilling.getSkonto() + "% Skonto. " + modelCustomerBilling.getPaymentNetto() + " Tage rein netto."), 0);
+			}else{
+				r.setText(text.replace(PAYMENTTIME_SKONTO_NETTO_BILLING, modelCustomerBilling.getPaymentNetto() + " Tage rein netto."), 0);
+			}	
 		}else if(text.contains(IBAN_BILLING)){
 			r.setText(text.replace(IBAN_BILLING, modelCustomerBilling.getIBAN()), 0);
 		}else if(text.contains(BIC_BILLING)){
@@ -306,6 +316,12 @@ public class DocumentOffer {
 			r.setText(text.replace(PAYMENTTIME_SKONTO_DELIVERY, String.valueOf(modelCustomerDelivery.getPaymentSkonto())), 0);
 		}else if(text.contains(SKONTO_DELIVERY)){
 			r.setText(text.replace(SKONTO_DELIVERY, String.valueOf(modelCustomerDelivery.getSkonto())), 0);
+		}else if(text.contains(PAYMENTTIME_SKONTO_NETTO_DELIVERY)){
+			if(modelCustomerDelivery.getPaymentSkonto() != 0){
+				r.setText(text.replace(PAYMENTTIME_SKONTO_NETTO_DELIVERY, modelCustomerDelivery.getPaymentSkonto() + " Tage " + modelCustomerDelivery.getSkonto() + "% Skonto. " + modelCustomerDelivery.getPaymentNetto() + " Tage rein netto."), 0);
+			}else{
+				r.setText(text.replace(PAYMENTTIME_SKONTO_NETTO_DELIVERY, modelCustomerDelivery.getPaymentNetto() + " Tage rein netto."), 0);
+			}	
 		}else if(text.contains(IBAN_DELIVERY)){
 			r.setText(text.replace(IBAN_DELIVERY, modelCustomerDelivery.getIBAN()), 0);
 		}else if(text.contains(BIC_DELIVERY)){
@@ -347,6 +363,10 @@ public class DocumentOffer {
 			r.setText(text.replace(DESCRIPTION1, modelOffer.getObsListArticle().get(indexOfArticle).getDescription1()), 0);
 		}else if(text.contains(DESCRIPTION2)){
 			r.setText(text.replace(DESCRIPTION2, modelOffer.getObsListArticle().get(indexOfArticle).getDescription2()), 0);
+		}else if(text.contains(BARRELSIZE)){
+			r.setText(text.replace(BARRELSIZE, modelOffer.getObsListArticle().get(indexOfArticle).getBarrelsize()), 0);
+		}else if(text.contains(BOLTING)){
+			r.setText(text.replace(BOLTING, modelOffer.getObsListArticle().get(indexOfArticle).getBolting()), 0);
 		}else if(text.contains(AMOUNT)){
 			r.setText(text.replace(AMOUNT, String.valueOf(modelOffer.getObsListArticle().get(indexOfArticle).getAmount())), 0);
 		}else if(text.contains(AMOUNTUNIT)){

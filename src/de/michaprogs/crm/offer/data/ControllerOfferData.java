@@ -487,7 +487,7 @@ public class ControllerOfferData {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkontoBilling.getText()), 
 						"", 
 						"", 
-						0), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())), 
 					
 					/* DELIVERY */
 					new ModelCustomer(
@@ -517,7 +517,7 @@ public class ControllerOfferData {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()), 
 						"", 
 						"", 
-						0), 
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())), 
 					
 					/* OFFER AND ARTICLE */
 					new ModelOffer(

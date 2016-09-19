@@ -5,6 +5,8 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.clerk.ModelClerk;
 import de.michaprogs.crm.clerk.SelectClerk;
 import de.michaprogs.crm.clerk.SelectClerk.Selection;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -107,6 +109,16 @@ public class ControllerClerkData {
 				}
 				
 			}
+		});
+		
+		tvClerk.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelClerk>() {
+
+			@Override
+			public void changed(ObservableValue<? extends ModelClerk> observable, ModelClerk oldValue,
+					ModelClerk newValue) {
+				lblSubHeadline.setText(tcName.getCellData(tvClerk.getSelectionModel().getSelectedIndex()));	
+			}
+			
 		});
 		
 	}

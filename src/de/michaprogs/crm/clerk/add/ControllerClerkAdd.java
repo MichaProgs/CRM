@@ -1,11 +1,15 @@
 package de.michaprogs.crm.clerk.add;
 
 
+import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.InitCombos;
+import de.michaprogs.crm.clerk.DeleteClerk;
 import de.michaprogs.crm.clerk.InsertClerk;
 import de.michaprogs.crm.clerk.ModelClerk;
 import de.michaprogs.crm.clerk.SelectClerk;
 import de.michaprogs.crm.clerk.SelectClerk.Selection;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,7 +20,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ControllerClerkAdd {
@@ -39,6 +42,7 @@ public class ControllerClerkAdd {
 	@FXML private TableColumn<ModelClerk, String> tcDepartment;
 	
 	@FXML private Button btnAdd;
+	@FXML private Button btnDelete;
 	
 	private Stage stage;
 	
@@ -51,11 +55,12 @@ public class ControllerClerkAdd {
 			
 		/* BUTTONS */
 		initBtnAdd();
+		initButtonDelete();
 		
 		/* TABLES */
 		initTableClerk();
 		
-		selectAll();
+		refreshTable();
 		
 	}
 	
@@ -76,11 +81,32 @@ public class ControllerClerkAdd {
 					! tfDepartment.getText().equals("")){
 				
 				insert();
-				selectAll();
+				refreshTable();
 				resetFields();
 				
 				}else{
 					System.out.println("Bitte mindestens 1 Feld ausfüllen!");
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void initButtonDelete(){
+		
+		btnDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				if(tvClerk.getSelectionModel().getSelectedItems().size() == 1){
+					if(new DeleteAlert().getDelete()){
+						new DeleteClerk(tvClerk.getItems().get(tvClerk.getSelectionModel().getSelectedIndex()).getClerkID());
+						refreshTable();
+					}
+				}else{
+					System.out.println("Bitte 1 Zeile markieren");
 				}
 				
 			}
@@ -100,14 +126,14 @@ public class ControllerClerkAdd {
 		tcEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 		tcDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
 		
-		tvClerk.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		tvClerk.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelClerk>() {
 
 			@Override
-			public void handle(MouseEvent event) {
-
-				//TODO ContextMenu
-				
+			public void changed(ObservableValue<? extends ModelClerk> observable, ModelClerk oldValue,
+					ModelClerk newValue) {
+				lblSubHeadline.setText(tcName.getCellData(tvClerk.getSelectionModel().getSelectedIndex()));	
 			}
+			
 		});
 		
 	}
@@ -115,7 +141,7 @@ public class ControllerClerkAdd {
 	/*
 	 * DATABASE METHODS
 	 */
-	private void selectAll(){
+	private void refreshTable(){
 		
 		SelectClerk clerk = new SelectClerk(new ModelClerk(), Selection.SELECT_ALL);
 		tvClerk.setItems(clerk.getObsListClerk());

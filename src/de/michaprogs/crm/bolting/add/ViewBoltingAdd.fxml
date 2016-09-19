@@ -49,7 +49,7 @@
 								<Label text="Bezeichnung:" />
 								<TextField fx:id="tfBolting" />
 								<Button fx:id="btnAdd" text="Hinzufügen" />
-								<Button fx:id="btnAbort" text="Abbrechen" />
+								<Button fx:id="btnDelete" text="Löschen" />
 							</HBox>
 						
 						</VBox>					
