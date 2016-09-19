@@ -97,6 +97,7 @@ public class DocumentOffer {
 	private final String VKPRICE = "VKPRICE";
 	private final String TOTALPRICE = "TOTALPRICE";
 	
+	private String inputFilepath;
 	private String outputFilepath;
 	
 	private XWPFDocument doc;
@@ -118,10 +119,16 @@ public class DocumentOffer {
 			new ErrorAlert("Es wurde keine *.docx-Datei als Vorlage angegeben.");
 			System.out.println("Keine *.docx Datei vorhanden!");
 			return;
-		}else if(new PathProperties().loadProperty(PathProperties.KEY_OFFER_SAVING).equals("")){
+		}else{
+			inputFilepath = new PathProperties().loadProperty(PathProperties.KEY_OFFER_TEMPLATE);
+		}
+		
+		if(new PathProperties().loadProperty(PathProperties.KEY_OFFER_SAVING).equals("")){
 			new ErrorAlert("Es ist kein gültiger Speicherort angegeben.");
 			System.out.println("Es ist kein gültiger Speicherort angegeben.");
 			return;
+		}else{
+			outputFilepath = new PathProperties().loadProperty(PathProperties.KEY_OFFER_SAVING);
 		}
 				
 		//IF THERE IS NO BILLINGADRESS THE DELIVERYADRESS IS USED FOR BOTH
@@ -132,7 +139,8 @@ public class DocumentOffer {
 		try{
 			
 			/* Load Document with placeholder */
-			doc = new XWPFDocument(new FileInputStream("files/docOffer.docx"));
+//			doc = new XWPFDocument(new FileInputStream("files/docOffer.docx"));
+			doc = new XWPFDocument(new FileInputStream(inputFilepath));
 			
 			/* SET DOCUMENT DATA */
 			for(XWPFParagraph p : doc.getParagraphs()){
@@ -196,9 +204,11 @@ public class DocumentOffer {
 			}	
 			
 			//HERE MUST BE SAVED OTHERWISE APACHE POI CAN'T FIND THE COPIED ROWS
-			saveDocumentAsPreview();
-			//RELOAD THE SAVED DOCUMENT
-			loadDoc2();
+//			saveDocumentAsPreview();
+			doc.write(new FileOutputStream("files/docOfferPreview.docx"));
+			doc.close();
+			//RELOAD THE CURRENTLY SAVED DOCUMENT
+			doc = new XWPFDocument(new FileInputStream("files/docOfferPreview.docx"));
 			
 			/* TABLES */			
 			for(int table = 0; table < numberOfTables; table++){
@@ -391,24 +401,11 @@ public class DocumentOffer {
 		
 	}
 	
-	private void loadDoc2(){
-		
-		try{
-			
-			System.out.println("RELOAD DOCUMENT");
-			doc = new XWPFDocument(new FileInputStream("files/docOfferPreview.docx"));
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-	}
-	
 	private void saveDocumentAsPreview(){
 		
 		try{
 			
-			outputFilepath = "files/docOfferPreview.docx";
+//			outputFilepath = "files/docOfferPreview.docx";
 			
 			doc.write(new FileOutputStream(outputFilepath));
 			doc.close();
@@ -426,7 +423,9 @@ public class DocumentOffer {
 		
 		try{
 			
-			outputFilepath = "files/" + name1Billing + ", " + locationBilling + ".docx"; 
+//			outputFilepath = "files/" + name1Billing + ", " + locationBilling + ".docx"; 
+			outputFilepath = outputFilepath.concat("\\" + name1Billing + " " + locationBilling + ".docx");
+			System.out.println(outputFilepath);
 			
 			doc.write(new FileOutputStream(outputFilepath));
 			doc.close();
