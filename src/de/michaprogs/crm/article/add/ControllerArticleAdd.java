@@ -8,6 +8,8 @@ import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.amountunit.ModelAmountUnit;
+import de.michaprogs.crm.amountunit.SelectAmountUnit;
 import de.michaprogs.crm.article.InsertArticle;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.article.ValidateArticleSave;
@@ -103,7 +105,8 @@ public class ControllerArticleAdd {
 		tfArticleID.setText(""); //The custom component 'TextFieldOnlyInteger' sets 0 automatically
 		
 		/* ComboBoxes */
-		new InitCombos().initComboAmountUnit(cbAmountUnit);
+		cbAmountUnit.setItems(new SelectAmountUnit(new ModelAmountUnit()).getModelAmountUnit().getObsListAmountUnitsComboBox());
+		cbAmountUnit.getSelectionModel().selectFirst();
 		cbCategory.setItems(new SelectArticleCategory(new ModelArticleCategory()).getModelArticleCategory().getObsListArticleCategoriesComboBox());
 		new InitCombos().initComboPriceUnit(cbPriceUnit);
 		new InitCombos().initComboTax(cbTax);

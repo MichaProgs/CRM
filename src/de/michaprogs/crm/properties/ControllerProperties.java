@@ -1,5 +1,6 @@
 package de.michaprogs.crm.properties;
 
+import de.michaprogs.crm.amountunit.add.LoadAmountUnitAdd;
 import de.michaprogs.crm.articlecategory.add.LoadArticleCategoryAdd;
 import de.michaprogs.crm.barrelsize.add.LoadBarrelsizeAdd;
 import de.michaprogs.crm.bolting.add.LoadBoltingAdd;
@@ -24,6 +25,7 @@ public class ControllerProperties {
 		  
 		  private TreeItem<String> itemVariablesBolting = new TreeItem<String>("Verschraubungen");
 		  private TreeItem<String> itemVariablesBarrelsize = new TreeItem<String>("Gebindegrößen");
+		  private TreeItem<String> itemVariablesAmountUnit = new TreeItem<String>("Mengeneinheiten");
 		  private TreeItem<String> itemVariablesArticleCategories = new TreeItem<String>("Artikel-Kategorien");
 		  private TreeItem<String> itemVariablesWarehouse = new TreeItem<String>("Lager");
 		  private TreeItem<String> itemVariablesClerk = new TreeItem<String>("Sachbearbeiter");
@@ -35,6 +37,7 @@ public class ControllerProperties {
 	
 		  private LoadBarrelsizeAdd barrelsize = new LoadBarrelsizeAdd(false);
 		  private LoadBoltingAdd bolting = new LoadBoltingAdd(false);
+		  private LoadAmountUnitAdd amountUnit = new LoadAmountUnitAdd(false);
 		  private LoadClerkAdd clerk = new LoadClerkAdd(false);
 		  private LoadWarehouseAdd warehouse = new LoadWarehouseAdd(false);
 		  private LoadArticleCategoryAdd articleCategory = new LoadArticleCategoryAdd(false, null);
@@ -60,6 +63,7 @@ public class ControllerProperties {
 		
 		itemVariables.getChildren().addAll(	itemVariablesBarrelsize, 
 											itemVariablesBolting,
+											itemVariablesAmountUnit,
 											itemVariablesArticleCategories,
 											itemVariablesWarehouse, 
 											itemVariablesClerk);
@@ -80,6 +84,8 @@ public class ControllerProperties {
 					content.setCenter(barrelsize.getContent());
 				}else if(newValue.equals(itemVariablesBolting)){
 					content.setCenter(bolting.getContent());
+				}else if(newValue.equals(itemVariablesAmountUnit)){
+					content.setCenter(amountUnit.getContent());
 				}else if(newValue.equals(itemVariablesArticleCategories)){
 					content.setCenter(articleCategory.getContent());
 				}else if(newValue.equals(itemVariablesClerk)){
