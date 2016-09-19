@@ -836,11 +836,13 @@ public class ControllerOfferData {
 			
 			btnEdit.setDisable(true);
 			btnDelete.setDisable(true);
+			btnDocument.setDisable(true);
 			
 		}else{
 			
 			btnEdit.setDisable(false);
 			btnDelete.setDisable(false);
+			btnDocument.setDisable(false);
 			
 			//if the hboxBtnTopbar contains btnEditAbort and btnEditSave it means btnEdit was pressed 
 			if(hboxBtnTopbar.getChildren().contains(btnEditAbort) && hboxBtnTopbar.getChildren().contains(btnEditSave)){
@@ -895,7 +897,7 @@ public class ControllerOfferData {
 				btnNew.setDisable(false);
 				btnEdit.setDisable(false);
 				btnDelete.setDisable(false);
-				btnDelete.setDisable(false);
+				btnDocument.setDisable(false);
 				
 				btnArticleAdd.setDisable(true);
 				btnArticleDelete.setDisable(true);

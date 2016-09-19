@@ -7,6 +7,8 @@ import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.amountunit.ModelAmountUnit;
+import de.michaprogs.crm.amountunit.SelectAmountUnit;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.article.SelectArticle;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
@@ -50,7 +52,7 @@ public class ControllerAddPosition {
 	@FXML private void initialize(){
 		
 		/* COMBO BOX */
-		new InitCombos().initComboAmountUnit(cbAmountUnit);
+		cbAmountUnit.setItems(new SelectAmountUnit(new ModelAmountUnit()).getModelAmountUnit().getObsListAmountUnitsComboBox());
 		new InitCombos().initComboPriceUnit(cbPriceUnitEk);
 		new InitCombos().initComboPriceUnit(cbPriceUnitVk);
 		new InitCombos().initComboTax(cbTax);
