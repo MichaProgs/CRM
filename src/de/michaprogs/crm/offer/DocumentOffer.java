@@ -12,8 +12,10 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
+import de.michaprogs.crm.ErrorAlert;
 import de.michaprogs.crm.clerk.ModelClerk;
 import de.michaprogs.crm.customer.ModelCustomer;
+import de.michaprogs.crm.paths.PathProperties;
 
 public class DocumentOffer {
 
@@ -112,8 +114,16 @@ public class DocumentOffer {
 							ModelClerk modelClerk
 							){
 		
-		System.out.println(modelCustomerDelivery.getBillingID());
-		
+		if(new PathProperties().loadProperty(PathProperties.KEY_OFFER_TEMPLATE).equals("")){
+			new ErrorAlert("Es wurde keine *.docx-Datei als Vorlage angegeben.");
+			System.out.println("Keine *.docx Datei vorhanden!");
+			return;
+		}else if(new PathProperties().loadProperty(PathProperties.KEY_OFFER_SAVING).equals("")){
+			new ErrorAlert("Es ist kein gültiger Speicherort angegeben.");
+			System.out.println("Es ist kein gültiger Speicherort angegeben.");
+			return;
+		}
+				
 		//IF THERE IS NO BILLINGADRESS THE DELIVERYADRESS IS USED FOR BOTH
 		if(modelCustomerDelivery.getBillingID() == 0){
 			modelCustomerBilling = modelCustomerDelivery;

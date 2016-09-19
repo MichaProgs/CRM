@@ -130,7 +130,7 @@ public class ControllerMenuBar {
 
 			@Override
 			public void handle(ActionEvent event) {
-				new LoadProperties(true);
+				new LoadProperties(true).getController().setMain(main);
 			}
 		});
 		
