@@ -133,7 +133,7 @@ public class ModelArticle {
 	}
 
 	/**
-	 * Constructor for Database (Select Article)
+	 * Constructor for Database (Select Article) <br>
 	 * Constructor for Database (Delete Article)
 	 * @param _articleID
 	 */
@@ -142,24 +142,27 @@ public class ModelArticle {
 	}
 	
 	/**
-	 * Constructor for ObservableList (Article Search)
+	 * Constructor for ObservableList (Search Article)
 	 * @param _articleID
 	 * @param _description1
 	 * @param _description2
 	 * @param _barrelsize
 	 * @param _bolting
+	 * @param _category
 	 */
 	public ModelArticle(	int _articleID,
 							String _description1,
 							String _description2,
 							String _barrelsize,
-							String _bolting){
+							String _bolting,
+							String _category){
 		
 		this.articleID = _articleID;
 		this.description1 = _description1;
 		this.description2 = _description2;
 		this.barrelsize = _barrelsize;
 		this.bolting = _bolting;
+		this.category = _category;
 		
 	}
 	
@@ -223,6 +226,10 @@ public class ModelArticle {
 	}
 
 	public String getCategory() {
+		//Empty ComboBox = null
+		if(category == null){
+			category = "";
+		}
 		return category;
 	}
 

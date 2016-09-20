@@ -16,6 +16,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
+<?import javafx.scene.control.ComboBox?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.article.search.ControllerArticleSearch">
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -67,6 +68,8 @@
 								<TextField fx:id="tfBolting" id="tfWithBtn" disable="true" />
 								<Button fx:id="btnBolting" text="..." />
 							</HBox>
+							<Label text="Kategorie:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+							<ComboBox fx:id="cbCategory" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 						<padding>
 							<Insets top="10" bottom="10" left="10" right="10" />
 						</padding>	
@@ -80,11 +83,11 @@
 		                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 		               			</columnResizePolicy>
 								<columns>
-									<TableColumn fx:id="tcArticleID" text="Artikelnummer" minWidth="60" maxWidth="100" prefWidth="90" />
-									<TableColumn fx:id="tcDescription1" text="Kurztext1" minWidth="100" maxWidth="250" prefWidth="200" />
-									<TableColumn fx:id="tcDescription2" text="Kurztext2" minWidth="100" maxWidth="250" prefWidth="200"/>
-									<TableColumn fx:id="tcBarrelsize" text="Gebindegröße" minWidth="100" maxWidth="200" prefWidth="150"/>
-									<TableColumn fx:id="tcBolting" text="Verschraubung" minWidth="100" maxWidth="200" prefWidth="150"/>
+									<TableColumn fx:id="tcArticleID" text="Art.-Nr." minWidth="60" maxWidth="100" prefWidth="90" />
+									<TableColumn fx:id="tcDescription1" text="Kurztext1" minWidth="100" maxWidth="350" prefWidth="300" />
+									<TableColumn fx:id="tcDescription2" text="Kurztext2" minWidth="100" maxWidth="350" prefWidth="300"/>
+									<TableColumn fx:id="tcBarrelsize" text="Gebindegröße" minWidth="100" maxWidth="250" prefWidth="200"/>
+									<TableColumn fx:id="tcBolting" text="Verschraubung" minWidth="100" maxWidth="250" prefWidth="200"/>
 								</columns>
 							</TableView>
 						</AnchorPane>

@@ -17,11 +17,7 @@ public class SearchArticle {
 	private PreparedStatement ps;
 	private ResultSet rs;
 	
-	public SearchArticle(	String _articleID,
-							String _description1,
-							String _description2,
-							String _barrelsize,
-							String _bolting){
+	public SearchArticle(	ModelArticle ma){
 		
 		try{
 			
@@ -29,20 +25,28 @@ public class SearchArticle {
 													+ "	description1 LIKE ? AND"
 													+ " description2 LIKE ? AND"
 													+ " barrelsize LIKE ? AND"
-													+ " bolting LIKE ?";
+													+ " bolting LIKE ? AND"
+													+ " category LIKE ?";
+			
+			String articleID = String.valueOf(ma.getArticleID());
+			if(articleID.equals("0")){
+				articleID = "";
+			}
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
 			int i = 1;
-			ps.setString(i, _articleID + "%");
+			ps.setString(i, articleID + "%");
 			i++;
-			ps.setString(i, _description1 + "%");
+			ps.setString(i, ma.getDescription1() + "%");
 			i++;
-			ps.setString(i, _description2 + "%");
+			ps.setString(i, ma.getDescription2() + "%");
 			i++;
-			ps.setString(i, _barrelsize + "%");
+			ps.setString(i, ma.getBarrelsize() + "%");
 			i++;
-			ps.setString(i, _bolting + "%");
+			ps.setString(i, ma.getBolting() + "%");
+			i++;
+			ps.setString(i, ma.getCategory() + "%");
 			i++;
 			
 			rs = ps.executeQuery();
@@ -53,7 +57,8 @@ public class SearchArticle {
 					rs.getString("description1"), 
 					rs.getString("description2"), 
 					rs.getString("barrelsize"), 
-					rs.getString("bolting")
+					rs.getString("bolting"),
+					rs.getString("category")
 				));
 				
 			}

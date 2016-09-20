@@ -2,8 +2,11 @@ package de.michaprogs.crm.article.search;
 
 import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
+import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.article.SearchArticle;
+import de.michaprogs.crm.articlecategory.ModelArticleCategory;
+import de.michaprogs.crm.articlecategory.SelectArticleCategory;
 import de.michaprogs.crm.barrelsize.data.LoadBarrelsizeData;
 import de.michaprogs.crm.bolting.data.LoadBoltingData;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
@@ -11,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -39,6 +43,7 @@ public class ControllerArticleSearch {
 	@FXML private TextField tfDescription2;
 	@FXML private TextField tfBarrelsize;
 	@FXML private TextField tfBolting;
+	@FXML private ComboBox<String> cbCategory;
 	
 	//Buttons
 	@FXML private Button btnSearch;
@@ -55,6 +60,8 @@ public class ControllerArticleSearch {
 	public ControllerArticleSearch(){}
 	
 	@FXML private void initialize(){
+		
+		cbCategory.setItems(new SelectArticleCategory(new ModelArticleCategory()).getModelArticleCategory().getObsListArticleCategoriesComboBox());
 		
 		initTable();
 		initTextFields();
@@ -236,11 +243,13 @@ public class ControllerArticleSearch {
 	private void search(){
 		
 		SearchArticle search = new SearchArticle(
-			tfArticleID.getText(),
-			tfDescription1.getText(), 
-			tfDescription2.getText(),
-			tfBarrelsize.getText(),
-			tfBolting.getText()
+			new ModelArticle(
+				new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()),
+				tfDescription1.getText(), 
+				tfDescription2.getText(),
+				tfBarrelsize.getText(),
+				tfBolting.getText(),
+				cbCategory.getSelectionModel().getSelectedItem())
 		);
 		
 		tvArticleSearch.setItems(search.getObsListSearch());
@@ -284,6 +293,7 @@ public class ControllerArticleSearch {
 		this.tfDescription2.clear();
 		this.tfBarrelsize.clear();
 		this.tfBolting.clear();
+		this.cbCategory.getSelectionModel().clearSelection();
 		
 		this.tvArticleSearch.getItems().clear();
 		this.lblSubHeadline.setText("");
