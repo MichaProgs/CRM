@@ -27,6 +27,7 @@ import de.michaprogs.crm.barrelsize.data.LoadBarrelsizeData;
 import de.michaprogs.crm.bolting.data.LoadBoltingData;
 import de.michaprogs.crm.components.ComboWarehouse;
 import de.michaprogs.crm.components.ImageFileChooser;
+import de.michaprogs.crm.components.TextFieldCurrency;
 import de.michaprogs.crm.components.TextFieldDesity;
 import de.michaprogs.crm.components.TextFieldDouble;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
@@ -76,8 +77,8 @@ public class ControllerArticleData{
 	@FXML private TextFieldDouble tfWeight;
 	@FXML private TextFieldDesity tfDesity;
 	
-	@FXML private TextFieldDouble tfEk;
-	@FXML private TextFieldDouble tfVk;
+	@FXML private TextFieldCurrency tfEk;
+	@FXML private TextFieldCurrency tfVk;
 	@FXML private ComboBox<String> cbPriceUnit;
 	@FXML private ComboBox<String> cbAmountUnit;
 	@FXML private ComboBox<String> cbTax;
@@ -643,7 +644,7 @@ public class ControllerArticleData{
 		tfArticleID.clear();
 		tfDescription1.clear();
 		tfDescription2.clear();
-		cbCategory.getSelectionModel().select(0);
+		cbCategory.getSelectionModel().clearSelection();
 		tfEanID.clear();
 		
 		tfBarrelsize.clear();

@@ -44,8 +44,7 @@
 	-fx-background-radius: 0; /* cornerd textfield */
 	-fx-background-color: #ffffff;
 	-fx-border-color: #ABABAB;
-	-fx-max-width: 200;
-	-fx-pref-width: 200;
+	-fx-pref-width: 220;
 }
 
 .text-field:disabled{
@@ -155,7 +154,7 @@
 	-fx-background-radius: 0;
 	-fx-background-color: #ffffff;
 	-fx-border-color: #ABABAB;
-	-fx-max-width: 200;
+	-fx-pref-width: 220;
 }
 
 .combo-box:focused{

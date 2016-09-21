@@ -25,6 +25,7 @@
 <?import de.michaprogs.crm.components.TextFieldDouble?>
 <?import de.michaprogs.crm.components.TextFieldDesity?>
 <?import de.michaprogs.crm.components.ComboWarehouse?>
+<?import de.michaprogs.crm.components.TextFieldCurrency?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" >
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -93,21 +94,21 @@
 											</columnConstraints>
 											<Label text="Gebindegröße:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
-												<TextField fx:id="tfBarrelsize" id="tfWithBtn" disable="true" /> <!-- 209-L-FASS, 20-L-KANISTER -->
+												<TextField fx:id="tfBarrelsize" disable="true" /> <!-- 209-L-FASS, 20-L-KANISTER -->
 												<Button fx:id="btnBarrelsize" text="..." />
 											</HBox>
 											<Label text="Verschraubung:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 											<HBox GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="10">
-												<TextField fx:id="tfBolting" id="tfWithBtn" disable="true" /> <!-- POL x IG G 1/2  -->
+												<TextField fx:id="tfBolting" disable="true" /> <!-- POL x IG G 1/2  -->
 												<Button fx:id="btnBolting" text="..." />
 											</HBox>
 											<Label text="L x B x H (mm):" GridPane.columnIndex="0" GridPane.rowIndex="2" /> <!-- 5 2 10 -->
 											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2" alignment="CENTER_LEFT">
-												<TextFieldOnlyInteger fx:id="tfLength" style="-fx-pref-width: 49px;" />
+												<TextFieldOnlyInteger fx:id="tfLength" style="-fx-pref-width: 70px;" />
 												<Label text="x" />
-												<TextFieldOnlyInteger fx:id="tfWidth" style="-fx-pref-width: 49px;" />
+												<TextFieldOnlyInteger fx:id="tfWidth" style="-fx-pref-width: 70px;" />
 												<Label text="x" />
-												<TextFieldOnlyInteger fx:id="tfHeight" style="-fx-pref-width: 48px;" />
+												<TextFieldOnlyInteger fx:id="tfHeight" style="-fx-pref-width: 70px;" />
 											</HBox>
 											<Label text="Gewicht (kg):" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 											<TextFieldDouble fx:id="tfWeight" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -126,22 +127,21 @@
 											</columnConstraints>
 											<Label text="Einkaufspreis:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER_LEFT">
-												<TextFieldDouble fx:id="tfEk" style="-fx-pref-width: 150;" />
+												<TextFieldCurrency fx:id="tfEk" style="-fx-pref-width: 140px;" />
 												<Label text="EUR" />
 											</HBox>
 											<Label text="Verkaufspreis:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2" alignment="CENTER_LEFT">
-												<TextFieldDouble fx:id="tfVk" style="-fx-pref-width: 150;" />
+												<TextFieldCurrency fx:id="tfVk" style="-fx-pref-width: 140px;" />
 												<Label text="EUR" />
 											</HBox>
 											<Label text="Preiseinheit:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-											<HBox GridPane.columnIndex="1" GridPane.rowIndex="3" spacing="10" >
-												<ComboBox fx:id="cbPriceUnit" prefWidth="90" /> <!-- 1, 10, 100, 1000 -->
-												<ComboBox fx:id="cbAmountUnit" prefWidth="100" /> <!-- Stk, Ltr, Mtr, etc. -->
-											</HBox>
-											<Label text="USt:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4" alignment="CENTER_LEFT">
-												<ComboBox fx:id="cbTax" style="-fx-pref-width: 155;" /> <!-- 7%, 19% -->
+											<ComboBox fx:id="cbPriceUnit" GridPane.columnIndex="1" GridPane.rowIndex="3" /> <!-- 1, 10, 100, 1000 -->
+											<Label text="Mengeneinheit:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+											<ComboBox fx:id="cbAmountUnit" prefWidth="100" GridPane.columnIndex="1" GridPane.rowIndex="4" /> <!-- Stk, Ltr, Mtr, etc. -->
+											<Label text="USt:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5" alignment="CENTER_LEFT">
+												<ComboBox fx:id="cbTax" style="-fx-pref-width: 155px;" /> <!-- 7%, 19% -->
 												<Label text=" %" />
 											</HBox>
 										<padding>
