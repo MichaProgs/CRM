@@ -1,7 +1,9 @@
 package de.michaprogs.crm.article;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
+import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,8 +23,8 @@ public class ModelArticle {
 	private int length = 0;
 	private int width = 0;
 	private int height = 0;
-	private double weight = 0;
-	private double desity = 0;
+	private double weight = 0.00;
+	private double desity = 0.0000;
 	
 	/* Third Block (Price) */
 	private BigDecimal ek = new BigDecimal("0.00");

@@ -17,7 +17,7 @@ public class SearchArticle {
 	private PreparedStatement ps;
 	private ResultSet rs;
 	
-	public SearchArticle(	ModelArticle ma){
+	public SearchArticle(	ModelArticle ma, boolean exactSearch){
 		
 		try{
 			
@@ -36,18 +36,33 @@ public class SearchArticle {
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
 			int i = 1;
-			ps.setString(i, articleID + "%");
-			i++;
-			ps.setString(i, ma.getDescription1() + "%");
-			i++;
-			ps.setString(i, ma.getDescription2() + "%");
-			i++;
-			ps.setString(i, ma.getBarrelsize() + "%");
-			i++;
-			ps.setString(i, ma.getBolting() + "%");
-			i++;
-			ps.setString(i, ma.getCategory() + "%");
-			i++;
+			if(exactSearch){
+				ps.setString(i, articleID + "%");
+				i++;
+				ps.setString(i, ma.getDescription1() + "%");
+				i++;
+				ps.setString(i, ma.getDescription2() + "%");
+				i++;
+				ps.setString(i, ma.getBarrelsize() + "%");
+				i++;
+				ps.setString(i, ma.getBolting() + "%");
+				i++;
+				ps.setString(i, ma.getCategory() + "%");
+				i++;
+			}else{
+				ps.setString(i, "%" + articleID + "%");
+				i++;
+				ps.setString(i, "%" + ma.getDescription1() + "%");
+				i++;
+				ps.setString(i, "%" + ma.getDescription2() + "%");
+				i++;
+				ps.setString(i, "%" + ma.getBarrelsize() + "%");
+				i++;
+				ps.setString(i, "%" + ma.getBolting() + "%");
+				i++;
+				ps.setString(i, "%" + ma.getCategory() + "%");
+				i++;
+			}
 			
 			rs = ps.executeQuery();
 			while(rs.next()){

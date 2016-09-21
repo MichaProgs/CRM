@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.CheckBox?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.article.search.ControllerArticleSearch">
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -60,16 +61,18 @@
 							<TextField fx:id="tfDescription2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 							<Label text="Gebindegröße:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 							<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="3" >
-								<TextField fx:id="tfBarrelsize" id="tfWithBtn" disable="true"/>
+								<TextField fx:id="tfBarrelsize" disable="true"/>
 								<Button fx:id="btnBarrelsize" text="..." />
 							</HBox>
 							<Label text="Verschraubung:" GridPane.columnIndex="0" GridPane.rowIndex="4"  />
 							<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4" >
-								<TextField fx:id="tfBolting" id="tfWithBtn" disable="true" />
+								<TextField fx:id="tfBolting" disable="true" />
 								<Button fx:id="btnBolting" text="..." />
 							</HBox>
 							<Label text="Kategorie:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 							<ComboBox fx:id="cbCategory" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+							<Label text="Genau:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+							<CheckBox fx:id="cbExactSearch" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 						<padding>
 							<Insets top="10" bottom="10" left="10" right="10" />
 						</padding>	
