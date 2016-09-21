@@ -529,15 +529,14 @@ public class Validate {
 		public Double validateDouble(String stringToValidate){
 			
 			if(checkDouble(stringToValidate) == true){
-				return Double.valueOf(stringToValidate);
-			}else if(	! stringToValidate.contains(",") ||
-						! stringToValidate.contains(".")){
-				return Double.valueOf(stringToValidate.concat(".00"));
-			}else if(stringToValidate.isEmpty()){
-				return 0.00;
-			}else{
-				return 0.00;
+				
+				if(stringToValidate.equals("")){
+					return 0.00;
+				}
+				
 			}
+			
+			return Double.valueOf(stringToValidate);
 			
 		}
 		

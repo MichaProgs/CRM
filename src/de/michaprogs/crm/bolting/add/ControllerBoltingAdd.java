@@ -1,10 +1,14 @@
 package de.michaprogs.crm.bolting.add;
 
 import de.michaprogs.crm.DeleteAlert;
+import de.michaprogs.crm.barrelsize.ModelBarrelsize;
 import de.michaprogs.crm.bolting.DeleteBolting;
 import de.michaprogs.crm.bolting.ModelBolting;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,11 +20,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class ControllerBoltingAdd {
 
+	@FXML private TextField tfFilter;
+	
 	//Tables & Columns
+	      private ObservableList<ModelBolting> obsListBolting = FXCollections.observableArrayList();
 	@FXML private TableView<ModelBolting> tvBolting;
 	@FXML private TableColumn<ModelBolting, Integer> tcBoltingID;
 	@FXML private TableColumn<ModelBolting, String> tcBolting;
@@ -42,11 +50,15 @@ public class ControllerBoltingAdd {
 	
 	@FXML private void initialize(){
 		
-		initTableBolting();
-		
-		//Init Buttons
+		/* BUTTONS */
 		initBtnDelete();
 		initBtnAdd();
+		
+		/* TABLES */
+		initTableBolting();
+		
+		/* TEXTFIELDS */
+		initTfFilter();
 		
 		//Load all Bolting from Database and show
 		refreshTable();
@@ -107,11 +119,42 @@ public class ControllerBoltingAdd {
 	}
 	
 	/*
+	 * TEXTFIELDS
+	 */
+	private void initTfFilter(){
+		
+		tfFilter.setOnKeyReleased(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				
+				FilteredList<ModelBolting> filteredList = new FilteredList<>(obsListBolting);
+				filteredList.setPredicate(bolting ->{
+					
+					if(tfFilter.getText().isEmpty() || tfFilter.getText() == null){
+						return true;
+					}else if(bolting.getBolting().toLowerCase().contains(tfFilter.getText().toLowerCase())){
+						return true;
+					}
+					
+					return false;
+					
+				});
+				
+				tvBolting.setItems(filteredList);
+				
+			}
+		});
+		
+	}
+	
+	/*
 	 * DATABASE METHODS
 	 */
 	private void refreshTable(){		
 		ModelBolting bolting = new ModelBolting();
 		bolting.selectBoltings();
+		obsListBolting = bolting.getObsListBoltings();
 		tvBolting.setItems(bolting.getObsListBoltings());	
 	}
 	

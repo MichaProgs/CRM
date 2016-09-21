@@ -35,6 +35,11 @@
 					<left>
 						<VBox spacing="10">
 						
+							<HBox spacing="10" alignment="CENTER_LEFT">
+								<Label text="Filter:" />
+								<TextField fx:id="tfFilter" />
+							</HBox>
+						
 							<TableView fx:id="tvBarrelsize">
 								<columnResizePolicy>
 					      			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

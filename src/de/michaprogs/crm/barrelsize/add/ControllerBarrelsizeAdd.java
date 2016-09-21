@@ -5,6 +5,9 @@ import de.michaprogs.crm.barrelsize.DeleteBarrelsize;
 import de.michaprogs.crm.barrelsize.ModelBarrelsize;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,11 +19,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class ControllerBarrelsizeAdd {
 
+	@FXML private TextField tfFilter;
+	
 	//Tables & Columns
+	      private ObservableList<ModelBarrelsize> obsListBarrelsize = FXCollections.observableArrayList();
 	@FXML private TableView<ModelBarrelsize> tvBarrelsize;
 	@FXML private TableColumn<ModelBarrelsize, Integer> tcBarrelsizeID;
 	@FXML private TableColumn<ModelBarrelsize, String> tcBarrelsize;
@@ -46,6 +53,9 @@ public class ControllerBarrelsizeAdd {
 		
 		/* TABLES */
 		initTableBarrelsize();
+		
+		/* TEXTFIELDS */
+		initTfFilter();
 		
 		//Load all barrelsize from Database and show
 		refreshTable();
@@ -109,6 +119,36 @@ public class ControllerBarrelsizeAdd {
 	}
 	
 	/*
+	 * TEXTFIELDS
+	 */
+	private void initTfFilter(){
+		
+		tfFilter.setOnKeyReleased(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				
+				FilteredList<ModelBarrelsize> filteredList = new FilteredList<>(obsListBarrelsize);
+				filteredList.setPredicate(barrelsize ->{
+					
+					if(tfFilter.getText().isEmpty() || tfFilter.getText() == null){
+						return true;
+					}else if(barrelsize.getBarrelsize().toLowerCase().contains(tfFilter.getText().toLowerCase())){
+						return true;
+					}
+					
+					return false;
+					
+				});
+				
+				tvBarrelsize.setItems(filteredList);
+				
+			}
+		});
+		
+	}
+	
+	/*
 	 * DATABASE METHODS
 	 */
 	private void deleteBarrelsize(){
@@ -127,6 +167,7 @@ public class ControllerBarrelsizeAdd {
 	private void refreshTable(){		
 		ModelBarrelsize barrelsize = new ModelBarrelsize();
 		barrelsize.selectBarrelsizes();
+		obsListBarrelsize = barrelsize.getObsListBarrelsizes();
 		tvBarrelsize.setItems(barrelsize.getObsListBarrelsizes());	
 	}
 	
