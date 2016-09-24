@@ -36,17 +36,18 @@
 					<left>
 						<VBox spacing="10">
 						
-							<TableView fx:id="tvClerk">
+							<TableView fx:id="tvClerk" editable="true" VBox.vgrow="ALWAYS">
 								<columnResizePolicy>
 					      			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 					   			</columnResizePolicy>
 								<columns>
-									<TableColumn fx:id="tcSalutation" text="Anrede" />
-									<TableColumn fx:id="tcName" text="Name" />
-									<TableColumn fx:id="tcPhone" text="Telefon" />
-									<TableColumn fx:id="tcFax" text="Fax" />
-									<TableColumn fx:id="tcEmail" text="Email" />
-									<TableColumn fx:id="tcDepartment" text="Abteilung" />
+									<TableColumn fx:id="tcClerkID" text="ID" minWidth="40" maxWidth="50" prefWidth="50"  />
+									<TableColumn fx:id="tcSalutation" text="Anrede" minWidth="80" maxWidth="120" prefWidth="120" />
+									<TableColumn fx:id="tcName" text="Name" minWidth="100" maxWidth="200" prefWidth="200" />
+									<TableColumn fx:id="tcPhone" text="Telefon" minWidth="100" maxWidth="200" prefWidth="200" />
+									<TableColumn fx:id="tcFax" text="Fax" minWidth="100" maxWidth="200" prefWidth="200" />
+									<TableColumn fx:id="tcEmail" text="Email" minWidth="100" maxWidth="200" prefWidth="200" />
+									<TableColumn fx:id="tcDepartment" text="Abteilung" minWidth="100" maxWidth="200" prefWidth="200" />
 								</columns>
 							</TableView>
 							

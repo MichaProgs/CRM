@@ -40,7 +40,7 @@
 								<TextField fx:id="tfFilter" />
 							</HBox>
 						
-							<TableView fx:id="tvBarrelsize">
+							<TableView fx:id="tvBarrelsize" editable="true">
 								<columnResizePolicy>
 					      			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 					   			</columnResizePolicy>

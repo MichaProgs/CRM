@@ -3,11 +3,14 @@ package de.michaprogs.crm.clerk.add;
 
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.InitCombos;
+import de.michaprogs.crm.bolting.ModelBolting;
+import de.michaprogs.crm.bolting.UpdateBolting;
 import de.michaprogs.crm.clerk.DeleteClerk;
 import de.michaprogs.crm.clerk.InsertClerk;
 import de.michaprogs.crm.clerk.ModelClerk;
 import de.michaprogs.crm.clerk.SelectClerk;
 import de.michaprogs.crm.clerk.SelectClerk.Selection;
+import de.michaprogs.crm.clerk.UpdateClerk;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -19,7 +22,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 public class ControllerClerkAdd {
@@ -34,6 +40,7 @@ public class ControllerClerkAdd {
 	@FXML private TextField tfDepartment;
 
 	@FXML private TableView<ModelClerk> tvClerk;
+	@FXML private TableColumn<ModelClerk, Integer> tcClerkID;
 	@FXML private TableColumn<ModelClerk, String> tcSalutation;
 	@FXML private TableColumn<ModelClerk, String> tcName;
 	@FXML private TableColumn<ModelClerk, String> tcPhone;
@@ -119,12 +126,127 @@ public class ControllerClerkAdd {
 	 */
 	private void initTableClerk(){
 		
+		tcClerkID.setCellValueFactory(new PropertyValueFactory<>("clerkID"));
 		tcSalutation.setCellValueFactory(new PropertyValueFactory<>("salutation"));
+		tcSalutation.setCellFactory(ComboBoxTableCell.forTableColumn(cbSalutation.getItems()));
+		tcSalutation.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ModelClerk,String>>() {
+
+			@Override
+			public void handle(CellEditEvent<ModelClerk, String> event) {
+				((ModelClerk)event.getTableView().getItems().get(
+						event.getTablePosition().getRow())).setSalutation(event.getNewValue());
+					
+					new UpdateClerk(new ModelClerk(	tcClerkID.getCellData(event.getTablePosition().getRow()), 
+													tcSalutation.getCellData(event.getTablePosition().getRow()),
+													tcName.getCellData(event.getTablePosition().getRow()),
+													tcPhone.getCellData(event.getTablePosition().getRow()),
+													tcFax.getCellData(event.getTablePosition().getRow()),
+													tcEmail.getCellData(event.getTablePosition().getRow()),
+													tcDepartment.getCellData(event.getTablePosition().getRow())
+													));		
+				
+			}
+		});
 		tcName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tcName.setCellFactory(TextFieldTableCell.forTableColumn());
+		tcName.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ModelClerk,String>>() {
+
+			@Override
+			public void handle(CellEditEvent<ModelClerk, String> event) {
+				((ModelClerk)event.getTableView().getItems().get(
+					event.getTablePosition().getRow())).setName(event.getNewValue());
+				
+				new UpdateClerk(new ModelClerk(	tcClerkID.getCellData(event.getTablePosition().getRow()), 
+												tcSalutation.getCellData(event.getTablePosition().getRow()),
+												tcName.getCellData(event.getTablePosition().getRow()),
+												tcPhone.getCellData(event.getTablePosition().getRow()),
+												tcFax.getCellData(event.getTablePosition().getRow()),
+												tcEmail.getCellData(event.getTablePosition().getRow()),
+												tcDepartment.getCellData(event.getTablePosition().getRow())
+												));
+								
+			}
+		});
 		tcPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+		tcPhone.setCellFactory(TextFieldTableCell.forTableColumn());
+		tcPhone.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ModelClerk,String>>() {
+
+			@Override
+			public void handle(CellEditEvent<ModelClerk, String> event) {
+				((ModelClerk)event.getTableView().getItems().get(
+					event.getTablePosition().getRow())).setPhone(event.getNewValue());
+				
+				new UpdateClerk(new ModelClerk(	tcClerkID.getCellData(event.getTablePosition().getRow()), 
+												tcSalutation.getCellData(event.getTablePosition().getRow()), 
+												tcName.getCellData(event.getTablePosition().getRow()), 
+												tcPhone.getCellData(event.getTablePosition().getRow()),
+												tcFax.getCellData(event.getTablePosition().getRow()), 
+												tcEmail.getCellData(event.getTablePosition().getRow()), 
+												tcDepartment.getCellData(event.getTablePosition().getRow()))
+												);
+								
+			}
+		});
 		tcFax.setCellValueFactory(new PropertyValueFactory<>("fax"));
+		tcFax.setCellFactory(TextFieldTableCell.forTableColumn());
+		tcFax.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ModelClerk,String>>() {
+
+			@Override
+			public void handle(CellEditEvent<ModelClerk, String> event) {
+				((ModelClerk)event.getTableView().getItems().get(
+					event.getTablePosition().getRow())).setFax(event.getNewValue());
+				
+				new UpdateClerk(new ModelClerk(	tcClerkID.getCellData(event.getTablePosition().getRow()), 
+												tcSalutation.getCellData(event.getTablePosition().getRow()), 
+												tcName.getCellData(event.getTablePosition().getRow()), 
+												tcPhone.getCellData(event.getTablePosition().getRow()),
+												tcFax.getCellData(event.getTablePosition().getRow()), 
+												tcEmail.getCellData(event.getTablePosition().getRow()), 
+												tcDepartment.getCellData(event.getTablePosition().getRow()))
+												);
+								
+			}
+		});
 		tcEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+		tcEmail.setCellFactory(TextFieldTableCell.forTableColumn());
+		tcEmail.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ModelClerk,String>>() {
+
+			@Override
+			public void handle(CellEditEvent<ModelClerk, String> event) {
+				((ModelClerk)event.getTableView().getItems().get(
+					event.getTablePosition().getRow())).setEmail(event.getNewValue());
+				
+				new UpdateClerk(new ModelClerk(	tcClerkID.getCellData(event.getTablePosition().getRow()), 
+												tcSalutation.getCellData(event.getTablePosition().getRow()), 
+												tcName.getCellData(event.getTablePosition().getRow()), 
+												tcPhone.getCellData(event.getTablePosition().getRow()),
+												tcFax.getCellData(event.getTablePosition().getRow()), 
+												tcEmail.getCellData(event.getTablePosition().getRow()), 
+												tcDepartment.getCellData(event.getTablePosition().getRow()))
+												);
+								
+			}
+		});
 		tcDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
+		tcDepartment.setCellFactory(TextFieldTableCell.forTableColumn());
+		tcDepartment.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ModelClerk,String>>() {
+
+			@Override
+			public void handle(CellEditEvent<ModelClerk, String> event) {
+				((ModelClerk)event.getTableView().getItems().get(
+					event.getTablePosition().getRow())).setDepartment(event.getNewValue());
+				
+				new UpdateClerk(new ModelClerk(	tcClerkID.getCellData(event.getTablePosition().getRow()), 
+												tcSalutation.getCellData(event.getTablePosition().getRow()), 
+												tcName.getCellData(event.getTablePosition().getRow()), 
+												tcPhone.getCellData(event.getTablePosition().getRow()),
+												tcFax.getCellData(event.getTablePosition().getRow()), 
+												tcEmail.getCellData(event.getTablePosition().getRow()), 
+												tcDepartment.getCellData(event.getTablePosition().getRow()))
+												);
+								
+			}
+		});
 		
 		tvClerk.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelClerk>() {
 

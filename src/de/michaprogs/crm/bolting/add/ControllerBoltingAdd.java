@@ -1,9 +1,9 @@
 package de.michaprogs.crm.bolting.add;
 
 import de.michaprogs.crm.DeleteAlert;
-import de.michaprogs.crm.barrelsize.ModelBarrelsize;
 import de.michaprogs.crm.bolting.DeleteBolting;
 import de.michaprogs.crm.bolting.ModelBolting;
+import de.michaprogs.crm.bolting.UpdateBolting;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,9 +17,11 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -74,7 +76,7 @@ public class ControllerBoltingAdd {
 			
 			@Override
 			public void handle(ActionEvent event) {
-													
+				deleteBolting();							
 			}
 		});	
 	}
@@ -100,16 +102,28 @@ public class ControllerBoltingAdd {
 	 */
 	private void initTableBolting(){
 		
-		tcBoltingID.setCellValueFactory(new PropertyValueFactory<>("boltingID"));
-		tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));	
+		tcBoltingID.setCellValueFactory(new PropertyValueFactory<>("boltingID"));	
+		tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));
+		tcBolting.setCellFactory(TextFieldTableCell.forTableColumn());
+		tcBolting.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ModelBolting,String>>() {
+
+			@Override
+			public void handle(CellEditEvent<ModelBolting, String> event) {
+				((ModelBolting)event.getTableView().getItems().get(
+					event.getTablePosition().getRow())).setBolting(event.getNewValue());
+				
+				new UpdateBolting(new ModelBolting(	tcBoltingID.getCellData(event.getTablePosition().getRow()), 
+													tcBolting.getCellData(event.getTablePosition().getRow())));
+								
+			}
+		});
 		
 		tvBolting.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelBolting>() {
 			
 			@Override
 			public void changed(ObservableValue<? extends ModelBolting> observable, ModelBolting oldValue,
 					ModelBolting newValue) {
-				lblSubHeadline.setText(tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));	
-				
+				lblSubHeadline.setText(tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));					
 			}
 			
 		});

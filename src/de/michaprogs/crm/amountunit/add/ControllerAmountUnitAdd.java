@@ -5,6 +5,7 @@ import de.michaprogs.crm.amountunit.DeleteAmountUnit;
 import de.michaprogs.crm.amountunit.InsertAmountUnit;
 import de.michaprogs.crm.amountunit.ModelAmountUnit;
 import de.michaprogs.crm.amountunit.SelectAmountUnit;
+import de.michaprogs.crm.amountunit.UpdateAmountUnit;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -15,7 +16,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 public class ControllerAmountUnitAdd {
@@ -99,6 +102,20 @@ public class ControllerAmountUnitAdd {
 		
 		tcAmountUnitID.setCellValueFactory(new PropertyValueFactory<>("amountUnitID"));
 		tcAmountUnit.setCellValueFactory(new PropertyValueFactory<>("amountUnit"));
+		tcAmountUnit.setCellFactory(TextFieldTableCell.forTableColumn());
+		tcAmountUnit.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ModelAmountUnit,String>>() {
+
+			@Override
+			public void handle(CellEditEvent<ModelAmountUnit, String> event) {
+				((ModelAmountUnit)event.getTableView().getItems().get(
+					event.getTablePosition().getRow())).setAmountUnit(event.getNewValue());
+				
+				new UpdateAmountUnit(new ModelAmountUnit(	tcAmountUnitID.getCellData(event.getTablePosition().getRow()), 
+															tcAmountUnit.getCellData(event.getTablePosition().getRow())));
+								
+			}
+			
+		});
 		
 		tvAmountUnit.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelAmountUnit>() {
 

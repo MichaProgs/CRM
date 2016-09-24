@@ -6,6 +6,9 @@ import de.michaprogs.crm.articlecategory.DeleteArticleCategory;
 import de.michaprogs.crm.articlecategory.InsertArticleCategory;
 import de.michaprogs.crm.articlecategory.ModelArticleCategory;
 import de.michaprogs.crm.articlecategory.SelectArticleCategory;
+import de.michaprogs.crm.articlecategory.UpdateArticleCategory;
+import de.michaprogs.crm.barrelsize.ModelBarrelsize;
+import de.michaprogs.crm.barrelsize.UpdateBarrelsize;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -18,7 +21,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 public class ControllerArticleCategoryAdd {
@@ -82,6 +87,20 @@ public class ControllerArticleCategoryAdd {
 		
 		tcArticleCategoryID.setCellValueFactory(new PropertyValueFactory<>("articleCategoryID"));
 		tcArticleCategory.setCellValueFactory(new PropertyValueFactory<>("articleCategory"));
+		tcArticleCategory.setCellFactory(TextFieldTableCell.forTableColumn());
+		tcArticleCategory.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ModelArticleCategory,String>>() {
+
+			@Override
+			public void handle(CellEditEvent<ModelArticleCategory, String> event) {
+				((ModelArticleCategory)event.getTableView().getItems().get(
+					event.getTablePosition().getRow())).setArticleCategory(event.getNewValue());
+				
+				new UpdateArticleCategory(new ModelArticleCategory(	tcArticleCategoryID.getCellData(event.getTablePosition().getRow()), 
+																	tcArticleCategory.getCellData(event.getTablePosition().getRow())));
+								
+			}
+			
+		});
 
 		tvArticleCategory.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelArticleCategory>() {
 

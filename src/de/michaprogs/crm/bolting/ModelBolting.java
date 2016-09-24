@@ -22,7 +22,13 @@ public class ModelBolting {
 	
 	public ModelBolting(){}
 	
-	//Consturctor for ObservableList
+	/**
+	 * Consturctor for ObservableList <br>
+	 * Constructor for Database (Bolting Insert)
+	 * Constructor for Database (Bolting Update)
+	 * @param boltingID
+	 * @param bolting
+	 */
 	public ModelBolting(int boltingID, String bolting){
 		this.boltingID = boltingID;
 		this.bolting = bolting;

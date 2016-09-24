@@ -42,6 +42,7 @@ public class ModelClerk {
 	
 	/**
 	 * Constructor for Database (Insert Clerk)
+	 * Constructor for Database (Update Clerk)
 	 * @param salutation
 	 * @param name
 	 * @param phone

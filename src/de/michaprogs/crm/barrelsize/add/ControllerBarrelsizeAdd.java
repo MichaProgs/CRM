@@ -3,6 +3,7 @@ package de.michaprogs.crm.barrelsize.add;
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.barrelsize.DeleteBarrelsize;
 import de.michaprogs.crm.barrelsize.ModelBarrelsize;
+import de.michaprogs.crm.barrelsize.UpdateBarrelsize;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,7 +19,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -103,6 +106,20 @@ public class ControllerBarrelsizeAdd {
 		
 		tcBarrelsizeID.setCellValueFactory(new PropertyValueFactory<>("barrelsizeID"));
 		tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));	
+		tcBarrelsize.setCellFactory(TextFieldTableCell.forTableColumn());
+		tcBarrelsize.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ModelBarrelsize,String>>() {
+
+			@Override
+			public void handle(CellEditEvent<ModelBarrelsize, String> event) {
+				((ModelBarrelsize)event.getTableView().getItems().get(
+					event.getTablePosition().getRow())).setBarrelsize(event.getNewValue());
+				
+				new UpdateBarrelsize(new ModelBarrelsize(	tcBarrelsizeID.getCellData(event.getTablePosition().getRow()), 
+															tcBarrelsize.getCellData(event.getTablePosition().getRow())));
+								
+			}
+			
+		});
 		
 		tvBarrelsize.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModelBarrelsize>() {
 

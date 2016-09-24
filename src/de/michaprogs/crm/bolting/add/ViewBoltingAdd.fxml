@@ -40,12 +40,12 @@
 								<TextField fx:id="tfFilter" />
 							</HBox>
 						
-							<TableView fx:id="tvBolting">
+							<TableView fx:id="tvBolting" editable="true">
 								<columnResizePolicy>
 					      			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 					   			</columnResizePolicy>
 								<columns>
-									<TableColumn minWidth="40" maxWidth="100" prefWidth="50" fx:id="tcBoltingID" text="ID" />
+									<TableColumn fx:id="tcBoltingID" text="ID" minWidth="40" maxWidth="100" prefWidth="50" />
 									<TableColumn fx:id="tcBolting" text="Bezeichnung" minWidth="80" maxWidth="450" prefWidth="400" />
 								</columns>
 							</TableView>
