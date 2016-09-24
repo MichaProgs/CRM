@@ -442,7 +442,9 @@ public class ControllerArticleData{
 			public void handle(ActionEvent event) {
 				
 				LoadBarrelsizeData barrelsize = new LoadBarrelsizeData(true);
-				tfBarrelsize.setText(barrelsize.getController().getSelectedBarrelsize());
+				if(! barrelsize.getController().getSelectedBarrelsize().equals("")){
+					tfBarrelsize.setText(barrelsize.getController().getSelectedBarrelsize());
+				}
 				
 			}
 		});

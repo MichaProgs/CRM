@@ -49,6 +49,7 @@
 								<Label text="Bezeichnung:" />
 								<TextField fx:id="tfArticleCategory" />
 								<Button fx:id="btnAdd" text="Hinzufügen" />
+								<Button fx:id="btnDelete" text="Löschen" />
 							</HBox>
 						
 						</VBox>					

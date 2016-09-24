@@ -37,6 +37,7 @@ public class ControllerArticleCategoryAdd {
 	@FXML private TextField tfArticleCategory;
 	
 	@FXML private Button btnAdd;
+	@FXML private Button btnDelete;
 	
 	private Stage stage;
 	private Main main;
@@ -49,6 +50,7 @@ public class ControllerArticleCategoryAdd {
 		
 		/* BUTTONS */
 		initBtnAdd();
+		initBtnDelete();
 		
 		/* TABLES */
 		initTableArticleCategory();
@@ -75,6 +77,18 @@ public class ControllerArticleCategoryAdd {
 					System.out.println("Bitte Bezeichnung angeben!");
 				}
 				
+			}
+		});
+		
+	}
+	
+	private void initBtnDelete(){
+		
+		btnDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				deleteArticleCategory();
 			}
 		});
 		
@@ -123,6 +137,24 @@ public class ControllerArticleCategoryAdd {
 		tvArticleCategory.setItems(new SelectArticleCategory(new ModelArticleCategory()).getModelArticleCategory().getObsListArticleCategories());
 	}
 	
+	private void deleteArticleCategory(){
+		
+		if(tvArticleCategory.getSelectionModel().getSelectedItems().size() == 1){
+			
+			DeleteAlert delete = new DeleteAlert();
+			if(delete.getDelete()){
+				System.out.println(tcArticleCategoryID.getCellData(tvArticleCategory.getSelectionModel().getSelectedIndex()));
+				new DeleteArticleCategory(tcArticleCategoryID.getCellData(tvArticleCategory.getSelectionModel().getSelectedIndex()));
+			}
+			
+			refresh();
+			
+		}else{
+			System.out.println("Bitte 1 Zeile markieren!");
+		}
+		
+	}
+	
 	/*
 	 * GETTER & SETTER
 	 */
@@ -153,21 +185,7 @@ public class ControllerArticleCategoryAdd {
 
 				@Override
 				public void handle(ActionEvent event) {
-
-					if(tvArticleCategory.getSelectionModel().getSelectedItems().size() == 1){
-						
-						DeleteAlert delete = new DeleteAlert();
-						if(delete.getDelete()){
-							System.out.println(tcArticleCategoryID.getCellData(tvArticleCategory.getSelectionModel().getSelectedIndex()));
-							new DeleteArticleCategory(tcArticleCategoryID.getCellData(tvArticleCategory.getSelectionModel().getSelectedIndex()));
-						}
-						
-						refresh();
-						
-					}else{
-						System.out.println("Bitte 1 Zeile markieren!");
-					}
-					
+					deleteArticleCategory();
 				}
 			});
 			
