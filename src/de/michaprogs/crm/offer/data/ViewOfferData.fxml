@@ -71,7 +71,7 @@
 															<ColumnConstraints halignment="LEFT" />
 														</columnConstraints>
 														<Label text="Angebots-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-														<TextField fx:id="tfOfferID" GridPane.columnIndex="1" GridPane.rowIndex="0" disable="true" />
+														<TextFieldOnlyInteger fx:id="tfOfferID" GridPane.columnIndex="1" GridPane.rowIndex="0" disable="true" />
 														<Label text="Datum:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 														<DatePicker fx:id="tfOfferDate" GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true" />
 														<Label text="Anfrage:" GridPane.columnIndex="0" GridPane.rowIndex="2" />

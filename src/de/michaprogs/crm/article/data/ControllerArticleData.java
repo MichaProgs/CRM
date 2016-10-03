@@ -12,6 +12,7 @@ import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.amountunit.ModelAmountUnit;
 import de.michaprogs.crm.amountunit.SelectAmountUnit;
 import de.michaprogs.crm.article.DeleteArticle;
+import de.michaprogs.crm.article.DeleteArticleComparison;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.article.SelectArticle;
 import de.michaprogs.crm.article.UpdateArticle;
@@ -108,6 +109,12 @@ public class ControllerArticleData{
 	@FXML private Button btnArticleSupplierEdit;
 	@FXML private Button btnArticleSupplierDelete;
 	
+	@FXML private Button btnComparisonArticleAdd; 
+	@FXML private Button btnComparisonArticleDelete;
+	
+	@FXML private Button btnAccessorisArticleAdd; 
+	@FXML private Button btnAccessorisArticleDelete;
+	
 	@FXML private Button btnBarrelsize;
 	@FXML private Button btnBolting;
 	
@@ -130,6 +137,22 @@ public class ControllerArticleData{
 	@FXML private TableColumn<ModelStock, String> tcStockEk;
 	@FXML private TableColumn<ModelStock, String> tcStockPriceUnit;
 	@FXML private TableColumn<ModelStock, String> tcStockDate;
+	
+	@FXML private TableView<ModelArticle> tvComparison;
+	@FXML private TableColumn<ModelArticle, Integer> tcComparisonArticleID;
+	@FXML private TableColumn<ModelArticle, String> tcComparisonArticleDescription1;
+	@FXML private TableColumn<ModelArticle, String> tcComparisonArticleDescription2;
+	@FXML private TableColumn<ModelArticle, String> tcComparisonArticleBarrelsize;
+	@FXML private TableColumn<ModelArticle, String> tcComparisonArticleBolting;
+	@FXML private TableColumn<ModelArticle, BigDecimal> tcComparisonArticleEk;
+	
+	@FXML private TableView<ModelArticle> tvAccessoris;
+	@FXML private TableColumn<ModelArticle, Integer> tcAccessorisArticleID;
+	@FXML private TableColumn<ModelArticle, String> tcAccessorisArticleDescription1;
+	@FXML private TableColumn<ModelArticle, String> tcAccessorisArticleDescription2;
+	@FXML private TableColumn<ModelArticle, String> tcAccessorisArticleBarrelsize;
+	@FXML private TableColumn<ModelArticle, String> tcAccessorisArticleBolting;
+	@FXML private TableColumn<ModelArticle, BigDecimal> tcAccessorisArticleEk;
 	
 	//Panels & Nodes
 	@FXML private HBox hboxBtnTopbar;
@@ -154,18 +177,22 @@ public class ControllerArticleData{
 		initBtnEdit();
 		initBtnEditAbort();
 		initBtnEditSave();
-//		
-//		initBtnRefresh();
+	
 		initBtnDelete();
-//		initBtnPrint();
-//		
+		
 		initBtnBarrelsize();
 		initBtnBolting();
 		
-//		//Image
+		initBtnComparisonAdd();
+		initBtnComparisonDelete();
+		
+		initBtnAccessorisAdd();
+		initBtnAccessorisDelete();
+		
+		/* IMAGE */
 		initBtnImageAdd();
 		initBtnImageDelete();
-//		
+
 		/* COMBOS */
 		initComboWarehouses();
 		
@@ -177,15 +204,9 @@ public class ControllerArticleData{
 		initBtnArticleSupplierAdd();
 		initBtnArticleSupplierEdit();
 		initBtnArticleSupplierDelete();	
-//				
-//		//TextFields
-//		initTfVkAndEk();
-//		
-//		/* ContextMenu */
-//		initMiDeleteArticleSupplier();
-//		initMiEditArticleSupplier();
-//		initMiAddArticleSupplier();
-//		initContextMenuArticleSupplier();
+		
+		initTableComparison();
+		initTableAccessoris();
 		
 		//Disable fields from beginning
 		disableAllFields();
@@ -292,7 +313,9 @@ public class ControllerArticleData{
 							0, //STOCK MAX
 							0, //STOCK ALERT						
 							String.valueOf(LocalDate.now())),
-						tvArticleSupplier.getItems()
+						tvArticleSupplier.getItems(),
+						tvComparison.getItems(),
+						tvAccessoris.getItems()
 					);
 					
 					hboxBtnTopbar.getChildren().remove(btnEditAbort);
@@ -346,9 +369,17 @@ public class ControllerArticleData{
 				DeleteAlert delete = new DeleteAlert();
 				
 				if(delete.getDelete()){
-					new DeleteArticle(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()));
+					new DeleteArticle(	
+						new ModelArticle(
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(
+								tfArticleID.getText()),
+								tfDescription1.getText()
+						)
+					);
+					
 					resetAllFields();
 					setButtonState();
+					
 				}
 				
 			}
@@ -396,7 +427,54 @@ public class ControllerArticleData{
 		
 	}
 	
+	private void initBtnComparisonAdd(){
+		
+		btnComparisonArticleAdd.setOnAction(new EventHandler<ActionEvent>() {
 
+			@Override
+			public void handle(ActionEvent event) {
+				addArticleComparison();
+			}
+		});
+		
+	}
+
+	private void initBtnComparisonDelete(){
+		
+		btnComparisonArticleDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				deleteArticleComparison();
+			}
+		});
+		
+	}
+	
+	private void initBtnAccessorisAdd(){
+		
+		btnAccessorisArticleAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				addArticleAccessoris();
+			}
+		});
+		
+	}
+	
+	private void initBtnAccessorisDelete(){
+		
+		btnAccessorisArticleDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				deleteArticleAccessoris();
+			}
+		});
+		
+	}
+	
 	/******************************
 	 * BUTTONS TITLED PANE SUPPLIER
 	 ******************************/
@@ -467,7 +545,6 @@ public class ControllerArticleData{
 		});
 		
 	}
-
 	
 	/*
 	 * COMBOBOXES
@@ -543,22 +620,48 @@ public class ControllerArticleData{
 	
 	private void initTableStock(){
 		
-		this.tcStockSupplierID.setCellValueFactory(new PropertyValueFactory<>("supplierID"));
-		this.tcStockSupplierName1.setCellValueFactory(new PropertyValueFactory<>("name1"));
-		this.tcStockAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-		this.tcStockAmount.setStyle("-fx-alignment: CENTER_RIGHT;");
-		this.tcStockAmountUnit.setCellValueFactory(new PropertyValueFactory<>("amountUnit"));
-		this.tcStockEk.setCellValueFactory(new PropertyValueFactory<>("ek"));
-		this.tcStockEk.setStyle("-fx-alignment: CENTER_RIGHT;");
-		this.tcStockPriceUnit.setCellValueFactory(new PropertyValueFactory<>("priceUnit"));
-		this.tcStockDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+		tcStockSupplierID.setCellValueFactory(new PropertyValueFactory<>("supplierID"));
+		tcStockSupplierName1.setCellValueFactory(new PropertyValueFactory<>("name1"));
+		tcStockAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+		tcStockAmount.setStyle("-fx-alignment: CENTER_RIGHT;");
+		tcStockAmountUnit.setCellValueFactory(new PropertyValueFactory<>("amountUnit"));
+		tcStockEk.setCellValueFactory(new PropertyValueFactory<>("ek"));
+		tcStockEk.setStyle("-fx-alignment: CENTER_RIGHT;");
+		tcStockPriceUnit.setCellValueFactory(new PropertyValueFactory<>("priceUnit"));
+		tcStockDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+		
+	}
+	
+	private void initTableComparison(){
+		
+		tcComparisonArticleID.setCellValueFactory(new PropertyValueFactory<>("articleID"));
+		tcComparisonArticleDescription1.setCellValueFactory(new PropertyValueFactory<>("description1"));
+		tcComparisonArticleDescription2.setCellValueFactory(new PropertyValueFactory<>("description2"));
+		tcComparisonArticleBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));
+		tcComparisonArticleBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));
+		tcComparisonArticleEk.setCellValueFactory(new PropertyValueFactory<>("ek"));
+		
+		tvComparison.setContextMenu(new ContextMenuArticleComparison());
+		
+	}
+	
+	private void initTableAccessoris(){
+		
+		tcAccessorisArticleID.setCellValueFactory(new PropertyValueFactory<>("articleID"));
+		tcAccessorisArticleDescription1.setCellValueFactory(new PropertyValueFactory<>("description1"));
+		tcAccessorisArticleDescription2.setCellValueFactory(new PropertyValueFactory<>("description2"));
+		tcAccessorisArticleBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));
+		tcAccessorisArticleBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));
+		tcAccessorisArticleEk.setCellValueFactory(new PropertyValueFactory<>("ek"));
+		
+		tvAccessoris.setContextMenu(new ContextMenuArticleAccessoris());
 		
 	}
 	
 	/*
 	 * DATABASE METHODS
 	 */
-	private void selectArticle(int _articleID){
+	public void selectArticle(int _articleID){
 		 
 		ModelArticle article = new SelectArticle(new ModelArticle(_articleID)).getModelArticle(); 
 		
@@ -599,7 +702,13 @@ public class ControllerArticleData{
 		
 		/* ARTICLE SUPPLIER */
 		tvArticleSupplier.setItems(article.getObsListArticleSupplier());
+		
+		/* ARTICLE COMPARISON */
+		tvComparison.setItems(article.getObsListArticleComparison());
 	
+		/* ARTICLE ACCESSORIS */
+		tvAccessoris.setItems(article.getObsListArticleAccessoris());
+		
 		/* STOCK */
 		selectStock(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), cbWarehouse.getSelectionModel().getSelectedItem());
 		
@@ -635,7 +744,7 @@ public class ControllerArticleData{
 		lblStock.setText("Es sind " + totalStock + " " + cbAmountUnit.getSelectionModel().getSelectedItem() + " am Lager (Durchschnittspreis: " + averagePrice + " EUR / " +  cbPriceUnit.getSelectionModel().getSelectedItem() + ")");
 		
 	}
-			
+		
 	/*
 	 * UI METHODS
 	 */
@@ -822,6 +931,64 @@ public class ControllerArticleData{
 		
 	}
 	
+	private void addArticleComparison(){
+		
+		LoadArticleSearch articleSearch = new LoadArticleSearch(true);
+		if(articleSearch.getController().getSelectedArticleID() != 0){
+			ModelArticle article = new SelectArticle(new ModelArticle(articleSearch.getController().getSelectedArticleID())).getModelArticle();
+			tvComparison.getItems().add(new ModelArticle(
+				article.getArticleID(),
+				article.getDescription1(),
+				article.getDescription2(),
+				article.getBarrelsize(),
+				article.getBolting(),
+				article.getEk()
+			));
+		}
+		
+	}
+	
+	private void deleteArticleComparison(){
+	
+		if(tvComparison.getSelectionModel().getSelectedItems().size() == 1){
+			if(new DeleteAlert().getDelete()){
+				tvComparison.getItems().remove(tvComparison.getSelectionModel().getSelectedIndex());
+			}
+		}else{
+			System.out.println("Bitte 1 Zeile markieren!");
+		}
+		
+	}
+	
+	private void addArticleAccessoris(){
+		
+		LoadArticleSearch articleSearch = new LoadArticleSearch(true);
+		if(articleSearch.getController().getSelectedArticleID() != 0){
+			ModelArticle article = new SelectArticle(new ModelArticle(articleSearch.getController().getSelectedArticleID())).getModelArticle();
+			tvAccessoris.getItems().add(new ModelArticle(
+				article.getArticleID(),
+				article.getDescription1(),
+				article.getDescription2(),
+				article.getBarrelsize(),
+				article.getBolting(),
+				article.getEk()
+			));
+		}
+		
+	}
+	
+	private void deleteArticleAccessoris(){
+	
+		if(tvAccessoris.getSelectionModel().getSelectedItems().size() == 1){
+			if(new DeleteAlert().getDelete()){
+				tvAccessoris.getItems().remove(tvAccessoris.getSelectionModel().getSelectedIndex());
+			}
+		}else{
+			System.out.println("Bitte 1 Zeile markieren!");
+		}
+		
+	}
+	
 	/*
 	 * GETTER & SETTER
 	 */
@@ -834,6 +1001,12 @@ public class ControllerArticleData{
 			btnArticleSupplierAdd.setDisable(true);
 			btnArticleSupplierEdit.setDisable(true);
 			btnArticleSupplierDelete.setDisable(true);
+			
+			btnComparisonArticleAdd.setDisable(true);
+			btnComparisonArticleDelete.setDisable(true);
+			
+			btnAccessorisArticleAdd.setDisable(true);
+			btnAccessorisArticleDelete.setDisable(true);
 			
 		}else{
 			
@@ -855,6 +1028,12 @@ public class ControllerArticleData{
 				btnArticleSupplierEdit.setDisable(false);
 				btnArticleSupplierDelete.setDisable(false);
 				
+				btnComparisonArticleAdd.setDisable(false);
+				btnComparisonArticleDelete.setDisable(false);
+				
+				btnAccessorisArticleAdd.setDisable(false);
+				btnAccessorisArticleDelete.setDisable(false);
+				
 				btnImageAdd.setDisable(false);
 				if(ivImage.getImage() != null){
 					btnImageDelete.setVisible(true);
@@ -872,6 +1051,12 @@ public class ControllerArticleData{
 				btnArticleSupplierAdd.setDisable(true);
 				btnArticleSupplierEdit.setDisable(true);
 				btnArticleSupplierDelete.setDisable(true);
+				
+				btnComparisonArticleAdd.setDisable(true);
+				btnComparisonArticleDelete.setDisable(true);
+				
+				btnAccessorisArticleAdd.setDisable(true);
+				btnAccessorisArticleDelete.setDisable(true);
 				
 				btnImageAdd.setDisable(true);
 				if(ivImage.getImage() != null){
@@ -982,6 +1167,166 @@ public class ControllerArticleData{
 						System.out.println("Bitte 1 Zeile markieren!");
 					}
 					
+				}
+			});
+			
+		}
+		
+	}
+	
+	private class ContextMenuArticleComparison extends ContextMenu{
+		
+		private MenuItem itemAdd = new MenuItem("Hinzufügen..");
+		private MenuItem itemDelete = new MenuItem("Löschen");
+		private MenuItem itemGoTo = new MenuItem("Gehe zu..");
+		
+		public ContextMenuArticleComparison(){
+			
+			/* MENU ITEMS */
+			initItemAdd();
+			initItemDelete();
+			
+			initItemGoTo();
+			
+			this.getItems().addAll(itemAdd, itemDelete, new SeparatorMenuItem(), itemGoTo);
+			this.setOnShowing(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent event) {
+					
+					if(hboxBtnTopbar.getChildren().contains(btnEditSave)){
+						
+						itemAdd.setDisable(false);
+						itemDelete.setDisable(false);
+						itemGoTo.setDisable(true);
+						
+					}else{
+						
+						itemAdd.setDisable(true);
+						itemDelete.setDisable(true);
+						itemGoTo.setDisable(false);
+						
+					}
+					
+				}
+			});
+			
+			
+		}
+		
+		private void initItemAdd(){
+			
+			itemAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					addArticleComparison();
+				}
+			});
+		}
+		
+		private void initItemDelete(){
+			
+			itemDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					deleteArticleComparison();
+				}
+			});			
+		}
+		
+		private void initItemGoTo(){
+			
+			itemGoTo.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					if(tvComparison.getSelectionModel().getSelectedItems().size() == 1){
+						main.getContentPane().setCenter(new LoadArticleData(false, tvComparison.getItems().get(tvComparison.getSelectionModel().getSelectedIndex()).getArticleID(), main).getContent());
+					}else{
+						System.out.println("Bitte 1 Zeile markieren!");
+					}
+				}
+			});
+			
+		}
+		
+	}
+	
+	private class ContextMenuArticleAccessoris extends ContextMenu{
+		
+		private MenuItem itemAdd = new MenuItem("Hinzufügen..");
+		private MenuItem itemDelete = new MenuItem("Löschen");
+		private MenuItem itemGoTo = new MenuItem("Gehe zu..");
+		
+		public ContextMenuArticleAccessoris(){
+			
+			/* MENU ITEMS */
+			initItemAdd();
+			initItemDelete();
+			
+			initItemGoTo();
+			
+			this.getItems().addAll(itemAdd, itemDelete, new SeparatorMenuItem(), itemGoTo);
+			this.setOnShowing(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent event) {
+					
+					if(hboxBtnTopbar.getChildren().contains(btnEditSave)){
+						
+						itemAdd.setDisable(false);
+						itemDelete.setDisable(false);
+						itemGoTo.setDisable(true);
+						
+					}else{
+						
+						itemAdd.setDisable(true);
+						itemDelete.setDisable(true);
+						itemGoTo.setDisable(false);
+						
+					}
+					
+				}
+			});
+			
+			
+		}
+		
+		private void initItemAdd(){
+			
+			itemAdd.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					addArticleAccessoris();
+				}
+			});
+		}
+		
+		private void initItemDelete(){
+			
+			itemDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					deleteArticleAccessoris();
+				}
+			});			
+		}
+		
+		private void initItemGoTo(){
+			
+			itemGoTo.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					if(tvAccessoris.getSelectionModel().getSelectedItems().size() == 1){
+						main.getContentPane().setCenter(new LoadArticleData(false, tvAccessoris.getItems().get(tvAccessoris.getSelectionModel().getSelectedIndex()).getArticleID(), main).getContent());
+					}else{
+						System.out.println("Bitte 1 Zeile markieren!");
+					}
 				}
 			});
 			

@@ -16,9 +16,11 @@ import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.clerk.ModelClerk;
 import de.michaprogs.crm.clerk.SelectClerk;
 import de.michaprogs.crm.clerk.data.LoadClerkData;
+import de.michaprogs.crm.components.TextFieldOnlyInteger;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
+import de.michaprogs.crm.offer.DeleteOffer;
 import de.michaprogs.crm.offer.DocumentOffer;
 import de.michaprogs.crm.offer.ModelOffer;
 import de.michaprogs.crm.offer.SelectOffer;
@@ -57,7 +59,7 @@ public class ControllerOfferData {
 	@FXML private HBox hboxBtnTopbar;
 	
 	/* OFFER */
-	@FXML private TextField tfOfferID;
+	@FXML private TextFieldOnlyInteger tfOfferID;
 	@FXML private DatePicker tfOfferDate;
 	@FXML private TextField tfRequest;
 	@FXML private DatePicker tfRequestDate;
@@ -397,13 +399,18 @@ public class ControllerOfferData {
 
 			@Override
 			public void handle(ActionEvent event) {
-
-				DeleteAlert delete = new DeleteAlert();
 				
-				if(delete.getDelete()){
-					new DeleteArticle(new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()));
+				if(new DeleteAlert().getDelete()){
+					new DeleteOffer(
+						new ModelOffer( 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText())
+						)
+					);
+					
 					resetFields();
 					setButtonState();
+					
 				}
 				
 			}
@@ -417,46 +424,6 @@ public class ControllerOfferData {
 
 			@Override
 			public void handle(ActionEvent event) {
-
-//				new DocumentOffer(
-//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText()), 
-//					cbSalutationBilling.getSelectionModel().getSelectedItem(), 
-//					tfName1Billing.getText(), 
-//					tfName2Billing.getText(), 
-//					tfStreetBilling.getText(),
-//					cbLandBilling.getSelectionModel().getSelectedItem(),
-//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZipBilling.getText()), 
-//					tfLocationBilling.getText(),
-//					tfPhoneBilling.getText(),
-//					tfFaxBilling.getText(),
-//					tfEmailBilling.getText(),
-//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNettoBilling.getText()),
-//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkontoBilling.getText()),
-//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkontoBilling.getText()),
-//					cbPaymentBilling.getSelectionModel().getSelectedItem(),
-//					
-//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
-//					cbSalutation.getSelectionModel().getSelectedItem(), 
-//					tfName1.getText(), 
-//					tfName2.getText(), 
-//					tfStreet.getText(),
-//					cbLand.getSelectionModel().getSelectedItem(),
-//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
-//					tfLocation.getText(), 
-//					
-//					new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
-//					new ParseDateDDMMYYYY(String.valueOf(tfOfferDate.getValue())).getDateDDMMYYYY(),
-//					tfRequest.getText(), 
-//					new ParseDateDDMMYYYY(String.valueOf(tfRequestDate.getValue())).getDateDDMMYYYY(),
-//					
-//					tfClerk.getText(),
-//					tfClerkPhone.getText(),
-//					tfClerkFax.getText(),
-//					tfClerkEmail.getText(),
-//					
-//					tvArticle.getItems().size(),
-//					tvArticle.getItems(), 
-//					true);
 				
 				new DocumentOffer(
 					/* BILLING */

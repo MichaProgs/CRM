@@ -13,7 +13,7 @@ public class LoadArticleData {
 	private ControllerArticleData controller = new ControllerArticleData();
 	private Stage stage = new Stage();
 	
-	public LoadArticleData(boolean createDialog, Main main){
+	public LoadArticleData(boolean createDialog, int articleID, Main main){
 		
 		try{
 			
@@ -21,6 +21,10 @@ public class LoadArticleData {
 			controller.setMain(main);
 			loader.setController(controller);
 			root = loader.load();
+			
+			if(articleID != 0){
+				controller.selectArticle(articleID);
+			}
 			
 			if(createDialog){
 				new CreateDialog("", stage, new Scene(root));

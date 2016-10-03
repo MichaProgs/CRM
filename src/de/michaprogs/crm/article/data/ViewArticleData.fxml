@@ -151,65 +151,120 @@
 									</HBox>
 								</TitledPane>
 								
-								<!-- LONGTEXT / NOTES -->
-								<TitledPane text="Langtext / Notizen" expanded="false"> 
-									<AnchorPane>
-										<TextArea fx:id="taLongtext" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
-									</AnchorPane>
-								</TitledPane>	
+								<TabPane>
+									<tabs>
+										<!-- LONGTEXT -->
+										<Tab text="Langtext" closable="false">
+											<AnchorPane>
+												<TextArea fx:id="taLongtext" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
+											</AnchorPane>
+										</Tab>
+										<!-- SUPPLIER -->
+										<Tab text="Lieferanten" closable="false">
+											<VBox styleClass="VboxContent" spacing="10">											
+												<TableView fx:id="tvArticleSupplier" maxHeight="300" minHeight="100">
+													<columnResizePolicy>
+							                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+							               			</columnResizePolicy>
+													<columns>
+														<TableColumn fx:id="tcSupplierID" text="Lief.-Nr." prefWidth="100" minWidth="50" />
+														<TableColumn fx:id="tcSupplierName1" text="Lieferant" prefWidth="200" minWidth="150" />
+														<TableColumn fx:id="tcSupplierArticleID" text="Art.-Nr." prefWidth="100" minWidth="50" />
+														<TableColumn fx:id="tcSupplierDescription1" text="Kurztext1" prefWidth="200" minWidth="150" />
+														<TableColumn fx:id="tcSupplierDescription2" text="Kurztext2" prefWidth="200" minWidth="150" />
+														<TableColumn fx:id="tcSupplierEk" text="Preis" styleClass="tc-align-right" prefWidth="100" minWidth="50" />
+														<TableColumn fx:id="tcSupplierPriceUnit" text="PE" prefWidth="100" minWidth="50" />
+														<TableColumn fx:id="tcSupplierAmountUnit" text="Einheit" prefWidth="100" minWidth="50" />
+													</columns>
+												</TableView>
 												
-								<!-- SUPPLIER / DELIVERER -->
-								<TitledPane text="Hersteller / Lieferanten" expanded="false">
-									<VBox styleClass="VboxContent" spacing="10">											
-										<TableView fx:id="tvArticleSupplier" maxHeight="300" minHeight="100">
-											<columnResizePolicy>
-					                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-					               			</columnResizePolicy>
-											<columns>
-												<TableColumn fx:id="tcSupplierID" text="Lief.-Nr." prefWidth="100" minWidth="50" />
-												<TableColumn fx:id="tcSupplierName1" text="Lieferant" prefWidth="200" minWidth="150" />
-												<TableColumn fx:id="tcSupplierArticleID" text="Art.-Nr." prefWidth="100" minWidth="50" />
-												<TableColumn fx:id="tcSupplierDescription1" text="Kurztext1" prefWidth="200" minWidth="150" />
-												<TableColumn fx:id="tcSupplierDescription2" text="Kurztext2" prefWidth="200" minWidth="150" />
-												<TableColumn fx:id="tcSupplierEk" text="Preis" styleClass="tc-align-right" prefWidth="100" minWidth="50" />
-												<TableColumn fx:id="tcSupplierPriceUnit" text="PE" prefWidth="100" minWidth="50" />
-												<TableColumn fx:id="tcSupplierAmountUnit" text="Einheit" prefWidth="100" minWidth="50" />
-											</columns>
-										</TableView>
-										
-										<HBox spacing="10" alignment="CENTER_RIGHT">
-											<Button fx:id="btnArticleSupplierAdd" text="Hinzufügen.." />
-											<Button fx:id="btnArticleSupplierEdit" text="Bearbeiten.." />
-											<Button fx:id="btnArticleSupplierDelete" text="Löschen" />
-										</HBox>
-										
-									</VBox>
-								</TitledPane>
-								
-								<!-- STOCK -->
-								<TitledPane text="Lager" expanded="false" >
-									<VBox spacing="10" styleClass="VboxContent">
-										<HBox spacing="10" alignment="CENTER_LEFT">
-											<Label text="Lager: " />
-											<ComboWarehouse fx:id="cbWarehouse" disable="true" />
-											<Label fx:id="lblStock" text="" />
-										</HBox>
-										<TableView fx:id="tvStock" maxHeight="300" minHeight="100" >
-											<columnResizePolicy>
-					                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-					               			</columnResizePolicy>
-											<columns>
-												<TableColumn fx:id="tcStockSupplierID" text="Lieferanten-Nr." />
-												<TableColumn fx:id="tcStockSupplierName1" text="Lieferant" />
-												<TableColumn fx:id="tcStockAmount" text="Menge" />
-												<TableColumn fx:id="tcStockAmountUnit" text="Einheit" />
-												<TableColumn fx:id="tcStockEk" text="EK" />
-												<TableColumn fx:id="tcStockPriceUnit" text="PE" />
-												<TableColumn fx:id="tcStockDate" text="Datum" />
-											</columns>
-										</TableView>
-									</VBox>
-								</TitledPane>
+												<HBox spacing="10" alignment="CENTER_RIGHT">
+													<Button fx:id="btnArticleSupplierAdd" text="Hinzufügen.." />
+													<Button fx:id="btnArticleSupplierEdit" text="Bearbeiten.." />
+													<Button fx:id="btnArticleSupplierDelete" text="Löschen" />
+												</HBox>												
+											</VBox>
+										</Tab>
+										<!-- COMPARISON ARTICLE -->
+										<Tab text="Vergleichsartikel" closable="false">
+											<AnchorPane>
+												<VBox spacing="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+													<TableView fx:id="tvComparison" maxHeight="300" minHeight="100" >
+														<columnResizePolicy>
+								                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+								               			</columnResizePolicy>
+														<columns>
+															<TableColumn fx:id="tcComparisonArticleID" text="Art.-Nr." />
+															<TableColumn fx:id="tcComparisonArticleDescription1" text="Bezeichnung1" />
+															<TableColumn fx:id="tcComparisonArticleDescription2" text="Bezeichnung2" />
+															<TableColumn fx:id="tcComparisonArticleBarrelsize" text="Gebindegröße" />
+															<TableColumn fx:id="tcComparisonArticleBolting" text="Verschraubung" />
+															<TableColumn fx:id="tcComparisonArticleEk" text="EK" />
+														</columns>
+													</TableView>
+													
+													<HBox spacing="10" alignment="CENTER_RIGHT">
+														<Button fx:id="btnComparisonArticleAdd" text="Hinzufügen.." />
+														<Button fx:id="btnComparisonArticleDelete" text="Löschen" />
+													</HBox>
+													
+												</VBox>
+											</AnchorPane>
+										</Tab>
+										<!-- ACCESSORIS -->
+										<Tab text="Zubehör" closable="false">
+											<AnchorPane>
+												<VBox spacing="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+													<TableView fx:id="tvAccessoris" maxHeight="300" minHeight="100" >
+														<columnResizePolicy>
+								                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+								               			</columnResizePolicy>
+														<columns>
+															<TableColumn fx:id="tcAccessorisArticleID" text="Art.-Nr." />
+															<TableColumn fx:id="tcAccessorisArticleDescription1" text="Bezeichnung1" />
+															<TableColumn fx:id="tcAccessorisArticleDescription2" text="Bezeichnung2" />
+															<TableColumn fx:id="tcAccessorisArticleBarrelsize" text="Gebindegröße" />
+															<TableColumn fx:id="tcAccessorisArticleBolting" text="Verschraubung" />
+															<TableColumn fx:id="tcAccessorisArticleEk" text="EK" />
+														</columns>
+													</TableView>
+													
+													<HBox spacing="10" alignment="CENTER_RIGHT">
+														<Button fx:id="btnAccessorisArticleAdd" text="Hinzufügen.." />
+														<Button fx:id="btnAccessorisArticleDelete" text="Löschen" />
+													</HBox>
+													
+												</VBox>
+											</AnchorPane>
+										</Tab>
+										<!-- STOCK -->
+										<Tab text="Lager" closable="false">
+											<AnchorPane>
+												<VBox spacing="10" styleClass="VboxContent" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
+													<HBox spacing="10" alignment="CENTER_LEFT">
+														<Label text="Lager: " />
+														<ComboWarehouse fx:id="cbWarehouse" disable="true" />
+														<Label fx:id="lblStock" text="" />
+													</HBox>
+													<TableView fx:id="tvStock" maxHeight="300" minHeight="100" >
+														<columnResizePolicy>
+								                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+								               			</columnResizePolicy>
+														<columns>
+															<TableColumn fx:id="tcStockSupplierID" text="Lieferanten-Nr." />
+															<TableColumn fx:id="tcStockSupplierName1" text="Lieferant" />
+															<TableColumn fx:id="tcStockAmount" text="Menge" />
+															<TableColumn fx:id="tcStockAmountUnit" text="Einheit" />
+															<TableColumn fx:id="tcStockEk" text="EK" />
+															<TableColumn fx:id="tcStockPriceUnit" text="PE" />
+															<TableColumn fx:id="tcStockDate" text="Datum" />
+														</columns>
+													</TableView>
+												</VBox>
+											</AnchorPane>
+										</Tab>
+									</tabs>
+								</TabPane>
 								
 								<!-- LAST CHANGE (ALWAYS LAST ENTRY) -->
 								<HBox alignment="CENTER_RIGHT">

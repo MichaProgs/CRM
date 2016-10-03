@@ -1,9 +1,7 @@
 package de.michaprogs.crm.article;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
-import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,15 +29,24 @@ public class ModelArticle {
 	private BigDecimal vk = new BigDecimal("0.00");
 	private BigDecimal total = new BigDecimal("0.00");
 	private int priceUnit = 0;
-	private double amount = 0.00;
+	private BigDecimal amount = new BigDecimal("0.00");
 	private String amountUnit = "";
 	private int tax = 0;
 	
 	/* Longtext */
 	private String longtext = "";
 	
+	/* Comparison */
+	private int comparionArticleID = 0;
+	
 	/* ARTICLE SUPPLIER */
 	private ObservableList<ModelArticleSupplier> obsListArticleSupplier = FXCollections.observableArrayList();
+	
+	/* ARTICLE COMPARISON */
+	private ObservableList<ModelArticle> obsListArticleComparison = FXCollections.observableArrayList();
+	
+	/* ARTICLE ACCESSORIS */
+	private ObservableList<ModelArticle> obsListArticleAccessoris = FXCollections.observableArrayList();
 	
 	/* Stock */
 	private int stockMinUnit = 0;
@@ -136,11 +143,21 @@ public class ModelArticle {
 
 	/**
 	 * Constructor for Database (Select Article) <br>
-	 * Constructor for Database (Delete Article)
 	 * @param _articleID
 	 */
 	public ModelArticle(	int _articleID){
 		this.articleID = _articleID;
+	}
+	
+	/**
+	 * Constructor fro Database (Delete Article)
+	 * @param articleID
+	 * @param description1
+	 */
+	public ModelArticle(	int articleID,
+							String description1){
+		this.articleID = articleID;
+		this.description1 = description1;
 	}
 	
 	/**
@@ -170,6 +187,7 @@ public class ModelArticle {
 	
 	/**
 	 * Constructor for ObservableList (Offer Article)
+	 * Constructor for ObservableList (Order Article)
 	 * @param _articleID
 	 * @param _description1
 	 * @param _description2
@@ -188,7 +206,7 @@ public class ModelArticle {
 							String _description2,
 							String _barrelsize,
 							String _bolting,
-							double _amount,
+							BigDecimal _amount,
 							String _amountUnit,
 							BigDecimal _vk,
 							BigDecimal _ek,
@@ -209,6 +227,32 @@ public class ModelArticle {
 		this.priceUnit = _priceUnit;
 		this.total = _total;
 		this.tax = _tax;
+		
+	}
+	
+	/**
+	 * Constructor for Table Comparison <br>
+	 * Constructor for Table Accessoris 
+	 * @param articleID
+	 * @param description1
+	 * @param descritpion2
+	 * @param barrelsize
+	 * @param bolting
+	 * @param ek
+	 */
+	public ModelArticle(	int articleID,
+							String description1,
+							String descritpion2,
+							String barrelsize,
+							String bolting,
+							BigDecimal ek){
+		
+		this.articleID = articleID;
+		this.description1 = description1;
+		this.description2 = descritpion2;
+		this.barrelsize = barrelsize;
+		this.bolting = bolting;
+		this.ek = ek;
 		
 	}
 	
@@ -283,7 +327,7 @@ public class ModelArticle {
 		return priceUnit;
 	}
 
-	public double getAmount(){
+	public BigDecimal getAmount(){
 		return amount;
 	}
 	
@@ -391,7 +435,7 @@ public class ModelArticle {
 		this.priceUnit = priceUnit;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
@@ -438,5 +482,31 @@ public class ModelArticle {
 	public void setObsListArticleSupplier(ObservableList<ModelArticleSupplier> obsListArticleSupplier) {
 		this.obsListArticleSupplier = obsListArticleSupplier;
 	}
+
+	public int getComparionArticleID() {
+		return comparionArticleID;
+	}
+
+	public void setComparionArticleID(int comparionArticleID) {
+		this.comparionArticleID = comparionArticleID;
+	}
+
+	public ObservableList<ModelArticle> getObsListArticleComparison() {
+		return obsListArticleComparison;
+	}
+
+	public void setObsListArticleComparison(ObservableList<ModelArticle> obsListArticleComparison) {
+		this.obsListArticleComparison = obsListArticleComparison;
+	}
+
+	public ObservableList<ModelArticle> getObsListArticleAccessoris() {
+		return obsListArticleAccessoris;
+	}
+
+	public void setObsListArticleAccessoris(ObservableList<ModelArticle> obsListArticleAccessoris) {
+		this.obsListArticleAccessoris = obsListArticleAccessoris;
+	}
+	
+	
 	
 }

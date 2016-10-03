@@ -16,7 +16,10 @@ public class UpdateArticle {
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public UpdateArticle(ModelArticle ma, ObservableList<ModelArticleSupplier> obsListArticleSupplier){
+	public UpdateArticle(	ModelArticle ma, 
+							ObservableList<ModelArticleSupplier> obsListArticleSupplier,
+							ObservableList<ModelArticle> obsListComparisonArticle,
+							ObservableList<ModelArticle> obsListAccessorisArticle){
 		
 		try{
 			
@@ -102,8 +105,15 @@ public class UpdateArticle {
 			/* ARTICLE SUPPLIER */
 			new UpdateArticleSupplier(ma.getArticleID(), obsListArticleSupplier);
 			
-			new Notification(	"Bearbeitet!", 
-								"Der Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " wurde erfolgreich bearbeitet!", 
+			/* ARTICLE COMPARISON */
+			new UpdateArticleComparison(ma.getArticleID(), obsListComparisonArticle);
+			
+			/* ARTICLE COMPARISON */
+			new UpdateArticleAccessoris(ma.getArticleID(), obsListAccessorisArticle);
+			
+			
+			new Notification(	"Artikel wurde bearbeitet!", 
+								ma.getArticleID() + " " + ma.getDescription1(), 
 								NotificationType.SUCCESS); 
 			
 			System.out.println("Änderungen an Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " wurde in Datenbank gespeichert!");

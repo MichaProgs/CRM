@@ -14,7 +14,7 @@ public class DeleteArticle {
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public DeleteArticle(int _articleID){
+	public DeleteArticle(ModelArticle ma){
 		
 		try{
 			
@@ -22,17 +22,17 @@ public class DeleteArticle {
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
-			ps.setInt(1, _articleID);
+			ps.setInt(1, ma.getArticleID());
 			ps.execute();
 			
 			/* ARTICLE SUPPLIER */
-			new DeleteArticleSupplier(_articleID);
+			new DeleteArticleSupplier(ma.getArticleID());
 			
-			new Notification(	"Gelöscht!", 
-								"Artikel " + _articleID + " wurde erfolgreich gelöscht!", 
+			new Notification(	"Artikel wurde gelöscht!", 
+								ma.getArticleID() + " " + ma.getDescription1(), 
 								NotificationType.SUCCESS);
 			
-			System.out.println("Artikel " + _articleID + " wurde aus der Datenbank gelöscht");
+			System.out.println("Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " wurde aus der Datenbank gelöscht");
 			
 		}catch(Exception e){
 			e.printStackTrace();

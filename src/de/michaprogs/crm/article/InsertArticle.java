@@ -105,8 +105,8 @@ public class InsertArticle {
 			/* ARTICLE SUPPLIER */				
 			new InsertArticleSupplier(ma.getArticleID(), obsListArticleSupplier);
 			
-			new Notification(	"Gespeichert!", 
-								"Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " wurde erfolgreich gespeichert!", 
+			new Notification(	"Artikel wurde gespeichert!", 
+								ma.getArticleID() + " " + ma.getDescription1(), 
 								NotificationType.SUCCESS);
 			
 			System.out.println("Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " wurde erfolgreich gespeichert!");
@@ -116,7 +116,7 @@ public class InsertArticle {
 		}catch(SQLIntegrityConstraintViolationException e){
 			
 			new Notification(	"Speichern nicht möglich!", 
-								"Kundennummer bereits vergeben!", 
+								"Artikelnummer bereits vergeben!", 
 								NotificationType.ERROR);
 			
 		}catch(Exception e){

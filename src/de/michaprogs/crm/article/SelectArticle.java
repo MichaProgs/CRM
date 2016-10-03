@@ -16,6 +16,11 @@ public class SelectArticle {
 	private PreparedStatement ps;
 	private ResultSet rs;
 	
+	/**
+	 * Empty Constructor
+	 */
+	public SelectArticle(){}
+	
 	public SelectArticle(ModelArticle ma){
 		
 		try{
@@ -60,6 +65,10 @@ public class SelectArticle {
 			}
 			
 			new SelectArticleSupplier(ma);
+			
+			new SelectArticleComparison(ma);
+			
+			new SelectArticleAccessoris(ma);
 			
 			System.out.println("Artikel " + ma.getArticleID() + " " + ma.getDescription1() + " aus Datenbank geladen!");
 			
