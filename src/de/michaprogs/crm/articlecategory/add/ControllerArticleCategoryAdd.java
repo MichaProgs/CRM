@@ -144,7 +144,12 @@ public class ControllerArticleCategoryAdd {
 			DeleteAlert delete = new DeleteAlert();
 			if(delete.getDelete()){
 				System.out.println(tcArticleCategoryID.getCellData(tvArticleCategory.getSelectionModel().getSelectedIndex()));
-				new DeleteArticleCategory(tcArticleCategoryID.getCellData(tvArticleCategory.getSelectionModel().getSelectedIndex()));
+				new DeleteArticleCategory(
+					new ModelArticleCategory(
+						tcArticleCategoryID.getCellData(tvArticleCategory.getSelectionModel().getSelectedIndex()),
+						tcArticleCategory.getCellData(tvArticleCategory.getSelectionModel().getFocusedIndex())
+					)
+				);
 			}
 			
 			refresh();

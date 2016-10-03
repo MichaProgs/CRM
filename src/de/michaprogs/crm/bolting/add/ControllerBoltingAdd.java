@@ -2,7 +2,9 @@ package de.michaprogs.crm.bolting.add;
 
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.bolting.DeleteBolting;
+import de.michaprogs.crm.bolting.InsertBolting;
 import de.michaprogs.crm.bolting.ModelBolting;
+import de.michaprogs.crm.bolting.SelectBolting;
 import de.michaprogs.crm.bolting.UpdateBolting;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -88,9 +90,16 @@ public class ControllerBoltingAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				new ModelBolting().insertBolting(tfBolting.getText());
-				refreshTable();
-				tfBolting.clear();
+				if(! tfBolting.getText().equals("")){
+					
+					new InsertBolting(new ModelBolting(tfBolting.getText()));
+					
+					refreshTable();
+					tfBolting.clear();
+					
+				}else{
+					System.out.println("Bitte Bezeichnung angeben!");
+				}
 				
 			}
 		});
@@ -166,8 +175,7 @@ public class ControllerBoltingAdd {
 	 * DATABASE METHODS
 	 */
 	private void refreshTable(){		
-		ModelBolting bolting = new ModelBolting();
-		bolting.selectBoltings();
+		ModelBolting bolting = new SelectBolting(new ModelBolting()).getModelBolting();		
 		obsListBolting = bolting.getObsListBoltings();
 		tvBolting.setItems(bolting.getObsListBoltings());	
 	}
@@ -176,8 +184,13 @@ public class ControllerBoltingAdd {
 		
 		if(tvBolting.getSelectionModel().getSelectedItems().size() == 1){
 			if(new DeleteAlert().getDelete()){
-				new DeleteBolting(tcBoltingID.getCellData(tvBolting.getSelectionModel().getSelectedIndex()));
+				new DeleteBolting(
+					new ModelBolting(
+							tcBoltingID.getCellData(tvBolting.getSelectionModel().getSelectedIndex()), 
+							tcBolting.getCellData(tvBolting.getSelectionModel().getSelectedIndex())));	
+						
 				refreshTable();
+				
 			}
 		}else{
 			System.out.println("Bitte 1 Zeile markieren!");

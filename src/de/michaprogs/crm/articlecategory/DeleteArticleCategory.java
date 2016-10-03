@@ -13,7 +13,7 @@ public class DeleteArticleCategory {
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public DeleteArticleCategory(int categoryID){
+	public DeleteArticleCategory(ModelArticleCategory mac){
 		
 		try{
 			
@@ -21,14 +21,14 @@ public class DeleteArticleCategory {
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
-			ps.setInt(1, categoryID);
+			ps.setInt(1, mac.getArticleCategoryID());
 			ps.execute();
 			
-			new Notification(	"Gelöscht!", 
-								"Die Kategorie wurde erfolgreich gelöscht!", 
+			new Notification(	"Artikel-Kategorie wurde gelöscht!", 
+								mac.getArticleCategoryID() + " " + mac.getArticleCategory(), 
 								NotificationType.SUCCESS);
 			
-			System.out.println("Kategorie wurde erfolgreich gelöscht!");
+			System.out.println("Kategorie " + mac.getArticleCategoryID() + " " + mac.getArticleCategory() + " wurde erfolgreich gelöscht!");
 			
 		}catch(Exception e){
 			e.printStackTrace();

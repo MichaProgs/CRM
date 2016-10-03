@@ -1,4 +1,4 @@
-package de.michaprogs.crm.barrelsize;
+package de.michaprogs.crm.bolting;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,33 +7,28 @@ import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.database.DBConnect;
 import tray.notification.NotificationType;
 
-public class UpdateBarrelsize {
-
+public class InsertBolting {
+	
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public UpdateBarrelsize(ModelBarrelsize mb){
-	
+	public InsertBolting(ModelBolting mb){
+		
 		try{
 			
-			String stmt = "UPDATE barrelsize SET barrelsize = ? "
-										+ "WHERE barrelsizeID = ?";
+			String stmt = "INSERT INTO bolting (bolting) VALUES (?)";
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setString(i, mb.getBarrelsize());
-			i++;
-			ps.setInt(i, mb.getBarrelsizeID()); //ALWAYS LAST
-			i++;
+			ps.setString(1, mb.getBolting());
 			ps.execute();
 			
-			new Notification(	"Gebindegröße wurde bearbeitet!", 
-								mb.getBarrelsizeID() + " " + mb.getBarrelsize(), 
+			new Notification(	"Verschraubung wurde gespeichert!", 
+								mb.getBolting(), 
 								NotificationType.SUCCESS);
 			
-			System.out.println("Änderungen an Gebindegröße " + mb.getBarrelsizeID() + " " + mb.getBarrelsizeID() + " wurden in Datenbank gespeichert!");
+			System.out.println("Verschraubung " + mb.getBolting() + " zur Datenbank hinzugefügt");
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -46,8 +41,7 @@ public class UpdateBarrelsize {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		
+		}		
 	}
 	
 }

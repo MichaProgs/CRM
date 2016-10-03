@@ -3,7 +3,9 @@ package de.michaprogs.crm.articlecategory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.database.DBConnect;
+import tray.notification.NotificationType;
 
 public class UpdateArticleCategory {
 
@@ -26,6 +28,10 @@ public class UpdateArticleCategory {
 			ps.setInt(i, mac.getArticleCategoryID()); //ALWAYS LAST
 			i++;
 			ps.execute();
+			
+			new Notification(	"Artikel-Kategorie wurde bearbeitet!", 
+								mac.getArticleCategoryID() + " " + mac.getArticleCategory(), 
+								NotificationType.SUCCESS);
 			
 			System.out.println("Änderungen an Artikel-Kategorie " + mac.getArticleCategoryID() + " wurden in Datenbank gespeichert!");
 			

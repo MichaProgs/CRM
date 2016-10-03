@@ -2,33 +2,41 @@ package de.michaprogs.crm.bolting;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.database.DBConnect;
-import tray.notification.NotificationType;
 
-public class DeleteBolting {
+public class SelectBolting {
 
+	private ModelBolting mb;
+	
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
+	private ResultSet rs;
 	
-	public DeleteBolting(ModelBolting mb){
+	public SelectBolting(ModelBolting mb){
 		
 		try{
 			
-			String stmt = "DELETE FROM bolting WHERE boltingID = ?";
+			this.mb = mb;
+			
+			String stmt = "SELECT * FROM bolting";
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
-			ps.setInt(1, mb.getBoltingID());
-			ps.execute();
+			rs = ps.executeQuery();
 			
-			new Notification(	"Verschraubung wurde gelöscht!", 
-								mb.getBoltingID() + " " + mb.getBolting(), 
-								NotificationType.SUCCESS);
+			while(rs.next()){
+				
+				mb.getObsListBoltings().add(new ModelBolting(
+					rs.getInt("boltingID"),
+					rs.getString("bolting")
+				));
+				
+			}
 			
-			System.out.println("Verschraubung " + mb.getBoltingID() + " " + mb.getBolting() + " wurde aus Datenbank gelöscht!");
+			System.out.println("Alle Verschraubungen aus Datenbank geladen");
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -38,11 +46,17 @@ public class DeleteBolting {
 					con.close();
 				if(ps != null)
 					ps.close();
+				if(rs != null)
+					rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}	
 		
+	}
+	
+	public ModelBolting getModelBolting(){
+		return mb;
 	}
 	
 }

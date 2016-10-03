@@ -24,11 +24,11 @@ public class InsertArticleCategory {
 			ps.setString(1, mac.getArticleCategory());
 			ps.execute();
 			
-			new Notification(	"Gespeichert!", 
-								"Die Kategorie " + mac.getArticleCategory() + " wurde erfolgreich gespeichert!", 
+			new Notification(	"Artikel-Kategorie wurde Gespeichert!", 
+								mac.getArticleCategoryID() + " " + mac.getArticleCategory(), 
 								NotificationType.SUCCESS);
 			
-			System.out.println("Gebindegröße " + mac.getArticleCategory() + " zur Datenbank hinzugefügt");
+			System.out.println("Artikel-Kategorie " + mac.getArticleCategoryID() + " " + mac.getArticleCategory() + " wurde zur Datenbank hinzugefügt");
 			
 		}catch(Exception e){
 			e.printStackTrace();

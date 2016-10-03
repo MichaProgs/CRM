@@ -3,6 +3,7 @@ package de.michaprogs.crm.bolting.data;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.barrelsize.ModelBarrelsize;
 import de.michaprogs.crm.bolting.ModelBolting;
+import de.michaprogs.crm.bolting.SelectBolting;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -190,8 +191,7 @@ public class ControllerBoltingData {
 	
 	private void refreshTableBolting(){		
 		
-		ModelBolting bolting = new ModelBolting();
-		bolting.selectBoltings();
+		ModelBolting bolting = new SelectBolting(new ModelBolting()).getModelBolting();
 		obsListBolting = bolting.getObsListBoltings();
 		tvBolting.setItems(bolting.getObsListBoltings());	
 		

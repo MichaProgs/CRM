@@ -3,7 +3,9 @@ package de.michaprogs.crm.bolting;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.database.DBConnect;
+import tray.notification.NotificationType;
 
 public class UpdateBolting {
 
@@ -26,6 +28,10 @@ public class UpdateBolting {
 			ps.setInt(i, mb.getBoltingID()); //ALWAYS LAST
 			i++;
 			ps.execute();
+			
+			new Notification(	"Verschraubung wurde bearbeitet!", 
+								mb.getBoltingID() + " " + mb.getBolting(), 
+								NotificationType.SUCCESS);
 			
 			System.out.println("Änderungen an Verschraubung " + mb.getBoltingID() + " wurden in Datenbank gespeichert!");
 			

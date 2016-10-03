@@ -1,10 +1,5 @@
 package de.michaprogs.crm.bolting;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import de.michaprogs.crm.database.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,99 +10,29 @@ public class ModelBolting {
 	
 	private ObservableList<ModelBolting> obsListBoltings = FXCollections.observableArrayList();
 	
-	//Database
-	private Connection con = null;
-	private PreparedStatement ps = null;
-	private ResultSet rs = null;
-	
+	/**
+	 * Constructor for Database (Select All Boltings)
+	 */
 	public ModelBolting(){}
 	
 	/**
+	 * Constructor for Database (Insert Bolting)
+	 * @param bolting
+	 */	
+	public ModelBolting(String bolting){
+		this.bolting = bolting;
+	}
+	
+	/**
 	 * Consturctor for ObservableList <br>
-	 * Constructor for Database (Bolting Insert)
-	 * Constructor for Database (Bolting Update)
+	 * Constructor for Database (Update Bolting)
+	 * Constructor for Database (Delete Bolting)
 	 * @param boltingID
 	 * @param bolting
 	 */
 	public ModelBolting(int boltingID, String bolting){
 		this.boltingID = boltingID;
 		this.bolting = bolting;
-	}
-	
-	public void insertBolting(String bolting){
-		
-		try{
-			
-			String stmt = "INSERT INTO bolting (bolting) VALUES (?)";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			ps.setString(1, bolting);
-			ps.execute();
-			
-			System.out.println("Verschraubung " + bolting + " zur Datenbank hinzugefügt");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try {
-				closeConnection();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}		
-	}
-
-	public void selectBoltings(){
-		
-		try{
-			
-			String stmt = "SELECT * FROM bolting";
-			
-			con = new DBConnect().getConnection();
-			ps = con.prepareStatement(stmt);
-			rs = ps.executeQuery();
-			
-			while(rs.next()){
-				
-				obsListBoltings.add(new ModelBolting(
-					rs.getInt("boltingID"),
-					rs.getString("bolting")
-				));
-				
-			}
-			
-			System.out.println("Alle Verschraubungen aus Datenbank geladen");
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try {
-				closeConnection();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}	
-		
-	}
-	
-	
-	
-	private void closeConnection(){
-		
-		try{
-			
-			if(rs != null)
-				rs.close();
-			if(ps != null)
-				ps.close();
-			if(con != null)
-				con.close();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
 	}
 	
 	/*

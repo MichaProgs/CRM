@@ -7,33 +7,28 @@ import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.database.DBConnect;
 import tray.notification.NotificationType;
 
-public class UpdateBarrelsize {
+public class InsertBarrelsize {
 
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public UpdateBarrelsize(ModelBarrelsize mb){
-	
+	public InsertBarrelsize(ModelBarrelsize mb){
+		
 		try{
 			
-			String stmt = "UPDATE barrelsize SET barrelsize = ? "
-										+ "WHERE barrelsizeID = ?";
+			String stmt = "INSERT INTO barrelsize (barrelsize) VALUES (?)";
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
-			int i = 1;
-			ps.setString(i, mb.getBarrelsize());
-			i++;
-			ps.setInt(i, mb.getBarrelsizeID()); //ALWAYS LAST
-			i++;
+			ps.setString(1, mb.getBarrelsize());
 			ps.execute();
 			
-			new Notification(	"Gebindegröße wurde bearbeitet!", 
-								mb.getBarrelsizeID() + " " + mb.getBarrelsize(), 
+			new Notification(	"Gebindegröße wurde gespeichert!", 
+								mb.getBarrelsize(), 
 								NotificationType.SUCCESS);
 			
-			System.out.println("Änderungen an Gebindegröße " + mb.getBarrelsizeID() + " " + mb.getBarrelsizeID() + " wurden in Datenbank gespeichert!");
+			System.out.println("Gebindegröße " + mb.getBarrelsize() + " zur Datenbank hinzugefügt");
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -46,8 +41,7 @@ public class UpdateBarrelsize {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		
+		}		
 	}
 	
 }

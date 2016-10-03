@@ -3,7 +3,9 @@ package de.michaprogs.crm.barrelsize;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import de.michaprogs.crm.components.Notification;
 import de.michaprogs.crm.database.DBConnect;
+import tray.notification.NotificationType;
 
 public class DeleteBarrelsize {
 
@@ -11,7 +13,7 @@ public class DeleteBarrelsize {
 	private Connection con;
 	private PreparedStatement ps;
 	
-	public DeleteBarrelsize(int barrelsizeID){
+	public DeleteBarrelsize(ModelBarrelsize mb){
 		
 		try{
 			
@@ -19,10 +21,14 @@ public class DeleteBarrelsize {
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
-			ps.setInt(1, barrelsizeID);
+			ps.setInt(1, mb.getBarrelsizeID());
 			ps.execute();
 			
-			System.out.println("Gebindegröße " + barrelsizeID + " wurde aus Datenbank gelöscht!");
+			new Notification(	"Gebindegröße wurde gelöscht!", 
+								mb.getBarrelsizeID() + " " + mb.getBarrelsize(), 
+								NotificationType.SUCCESS);
+			
+			System.out.println("Gebindegröße " + mb.getBarrelsizeID() + " " + mb.getBarrelsize() + " wurde aus Datenbank gelöscht!");
 			
 		}catch(Exception e){
 			e.printStackTrace();
