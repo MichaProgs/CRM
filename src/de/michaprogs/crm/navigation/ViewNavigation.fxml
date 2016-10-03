@@ -44,6 +44,7 @@
 							<TitledPane fx:id="tpDocuments" text="DOKUMENTE" id="tbSidenavigation">
 								<VBox styleClass="VboxContent">
 									<Button fx:id="btnOffer" text="ANGEBOT" id="btnSidebar" />
+									<Button fx:id="btnOrder" text="BESTELLUNG" id="btnSidebar" />
 									<Button text="LIEFERSCHEIN" id="btnSidebar" />
 									<Button text="RECHNUNG" id="btnSidebar" />
 								</VBox>

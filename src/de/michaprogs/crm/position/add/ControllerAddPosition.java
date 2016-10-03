@@ -137,7 +137,7 @@ public class ControllerAddPosition {
 						tfDescription2.getText(),
 						tfBarrelsize.getText(),
 						tfBolting.getText(),
-						new Validate().new ValidateDoubleTwoDigits().validateDouble(tfAmount.getText()),
+						new Validate().new ValidateCurrency().validateCurrency(tfAmount.getText()),
 						cbAmountUnit.getSelectionModel().getSelectedItem(),
 						new Validate().new ValidateCurrency().validateCurrency(tfVk.getText()),
 						new Validate().new ValidateCurrency().validateCurrency(tfEk.getText()),

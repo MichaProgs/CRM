@@ -2,7 +2,9 @@ package de.michaprogs.crm.barrelsize.add;
 
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.barrelsize.DeleteBarrelsize;
+import de.michaprogs.crm.barrelsize.InsertBarrelsize;
 import de.michaprogs.crm.barrelsize.ModelBarrelsize;
+import de.michaprogs.crm.barrelsize.SelectBarrelsize;
 import de.michaprogs.crm.barrelsize.UpdateBarrelsize;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -90,9 +92,17 @@ public class ControllerBarrelsizeAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				new ModelBarrelsize().insertbarrelsize(tfBarrelsize.getText());
-				refreshTable();
-				tfBarrelsize.clear();
+				if(! tfBarrelsize.getText().equals("")){
+					
+					new InsertBarrelsize(
+						new ModelBarrelsize(tfBarrelsize.getText()));
+					
+					refreshTable();
+					tfBarrelsize.clear();
+				
+				}else{
+					System.out.println("Bitte Bezeichnung angeben!");
+				}
 				
 			}
 		});
@@ -172,8 +182,15 @@ public class ControllerBarrelsizeAdd {
 		
 		if(tvBarrelsize.getSelectionModel().getSelectedItems().size() == 1){
 			if(new DeleteAlert().getDelete()){
-				new DeleteBarrelsize(tcBarrelsizeID.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()));
+				new DeleteBarrelsize(
+					new ModelBarrelsize(
+						tcBarrelsizeID.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex()),
+						tcBarrelsize.getCellData(tvBarrelsize.getSelectionModel().getSelectedIndex())
+					)
+				);
+				
 				refreshTable();
+				
 			}
 		}else{
 			System.out.println("Bitte 1 Zeile markieren!");
@@ -182,8 +199,7 @@ public class ControllerBarrelsizeAdd {
 	}
 
 	private void refreshTable(){		
-		ModelBarrelsize barrelsize = new ModelBarrelsize();
-		barrelsize.selectBarrelsizes();
+		ModelBarrelsize barrelsize = new SelectBarrelsize(new ModelBarrelsize()).getModelBarrelsize();
 		obsListBarrelsize = barrelsize.getObsListBarrelsizes();
 		tvBarrelsize.setItems(barrelsize.getObsListBarrelsizes());	
 	}

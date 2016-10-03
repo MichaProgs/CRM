@@ -39,7 +39,7 @@ public class ControllerMenuBar {
 		
 		//Content
 		customerData = new LoadCustomerData(false, main);
-		articleData  = new LoadArticleData(false, main);
+		articleData  = new LoadArticleData(false, 0, main);
 		supplierData =  new LoadSupplierData(false, 0, main);
 		offerData = new LoadOfferData(false, 0, 0, main);
 		

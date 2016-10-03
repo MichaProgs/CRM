@@ -24,11 +24,14 @@ public class CreateTables {
 		createTableSupplierContacts(new DBConnect().getConnection());
 		
 		createTableArticleSupplier(new DBConnect().getConnection());
+		new CreateTableArticleComparison(new DBConnect().getConnection());
+		new CreateTableArticleAccessoris(new DBConnect().getConnection());
 		
 		createTableWarehouse(new DBConnect().getConnection());
 		createTableStock(new DBConnect().getConnection());
 		
 		createTableOffer(new DBConnect().getConnection());
+		new CreateTableOrder(new DBConnect().getConnection());
 		
 	}
 	
@@ -462,8 +465,6 @@ public class CreateTables {
 									+ "CUSTOMERID INTEGER NOT NULL,"
 									+ "CLERKID INTEGER NOT NULL"
 									+ ")";
-			
-			//TODO ADD CLERK (SACHBEARBEITER)
 			
 			String stmt2 = "CREATE TABLE IF NOT EXISTS OfferArticle("
 									+ "OFFERID INTEGER NOT NULL,"	

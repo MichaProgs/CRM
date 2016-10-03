@@ -2,6 +2,7 @@ package de.michaprogs.crm.barrelsize.data;
 
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.barrelsize.ModelBarrelsize;
+import de.michaprogs.crm.barrelsize.SelectBarrelsize;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -188,8 +189,7 @@ public class ControllerBarrelsizeData {
 	
 	private void refreshTablebarrelsize(){		
 		
-		ModelBarrelsize barrelsize = new ModelBarrelsize();
-		barrelsize.selectBarrelsizes();
+		ModelBarrelsize barrelsize = new SelectBarrelsize(new ModelBarrelsize()).getModelBarrelsize();
 		obsListBarrelsize = barrelsize.getObsListBarrelsizes(); // Required for filter!
 		tvBarrelsize.setItems(obsListBarrelsize);	
 		

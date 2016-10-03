@@ -91,7 +91,7 @@ public class SelectOffer {
 						article.getDescription2(),
 						article.getBarrelsize(), 
 						article.getBolting(), 
-						rs.getDouble("amount"), 
+						rs.getBigDecimal("amount"), 
 						article.getAmountUnit(), 
 						rs.getBigDecimal("vk"),
 						rs.getBigDecimal("ek"),

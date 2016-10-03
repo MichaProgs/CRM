@@ -75,7 +75,7 @@ public class UpdateOffer {
 				count++;
 				ps.setInt(count, mo.getObsListArticle().get(index).getArticleID());
 				count++;
-				ps.setDouble(count, mo.getObsListArticle().get(index).getAmount());
+				ps.setBigDecimal(count, mo.getObsListArticle().get(index).getAmount());
 				count++;
 				ps.setBigDecimal(count, mo.getObsListArticle().get(index).getEk());
 				count++;

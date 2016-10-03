@@ -5,6 +5,7 @@ import de.michaprogs.crm.Main;
 import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.customer.data.LoadCustomerData;
 import de.michaprogs.crm.offer.data.LoadOfferData;
+import de.michaprogs.crm.order.data.LoadOrderData;
 import de.michaprogs.crm.stock.add.LoadStockAdd;
 import de.michaprogs.crm.supplier.data.LoadSupplierData;
 import javafx.event.ActionEvent;
@@ -28,6 +29,7 @@ public class ControllerNavigation {
 	@FXML private Button btnArticle;
 	@FXML private Button btnSupplier;
 	@FXML private Button btnOffer;
+	@FXML private Button btnOrder;
 	@FXML private Button btnStock;
 	
 	@FXML private TitledPane tpMainData;
@@ -38,6 +40,7 @@ public class ControllerNavigation {
 	private LoadSupplierData supplierData;
 	private LoadStockAdd stockAdd = new LoadStockAdd(false);
 	private LoadOfferData offerData;
+	private LoadOrderData orderData;
 	
 	private Main main;
 	
@@ -46,9 +49,10 @@ public class ControllerNavigation {
 	@FXML private void initialize(){	
 		
 		customerData = new LoadCustomerData(false, main);
-		articleData = new LoadArticleData(false, main);
+		articleData = new LoadArticleData(false, 0, main);
 		supplierData = new LoadSupplierData(false, 0, main);
 		offerData = new LoadOfferData(false,0,0, main);
+		orderData = new LoadOrderData(false, main);
 		
 		//Buttons
 		initBtnCollapse();
@@ -58,6 +62,7 @@ public class ControllerNavigation {
 		initBtnSupplier();
 		initBtnStock();
 		initBtnOffer();
+		initBtnOrder();
 		
 	}
 	
@@ -87,6 +92,7 @@ public class ControllerNavigation {
 					btnArticle.setText("");
 					btnSupplier.setText("");
 					btnOffer.setText("");
+					btnOrder.setText("");
 					btnStock.setText("");
 					
 					spSide.setPrefWidth(90);
@@ -102,6 +108,7 @@ public class ControllerNavigation {
 					
 					tpDocuments.setText("DOKUMENTE");
 					btnOffer.setText("ANGEBOT");
+					btnOrder.setText("BESTELLUNG");
 					/* SAME WIDTH AS IN THE FXML FILE */
 					spSide.setPrefWidth(250);
 					bpSide.setPrefWidth(250);
@@ -183,6 +190,21 @@ public class ControllerNavigation {
 			public void handle(ActionEvent event) {
 				main.getContentPane().setCenter(offerData.getContent());
 				main.getStage().setTitle(main.getProgramName() + " - Angebot");
+				setSizeToScene();
+			}
+		});
+		
+	}
+	
+	private void initBtnOrder(){
+		
+		//TODO setGraphic
+		btnOrder.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				main.getContentPane().setCenter(orderData.getContent());
+				main.getStage().setTitle(main.getProgramName() + " - Bestellung");
 				setSizeToScene();
 			}
 		});

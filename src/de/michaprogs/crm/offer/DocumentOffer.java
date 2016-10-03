@@ -24,6 +24,7 @@ public class DocumentOffer {
 	 */
 	
 	/* BILLING ADRESS */
+	private final String GREETING_BILLING = "GREETING_BILLING";
 	private final String SALUTATION_BILLING = "SALUTATION_BILLING";
 	private final String CUSTOMERID_BILLING = "CUSTOMERID_BILLING";
 	private final String NAME1_BILLING = "NAME1_BILLING";
@@ -35,6 +36,7 @@ public class DocumentOffer {
 	
 	private final String CONTACT_BILLING = "CONTACT_BILLING";
 	private final String PHONE_BILLING = "PHONE_BILLING";
+	private final String MOBILE_BILLING = "MOBILE_BILLING";
 	private final String FAX_BILLING = "FAX_BILLING";
 	private final String EMAIL_BILLING = "EMAIL_BILLING";
 	
@@ -48,6 +50,7 @@ public class DocumentOffer {
 	private final String PAYMENTTIME_SKONTO_NETTO_BILLING = "PAYMENTTIME_SKONTO_NETTO_BILLING";
 	
 	/* DELIVERYADRESS */
+	private final String GREETING_DELIVERY = "GREETING_DELIVERY";
 	private final String SALUTATION_DELIVERY = "SALUTATION_DELIVERY";
 	private final String CUSTOMERID_DELIVERY = "CUSTOMERID_DELIVERY";
 	private final String NAME1_DELIVERY = "NAME1_DELIVERY";
@@ -59,6 +62,7 @@ public class DocumentOffer {
 	
 	private final String CONTACT_DELIVERY = "CONTACT_DELIVERY";
 	private final String PHONE_DELIVERY = "PHONE_DELIVERY";
+	private final String MOBILE_DELIVERY= "MOBILE_DELIVERY";
 	private final String FAX_DELIVERY = "FAX_DELIVERY";
 	private final String EMAIL_DELIVERY = "EMAIL_DELIVERY";
 	
@@ -115,7 +119,7 @@ public class DocumentOffer {
 							ModelClerk modelClerk
 							){
 		
-		if(new PathProperties().loadProperty(PathProperties.KEY_OFFER_TEMPLATE).equals("")){
+		if(	new PathProperties().loadProperty(PathProperties.KEY_OFFER_TEMPLATE).equals("")){
 			new ErrorAlert("Es wurde keine *.docx-Datei als Vorlage angegeben.");
 			System.out.println("Keine *.docx Datei vorhanden!");
 			return;
@@ -256,8 +260,16 @@ public class DocumentOffer {
 		
 		String text = r.getText(0);
 		
-		/* BILLING */		
-		if(text.contains(SALUTATION_BILLING)){
+		/* BILLING */
+		if(text.contains(GREETING_BILLING)){
+			if(modelCustomerBilling.getSalutation().equals("Herr")){
+				r.setText(text.replace(GREETING_BILLING, "r " + modelCustomerBilling.getSalutation()), 0);
+			}else if(modelCustomerBilling.getSalutation().equals("Frau")){
+				r.setText(text.replace(GREETING_BILLING, " " + modelCustomerBilling.getSalutation()), 0);
+			}else{
+				r.setText(text.replace(GREETING_BILLING, " Damen und Herren"), 0);
+			}
+		}else if(text.contains(SALUTATION_BILLING)){
 			r.setText(text.replace(SALUTATION_BILLING, modelCustomerBilling.getSalutation()), 0);
 		}else if(text.contains(CUSTOMERID_BILLING)){
 			r.setText(text.replace(CUSTOMERID_BILLING, String.valueOf(modelCustomerBilling.getCustomerID())), 0);
@@ -277,6 +289,8 @@ public class DocumentOffer {
 			r.setText(text.replace(CONTACT_BILLING, modelCustomerBilling.getContact()), 0);
 		}else if(text.contains(PHONE_BILLING)){
 			r.setText(text.replace(PHONE_BILLING, modelCustomerBilling.getPhone()), 0);
+		}else if(text.contains(MOBILE_BILLING)){
+			r.setText(text.replace(MOBILE_BILLING, modelCustomerBilling.getMobile()), 0);
 		}else if(text.contains(FAX_BILLING)){
 			r.setText(text.replace(FAX_BILLING, modelCustomerBilling.getFax()), 0);
 		}else if(text.contains(EMAIL_BILLING)){
@@ -304,7 +318,15 @@ public class DocumentOffer {
 		}
 		
 		/* DELIVERY */
-		else if(text.contains(SALUTATION_DELIVERY)){
+		else if(text.contains(GREETING_DELIVERY)){
+			if(modelCustomerDelivery.getSalutation().equals("Herr")){
+				r.setText(text.replace(GREETING_DELIVERY, "r " + modelCustomerDelivery.getSalutation()), 0);
+			}else if(modelCustomerDelivery.getSalutation().equals("Frau")){
+				r.setText(text.replace(GREETING_DELIVERY, " " + modelCustomerDelivery.getSalutation()), 0);
+			}else{
+				r.setText(text.replace(GREETING_DELIVERY, " Damen und Herren"), 0);
+			}
+		}else if(text.contains(SALUTATION_DELIVERY)){
 			r.setText(text.replace(SALUTATION_DELIVERY, modelCustomerDelivery.getSalutation()), 0);
 		}else if(text.contains(CUSTOMERID_DELIVERY)){
 			r.setText(text.replace(CUSTOMERID_DELIVERY, String.valueOf(modelCustomerDelivery.getCustomerID())), 0);
@@ -324,6 +346,8 @@ public class DocumentOffer {
 			r.setText(text.replace(CONTACT_DELIVERY, modelCustomerDelivery.getContact()), 0);
 		}else if(text.contains(PHONE_DELIVERY)){
 			r.setText(text.replace(PHONE_DELIVERY, modelCustomerDelivery.getPhone()), 0);
+		}else if(text.contains(MOBILE_DELIVERY)){
+			r.setText(text.replace(MOBILE_DELIVERY, modelCustomerDelivery.getMobile()), 0);
 		}else if(text.contains(FAX_DELIVERY)){
 			r.setText(text.replace(FAX_DELIVERY, modelCustomerDelivery.getFax()), 0);
 		}else if(text.contains(EMAIL_DELIVERY)){
@@ -376,7 +400,11 @@ public class DocumentOffer {
 		
 		/* ARTICLE */
 		else if(text.contains(ARTICLEPOS)){
-			r.setText(text.replace(ARTICLEPOS, String.valueOf(indexOfArticle + 1)), 0);
+			if(indexOfArticle + 1 >= 10){
+				r.setText(text.replace(ARTICLEPOS, String.valueOf(indexOfArticle + 1)), 0);
+			}else{
+				r.setText(text.replace(ARTICLEPOS, 0 + String.valueOf(indexOfArticle + 1)), 0);
+			}
 		}else if(text.contains(ARTICLEID)){
 			r.setText(text.replace(ARTICLEID, String.valueOf(modelOffer.getObsListArticle().get(indexOfArticle).getArticleID())), 0);
 		}else if(text.contains(DESCRIPTION1)){
@@ -392,7 +420,11 @@ public class DocumentOffer {
 		}else if(text.contains(AMOUNTUNIT)){
 			r.setText(text.replace(AMOUNTUNIT, modelOffer.getObsListArticle().get(indexOfArticle).getAmountUnit()), 0);
 		}else if(text.contains(PRICEUNIT)){
-			r.setText(text.replace(PRICEUNIT, String.valueOf(modelOffer.getObsListArticle().get(indexOfArticle).getPriceUnit())), 0);	
+			if(modelOffer.getObsListArticle().get(indexOfArticle).getPriceUnit() == 1){
+				r.setText(text.replace(PRICEUNIT, ""), 0);
+			}else{
+				r.setText(text.replace(PRICEUNIT, String.valueOf(modelOffer.getObsListArticle().get(indexOfArticle).getPriceUnit())), 0);
+			}
 		}else if(text.contains(VKPRICE)){
 			r.setText(text.replace(VKPRICE, String.valueOf(modelOffer.getObsListArticle().get(indexOfArticle).getVk() + " €")), 0);
 		}else if(text.contains(TOTALPRICE)){
