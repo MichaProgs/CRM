@@ -20,7 +20,7 @@ public class ModelCustomer {
 	private String fax;
 	private String email;
 	private String web;
-	private String contact;
+	private String taxID;
 	private String ustID;
 	
 	private String payment;
@@ -30,6 +30,7 @@ public class ModelCustomer {
 	private int paymentSkonto;
 	private int paymentNetto;
 	private int skonto;
+	private String category;
 	
 	private String lastChange;
 	private String notes;
@@ -114,7 +115,7 @@ public class ModelCustomer {
 							String fax, 
 							String email, 
 							String web, 
-							String contact,
+							String taxID,
 							String ustID, 
 							String payment, 
 							String IBAN, 
@@ -123,6 +124,7 @@ public class ModelCustomer {
 							int paymentSkonto, 
 							int paymentNetto,
 							int skonto, 
+							String category,
 							String lastChange, 
 							String notes, 
 							int billingID) {
@@ -140,7 +142,7 @@ public class ModelCustomer {
 		this.fax = fax;
 		this.email = email;
 		this.web = web;
-		this.contact = contact;
+		this.taxID = taxID;
 		this.ustID = ustID;
 		this.payment = payment;
 		this.IBAN = IBAN;
@@ -149,6 +151,7 @@ public class ModelCustomer {
 		this.paymentSkonto = paymentSkonto;
 		this.paymentNetto = paymentNetto;
 		this.skonto = skonto;
+		this.category = category;
 		this.lastChange = lastChange;
 		this.notes = notes;
 		this.billingID = billingID;
@@ -279,12 +282,12 @@ public class ModelCustomer {
 		this.web = web;
 	}
 
-	public String getContact() {
-		return contact;
+	public String getTaxID() {
+		return taxID;
 	}
 
-	public void setContact(String contact) {
-		this.contact = contact;
+	public void setTaxID(String taxID) {
+		this.taxID = taxID;
 	}
 
 	public String getUstID() {
@@ -353,6 +356,14 @@ public class ModelCustomer {
 
 	public void setSkonto(int skonto) {
 		this.skonto = skonto;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public String getLastChange() {

@@ -37,7 +37,7 @@
 						<Button fx:id="btnNew" text="Neu" styleClass="btnTopbar" />
 						<Button fx:id="btnEdit" text="Bearbeiten" styleClass="btnTopbar" />
 						<!-- BtnEditSave is added with Java-Code -->
-						<!-- BtnEditAbort ist added with Java-Code -->
+						<!-- BtnEditAbort is added with Java-Code -->
 						<Button fx:id="btnDelete" text="Löschen" styleClass="btnTopbar" />
 					</HBox>
 				</StackPane>
@@ -108,8 +108,8 @@
 												<TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true" />
 												<Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 												<TextField fx:id="tfWeb" GridPane.columnIndex="1" GridPane.rowIndex="4" disable="true" />
-												<Label text="Ansprechpartner:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-												<TextField fx:id="tfContact" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
+												<Label text="Steuer-Nr." GridPane.columnIndex="0" GridPane.rowIndex="5" />
+												<TextField fx:id="tfTaxID" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
 												<Label text="Ust-ID-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 												<TextField fx:id="tfUstID" GridPane.columnIndex="1" GridPane.rowIndex="6" disable="true" />
 											<padding>
@@ -143,6 +143,8 @@
 													<TextFieldOnlyInteger fx:id="tfPaymentNetto" style="-fx-pref-width: 70;" disable="true" />
 													<Label text="Tage ohne Skonto" />
 												</HBox>
+												<Label text="Kategorie:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+												<ComboBox fx:id="cbCategory" GridPane.columnIndex="1" GridPane.rowIndex="7" disable="true" />
 											<padding>
 												<Insets top="10" bottom="10" left="10" right="10" />
 											</padding>	
@@ -197,8 +199,8 @@
 													<TextField fx:id="tfEmailBilling" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true" />
 													<Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 													<TextField fx:id="tfWebBilling" GridPane.columnIndex="1" GridPane.rowIndex="4" disable="true" />
-													<Label text="Ansprechpartner:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-													<TextField fx:id="tfContactBilling" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
+													<Label text="Steuer-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+													<TextField fx:id="tfTaxIDBilling" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
 													<Label text="Ust-ID-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 													<TextField fx:id="tfUstIDBilling" GridPane.columnIndex="1" GridPane.rowIndex="6" disable="true" />
 												<padding>
@@ -232,6 +234,8 @@
 														<TextFieldOnlyInteger fx:id="tfPaymentNettoBilling" style="-fx-pref-width: 70;" disable="true" />
 														<Label text="Tage ohne Skonto" />
 													</HBox>
+													<Label text="Kategorie:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+													<ComboBox fx:id="cbCategoryBilling" GridPane.columnIndex="1" GridPane.rowIndex="7" disable="true" />
 												<padding>
 													<Insets top="10" bottom="10" left="10" right="10" />
 												</padding>	
@@ -239,6 +243,7 @@
 											</HBox>
 											
 											<HBox spacing="10" alignment="CENTER_RIGHT" > 
+												<Button fx:id="btnBillingGoTo" text="Gehe Zu" disable="true" />
 												<Button fx:id="btnBillingAdd" text="Hinzufügen.." disable="true" />
 												<Button fx:id="btnBillingDelete" text="Löschen" disable="true" />
 											</HBox>

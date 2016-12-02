@@ -11,6 +11,7 @@ public class CreateTables {
 		
 		createTableCustomer(new DBConnect().getConnection());
 		createTableCustomerContacts(new DBConnect().getConnection());
+		new CreateTableCustomerCategory(new DBConnect().getConnection());
 		
 		createTableArticle(new DBConnect().getConnection());
 		
@@ -53,7 +54,7 @@ public class CreateTables {
 					+ "FAX VARCHAR_IGNORECASE,"
 					+ "EMAIL VARCHAR_IGNORECASE,"
 					+ "WEB VARCHAR_IGNORECASE,"
-					+ "CONTACTPERSON VARCHAR_IGNORECASE,"
+					+ "TAXID VARCHAR_IGNORECASE,"
 					+ "USTID VARCHAR_IGNORECASE, "
 					+ "PAYMENT VARCHAR_IGNORECASE, "
 					+ "IBAN VARCHAR_IGNORECASE,"
@@ -62,6 +63,7 @@ public class CreateTables {
 					+ "PAYMENTSKONTO INTEGER,"
 					+ "PAYMENTNETTO INTEGER,"
 					+ "SKONTO VARCHAR_IGNORECASE,"
+					+ "CATEGORY VARCHAR_IGNORECASE,"
 					+ "LASTCHANGE DATE,"
 					+ "NOTES VARCHAR_IGNORECASE,"
 					+ "BILLINGID INTEGER"

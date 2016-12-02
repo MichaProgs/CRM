@@ -71,7 +71,7 @@ public class ControllerOfferAdd {
 	@FXML private TextField tfFax;
 	@FXML private TextField tfEmail;
 	@FXML private TextField tfWeb;
-	@FXML private TextField tfContact;
+	@FXML private TextField tfTaxID;
 	@FXML private TextField tfUstID;
 	
 	@FXML private ComboBox<String> cbPayment;
@@ -81,6 +81,7 @@ public class ControllerOfferAdd {
 	@FXML private TextField tfPaymentSkonto;
 	@FXML private TextField tfPaymentNetto;
 	@FXML private TextField tfSkonto;
+	@FXML private ComboBox<String> cbCategory;
 	
 	/* CUSTOMER BILLINGADRESS */
 	@FXML private TextField tfCustomerIDBilling;
@@ -97,7 +98,7 @@ public class ControllerOfferAdd {
 	@FXML private TextField tfFaxBilling;
 	@FXML private TextField tfEmailBilling;
 	@FXML private TextField tfWebBilling;
-	@FXML private TextField tfContactBilling;
+	@FXML private TextField tfTaxIDBilling;
 	@FXML private TextField tfUstIDBilling;
 	
 	@FXML private ComboBox<String> cbPaymentBilling;
@@ -107,6 +108,7 @@ public class ControllerOfferAdd {
 	@FXML private TextField tfPaymentSkontoBilling;
 	@FXML private TextField tfSkontoBilling;
 	@FXML private TextField tfPaymentNettoBilling;
+	@FXML private ComboBox<String> cbCategoryBilling;
 	
 	/* ARTICLETABLE */
 	@FXML private TableView<ModelArticle> tvArticle;
@@ -413,7 +415,7 @@ public class ControllerOfferAdd {
 		tfFax.setText(customer.getFax());
 		tfEmail.setText(customer.getEmail());
 		tfWeb.setText(customer.getWeb());
-		tfContact.setText(customer.getContact());
+		tfTaxID.setText(customer.getTaxID());
 		tfUstID.setText(customer.getUstID());
 		
 		cbPayment.getSelectionModel().select(customer.getPayment());
@@ -424,6 +426,7 @@ public class ControllerOfferAdd {
 		tfPaymentSkonto.setText(String.valueOf(customer.getPaymentSkonto()));
 		tfPaymentNetto.setText(String.valueOf(customer.getPaymentNetto()));
 		tfSkonto.setText(String.valueOf(customer.getSkonto()));
+		cbCategory.getSelectionModel().select(customer.getCategory());
 		
 		//ALWAYS LAST - OTHERWISE THE DATA IN THE MODEL WOULD BE OVERWRITTEN
 		if(customer.getBillingID() != 0){
@@ -444,7 +447,7 @@ public class ControllerOfferAdd {
 			tfFaxBilling.setText(customerBilling.getFax());
 			tfEmailBilling.setText(customerBilling.getEmail());
 			tfWebBilling.setText(customerBilling.getWeb());
-			tfContactBilling.setText(customerBilling.getContact());
+			tfTaxIDBilling.setText(customerBilling.getTaxID());
 			tfUstIDBilling.setText(customerBilling.getUstID());
 			
 			cbPaymentBilling.getSelectionModel().select(customerBilling.getPayment());
@@ -455,6 +458,7 @@ public class ControllerOfferAdd {
 			tfPaymentSkontoBilling.setText(String.valueOf(customerBilling.getPaymentSkonto()));
 			tfPaymentNettoBilling.setText(String.valueOf(customerBilling.getPaymentNetto()));
 			tfSkontoBilling.setText(String.valueOf(customerBilling.getSkonto()));
+			cbCategoryBilling.getSelectionModel().select(customerBilling.getCategory());
 			
 		}else{				
 			resetFieldsBilling();				
@@ -489,7 +493,7 @@ public class ControllerOfferAdd {
 		tfFax.clear();
 		tfEmail.clear();
 		tfWeb.clear();
-		tfContact.clear();
+		tfTaxID.clear();
 		tfUstID.clear();
 		
 		cbPayment.getSelectionModel().selectFirst();
@@ -500,6 +504,7 @@ public class ControllerOfferAdd {
 		tfPaymentSkonto.clear();
 		tfPaymentNetto.clear();
 		tfSkonto.clear();
+		cbCategory.getSelectionModel().select("");
 		
 		resetFieldsBilling();
 		
@@ -524,7 +529,7 @@ public class ControllerOfferAdd {
 		tfFaxBilling.clear();
 		tfEmailBilling.clear();
 		tfWebBilling.clear();
-		tfContactBilling.clear();
+		tfTaxIDBilling.clear();
 		tfUstIDBilling.clear();
 		
 		cbPaymentBilling.getSelectionModel().selectFirst();
@@ -535,6 +540,7 @@ public class ControllerOfferAdd {
 		tfPaymentSkontoBilling.clear();
 		tfPaymentNettoBilling.clear();
 		tfSkontoBilling.clear();
+		cbCategoryBilling.getSelectionModel().select("");
 		
 	}
 			

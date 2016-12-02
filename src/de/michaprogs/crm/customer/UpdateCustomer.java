@@ -30,7 +30,7 @@ public class UpdateCustomer {
 				+ "fax = ?,"
 				+ "email = ?,"
 				+ "web = ?,"
-				+ "contactperson = ?,"
+				+ "taxID = ?,"
 				+ "ustID = ?,"
 				+ "payment = ?,"
 				+ "iban = ?,"
@@ -39,6 +39,7 @@ public class UpdateCustomer {
 				+ "paymentSkonto = ?,"
 				+ "paymentNetto = ?,"
 				+ "skonto = ?,"
+				+ "category = ?,"
 				+ "lastChange = ?,"
 				+ "notes = ?,"
 				+ "billingID = ? "
@@ -74,7 +75,7 @@ public class UpdateCustomer {
 			i++;
 			ps.setString(i, mc.getWeb());
 			i++;
-			ps.setString(i, mc.getContact());
+			ps.setString(i, mc.getTaxID());
 			i++;
 			ps.setString(i, mc.getUstID());
 			i++;
@@ -91,6 +92,8 @@ public class UpdateCustomer {
 			ps.setInt(i, mc.getPaymentNetto());
 			i++;
 			ps.setInt(i, mc.getSkonto());
+			i++;
+			ps.setString(i, mc.getCategory());
 			i++;
 			ps.setString(i, mc.getLastChange());
 			i++;

@@ -14,6 +14,8 @@ import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.UpdateCustomer;
 import de.michaprogs.crm.customer.ValidateCustomerSave;
 import de.michaprogs.crm.customer.add.LoadCustomerAdd;
+import de.michaprogs.crm.customer.category.ModelCustomerCategory;
+import de.michaprogs.crm.customer.category.SelectCustomerCategory;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
 import de.michaprogs.crm.offer.ModelOffer;
 import de.michaprogs.crm.offer.SelectOffer;
@@ -33,6 +35,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -57,7 +60,7 @@ public class ControllerCustomerData {
 	@FXML private TextField tfFax;
 	@FXML private TextField tfEmail;
 	@FXML private TextField tfWeb;
-	@FXML private TextField tfContact;
+	@FXML private TextField tfTaxID;
 	@FXML private TextField tfUstID;
 	
 	/* PAYMENT DATA */
@@ -68,6 +71,7 @@ public class ControllerCustomerData {
 	@FXML private TextField tfPaymentSkonto;
 	@FXML private TextField tfPaymentNetto;
 	@FXML private TextField tfSkonto;
+	@FXML private ComboBox<String> cbCategory;
 	
 	/* BILLING MAIN DATA */
 	@FXML private TextField tfCustomerIDBilling;
@@ -85,7 +89,7 @@ public class ControllerCustomerData {
 	@FXML private TextField tfFaxBilling;
 	@FXML private TextField tfEmailBilling;
 	@FXML private TextField tfWebBilling;
-	@FXML private TextField tfContactBilling;
+	@FXML private TextField tfTaxIDBilling;
 	@FXML private TextField tfUstIDBilling;
 	
 	/* BILLING PAYMENT DATA */
@@ -96,6 +100,7 @@ public class ControllerCustomerData {
 	@FXML private TextField tfPaymentSkontoBilling;
 	@FXML private TextField tfSkontoBilling;
 	@FXML private TextField tfPaymentNettoBilling;
+	@FXML private ComboBox<String> cbCategoryBilling;
 	
 	/* CONTACTS - NESTED CONTROLLER */
 	@FXML private ControllerContactData contactDataController; //fx:id + 'Controller'
@@ -121,6 +126,7 @@ public class ControllerCustomerData {
 	      private Button btnEditAbort = new Button("Abbrechen");
 	@FXML private Button btnDelete;
 	
+	@FXML private Button btnBillingGoTo;
 	@FXML private Button btnBillingAdd;
 	@FXML private Button btnBillingDelete;
 	
@@ -141,6 +147,8 @@ public class ControllerCustomerData {
 		new InitCombos().initComboPayment(cbPaymentBilling);
 		new InitCombos().initComboSalutation(cbSalutationBilling);
 		
+		cbCategory.setItems(new SelectCustomerCategory(new ModelCustomerCategory()).getModelCustomerCategory().getObsListCustomerCategoriesComboBox());
+		
 		/* BUTTONS */
 		initBtnSearch();
 		initBtnNew();
@@ -149,6 +157,7 @@ public class ControllerCustomerData {
 		initBtnEditAbort();
 		initBtnDelete();
 		
+		initBtnBillingGoTo();
 		initBtnBillingAdd();
 		initBtnBillingDelete();
 		
@@ -246,7 +255,7 @@ public class ControllerCustomerData {
 							tfFax.getText(), 
 							tfEmail.getText(),
 							tfWeb.getText(), 
-							tfContact.getText(), 
+							tfTaxID.getText(), 
 							tfUstID.getText(), 
 							
 							cbPayment.getSelectionModel().getSelectedItem(), 
@@ -255,7 +264,8 @@ public class ControllerCustomerData {
 							tfBank.getText(), 
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()), 
-							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
+							cbCategory.getSelectionModel().getSelectedItem(),
 							
 							String.valueOf(LocalDate.now()), 
 							taNotes.getText(),
@@ -329,6 +339,20 @@ public class ControllerCustomerData {
 		
 	}
 	
+	private void initBtnBillingGoTo(){
+		
+		btnBillingGoTo.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+
+				selectCustomer(Integer.valueOf(tfCustomerIDBilling.getText()));
+				
+			}
+		});
+		
+	}
+	
 	private void initBtnBillingAdd(){
 		
 		btnBillingAdd.setOnAction(new EventHandler<ActionEvent>() {
@@ -354,7 +378,7 @@ public class ControllerCustomerData {
 					tfFaxBilling.setText(customer.getFax());
 					tfEmailBilling.setText(customer.getEmail());
 					tfWebBilling.setText(customer.getWeb());
-					tfContactBilling.setText(customer.getContact());
+					tfTaxIDBilling.setText(customer.getTaxID());
 					tfUstIDBilling.setText(customer.getUstID());
 					
 					cbPaymentBilling.getSelectionModel().select(customer.getPayment());
@@ -364,6 +388,7 @@ public class ControllerCustomerData {
 					tfPaymentNettoBilling.setText(String.valueOf(customer.getPaymentNetto()));
 					tfPaymentSkontoBilling.setText(String.valueOf(customer.getPaymentSkonto()));
 					tfSkontoBilling.setText(String.valueOf(customer.getSkonto()));
+					cbCategory.getSelectionModel().select(customer.getCategory());
 					
 				}
 				
@@ -401,6 +426,18 @@ public class ControllerCustomerData {
 		
 		tvOffer.setContextMenu(new ContextMenuTableOffer());
 		
+		tvOffer.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+
+				if(event.getClickCount() == 2){
+					goToOffer();
+				}
+				
+			}
+		});
+		
 	}
 	
 	/*
@@ -424,7 +461,7 @@ public class ControllerCustomerData {
 		tfFax.setText(customer.getFax());
 		tfEmail.setText(customer.getEmail());
 		tfWeb.setText(customer.getWeb());
-		tfContact.setText(customer.getContact());
+		tfTaxID.setText(customer.getTaxID());
 		tfUstID.setText(customer.getUstID());
 		
 		cbPayment.getSelectionModel().select(customer.getPayment());
@@ -435,6 +472,7 @@ public class ControllerCustomerData {
 		tfPaymentSkonto.setText(String.valueOf(customer.getPaymentSkonto()));
 		tfPaymentNetto.setText(String.valueOf(customer.getPaymentNetto()));
 		tfSkonto.setText(String.valueOf(customer.getSkonto()));
+		cbCategory.getSelectionModel().select(customer.getCategory());
 		
 		contactDataController.setTableData(customer.getObsListContacts());
 		
@@ -468,7 +506,7 @@ public class ControllerCustomerData {
 			tfFaxBilling.setText(customerBilling.getFax());
 			tfEmailBilling.setText(customerBilling.getEmail());
 			tfWebBilling.setText(customerBilling.getWeb());
-			tfContactBilling.setText(customerBilling.getContact());
+			tfTaxIDBilling.setText(customerBilling.getTaxID());
 			tfUstIDBilling.setText(customerBilling.getUstID());
 			
 			cbPaymentBilling.getSelectionModel().select(customerBilling.getPayment());
@@ -479,9 +517,10 @@ public class ControllerCustomerData {
 			tfPaymentSkontoBilling.setText(String.valueOf(customerBilling.getPaymentSkonto()));
 			tfPaymentNettoBilling.setText(String.valueOf(customerBilling.getPaymentNetto()));
 			tfSkontoBilling.setText(String.valueOf(customerBilling.getSkonto()));
+			cbCategoryBilling.getSelectionModel().select(customer.getCategory());
 			
 		}else{				
-			resetFieldsBilling();				
+			resetFieldsBilling();		
 		}
 		
 		setButtonState();
@@ -517,7 +556,7 @@ public class ControllerCustomerData {
 		tfFax.setDisable(false);
 		tfEmail.setDisable(false);
 		tfWeb.setDisable(false);
-		tfContact.setDisable(false);
+		tfTaxID.setDisable(false);
 		tfUstID.setDisable(false);
 		
 		cbPayment.setDisable(false);
@@ -528,6 +567,7 @@ public class ControllerCustomerData {
 		tfPaymentSkonto.setDisable(false);
 		tfPaymentNetto.setDisable(false);
 		tfSkonto.setDisable(false);
+		cbCategory.setDisable(false);
 		
 		taNotes.setDisable(false);
 		
@@ -549,7 +589,7 @@ public class ControllerCustomerData {
 		tfFax.setDisable(true);
 		tfEmail.setDisable(true);
 		tfWeb.setDisable(true);
-		tfContact.setDisable(true);
+		tfTaxID.setDisable(true);
 		tfUstID.setDisable(true);
 		
 		cbPayment.setDisable(true);
@@ -560,6 +600,7 @@ public class ControllerCustomerData {
 		tfPaymentSkonto.setDisable(true);
 		tfPaymentNetto.setDisable(true);
 		tfSkonto.setDisable(true);
+		cbCategory.setDisable(true);
 		
 		taNotes.setDisable(true);
 		
@@ -581,7 +622,7 @@ public class ControllerCustomerData {
 		tfFax.clear();
 		tfEmail.clear();
 		tfWeb.clear();
-		tfContact.clear();
+		tfTaxIDBilling.clear();
 		tfUstID.clear();
 		
 		cbPayment.getSelectionModel().selectFirst();
@@ -592,6 +633,7 @@ public class ControllerCustomerData {
 		tfPaymentSkonto.clear();
 		tfPaymentNetto.clear();
 		tfSkonto.clear();
+		cbCategory.getSelectionModel().select("");
 		
 		resetFieldsBilling();
 		
@@ -618,7 +660,7 @@ public class ControllerCustomerData {
 		tfFaxBilling.clear();
 		tfEmailBilling.clear();
 		tfWebBilling.clear();
-		tfContactBilling.clear();
+		tfTaxIDBilling.clear();
 		tfUstIDBilling.clear();
 		
 		cbPaymentBilling.getSelectionModel().selectFirst();
@@ -629,6 +671,7 @@ public class ControllerCustomerData {
 		tfPaymentSkontoBilling.clear();
 		tfPaymentNettoBilling.clear();
 		tfSkontoBilling.clear();
+		cbCategoryBilling.getSelectionModel().select("");
 		
 	}
 	
@@ -655,6 +698,7 @@ public class ControllerCustomerData {
 				btnEdit.setDisable(true);
 				
 				/* BILLING */
+				btnBillingGoTo.setDisable(true);
 				btnBillingAdd.setDisable(false);
 				btnBillingDelete.setDisable(false);
 								
@@ -673,6 +717,11 @@ public class ControllerCustomerData {
 				btnDelete.setDisable(false);
 				
 				/* BILLING */
+				if(! tfCustomerIDBilling.getText().equals("")){
+					btnBillingGoTo.setDisable(false);
+				}else{
+					btnBillingGoTo.setDisable(true);
+				}
 				btnBillingAdd.setDisable(true);
 				btnBillingDelete.setDisable(true);
 				
@@ -691,6 +740,20 @@ public class ControllerCustomerData {
 			return true;
 		}else{
 			return false;
+		}
+		
+	}
+	
+	private void goToOffer(){
+		
+		if(tvOffer.getSelectionModel().getSelectedItems().size() == 1){
+			main.getContentPane().setCenter(new LoadOfferData(	false, 
+																tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getOfferID(), 
+																tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getCustomerID(),
+																main
+											).getContent());				
+		}else{
+			System.out.println("Bitte 1 Zeile markieren!");
 		}
 		
 	}
@@ -746,16 +809,7 @@ public class ControllerCustomerData {
 
 				@Override
 				public void handle(ActionEvent event) {	
-					
-					if(tvOffer.getSelectionModel().getSelectedItems().size() == 1){
-						main.getContentPane().setCenter(new LoadOfferData(	false, 
-																			tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getOfferID(), 
-																			tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getCustomerID(),
-																			main
-														).getContent());				
-					}else{
-						System.out.println("Bitte 1 Zeile markieren!");
-					}
+					goToOffer();
 				}
 			});
 			

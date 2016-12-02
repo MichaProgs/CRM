@@ -164,8 +164,8 @@
 														<TextField fx:id="tfEmail" promptText="company@domain.de" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true" />
 														<Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 														<TextField fx:id="tfWeb" promptText="www.domain.de" GridPane.columnIndex="1" GridPane.rowIndex="4" disable="true" />
-														<Label text="Ansprechpartner:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-														<TextField fx:id="tfContact" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
+														<Label text="Steuer-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+														<TextField fx:id="tfTaxID" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
 														<Label text="Ust-ID-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 														<TextField fx:id="tfUstID" GridPane.columnIndex="1" GridPane.rowIndex="6" disable="true" />
 													<padding>
@@ -199,6 +199,8 @@
 															<TextFieldOnlyInteger fx:id="tfPaymentNetto" style="-fx-pref-width: 60;" disable="true" />
 															<Label text="Tage ohne Skonto" />
 														</HBox>
+														<Label text="Kategorie:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+														<ComboBox fx:id="cbCategory" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 													<padding>
 														<Insets top="10" bottom="10" left="10" right="10" />
 													</padding>	
@@ -253,8 +255,8 @@
 														<TextField fx:id="tfEmailBilling" promptText="company@domain.de" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true" />
 														<Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 														<TextField fx:id="tfWebBilling" promptText="www.domain.de" GridPane.columnIndex="1" GridPane.rowIndex="4" disable="true" />
-														<Label text="Ansprechpartner:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-														<TextField fx:id="tfContactBilling" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
+														<Label text="Steuer-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+														<TextField fx:id="tfTaxIDBilling" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
 														<Label text="Ust-ID-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 														<TextField fx:id="tfUstIDBilling" GridPane.columnIndex="1" GridPane.rowIndex="6" disable="true" />
 													<padding>
@@ -288,6 +290,8 @@
 															<TextFieldOnlyInteger fx:id="tfPaymentNettoBilling" style="-fx-pref-width: 60;" disable="true" />
 															<Label text="Tage ohne Skonto" />
 														</HBox>
+														<Label text="Kategorie:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+														<ComboBox fx:id="cbCategoryBilling" GridPane.columnIndex="1" GridPane.rowIndex="7" disable="true" />
 													<padding>
 														<Insets top="10" bottom="10" left="10" right="10" />
 													</padding>	

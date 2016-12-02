@@ -7,11 +7,15 @@ import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.articlecategory.ModelArticleCategory;
+import de.michaprogs.crm.articlecategory.SelectArticleCategory;
 import de.michaprogs.crm.contact.data.ControllerContactData;
 import de.michaprogs.crm.customer.InsertCustomer;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.ValidateCustomerSave;
+import de.michaprogs.crm.customer.category.ModelCustomerCategory;
+import de.michaprogs.crm.customer.category.SelectCustomerCategory;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,7 +44,7 @@ public class ControllerCustomerAdd {
 	@FXML private TextField tfFax;
 	@FXML private TextField tfEmail;
 	@FXML private TextField tfWeb;
-	@FXML private TextField tfContact;
+	@FXML private TextField tfTaxID;
 	@FXML private TextField tfUstID;
 	
 	@FXML private ComboBox<String> cbPayment;
@@ -50,6 +54,7 @@ public class ControllerCustomerAdd {
 	@FXML private TextField tfPaymentSkonto;
 	@FXML private TextField tfSkonto;
 	@FXML private TextField tfPaymentNetto;
+	@FXML private ComboBox<String> cbCategory;
 	
 	/* BILLING */
 	@FXML private TextField tfCustomerIDBilling;
@@ -66,7 +71,7 @@ public class ControllerCustomerAdd {
 	@FXML private TextField tfFaxBilling;
 	@FXML private TextField tfEmailBilling;
 	@FXML private TextField tfWebBilling;
-	@FXML private TextField tfContactBilling;
+	@FXML private TextField tfTaxIDBilling;
 	@FXML private TextField tfUstIDBilling;
 	
 	@FXML private ComboBox<String> cbPaymentBilling;
@@ -76,6 +81,7 @@ public class ControllerCustomerAdd {
 	@FXML private TextField tfPaymentSkontoBilling;
 	@FXML private TextField tfSkontoBilling;
 	@FXML private TextField tfPaymentNettoBilling;
+	@FXML private ComboBox<String> cbCategoryBilling;
 	
 	/* CONTACTS - NESTED CONTROLLER */
 	@FXML private ControllerContactData contactDataController; //fx:id + 'Controller'
@@ -108,6 +114,8 @@ public class ControllerCustomerAdd {
 		new InitCombos().initComboPayment(cbPaymentBilling);
 		new InitCombos().initComboSalutation(cbSalutationBilling);
 		
+		cbCategory.setItems(new SelectCustomerCategory(new ModelCustomerCategory()).getModelCustomerCategory().getObsListCustomerCategoriesComboBox());
+		
 		initBtnSave();
 		initBtnAbort();
 		
@@ -129,7 +137,7 @@ public class ControllerCustomerAdd {
 				
 				if(new ValidateCustomerSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
 												tfName1.getText()).isValid()){
-				
+					
 					InsertCustomer insert = new InsertCustomer(
 						new ModelCustomer(
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
@@ -146,7 +154,7 @@ public class ControllerCustomerAdd {
 							tfFax.getText(), 
 							tfEmail.getText(), 
 							tfWeb.getText(), 
-							tfContact.getText(), 
+							tfTaxID.getText(), 
 							tfUstID.getText(), 
 							
 							cbPayment.getSelectionModel().getSelectedItem(), 
@@ -156,6 +164,7 @@ public class ControllerCustomerAdd {
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()),
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
+							cbCategory.getSelectionModel().getSelectedItem(),
 							
 							String.valueOf(LocalDate.now()),
 							taNotes.getText(),
@@ -230,7 +239,7 @@ public class ControllerCustomerAdd {
 					tfFaxBilling.setText(customer.getFax());
 					tfEmailBilling.setText(customer.getEmail());
 					tfWebBilling.setText(customer.getWeb());
-					tfContactBilling.setText(customer.getContact());
+					tfTaxIDBilling.setText(customer.getTaxID());
 					tfUstIDBilling.setText(customer.getUstID());
 					
 					cbPaymentBilling.getSelectionModel().select(customer.getPayment());
@@ -240,6 +249,7 @@ public class ControllerCustomerAdd {
 					tfPaymentNettoBilling.setText(String.valueOf(customer.getPaymentNetto()));
 					tfPaymentSkontoBilling.setText(String.valueOf(customer.getPaymentSkonto()));
 					tfSkontoBilling.setText(String.valueOf(customer.getSkonto()));
+					cbCategoryBilling.getSelectionModel().select(customer.getCategory());
 					
 				}
 				
@@ -272,7 +282,7 @@ public class ControllerCustomerAdd {
 					tfFaxBilling.clear();
 					tfEmailBilling.clear();
 					tfWebBilling.clear();
-					tfContactBilling.clear();
+					tfTaxIDBilling.clear();
 					tfUstIDBilling.clear();
 					
 					cbPaymentBilling.getSelectionModel().selectFirst();
@@ -283,6 +293,7 @@ public class ControllerCustomerAdd {
 					tfPaymentSkontoBilling.clear();
 					tfPaymentNettoBilling.clear();
 					tfSkontoBilling.clear();
+					cbCategoryBilling.getSelectionModel().select("");
 					
 				}
 				

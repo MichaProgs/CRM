@@ -150,7 +150,7 @@ public class ModelArticle {
 	}
 	
 	/**
-	 * Constructor fro Database (Delete Article)
+	 * Constructor for Database (Delete Article)
 	 * @param articleID
 	 * @param description1
 	 */

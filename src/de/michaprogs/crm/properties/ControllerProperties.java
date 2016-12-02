@@ -6,6 +6,7 @@ import de.michaprogs.crm.articlecategory.add.LoadArticleCategoryAdd;
 import de.michaprogs.crm.barrelsize.add.LoadBarrelsizeAdd;
 import de.michaprogs.crm.bolting.add.LoadBoltingAdd;
 import de.michaprogs.crm.clerk.add.LoadClerkAdd;
+import de.michaprogs.crm.customer.category.add.LoadCustomerCategoryAdd;
 import de.michaprogs.crm.paths.LoadPaths;
 import de.michaprogs.crm.warehouse.add.LoadWarehouseAdd;
 import javafx.beans.value.ChangeListener;
@@ -30,6 +31,7 @@ public class ControllerProperties {
 		  private TreeItem<String> itemVariablesBarrelsize = new TreeItem<String>("Gebindegrößen");
 		  private TreeItem<String> itemVariablesAmountUnit = new TreeItem<String>("Mengeneinheiten");
 		  private TreeItem<String> itemVariablesArticleCategories = new TreeItem<String>("Artikel-Kategorien");
+		  private TreeItem<String> itemVariablesCustomerCategories = new TreeItem<String>("Kunden-Kategorien");
 		  private TreeItem<String> itemVariablesWarehouse = new TreeItem<String>("Lager");
 		  private TreeItem<String> itemVariablesClerk = new TreeItem<String>("Sachbearbeiter");
 		
@@ -39,6 +41,7 @@ public class ControllerProperties {
 		  private LoadClerkAdd clerk;
 		  private LoadWarehouseAdd warehouse;
 		  private LoadArticleCategoryAdd articleCategory;
+		  private LoadCustomerCategoryAdd customerCategory;
 		  
 		  private LoadPaths paths;
 		  
@@ -55,6 +58,7 @@ public class ControllerProperties {
 		clerk = new LoadClerkAdd(false);
 		warehouse = new LoadWarehouseAdd(false);
 		articleCategory = new LoadArticleCategoryAdd(false, null);
+		customerCategory = new LoadCustomerCategoryAdd(false, null);
 		
 		paths = new LoadPaths(false, main);
 		
@@ -82,6 +86,7 @@ public class ControllerProperties {
 											itemVariablesBolting,
 											itemVariablesAmountUnit,
 											itemVariablesArticleCategories,
+											itemVariablesCustomerCategories,
 											itemVariablesWarehouse, 
 											itemVariablesClerk);
 		itemVariables.setExpanded(true);
@@ -110,6 +115,8 @@ public class ControllerProperties {
 					content.setCenter(clerk.getContent());
 				}else if(newValue.equals(itemVariablesWarehouse)){
 					content.setCenter(warehouse.getContent());
+				}else if(newValue.equals(itemVariablesCustomerCategories)){
+					content.setCenter(customerCategory.getContent());
 				}
 				
 				else if(newValue.equals(itemPaths)){

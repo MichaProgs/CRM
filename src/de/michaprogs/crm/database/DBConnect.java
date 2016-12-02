@@ -8,14 +8,14 @@ public class DBConnect {
 	static final String DB_URL = "database\\article";
 	static final String USER = "admin";
 	static final String PW = "";
-	static final String driver = "org.hsqldb.jdbcDriver";
+	static final String DRIVER = "org.hsqldb.jdbcDriver";
 	
 	private static Connection con;
 	
 	public DBConnect(){
 		
 		try{
-			Class.forName(driver);			
+			Class.forName(DRIVER);			
 			con = DriverManager.getConnection("jdbc:hsqldb:file:" + DB_URL, USER, PW);	
 			
 //			System.out.println("Connected to Database");

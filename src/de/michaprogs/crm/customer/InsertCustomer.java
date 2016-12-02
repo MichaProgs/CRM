@@ -36,7 +36,7 @@ public class InsertCustomer {
 				+ "fax,"
 				+ "email,"
 				+ "web,"
-				+ "contactperson,"
+				+ "taxID,"
 				+ "ustID,"
 				+ "payment,"
 				+ "iban,"
@@ -45,11 +45,12 @@ public class InsertCustomer {
 				+ "paymentskonto,"
 				+ "paymentnetto,"
 				+ "skonto,"
+				+ "category,"
 				+ "lastChange,"
 				+ "notes,"
 				+ "billingID)"
 				+ "VALUES "
-				+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
@@ -81,7 +82,7 @@ public class InsertCustomer {
 			i++;
 			ps.setString(i, mc.getWeb());
 			i++;
-			ps.setString(i, mc.getContact());
+			ps.setString(i, mc.getTaxID());
 			i++;
 			ps.setString(i, mc.getUstID());
 			i++;
@@ -98,6 +99,8 @@ public class InsertCustomer {
 			ps.setInt(i, mc.getPaymentNetto());
 			i++;
 			ps.setInt(i, mc.getSkonto());
+			i++;
+			ps.setString(i, mc.getCategory());
 			i++;
 			ps.setString(i, mc.getLastChange());
 			i++;

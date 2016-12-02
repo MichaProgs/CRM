@@ -44,7 +44,7 @@ public class SelectCustomer {
 				mc.setFax(rs.getString("fax"));
 				mc.setEmail(rs.getString("email"));
 				mc.setWeb(rs.getString("web"));
-				mc.setContact(rs.getString("contactperson"));
+				mc.setTaxID(rs.getString("taxID"));
 				mc.setUstID(rs.getString("ustID"));
 				
 				mc.setPayment(rs.getString("payment"));
@@ -54,6 +54,7 @@ public class SelectCustomer {
 				mc.setPaymentSkonto(rs.getInt("paymentSkonto"));
 				mc.setPaymentNetto(rs.getInt("paymentNetto"));
 				mc.setSkonto(rs.getInt("skonto"));
+				mc.setCategory(rs.getString("category"));
 				
 				mc.setNotes(rs.getString("notes"));
 				mc.setLastChange(rs.getString("lastChange"));

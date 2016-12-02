@@ -1,4 +1,4 @@
-package de.michaprogs.crm.articlecategory;
+package de.michaprogs.crm.customer.category;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,22 +6,22 @@ import java.sql.ResultSet;
 
 import de.michaprogs.crm.database.DBConnect;
 
-public class SelectArticleCategory {
+public class SelectCustomerCategory {
 
-	private ModelArticleCategory mac;
+	private ModelCustomerCategory mcc;
 	
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
 	private ResultSet rs;
 	
-	public SelectArticleCategory(ModelArticleCategory mac){
+	public SelectCustomerCategory(ModelCustomerCategory mcc){
 		
 		try{
 			
-			this.mac = mac;
+			this.mcc = mcc;
 			
-			String stmt = "SELECT * FROM ARTICLECATEGORY";
+			String stmt = "SELECT * FROM CUSTOMERCATEGORY";
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
@@ -30,17 +30,17 @@ public class SelectArticleCategory {
 			while(rs.next()){
 				
 				/* TABLES */
-				mac.getObsListArticleCategories().add(new ModelArticleCategory(
-														rs.getInt("articlecategoryid"),
-														rs.getString("articlecategory"))
+				mcc.getObsListCustomerCategories().add(new ModelCustomerCategory(
+														rs.getInt("customerCategoryID"),
+														rs.getString("customerCategory"))
 														);
 				
 				/* COMBO BOXES */
-				mac.getObsListArticleCategoriesComboBox().add(rs.getString("articlecategory"));
+				mcc.getObsListCustomerCategoriesComboBox().add(rs.getString("customercategory"));
 				
 			}
 			
-			System.out.println("Alle Artikel-Kategorien aus Datenbank geladen!");
+			System.out.println("Alle Kunden-Kategorien aus Datenbank geladen!");
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -59,8 +59,8 @@ public class SelectArticleCategory {
 		
 	}
 	
-	public ModelArticleCategory getModelArticleCategory(){
-		return mac;
+	public ModelCustomerCategory getModelCustomerCategory(){
+		return mcc;
 	}
 	
 }

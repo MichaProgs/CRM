@@ -87,7 +87,7 @@ public class ControllerOfferData {
 	@FXML private TextField tfFax;
 	@FXML private TextField tfEmail;
 	@FXML private TextField tfWeb;
-	@FXML private TextField tfContact;
+	@FXML private TextField tfTaxID;
 	@FXML private TextField tfUstID;
 	
 	@FXML private ComboBox<String> cbPayment;
@@ -97,6 +97,7 @@ public class ControllerOfferData {
 	@FXML private TextField tfPaymentSkonto;
 	@FXML private TextField tfPaymentNetto;
 	@FXML private TextField tfSkonto;
+	@FXML private ComboBox<String> cbCategory;
 	
 	/* CUSTOMER BILLINGADRESS */
 	@FXML private TextField tfCustomerIDBilling;
@@ -113,7 +114,7 @@ public class ControllerOfferData {
 	@FXML private TextField tfFaxBilling;
 	@FXML private TextField tfEmailBilling;
 	@FXML private TextField tfWebBilling;
-	@FXML private TextField tfContactBilling;
+	@FXML private TextField tfTaxIDBilling;
 	@FXML private TextField tfUstIDBilling;
 	
 	@FXML private ComboBox<String> cbPaymentBilling;
@@ -123,6 +124,7 @@ public class ControllerOfferData {
 	@FXML private TextField tfPaymentSkontoBilling;
 	@FXML private TextField tfSkontoBilling;
 	@FXML private TextField tfPaymentNettoBilling;
+	@FXML private ComboBox<String> cbCategoryBilling;
 	
 	/* ARTICLETABLE */
 	@FXML private TableView<ModelArticle> tvArticle;
@@ -442,7 +444,7 @@ public class ControllerOfferData {
 						tfFaxBilling.getText(), 
 						tfEmailBilling.getText(), 
 						tfWebBilling.getText(), 
-						tfContactBilling.getText(), 
+						tfTaxIDBilling.getText(), 
 						tfUstIDBilling.getText(), 
 						
 						cbPaymentBilling.getSelectionModel().getSelectedItem(), 
@@ -452,6 +454,7 @@ public class ControllerOfferData {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkontoBilling.getText()),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNettoBilling.getText()), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkontoBilling.getText()), 
+						cbCategoryBilling.getSelectionModel().getSelectedItem(),
 						"", 
 						"", 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())), 
@@ -472,7 +475,7 @@ public class ControllerOfferData {
 						tfFax.getText(), 
 						tfEmail.getText(), 
 						tfWeb.getText(), 
-						tfContact.getText(), 
+						tfTaxID.getText(), 
 						tfUstID.getText(), 
 						
 						cbPayment.getSelectionModel().getSelectedItem(), 
@@ -482,6 +485,7 @@ public class ControllerOfferData {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()), 
+						cbCategory.getSelectionModel().getSelectedItem(),
 						"", 
 						"", 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())), 
@@ -627,7 +631,7 @@ public class ControllerOfferData {
 		tfFax.setText(customer.getFax());
 		tfEmail.setText(customer.getEmail());
 		tfWeb.setText(customer.getWeb());
-		tfContact.setText(customer.getContact());
+		tfTaxID.setText(customer.getTaxID());
 		tfUstID.setText(customer.getUstID());
 		
 		cbPayment.getSelectionModel().select(customer.getPayment());
@@ -638,6 +642,7 @@ public class ControllerOfferData {
 		tfPaymentSkonto.setText(String.valueOf(customer.getPaymentSkonto()));
 		tfPaymentNetto.setText(String.valueOf(customer.getPaymentNetto()));
 		tfSkonto.setText(String.valueOf(customer.getSkonto()));
+		cbCategory.getSelectionModel().select(customer.getCategory());
 		
 		//ALWAYS LAST - OTHERWISE THE DATA IN THE MODEL WOULD BE OVERWRITTEN
 		if(customer.getBillingID() != 0){
@@ -658,7 +663,7 @@ public class ControllerOfferData {
 			tfFaxBilling.setText(customerBilling.getFax());
 			tfEmailBilling.setText(customerBilling.getEmail());
 			tfWebBilling.setText(customerBilling.getWeb());
-			tfContactBilling.setText(customerBilling.getContact());
+			tfTaxIDBilling.setText(customerBilling.getTaxID());
 			tfUstIDBilling.setText(customerBilling.getUstID());
 			
 			cbPaymentBilling.getSelectionModel().select(customerBilling.getPayment());
@@ -669,6 +674,7 @@ public class ControllerOfferData {
 			tfPaymentSkontoBilling.setText(String.valueOf(customerBilling.getPaymentSkonto()));
 			tfPaymentNettoBilling.setText(String.valueOf(customerBilling.getPaymentNetto()));
 			tfSkontoBilling.setText(String.valueOf(customerBilling.getSkonto()));
+			cbCategoryBilling.getSelectionModel().select(customerBilling.getCategory());
 			
 		}else{				
 			resetFieldsBilling();				
@@ -716,7 +722,7 @@ public class ControllerOfferData {
 		tfFax.clear();
 		tfEmail.clear();
 		tfWeb.clear();
-		tfContact.clear();
+		tfTaxID.clear();
 		tfUstID.clear();
 		
 		cbPayment.getSelectionModel().selectFirst();
@@ -727,6 +733,7 @@ public class ControllerOfferData {
 		tfPaymentSkonto.clear();
 		tfPaymentNetto.clear();
 		tfSkonto.clear();
+		cbCategory.getSelectionModel().select("");
 		
 		resetFieldsBilling();
 		
@@ -751,7 +758,7 @@ public class ControllerOfferData {
 		tfFaxBilling.clear();
 		tfEmailBilling.clear();
 		tfWebBilling.clear();
-		tfContactBilling.clear();
+		tfTaxIDBilling.clear();
 		tfUstIDBilling.clear();
 		
 		cbPaymentBilling.getSelectionModel().selectFirst();
@@ -762,6 +769,7 @@ public class ControllerOfferData {
 		tfPaymentSkontoBilling.clear();
 		tfPaymentNettoBilling.clear();
 		tfSkontoBilling.clear();
+		cbCategoryBilling.getSelectionModel().select("");
 		
 	}
 	
