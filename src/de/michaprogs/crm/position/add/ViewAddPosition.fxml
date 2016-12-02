@@ -15,6 +15,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.position.add.ControllerAddPosition">
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -67,18 +70,18 @@
 							</columnConstraints>
 							<Label text="Menge:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 							<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0" >
-								<TextFieldDouble fx:id="tfAmount" disable="true" style="-fx-pref-width: 100px;" />
-								<ComboBox fx:id="cbAmountUnit" disable="true" style="-fx-pref-width: 90px;"/>
+								<TextFieldDouble fx:id="tfAmount" style="-fx-pref-width: 100px;" alignment="CENTER_RIGHT" />
+								<ComboBox fx:id="cbAmountUnit" disable="true" style="-fx-pref-width: 130px;"/>
 							</HBox>
 							<Label text="Einkaufspreis:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 							<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER_LEFT">
-								<TextFieldDouble fx:id="tfEk"  disable="true" style="-fx-pref-width: 60px;" />
+								<TextFieldDouble fx:id="tfEk"  style="-fx-pref-width: 100px;" alignment="CENTER_RIGHT" />
 								<Label text="EUR" />
 								<ComboBox fx:id="cbPriceUnitEk" disable="true" style="-fx-pref-width: 90px;" />
 							</HBox>
 							<Label text="Verkaufspreis:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 							<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2" >
-								<TextFieldDouble fx:id="tfVk" disable="true" style="-fx-pref-width: 60px;" />
+								<TextFieldDouble fx:id="tfVk" style="-fx-pref-width: 100px;" alignment="CENTER_RIGHT" />
 								<Label text="EUR" />
 								<ComboBox fx:id="cbPriceUnitVk" disable="true" style="-fx-pref-width: 90px;" />
 							</HBox>
@@ -92,6 +95,26 @@
 						</padding>	
 						</GridPane>
 					</HBox>
+					
+					<TitledPane text="Hersteller / Lieferanten">
+						<VBox styleClass="VboxContent" spacing="10">											
+							<TableView fx:id="tvArticleSupplier" maxHeight="300" minHeight="100">
+								<columnResizePolicy>
+		                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+		               			</columnResizePolicy>
+								<columns>
+									<TableColumn fx:id="tcSupplierID" text="Lief.-Nr." prefWidth="100" minWidth="50" />
+									<TableColumn fx:id="tcSupplierName1" text="Lieferant" prefWidth="200" minWidth="150" />
+									<TableColumn fx:id="tcSupplierArticleID" text="Art.-Nr." prefWidth="100" minWidth="50" />
+									<TableColumn fx:id="tcSupplierDescription1" text="Kurztext1" prefWidth="200" minWidth="150" />
+									<TableColumn fx:id="tcSupplierDescription2" text="Kurztext2" prefWidth="200" minWidth="150" />
+									<TableColumn fx:id="tcSupplierEk" text="Preis" styleClass="tc-align-right" prefWidth="100" minWidth="50" />
+									<TableColumn fx:id="tcSupplierPriceUnit" text="PE" prefWidth="100" minWidth="50" />
+									<TableColumn fx:id="tcSupplierAmountUnit" text="Einheit" prefWidth="100" minWidth="50" />
+								</columns>
+							</TableView>										
+						</VBox>
+					</TitledPane>
 					
 				<padding>
 					<Insets bottom="10" left="10" right="10" top="10" /> 

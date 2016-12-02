@@ -99,7 +99,9 @@ public class SearchOrder {
 							rs.getBigDecimal("ek"), 
 							article.getPriceUnit(), 
 							rs.getBigDecimal("total"), 
-							article.getTax()));
+							article.getTax(),
+							article.getLongtext()
+						));
 				
 			}
 			

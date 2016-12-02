@@ -26,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class ControllerOrderData {
@@ -102,6 +103,9 @@ public class ControllerOrderData {
 		initBtnSearch();
 		initBtnNew();
 		
+		/* TABLES */
+		initTableArticle();
+		
 	}
 	
 	/*
@@ -140,6 +144,28 @@ public class ControllerOrderData {
 				
 			}
 		});
+		
+	}
+	
+	/*
+	 * TABLES
+	 */
+	private void initTableArticle(){
+		
+		tcArticleID.setCellValueFactory(new PropertyValueFactory<>("articleID"));
+		tcDescription1.setCellValueFactory(new PropertyValueFactory<>("description1"));
+		tcDescription2.setCellValueFactory(new PropertyValueFactory<>("description2"));
+		tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));
+		tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));
+		tcAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+		tcAmount.getStyleClass().add("tc-align-right");
+		tcAmountUnit.setCellValueFactory(new PropertyValueFactory<>("amountUnit"));
+		tcVk.setCellValueFactory(new PropertyValueFactory<>("vk"));
+		tcVk.getStyleClass().add("tc-align-right");
+		tcPriceUnit.setCellValueFactory(new PropertyValueFactory<>("priceUnit"));
+		tcTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+		tcTotal.getStyleClass().add("tc-align-right");
+		tcTax.setCellValueFactory(new PropertyValueFactory<>("tax"));
 		
 	}
 	

@@ -34,7 +34,7 @@ public class SelectOrder {
 				mo.setOrderID(rs.getInt("orderID"));
 				mo.setOrderDate(rs.getString("orderDate"));
 				mo.setRequest(rs.getString("request"));
-				mo.setRequestDate(rs.getString("requestID"));
+				mo.setRequestDate(rs.getString("requestDate"));
 				mo.setNotes(rs.getString("notes"));
 				mo.setClerkID(rs.getInt("clerkID"));
 				mo.setSupplierID(rs.getInt("supplierID"));
@@ -45,24 +45,27 @@ public class SelectOrder {
 			ps = con.prepareStatement(stmt);
 			ps.setInt(1, mo.getOrderID());
 			rs = ps.executeQuery();
+			
 			while(rs.next()){
 				
 				ModelArticle article = new SelectArticle(new ModelArticle(rs.getInt("articleID"))).getModelArticle();
 				
 				mo.getObsListArticle().add(
-						new ModelArticle(
-							rs.getInt("articleID"), 
-							article.getDescription1(), 
-							article.getDescription2(), 
-							article.getBarrelsize(), 
-							article.getBolting(), 
-							rs.getBigDecimal("amount"), 
-							article.getAmountUnit(), 
-							rs.getBigDecimal("vk"), 
-							rs.getBigDecimal("ek"), 
-							article.getPriceUnit(), 
-							rs.getBigDecimal("total"), 
-							article.getTax()));
+					new ModelArticle(
+						rs.getInt("articleID"), 
+						article.getDescription1(), 
+						article.getDescription2(), 
+						article.getBarrelsize(), 
+						article.getBolting(), 
+						rs.getBigDecimal("amount"), 
+						article.getAmountUnit(), 
+						rs.getBigDecimal("vk"), 
+						rs.getBigDecimal("ek"), 
+						article.getPriceUnit(), 
+						rs.getBigDecimal("total"), 
+						article.getTax(),
+						article.getLongtext()
+					));
 				
 			}
 			

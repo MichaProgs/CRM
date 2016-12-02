@@ -88,7 +88,7 @@
 														</columnConstraints>
 														<Label text="Sachbearbeiter-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 														<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0" >
-															<TextField fx:id="tfClerkID" disable="true" />
+															<TextField fx:id="tfClerkID" disable="true" id="tfWithBtn" />
 															<Button fx:id="btnClerkSearch" text="..." disable="true" />
 														</HBox>
 														<Label text="Sachbearbeiter:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -107,7 +107,7 @@
 											<TitledPane text="Bestell-Notizen">
 												<!-- First Block -->
 												<AnchorPane >
-													<TextArea fx:id="taNotes" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
+													<TextArea fx:id="taNotes" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" disable="true"/>
 												</AnchorPane>
 											</TitledPane>
 										
@@ -130,7 +130,7 @@
 														</columnConstraints>
 														<Label text="Lieferanten-Nr." GridPane.columnIndex="0" GridPane.rowIndex="0" />
 															<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0" >
-																<TextFieldOnlyInteger fx:id="tfSupplierID" disable="true" />
+																<TextFieldOnlyInteger fx:id="tfSupplierID" disable="true" id="tfWithBtn" />
 																<Button fx:id="btnSupplierSearch" text="..." disable="true" />
 															</HBox>
 														<Label text="Name1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -142,7 +142,7 @@
 														<Label text="PLZ" GridPane.columnIndex="0" GridPane.rowIndex="4"  />
 														<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4" >
 															<ComboBox fx:id="cbLand" style="-fx-pref-width: 90;" disable="true" />
-															<TextFieldOnlyInteger fx:id="tfZip" style="-fx-pref-width: 100;" disable="true" />
+															<TextFieldOnlyInteger fx:id="tfZip" style="-fx-pref-width: 125;" disable="true" />
 														</HBox>
 														<Label text="Ort:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 														<TextField fx:id="tfLocation" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />

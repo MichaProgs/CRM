@@ -124,8 +124,8 @@
 														</columnConstraints>
 														<Label text="Lieferanten-Nr." GridPane.columnIndex="0" GridPane.rowIndex="0" />
 															<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0" >
-																<TextFieldOnlyInteger fx:id="tfSupplierID" disable="true" />
-																<Button fx:id="btnSupplierSearch" text="..." />
+																<TextFieldOnlyInteger fx:id="tfSupplierID" disable="true" id="tfWithBtn" />
+																<Button fx:id="btnSupplierSearch" text="" />
 															</HBox>
 														<Label text="Name1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 														<TextField fx:id="tfName1"  GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true" />
@@ -133,10 +133,10 @@
 														<TextField fx:id="tfName2" GridPane.columnIndex="1" GridPane.rowIndex="2" disable="true" />
 														<Label text="Straße:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 														<TextField fx:id="tfStreet" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true" />
-														<Label text="PLZ" GridPane.columnIndex="0" GridPane.rowIndex="4"  />
+														<Label text="PLZ:" GridPane.columnIndex="0" GridPane.rowIndex="4"  />
 														<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4" >
 															<ComboBox fx:id="cbLand" style="-fx-pref-width: 90;" disable="true" />
-															<TextFieldOnlyInteger fx:id="tfZip" style="-fx-pref-width: 100;" disable="true" />
+															<TextFieldOnlyInteger fx:id="tfZip" style="-fx-pref-width: 125;" disable="true" />
 														</HBox>
 														<Label text="Ort:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 														<TextField fx:id="tfLocation" GridPane.columnIndex="1" GridPane.rowIndex="5" disable="true" />
@@ -215,17 +215,17 @@
 						                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 						               			</columnResizePolicy>
 						               			<columns>
-						               				<TableColumn fx:id="tcArticleID" text="Artikel-Nr." />
-						               				<TableColumn fx:id="tcDescription1" text="Bezeichnung1" />
-						               				<TableColumn fx:id="tcDescription2" text="Bezeichnung2" />
-						               				<TableColumn fx:id="tcBarrelsize" text="Gebindegröße" />
-						               				<TableColumn fx:id="tcBolting" text="Verschraubung" />
-						               				<TableColumn fx:id="tcAmount" text="Menge" />
-						               				<TableColumn fx:id="tcAmountUnit" text="Einheit" />
-						               				<TableColumn fx:id="tcVk" text="Preis" />
-						               				<TableColumn fx:id="tcPriceUnit" text="PE" />
-						               				<TableColumn fx:id="tcTotal" text="Gesamt" />
-						               				<TableColumn fx:id="tcTax" text="MwSt (%)" />
+						               				<TableColumn fx:id="tcArticleID" text="Art.-Nr." prefWidth="70" minWidth="50" />
+						               				<TableColumn fx:id="tcDescription1" text="Bezeichnung1" prefWidth="200" minWidth="150" />
+						               				<TableColumn fx:id="tcDescription2" text="Bezeichnung2" prefWidth="200" minWidth="150" />
+						               				<TableColumn fx:id="tcBarrelsize" text="Gebindegröße" prefWidth="150" minWidth="100" />
+						               				<TableColumn fx:id="tcBolting" text="Verschraubung" prefWidth="150" minWidth="100" />
+						               				<TableColumn fx:id="tcAmount" text="Menge" prefWidth="100" minWidth="50" />
+						               				<TableColumn fx:id="tcAmountUnit" text="Einheit" prefWidth="100" minWidth="50" />
+						               				<TableColumn fx:id="tcVk" text="Preis" prefWidth="100" minWidth="50" />
+						               				<TableColumn fx:id="tcPriceUnit" text="PE" prefWidth="70" minWidth="50" />
+						               				<TableColumn fx:id="tcTotal" text="Gesamt" prefWidth="100" minWidth="50" />
+						               				<TableColumn fx:id="tcTax" text="MwSt (%)" prefWidth="70" minWidth="50" />
 						               			</columns>
 											</TableView>
 											

@@ -212,7 +212,8 @@ public class ModelArticle {
 							BigDecimal _ek,
 							int _priceUnit,
 							BigDecimal _total,
-							int _tax
+							int _tax,
+							String _longtext
 							){
 		
 		this.articleID = _articleID;
@@ -227,6 +228,7 @@ public class ModelArticle {
 		this.priceUnit = _priceUnit;
 		this.total = _total;
 		this.tax = _tax;
+		this.longtext = _longtext;
 		
 	}
 	

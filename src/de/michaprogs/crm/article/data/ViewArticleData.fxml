@@ -280,7 +280,7 @@
 									<TitledPane text="Produktfoto">
 										<VBox spacing="10" alignment="CENTER" styleClass="VboxContent">
 											<StackPane>
-												<ImageView fx:id="ivImage" fitHeight="250" fitWidth="250" StackPane.alignment="CENTER"/>
+												<ImageView fx:id="ivImage" fitHeight="250" fitWidth="250" StackPane.alignment="CENTER" />
 												<Button fx:id="btnImageDelete" text="X" StackPane.alignment="TOP_RIGHT" visible="false" style="-fx-background-color: red; -fx-border-width: 0; -fx-text-fill: #FFF;"/>
 											</StackPane>	
 											<Button fx:id="btnImageAdd" text="Hinzufügen" disable="true" />

@@ -13,6 +13,7 @@ import de.michaprogs.crm.amountunit.SelectAmountUnit;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.article.SelectArticle;
 import de.michaprogs.crm.article.search.LoadArticleSearch;
+import de.michaprogs.crm.article.supplier.ModelArticleSupplier;
 import de.michaprogs.crm.components.TextFieldDouble;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,7 +21,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class ControllerEditPosition {
@@ -39,6 +43,17 @@ public class ControllerEditPosition {
 	@FXML private TextFieldDouble tfVk;
 	@FXML private ComboBox<String> cbPriceUnitVk;
 	@FXML private ComboBox<String> cbTax;
+	
+	/* SUPPLIER */
+	@FXML private TableView<ModelArticleSupplier> tvArticleSupplier;
+	@FXML private TableColumn<ModelArticleSupplier, Integer> tcSupplierID;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierName1;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierArticleID; //SupplierArticleID could be with chars
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierDescription1;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierDescription2;
+	@FXML private TableColumn<ModelArticleSupplier, BigDecimal> tcSupplierEk;
+	@FXML private TableColumn<ModelArticleSupplier, Integer> tcSupplierPriceUnit;
+	@FXML private TableColumn<ModelArticleSupplier, String> tcSupplierAmountUnit;
 	
 	/* BUTTONS */
 	@FXML private Button btnArticleSearch;
@@ -63,6 +78,9 @@ public class ControllerEditPosition {
 		initBtnArticleSearch();
 		initBtnSave();
 		initBtnAbort();
+		
+		/* TABLES */
+		initTableArticleSupplier();
 		
 	}
 	
@@ -145,7 +163,8 @@ public class ControllerEditPosition {
 						new Validate().new ValidateCurrency().validateCurrency(tfEk.getText()),
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnitVk.getSelectionModel().getSelectedItem()),
 						total,
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem())
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()),
+						""
 					));
 					
 					if(stage != null){
@@ -184,6 +203,22 @@ public class ControllerEditPosition {
 				
 			}
 		});
+		
+	}
+	
+	/*
+	 * TABLES
+	 */
+	private void initTableArticleSupplier(){
+		
+		tcSupplierID.setCellValueFactory(new PropertyValueFactory<>("supplierID"));
+		tcSupplierName1.setCellValueFactory(new PropertyValueFactory<>("supplierName1"));
+		tcSupplierArticleID.setCellValueFactory(new PropertyValueFactory<>("supplierArticleID"));
+		tcSupplierDescription1.setCellValueFactory(new PropertyValueFactory<>("supplierDescription1"));
+		tcSupplierDescription2.setCellValueFactory(new PropertyValueFactory<>("supplierDescription2"));
+		tcSupplierEk.setCellValueFactory(new PropertyValueFactory<>("supplierEk"));
+		tcSupplierPriceUnit.setCellValueFactory(new PropertyValueFactory<>("supplierPriceUnit"));
+		tcSupplierAmountUnit.setCellValueFactory(new PropertyValueFactory<>("supplierAmountUnit"));
 		
 	}
 	
@@ -235,6 +270,10 @@ public class ControllerEditPosition {
 		tfVk.setText(String.valueOf(obsListArticle.get(index).getVk()));
 		cbPriceUnitVk.getSelectionModel().select(String.valueOf(obsListArticle.get(index).getPriceUnit()));
 		cbTax.getSelectionModel().select(obsListArticle.get(index).getTax());
+		
+		/* SUPPLIER */
+		ModelArticle article = new SelectArticle(new ModelArticle(obsListArticle.get(index).getArticleID())).getModelArticle();
+		tvArticleSupplier.setItems(article.getObsListArticleSupplier());
 	
 	}
 	
