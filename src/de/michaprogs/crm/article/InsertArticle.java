@@ -42,13 +42,14 @@ public class InsertArticle {
 				+ "amountunit,"
 				+ "tax,"
 				+ "longtext,"
+				+ "notes,"
 				+ "imagefilepath,"
 				+ "stockminunit,"
 				+ "stockmaxunit,"
 				+ "stockalertunit,"
 				+ "lastchange)"
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
-				+ ")"; //23
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
+				+ ")"; //24
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
@@ -88,6 +89,8 @@ public class InsertArticle {
 			ps.setInt(i, ma.getTax());
 			i++;
 			ps.setString(i, ma.getLongtext());
+			i++;
+			ps.setString(i, ma.getNotes());
 			i++;
 			ps.setString(i, ma.getImageFilepath());
 			i++;

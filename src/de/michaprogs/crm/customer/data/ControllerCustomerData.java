@@ -19,7 +19,7 @@ import de.michaprogs.crm.customer.category.SelectCustomerCategory;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
 import de.michaprogs.crm.offer.ModelOffer;
 import de.michaprogs.crm.offer.SelectOffer;
-import de.michaprogs.crm.offer.SelectOffer.Selection;
+import de.michaprogs.crm.offer.SelectOffer.OfferSelection;
 import de.michaprogs.crm.offer.add.LoadOfferAdd;
 import de.michaprogs.crm.offer.data.LoadOfferData;
 import javafx.event.ActionEvent;
@@ -517,7 +517,7 @@ public class ControllerCustomerData {
 			tfPaymentSkontoBilling.setText(String.valueOf(customerBilling.getPaymentSkonto()));
 			tfPaymentNettoBilling.setText(String.valueOf(customerBilling.getPaymentNetto()));
 			tfSkontoBilling.setText(String.valueOf(customerBilling.getSkonto()));
-			cbCategoryBilling.getSelectionModel().select(customer.getCategory());
+			cbCategoryBilling.getSelectionModel().select(customerBilling.getCategory());
 			
 		}else{				
 			resetFieldsBilling();		
@@ -530,7 +530,7 @@ public class ControllerCustomerData {
 	private void selectOffer(int _customerID){
 		
 		if(_customerID != 0){
-			tvOffer.setItems(new SelectOffer(new ModelOffer(_customerID), Selection.ALL_OFFER_FROM_CUSTOMER).getObsListOffer());
+			tvOffer.setItems(new SelectOffer(new ModelOffer(_customerID), OfferSelection.ALL_OFFER_FROM_CUSTOMER).getObsListOffer());
 		}else{
 			System.out.println("Bitte gültige Kundennummer wählen!");
 		}
@@ -790,12 +790,23 @@ public class ControllerCustomerData {
 				@Override
 				public void handle(WindowEvent event) {
 					
-					if(editable()){						
-						itemNew.setDisable(false);
-						itemGoTo.setDisable(false);						
-					}else{
+					if(tfCustomerID.getText().equals("")){
 						itemNew.setDisable(true);
-						itemGoTo.setDisable(false);
+						itemGoTo.setDisable(true);
+					}else{
+						
+						if(editable()){
+							itemNew.setDisable(true);
+							itemGoTo.setDisable(true);
+						}else{
+						
+							itemNew.setDisable(false);
+							if(tvOffer.getItems().size() > 0){
+								itemGoTo.setDisable(false);
+							}else{
+								itemGoTo.setDisable(true);
+							}
+						}
 					}
 					
 				}
@@ -823,11 +834,7 @@ public class ControllerCustomerData {
 				public void handle(ActionEvent event) {
 					LoadOfferAdd offerAdd = new LoadOfferAdd(true, new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()));
 					if(offerAdd.getController().getCreatedOfferID() != 0){
-						main.getContentPane().setCenter(	new LoadOfferData(false,
-															offerAdd.getController().getCreatedOfferID(),
-															offerAdd.getController().getCreatedOfferCustomerID(),
-															main
-														).getContent());
+						selectOffer(Integer.valueOf(tfCustomerID.getText()));
 					}
 				}
 			});

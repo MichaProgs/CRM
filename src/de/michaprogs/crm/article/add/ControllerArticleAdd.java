@@ -94,6 +94,7 @@ public class ControllerArticleAdd {
 	
 	@FXML private ImageView ivImage;
 	@FXML private TextArea taLongtext;
+	@FXML private TextArea taNotes;
 	
 	private Stage stage;
 	private String imageFilepath = "";
@@ -142,6 +143,8 @@ public class ControllerArticleAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
+				System.out.println(cbTax.getSelectionModel().getSelectedItem());
+				
 				/* INSERT ARTICLE */
 				if(new ValidateArticleSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfArticleID.getText()), 
 											tfDescription1.getText()).isValid()){
@@ -165,7 +168,8 @@ public class ControllerArticleAdd {
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbPriceUnit.getSelectionModel().getSelectedItem()), 
 							cbAmountUnit.getSelectionModel().getSelectedItem(), 
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(cbTax.getSelectionModel().getSelectedItem()), 						
-							taLongtext.getText(), 						
+							taLongtext.getText(),
+							taNotes.getText(),
 							imageFilepath,  						
 							0, //STOCK MIN TODO
 							0, //STOCK MAX TODO
@@ -444,7 +448,7 @@ public class ControllerArticleAdd {
 		return createdArticleID;
 	}
 	
-	/* Setted by Loader-Class */
+	/* Set by Loader-Class */
 	public void setStage(Stage stage){
 		this.stage = stage;
 	}

@@ -28,7 +28,8 @@ public class SearchCustomer {
 							String _phone,
 							String _mobile,
 							String _fax,
-							String _email){
+							String _email,
+							String _category){
 		
 		try{
 			
@@ -42,7 +43,8 @@ public class SearchCustomer {
 													+ "phone LIKE ? AND "
 													+ "mobile LIKE ? AND "
 													+ "fax LIKE ? AND "
-													+ "email LIKE ?";
+													+ "email LIKE ? AND "
+													+ "category LIKE ?";
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
@@ -72,6 +74,12 @@ public class SearchCustomer {
 			ps.setString(i, _fax + "%");
 			i++;
 			ps.setString(i, _email + "%");
+			i++;
+			//Empty ComboBox = null
+			if(_category == null){
+				_category = "";
+			}
+			ps.setString(i, _category + "%");
 			i++;
 			
 			rs = ps.executeQuery();

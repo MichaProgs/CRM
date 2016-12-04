@@ -41,6 +41,7 @@ public class UpdateArticle {
 				+ "amountunit = ?,"
 				+ "tax = ?,"
 				+ "longtext = ?,"
+				+ "notes = ?,"
 				+ "imagefilepath = ?,"
 				+ "stockminunit = ?,"
 				+ "stockmaxunit = ?,"
@@ -86,6 +87,8 @@ public class UpdateArticle {
 			ps.setInt(i, ma.getTax());
 			i++;
 			ps.setString(i, ma.getLongtext());
+			i++;
+			ps.setString(i, ma.getNotes());
 			i++;
 			ps.setString(i, ma.getImageFilepath());
 			i++;

@@ -27,7 +27,7 @@ public class ControllerWarehouseAdd {
 	@FXML private TextField tfWarehouse;
 	
 	@FXML private Button btnAdd;
-	@FXML private Button btnAbort;
+	@FXML private Button btnDelete;
 	
 	private Stage stage;
 	private int selectedWarehouseID = 0;
@@ -39,7 +39,7 @@ public class ControllerWarehouseAdd {
 	@FXML private void initialize(){
 		
 		initButtonAdd();
-		initBtnAbort();
+		initBtnDelete();
 		
 		initTableWarehouse();
 		
@@ -66,15 +66,13 @@ public class ControllerWarehouseAdd {
 		
 	}
 	
-	private void initBtnAbort(){
+	private void initBtnDelete(){
 		
-		btnAbort.setOnAction(new EventHandler<ActionEvent>() {
+		btnDelete.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if(stage != null){
-					stage.close();
-				}
+				deleteWarehouse();
 			}
 		});
 		
@@ -118,6 +116,18 @@ public class ControllerWarehouseAdd {
 		
 	}
 	
+	private void deleteWarehouse(){
+		
+		DeleteAlert delete = new DeleteAlert();
+		if(delete.getDelete()){
+			ModelWarehouse warehouse = new ModelWarehouse();
+			warehouse.deleteWarehouse(tvWarehouse.getItems().get(tvWarehouse.getSelectionModel().getSelectedIndex()).getWarehouseID());
+			
+			selectWarehouses();
+		}
+		
+	}
+	
 	/*
 	 * GETTER & SETTER
 	 */
@@ -148,15 +158,7 @@ public class ControllerWarehouseAdd {
 
 				@Override
 				public void handle(ActionEvent event) {
-					
-					DeleteAlert delete = new DeleteAlert();
-					if(delete.getDelete()){
-						ModelWarehouse warehouse = new ModelWarehouse();
-						warehouse.deleteWarehouse(tvWarehouse.getItems().get(tvWarehouse.getSelectionModel().getSelectedIndex()).getWarehouseID());
-						
-						selectWarehouses();
-					}
-					
+					deleteWarehouse();
 				}
 			});
 			

@@ -18,6 +18,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" >
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -30,7 +32,7 @@
 						<Button fx:id="btnNew" text="Neu" styleClass="btnTopbar" />
 						<Button fx:id="btnEdit" text="Bearbeiten" styleClass="btnTopbar" />
 						<!-- BtnEditSave is added with Java-Code -->
-						<!-- BtnEditAbort ist added with Java-Code -->
+						<!-- BtnEditAbort is added with Java-Code -->
 						<Button fx:id="btnDelete" text="Löschen" styleClass="btnTopbar" />
 					</HBox>
 				</StackPane>
@@ -53,101 +55,129 @@
 					<left>
 						<VBox spacing="10" > 
 						
-							<TitledPane text="Hauptstammdaten">
-								<HBox spacing="10" styleClass="HboxContent">							
-									<!-- First Block -->
-									<GridPane hgap="10" vgap="5">
-										<columnConstraints>
-											<ColumnConstraints halignment="RIGHT" />
-											<ColumnConstraints halignment="LEFT" />
-										</columnConstraints>
-										<Label text="Lieferanten-Nr." GridPane.columnIndex="0" GridPane.rowIndex="0" />
-										<TextFieldOnlyInteger fx:id="tfSupplierID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-										<Label text="Name1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-										<TextField fx:id="tfName1"  GridPane.columnIndex="1" GridPane.rowIndex="1" />
-										<Label text="Name2:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-										<TextField fx:id="tfName2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-										<Label text="Straße:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-										<TextField fx:id="tfStreet" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-										<Label text="PLZ" GridPane.columnIndex="0" GridPane.rowIndex="4"  />
-										<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4" >
-											<ComboBox fx:id="cbLand" style="-fx-pref-width: 90;" />
-											<TextFieldOnlyInteger fx:id="tfZip" style="-fx-pref-width: 100;" />
-										</HBox>
-										<Label text="Ort:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-										<TextField fx:id="tfLocation" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-									<padding>
-										<Insets top="10" bottom="10" left="10" right="10" />
-									</padding>	
-									</GridPane>	
+							<TabPane>
+								<tabs>
 								
-									<!-- Second Block -->
-									<GridPane hgap="10" vgap="5" >
-										<columnConstraints>
-											<ColumnConstraints halignment="RIGHT" />
-											<ColumnConstraints halignment="LEFT" />
-										</columnConstraints>
-										<Label text="Telefon:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-										<TextField fx:id="tfPhone" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-										<Label text="Fax:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-										<TextField fx:id="tfFax" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-										<Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-										<TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-										<Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-										<TextField fx:id="tfWeb" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-										<Label text="Ansprechpartner:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-										<TextField fx:id="tfContact" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-										<Label text="Ust-ID-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-										<TextField fx:id="tfUstID" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-									<padding>
-										<Insets top="10" bottom="10" left="10" right="10" />
-									</padding>	
-									</GridPane>
+									<Tab text="ADRESSE" closable="false" >
+										<HBox spacing="10" styleClass="HboxContent">							
+											<!-- First Block -->
+											<GridPane hgap="10" vgap="5">
+												<columnConstraints>
+													<ColumnConstraints halignment="RIGHT" />
+													<ColumnConstraints halignment="LEFT" />
+												</columnConstraints>
+												<Label text="Lieferanten-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+												<TextFieldOnlyInteger fx:id="tfSupplierID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+												<Label text="Name1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+												<TextField fx:id="tfName1"  GridPane.columnIndex="1" GridPane.rowIndex="1" />
+												<Label text="Name2:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+												<TextField fx:id="tfName2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+												<Label text="Straße:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+												<TextField fx:id="tfStreet" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+												<Label text="PLZ:" GridPane.columnIndex="0" GridPane.rowIndex="4"  />
+												<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4" >
+													<ComboBox fx:id="cbLand" style="-fx-pref-width: 90;" />
+													<TextFieldOnlyInteger fx:id="tfZip" style="-fx-pref-width: 120;" />
+												</HBox>
+												<Label text="Ort:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+												<TextField fx:id="tfLocation" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+											<padding>
+												<Insets top="10" bottom="10" left="10" right="10" />
+											</padding>	
+											</GridPane>	
+										
+											<!-- Second Block -->
+											<GridPane hgap="10" vgap="5" >
+												<columnConstraints>
+													<ColumnConstraints halignment="RIGHT" />
+													<ColumnConstraints halignment="LEFT" />
+												</columnConstraints>
+												<Label text="Telefon:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+												<TextField fx:id="tfPhone" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+												<Label text="Fax:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+												<TextField fx:id="tfFax" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+												<Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+												<TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+												<Label text="Web:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+												<TextField fx:id="tfWeb" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+												<Label text="Ansprechpartner:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+												<TextField fx:id="tfContact" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+												<Label text="Ust-ID-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+												<TextField fx:id="tfUstID" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+											<padding>
+												<Insets top="10" bottom="10" left="10" right="10" />
+											</padding>	
+											</GridPane>
+										
+											<!-- Third Block -->
+											<GridPane hgap="10" vgap="5">	
+												<columnConstraints>
+													<ColumnConstraints halignment="RIGHT" />
+													<ColumnConstraints halignment="LEFT" />
+												</columnConstraints>
+												<Label text="Zahlungsart:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+												<ComboBox fx:id="cbPayment" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+												<Label text="IBAN:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+												<TextField fx:id="tfIBAN" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+												<Label text="BIC:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+												<TextField fx:id="tfBIC" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+												<Label text="Kreditinstitut:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+												<TextField fx:id="tfBank" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+												<Label text="ZZ (Skonto)" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+												<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5" alignment="CENTER_LEFT">
+													<TextFieldOnlyInteger fx:id="tfPaymentSkonto" style="-fx-pref-width: 70;" />
+													<Label text="Tage" />
+													<TextFieldOnlyInteger fx:id="tfSkonto" style="-fx-pref-width: 70;" />
+													<Label text=" %" />
+												</HBox>
+												<Label text="ZZ (Netto)" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+												<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="6" alignment="CENTER_LEFT">
+													<TextFieldOnlyInteger fx:id="tfPaymentNetto" style="-fx-pref-width: 70;" />
+													<Label text="Tage ohne Skonto" />
+												</HBox>
+											<padding>
+												<Insets top="10" bottom="10" left="10" right="10" />
+											</padding>	
+											</GridPane>																		
+										</HBox>
+									</Tab>
+									
+									<Tab text="ANSPRECHTPARTNER" closable="false">
+										<fx:include source="../../contact/data/ViewContactData.fxml" fx:id="contactData" />
+									</Tab>
+									
+								</tabs>
+							</TabPane>
+							
+							<TabPane>
+								<tabs>
 								
-									<!-- Third Block -->
-									<GridPane hgap="10" vgap="5">	
-										<columnConstraints>
-											<ColumnConstraints halignment="RIGHT" />
-											<ColumnConstraints halignment="LEFT" />
-										</columnConstraints>
-										<Label text="Zahlungsart:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-										<ComboBox fx:id="cbPayment" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-										<Label text="IBAN:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-										<TextField fx:id="tfIBAN" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-										<Label text="BIC:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-										<TextField fx:id="tfBIC" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-										<Label text="Kreditinstitut:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-										<TextField fx:id="tfBank" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-										<Label text="ZZ (Skonto)" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-										<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5" alignment="CENTER_LEFT">
-											<TextFieldOnlyInteger fx:id="tfPaymentSkonto" style="-fx-pref-width: 60;" />
-											<Label text="Tage" />
-											<TextFieldOnlyInteger fx:id="tfSkonto" style="-fx-pref-width: 60;" />
-											<Label text=" %" />
-										</HBox>
-										<Label text="ZZ (Netto)" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-										<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="6" alignment="CENTER_LEFT">
-											<TextFieldOnlyInteger fx:id="tfPaymentNetto" style="-fx-pref-width: 60;" />
-											<Label text="Tage ohne Skonto" />
-										</HBox>
-									<padding>
-										<Insets top="10" bottom="10" left="10" right="10" />
-									</padding>	
-									</GridPane>																		
-								</HBox>
-							</TitledPane>
-							
-							<!-- LONGTEXT / NOTES -->
-							<TitledPane text="Langtext / Notizen" expanded="false"> 
-								<AnchorPane>
-									<TextArea fx:id="taNotes" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
-								</AnchorPane>
-							</TitledPane>	
-							
-							<!-- CONTACTS -->
-							<TitledPane text="Ansprechpartner" expanded="false" >
-								<fx:include source="../../contact/data/ViewContactData.fxml" fx:id="contactData" />
-							</TitledPane>
+									<Tab text="NOTIZEN" closable="false">
+										<AnchorPane>
+											<TextArea fx:id="taNotes" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
+										</AnchorPane>
+									</Tab>
+									
+									<Tab text="BESTELLUNGEN" closable="false">
+										<AnchorPane>
+											<TableView fx:id="tvOrder" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" prefHeight="200">
+												<columnResizePolicy>
+						                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+						               			</columnResizePolicy>
+												<columns>
+													<TableColumn fx:id="tcOrderID" text="Bestell-Nr." />
+													<TableColumn fx:id="tcOrderRequest" text="Anfrage" />
+													<TableColumn fx:id="tcOrderDate" text="Datum" />
+													<TableColumn fx:id="tcClerk" text="Sachbearbeiter" />
+													<TableColumn fx:id="tcAmountOfPositions" text="Positionen" />
+													<TableColumn fx:id="tcTotal" text="Auftragswert" />
+												</columns>
+											</TableView>
+										</AnchorPane>
+									</Tab>
+									
+								</tabs>
+							</TabPane>
 							
 						</VBox>
 					</left>

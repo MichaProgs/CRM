@@ -4,6 +4,8 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SearchCustomer;
+import de.michaprogs.crm.customer.category.ModelCustomerCategory;
+import de.michaprogs.crm.customer.category.SelectCustomerCategory;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -35,6 +37,7 @@ public class ControllerCustomerSearch {
 	@FXML private TextField tfMobile;
 	@FXML private TextField tfFax;
 	@FXML private TextField tfEmail;
+	@FXML private ComboBox<String> cbCategory;
 	
 	@FXML private TableView<ModelCustomer> tvCustomerSearch;
 	@FXML private TableColumn<ModelCustomer, Integer> tcCustomerID;
@@ -59,6 +62,8 @@ public class ControllerCustomerSearch {
 	@FXML private void initialize(){
 		
 		new InitCombos().initComboLand(cbLand);
+		
+		cbCategory.setItems(new SelectCustomerCategory(new ModelCustomerCategory()).getModelCustomerCategory().getObsListCustomerCategoriesComboBox());
 		
 		tfCustomerID.setText("");
 		tfZip.setText("");
@@ -222,7 +227,8 @@ public class ControllerCustomerSearch {
 			tfPhone.getText(), 
 			tfMobile.getText(), 
 			tfFax.getText(), 
-			tfEmail.getText()
+			tfEmail.getText(),
+			cbCategory.getSelectionModel().getSelectedItem()
 		);
 		
 		tvCustomerSearch.setItems(searchCustomer.getObsListSearch());
@@ -265,13 +271,14 @@ public class ControllerCustomerSearch {
 		tfName1.clear();
 		tfName2.clear();
 		tfStreet.clear();
-		cbLand.getSelectionModel().selectFirst();
+		cbLand.getSelectionModel().select("");
 		tfZip.clear();
 		tfLocation.clear();
 		tfPhone.clear();
 		tfMobile.clear();
 		tfFax.clear();
 		tfEmail.clear();
+		cbCategory.getSelectionModel().select("");
 		
 		tvCustomerSearch.getItems().clear();
 		

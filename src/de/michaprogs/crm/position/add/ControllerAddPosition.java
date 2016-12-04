@@ -107,6 +107,7 @@ public class ControllerAddPosition {
 					cbPriceUnitEk.getSelectionModel().select(String.valueOf(article.getPriceUnit()));					
 					cbPriceUnitVk.getSelectionModel().select(String.valueOf(article.getPriceUnit()));
 					cbAmountUnit.getSelectionModel().select(article.getAmountUnit());
+					cbTax.getSelectionModel().select(String.valueOf(article.getTax()));
 					
 					/* SUPPLIER */
 					tvArticleSupplier.setItems(article.getObsListArticleSupplier());

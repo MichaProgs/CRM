@@ -56,6 +56,7 @@ public class SelectArticle {
 				ma.setAmountUnit(rs.getString("amountunit"));
 				ma.setTax(rs.getInt("tax"));
 				ma.setLongtext(rs.getString("longtext"));
+				ma.setNotes(rs.getString("notes"));
 				ma.setImageFilepath(rs.getString("imageFilePath"));
 				ma.setStockMinUnit(rs.getInt("stockMinUnit"));
 				ma.setStockMaxUnit(rs.getInt("stockMaxUnit"));

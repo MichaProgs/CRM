@@ -63,7 +63,7 @@
 							<VBox spacing="10" > 
 							
 								<!-- MAIN DATA -->
-								<TitledPane text="Hauptstammdaten">
+								<TitledPane text="HAUPTSTAMMDATEN">
 									<HBox spacing="10" styleClass="HboxContent">							
 										<!-- First Block -->
 										<GridPane hgap="10" vgap="5">
@@ -154,13 +154,22 @@
 								<TabPane>
 									<tabs>
 										<!-- LONGTEXT -->
-										<Tab text="Langtext" closable="false">
+										<Tab text="LANGTEXT" closable="false">
 											<AnchorPane>
-												<TextArea fx:id="taLongtext" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
+												<VBox spacing="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="10">
+													<Label text="Der Langtext wird - im Gegensatz zu den Notizen - auf Dokumenten angezeigt." />
+													<TextArea fx:id="taLongtext" wrapText="true" />
+												</VBox>
+											</AnchorPane>
+										</Tab>
+										<!-- NOTES -->
+										<Tab text="NOTIZEN" closable="false">
+											<AnchorPane>
+												<TextArea fx:id="taNotes" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
 											</AnchorPane>
 										</Tab>
 										<!-- SUPPLIER -->
-										<Tab text="Lieferanten" closable="false">
+										<Tab text="LIEFERANTEN" closable="false">
 											<VBox styleClass="VboxContent" spacing="10">											
 												<TableView fx:id="tvArticleSupplier" maxHeight="300" minHeight="100">
 													<columnResizePolicy>
@@ -186,7 +195,7 @@
 											</VBox>
 										</Tab>
 										<!-- COMPARISON ARTICLE -->
-										<Tab text="Vergleichsartikel" closable="false">
+										<Tab text="VERGLEICHSARTIKEL" closable="false">
 											<AnchorPane>
 												<VBox spacing="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 													<TableView fx:id="tvComparison" maxHeight="300" minHeight="100" >
@@ -212,7 +221,7 @@
 											</AnchorPane>
 										</Tab>
 										<!-- ACCESSORIS -->
-										<Tab text="Zubehör" closable="false">
+										<Tab text="ZUBEHÖR" closable="false">
 											<AnchorPane>
 												<VBox spacing="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 													<TableView fx:id="tvAccessoris" maxHeight="300" minHeight="100" >
@@ -238,7 +247,7 @@
 											</AnchorPane>
 										</Tab>
 										<!-- STOCK -->
-										<Tab text="Lager" closable="false">
+										<Tab text="LAGER" closable="false">
 											<AnchorPane>
 												<VBox spacing="10" styleClass="VboxContent" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
 													<HBox spacing="10" alignment="CENTER_LEFT">

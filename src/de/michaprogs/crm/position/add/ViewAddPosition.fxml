@@ -70,18 +70,18 @@
 							</columnConstraints>
 							<Label text="Menge:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 							<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0" >
-								<TextFieldDouble fx:id="tfAmount" style="-fx-pref-width: 100px;" alignment="CENTER_RIGHT" />
+								<TextFieldDouble fx:id="tfAmount" style="-fx-pref-width: 100px;" alignment="CENTER_RIGHT" disable="true" />
 								<ComboBox fx:id="cbAmountUnit" disable="true" style="-fx-pref-width: 130px;"/>
 							</HBox>
 							<Label text="Einkaufspreis:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 							<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER_LEFT">
-								<TextFieldDouble fx:id="tfEk"  style="-fx-pref-width: 100px;" alignment="CENTER_RIGHT" />
+								<TextFieldDouble fx:id="tfEk"  style="-fx-pref-width: 100px;" alignment="CENTER_RIGHT" disable="true" />
 								<Label text="EUR" />
 								<ComboBox fx:id="cbPriceUnitEk" disable="true" style="-fx-pref-width: 90px;" />
 							</HBox>
 							<Label text="Verkaufspreis:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 							<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2" >
-								<TextFieldDouble fx:id="tfVk" style="-fx-pref-width: 100px;" alignment="CENTER_RIGHT" />
+								<TextFieldDouble fx:id="tfVk" style="-fx-pref-width: 100px;" alignment="CENTER_RIGHT" disable="true" />
 								<Label text="EUR" />
 								<ComboBox fx:id="cbPriceUnitVk" disable="true" style="-fx-pref-width: 90px;" />
 							</HBox>

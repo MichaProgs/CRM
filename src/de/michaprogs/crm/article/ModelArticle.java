@@ -36,6 +36,9 @@ public class ModelArticle {
 	/* Longtext */
 	private String longtext = "";
 	
+	/* NOTES */
+	private String notes = "";
+	
 	/* Comparison */
 	private int comparionArticleID = 0;
 	
@@ -85,6 +88,7 @@ public class ModelArticle {
 	 * @param amountUnit
 	 * @param tax
 	 * @param longtext
+	 * @param notes
 	 * @param stockMinUnit
 	 * @param stockMaxUnit
 	 * @param stockAlertUnit
@@ -109,6 +113,7 @@ public class ModelArticle {
 							String amountUnit, 
 							int tax,
 							String longtext, 
+							String notes,
 							String imageFilepath,
 							int stockMinUnit, 
 							int stockMaxUnit, 
@@ -133,6 +138,7 @@ public class ModelArticle {
 		this.amountUnit = amountUnit;
 		this.tax = tax;
 		this.longtext = longtext;
+		this.notes = notes;
 		this.stockMinUnit = stockMinUnit;
 		this.stockMaxUnit = stockMaxUnit;
 		this.stockAlertUnit = stockAlertUnit;
@@ -345,6 +351,10 @@ public class ModelArticle {
 		return longtext;
 	}
 
+	public String getNotes() {
+		return notes;
+	}
+	
 	public int getStockMinUnit() {
 		return stockMinUnit;
 	}
@@ -451,6 +461,10 @@ public class ModelArticle {
 
 	public void setLongtext(String longtext) {
 		this.longtext = longtext;
+	}
+	
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 
 	public void setStockMinUnit(int stockMinUnit) {

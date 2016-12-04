@@ -56,7 +56,7 @@
 											<ColumnConstraints halignment="RIGHT" />
 											<ColumnConstraints halignment="LEFT" />
 										</columnConstraints>
-										<Label text="Lieferanten-Nr." GridPane.columnIndex="0" GridPane.rowIndex="0" />
+										<Label text="Lieferanten-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 										<TextFieldOnlyInteger fx:id="tfSupplierID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 										<Label text="Name1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 										<TextField fx:id="tfName1"  GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -64,10 +64,10 @@
 										<TextField fx:id="tfName2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 										<Label text="Straße:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 										<TextField fx:id="tfStreet" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-										<Label text="PLZ" GridPane.columnIndex="0" GridPane.rowIndex="4"  />
+										<Label text="PLZ:" GridPane.columnIndex="0" GridPane.rowIndex="4"  />
 										<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4" >
 											<ComboBox fx:id="cbLand" style="-fx-pref-width: 90;" />
-											<TextFieldOnlyInteger fx:id="tfZip" style="-fx-pref-width: 100;" />
+											<TextFieldOnlyInteger fx:id="tfZip" style="-fx-pref-width: 120;" />
 										</HBox>
 										<Label text="Ort:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 										<TextField fx:id="tfLocation" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -115,14 +115,14 @@
 										<TextField fx:id="tfBank" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 										<Label text="ZZ (Skonto)" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 										<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5" alignment="CENTER_LEFT">
-											<TextFieldOnlyInteger fx:id="tfPaymentSkonto" style="-fx-pref-width: 60;" />
+											<TextFieldOnlyInteger fx:id="tfPaymentSkonto" style="-fx-pref-width: 70;" />
 											<Label text="Tage" />
-											<TextFieldOnlyInteger fx:id="tfSkonto" style="-fx-pref-width: 60;" />
+											<TextFieldOnlyInteger fx:id="tfSkonto" style="-fx-pref-width: 70;" />
 											<Label text=" %" />
 										</HBox>
 										<Label text="ZZ (Netto)" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 										<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="6" alignment="CENTER_LEFT">
-											<TextFieldOnlyInteger fx:id="tfPaymentNetto" style="-fx-pref-width: 60;" />
+											<TextFieldOnlyInteger fx:id="tfPaymentNetto" style="-fx-pref-width: 70;" />
 											<Label text="Tage ohne Skonto" />
 										</HBox>
 									<padding>

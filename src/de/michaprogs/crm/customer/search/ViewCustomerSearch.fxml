@@ -78,6 +78,8 @@
 							<TextField fx:id="tfFax" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 							<Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
 							<TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+							<Label text="Kategorie:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+							<ComboBox fx:id="cbCategory" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 						<padding>
 							<Insets top="10" bottom="10" left="10" right="10" />
 						</padding>	

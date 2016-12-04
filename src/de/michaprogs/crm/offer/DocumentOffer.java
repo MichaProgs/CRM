@@ -34,7 +34,6 @@ public class DocumentOffer {
 	private final String ZIP_BILLING = "ZIP_BILLING";
 	private final String LOCATION_BILLING = "LOCATION_BILLING";
 	
-	private final String CONTACT_BILLING = "CONTACT_BILLING";
 	private final String PHONE_BILLING = "PHONE_BILLING";
 	private final String MOBILE_BILLING = "MOBILE_BILLING";
 	private final String FAX_BILLING = "FAX_BILLING";
@@ -60,7 +59,6 @@ public class DocumentOffer {
 	private final String ZIP_DELIVERY = "ZIP_DELIVERY";
 	private final String LOCATION_DELIVERY = "LOCATION_DELIVERY";
 	
-	private final String CONTACT_DELIVERY = "CONTACT_DELIVERY";
 	private final String PHONE_DELIVERY = "PHONE_DELIVERY";
 	private final String MOBILE_DELIVERY= "MOBILE_DELIVERY";
 	private final String FAX_DELIVERY = "FAX_DELIVERY";
@@ -95,6 +93,7 @@ public class DocumentOffer {
 	private final String ARTICLEID = "ARTICLEID";
 	private final String DESCRIPTION1 = "DESCRIPTION1";
 	private final String DESCRIPTION2 = "DESCRIPTION2";
+	private final String LONGTEXT = "LONGTEXT";
 	private final String AMOUNT = "AMOUNT_";
 	private final String PRICEUNIT = "PRICEUNIT";
 	private final String AMOUNTUNIT = "AUNIT";
@@ -285,8 +284,6 @@ public class DocumentOffer {
 			r.setText(text.replace(ZIP_BILLING, String.valueOf(modelCustomerBilling.getZip())), 0);
 		}else if(text.contains(LOCATION_BILLING)){
 			r.setText(text.replace(LOCATION_BILLING, modelCustomerBilling.getLocation()), 0);
-		}else if(text.contains(CONTACT_BILLING)){
-			r.setText(text.replace(CONTACT_BILLING, modelCustomerBilling.getContact()), 0);
 		}else if(text.contains(PHONE_BILLING)){
 			r.setText(text.replace(PHONE_BILLING, modelCustomerBilling.getPhone()), 0);
 		}else if(text.contains(MOBILE_BILLING)){
@@ -342,8 +339,6 @@ public class DocumentOffer {
 			r.setText(text.replace(ZIP_DELIVERY, String.valueOf(modelCustomerDelivery.getZip())), 0);
 		}else if(text.contains(LOCATION_DELIVERY)){
 			r.setText(text.replace(LOCATION_DELIVERY, modelCustomerDelivery.getLocation()), 0);
-		}else if(text.contains(CONTACT_DELIVERY)){
-			r.setText(text.replace(CONTACT_DELIVERY, modelCustomerDelivery.getContact()), 0);
 		}else if(text.contains(PHONE_DELIVERY)){
 			r.setText(text.replace(PHONE_DELIVERY, modelCustomerDelivery.getPhone()), 0);
 		}else if(text.contains(MOBILE_DELIVERY)){
@@ -411,6 +406,8 @@ public class DocumentOffer {
 			r.setText(text.replace(DESCRIPTION1, modelOffer.getObsListArticle().get(indexOfArticle).getDescription1()), 0);
 		}else if(text.contains(DESCRIPTION2)){
 			r.setText(text.replace(DESCRIPTION2, modelOffer.getObsListArticle().get(indexOfArticle).getDescription2()), 0);
+		}else if(text.contains(LONGTEXT)){
+			r.setText(text.replace(LONGTEXT, modelOffer.getObsListArticle().get(indexOfArticle).getLongtext()), 0);
 		}else if(text.contains(BARRELSIZE)){
 			r.setText(text.replace(BARRELSIZE, modelOffer.getObsListArticle().get(indexOfArticle).getBarrelsize()), 0);
 		}else if(text.contains(BOLTING)){

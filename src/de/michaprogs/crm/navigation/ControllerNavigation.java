@@ -52,7 +52,7 @@ public class ControllerNavigation {
 		articleData = new LoadArticleData(false, 0, main);
 		supplierData = new LoadSupplierData(false, 0, main);
 		offerData = new LoadOfferData(false,0,0, main);
-		orderData = new LoadOrderData(false, main);
+		orderData = new LoadOrderData(false, 0, 0, main);
 		
 		//Buttons
 		initBtnCollapse();

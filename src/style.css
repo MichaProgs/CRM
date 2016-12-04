@@ -81,7 +81,6 @@
 	-fx-opacity: 1;
 }
 
-
 .text-area:disabled > .scroll-pane:disabled{
 	-fx-border-color: transparent;
 	-fx-background-color: #fff;
@@ -138,16 +137,17 @@
   *************/
 .titled-pane{
  	-fx-border-width: 1 1 1 1;
-	-fx-border-color: -fx-accent-lightgrey;
+	-fx-border-color: #eaeaea;
 	-fx-background-color: -fx-accent-white;
 }
    
 .titled-pane .title{
  	-fx-border-width: 0 0 1 0;
- 	-fx-border-color: -fx-accent-lightgrey;
+ 	-fx-border-color: #eaeaea;
   	-fx-pref-height: 30px;
   	-fx-background-radius: 0;
-  	-fx-background-color: -fx-accent-lightgrey;
+  	-fx-background-color: #eaeaea;
+  	-fx-font-family: "Segoe UI Light";
 }
   
 .titled-pane .title .text{
@@ -343,6 +343,18 @@
  .tc-align-right{
  	-fx-alignment: center-right;
  }
+ 
+ .tc-ID{
+ 	-fx-pref-width: 50px;
+ 	-fx-max-width: 70px;
+ 	-fx-min-width: 30px;
+ }
+ 
+ .tc-description{
+ 	-fx-pref-width: 200px;
+ 	-fx-max-width: 250px;
+ 	-fx-min-width: 100px;
+ }
 
 /*************
  * DATE-PICKER
@@ -371,14 +383,16 @@
  	-fx-border-insets: 0 0 0 0;
  	-fx-border-radius: 0 0 0 0;
  	-fx-pref-height: 30px;
+ 	-fx-font-family: "Segoe UI Light";
  }
  
  .tab-header-area .tab:selected{
- 	-fx-background-color: -fx-accent-white;
+ 	-fx-background-color: -fx-accent-blue;
  	-fx-border-color: #FFF;
  }
  
- .tab-header-area .tab .tab-label{
+ .tab-header-area .tab:selected .tab-label{
+ 	-fx-text-fill: #FFF;
  }
  
  .tab-header-background{

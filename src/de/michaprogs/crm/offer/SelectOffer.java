@@ -26,7 +26,7 @@ public class SelectOffer {
 	 * @param mo - ModelOffer
 	 * @param Selection - the art of selection 
 	 */
-	public SelectOffer(ModelOffer mo, Selection selection){
+	public SelectOffer(ModelOffer mo, OfferSelection offerSelection){
 		
 		try{
 			
@@ -35,7 +35,7 @@ public class SelectOffer {
 			
 			con = new DBConnect().getConnection();
 			
-			if(selection.equals(Selection.SPECIFIC_OFFER)){
+			if(offerSelection.equals(OfferSelection.SPECIFIC_OFFER)){
 				stmt = "SELECT * FROM offer WHERE offerID = ? AND customerID = ?";
 				ps = con.prepareStatement(stmt);
 				int i = 1;
@@ -43,7 +43,7 @@ public class SelectOffer {
 				i++;
 				ps.setInt(i, mo.getCustomerID());
 				i++;
-			}else if(selection.equals(Selection.ALL_OFFER_FROM_CUSTOMER)){
+			}else if(offerSelection.equals(OfferSelection.ALL_OFFER_FROM_CUSTOMER)){
 				stmt = "SELECT * FROM offer WHERE customerID = ?";
 				ps = con.prepareStatement(stmt);
 				int i = 1;
@@ -75,7 +75,7 @@ public class SelectOffer {
 			}
 			
 			/* OFFER ARTICLE */
-			if(selection.equals(Selection.SPECIFIC_OFFER)){
+			if(offerSelection.equals(OfferSelection.SPECIFIC_OFFER)){
 				
 				String stmtOfferArticle = "SELECT * FROM offerArticle WHERE offerID = ?";
 				ps = con.prepareStatement(stmtOfferArticle);
@@ -126,7 +126,7 @@ public class SelectOffer {
 		
 	}
 	
-	public enum Selection{
+	public enum OfferSelection{
 		ALL_OFFER_FROM_CUSTOMER, SPECIFIC_OFFER
 	}
 	

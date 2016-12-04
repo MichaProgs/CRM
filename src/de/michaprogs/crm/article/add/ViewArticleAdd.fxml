@@ -145,9 +145,18 @@
 								</TitledPane>
 								
 								<!-- LONGTEXT / NOTES -->
-								<TitledPane text="Langtext / Notizen" expanded="false"> 
+								<TitledPane text="Langtext" expanded="false"> 
 									<AnchorPane>
-										<TextArea fx:id="taLongtext" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
+										<VBox spacing="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="10">
+											<Label text="Der Langtext wird - im Gegensatz zu den Notizen - auf Dokumenten angezeigt." />
+											<TextArea fx:id="taLongtext" wrapText="true" />
+										</VBox>
+									</AnchorPane>
+								</TitledPane>	
+								
+								<TitledPane text="Notizen" expanded="false"> 
+									<AnchorPane>
+										<TextArea fx:id="taNotes" wrapText="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
 									</AnchorPane>
 								</TitledPane>	
 												
