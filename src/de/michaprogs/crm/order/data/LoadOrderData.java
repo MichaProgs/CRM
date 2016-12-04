@@ -13,7 +13,7 @@ public class LoadOrderData {
 	private ControllerOrderData controller = new ControllerOrderData();
 	private Stage stage = new Stage();
 	
-	public LoadOrderData(boolean createDialog, Main main){
+	public LoadOrderData(boolean createDialog, int orderID, int supplierID, Main main){
 		
 		try{
 			
@@ -21,6 +21,10 @@ public class LoadOrderData {
 			controller.setMain(main);
 			loader.setController(controller);
 			root = loader.load();
+			
+			if(orderID != 0 && supplierID != 0){
+				controller.selectOrder(orderID, supplierID);
+			}
 			
 			if(createDialog){
 				controller.setStage(stage);

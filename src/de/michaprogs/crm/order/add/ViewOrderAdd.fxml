@@ -206,37 +206,8 @@
 										</padding>
 										</VBox>										
 									</Tab>
-									<Tab text="ARTIKEL" closable="false">
-										
-										<VBox spacing="10" >
-											
-											<TableView fx:id="tvArticle">
-												<columnResizePolicy>
-						                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-						               			</columnResizePolicy>
-						               			<columns>
-						               				<TableColumn fx:id="tcArticleID" text="Art.-Nr." prefWidth="70" minWidth="50" />
-						               				<TableColumn fx:id="tcDescription1" text="Bezeichnung1" prefWidth="200" minWidth="150" />
-						               				<TableColumn fx:id="tcDescription2" text="Bezeichnung2" prefWidth="200" minWidth="150" />
-						               				<TableColumn fx:id="tcBarrelsize" text="Gebindegröße" prefWidth="150" minWidth="100" />
-						               				<TableColumn fx:id="tcBolting" text="Verschraubung" prefWidth="150" minWidth="100" />
-						               				<TableColumn fx:id="tcAmount" text="Menge" prefWidth="100" minWidth="50" />
-						               				<TableColumn fx:id="tcAmountUnit" text="Einheit" prefWidth="100" minWidth="50" />
-						               				<TableColumn fx:id="tcVk" text="Preis" prefWidth="100" minWidth="50" />
-						               				<TableColumn fx:id="tcPriceUnit" text="PE" prefWidth="70" minWidth="50" />
-						               				<TableColumn fx:id="tcTotal" text="Gesamt" prefWidth="100" minWidth="50" />
-						               				<TableColumn fx:id="tcTax" text="MwSt (%)" prefWidth="70" minWidth="50" />
-						               			</columns>
-											</TableView>
-											
-											<HBox spacing="10" alignment="CENTER_RIGHT">
-												<Button text="Hinzufügen.." fx:id="btnArticleAdd" />
-												<Button text="Bearbeiten.." fx:id="btnArticleEdit" />
-												<Button text="Löschen" fx:id="btnArticleDelete" />
-											</HBox>
-											
-										</VBox>
-										
+									<Tab text="ARTIKEL" closable="false">										
+										<fx:include source="../../position/data/ViewPositionData.fxml" fx:id="positionData" />										
 									</Tab>
 								</tabs>
 							</TabPane>							

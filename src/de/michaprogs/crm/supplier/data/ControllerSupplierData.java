@@ -1,5 +1,6 @@
 package de.michaprogs.crm.supplier.data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import de.michaprogs.crm.AbortAlert;
@@ -8,8 +9,16 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Main;
 import de.michaprogs.crm.Validate;
+import de.michaprogs.crm.Validate.ValidateOnlyInteger;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
 import de.michaprogs.crm.contact.data.ControllerContactData;
+import de.michaprogs.crm.offer.add.LoadOfferAdd;
+import de.michaprogs.crm.offer.data.LoadOfferData;
+import de.michaprogs.crm.order.ModelOrder;
+import de.michaprogs.crm.order.SelectOrder;
+import de.michaprogs.crm.order.SelectOrder.OrderSelection;
+import de.michaprogs.crm.order.add.LoadOrderAdd;
+import de.michaprogs.crm.order.data.LoadOrderData;
 import de.michaprogs.crm.supplier.DeleteSupplier;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.SelectSupplier;
@@ -22,11 +31,19 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class ControllerSupplierData {
 
@@ -56,6 +73,15 @@ public class ControllerSupplierData {
 	@FXML private TextFieldOnlyInteger tfSkonto;
 	
 	@FXML private TextArea taNotes;
+	
+	/* ORDER */
+	@FXML private TableView<ModelOrder> tvOrder;
+	@FXML private TableColumn<ModelOrder, Integer> tcOrderID;
+	@FXML private TableColumn<ModelOrder, String> tcOrderRequest;
+	@FXML private TableColumn<ModelOrder, String> tcOrderDate;
+	@FXML private TableColumn<ModelOrder, String> tcClerk;
+	@FXML private TableColumn<ModelOrder, Integer> tcAmountOfPositions;
+	@FXML private TableColumn<ModelOrder, BigDecimal> tcTotal;
 	
 	/* CONTACTS - NESTED CONTROLLER! */
 	@FXML private ControllerContactData contactDataController; //fx:id + 'Controller'
@@ -91,6 +117,9 @@ public class ControllerSupplierData {
 		initBtnEditSave();
 		initBtnEditAbort();
 		initBtnDelete();
+		
+		//TABLES
+		initTableOrder();
 		
 		//disable all fields from beginning
 		disableAllFields();
@@ -263,6 +292,34 @@ public class ControllerSupplierData {
 	}
 	
 	/*
+	 * TABLES
+	 */
+	private void initTableOrder(){
+		
+		tcOrderID.setCellValueFactory(new PropertyValueFactory<>("orderID"));
+		tcOrderRequest.setCellValueFactory(new PropertyValueFactory<>("request"));
+		tcOrderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+		tcClerk.setCellValueFactory(new PropertyValueFactory<>("clerk"));
+		tcAmountOfPositions.setCellValueFactory(new PropertyValueFactory<>("amountOfPositions"));
+		tcTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+		
+		tvOrder.setContextMenu(new ContextMenuTableOrder());
+		
+		tvOrder.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+
+				if(event.getClickCount() == 2){
+					goToOrder(); 
+				}
+				
+			}
+		});
+		
+	}
+	
+	/*
 	 * DATABASE METHODS
 	 */
 	public void selectSupplier(int _supplierID){
@@ -305,7 +362,21 @@ public class ControllerSupplierData {
 		/* CONTACTS */
 		this.contactDataController.setTableData(supplier.getObsListContacts());
 		
+		/* ORDER */
+		selectOrder(supplier.getSupplierID());
+		
 		setButtonState();
+		
+	}
+	
+	private void selectOrder(int _supplierID){
+		
+		if(_supplierID != 0){
+			tvOrder.setItems(new SelectOrder(new ModelOrder(_supplierID), OrderSelection.ALL_ORDER_TO_SUPPLIER).getModelOrder().getObsListSupplierOrder());
+			
+		}else{
+			System.out.println("Bitte gültige Kundennummer wählen!");
+		}
 		
 	}
 	
@@ -441,6 +512,20 @@ public class ControllerSupplierData {
 		
 	}
 	
+	private void goToOrder(){
+		
+		if(tvOrder.getSelectionModel().getSelectedItems().size() == 1){
+			main.getContentPane().setCenter(new LoadOrderData(	false, 
+																tvOrder.getItems().get(tvOrder.getSelectionModel().getSelectedIndex()).getOrderID(), 
+																Integer.valueOf(tfSupplierID.getText()),
+																main
+											).getContent());				
+		}else{
+			System.out.println("Bitte 1 Zeile markieren!");
+		}
+		
+	}
+	
 	/*
 	 * GETTER & SETTER
 	 */
@@ -450,6 +535,83 @@ public class ControllerSupplierData {
 	
 	public void setMain(Main main){
 		this.main = main;
+	}
+	
+	/*
+	 * CONTEXT MENU
+	 */
+	private class ContextMenuTableOrder extends ContextMenu{
+		
+		private MenuItem itemGoTo = new MenuItem("Gehe zu..");
+		private MenuItem itemNew = new MenuItem("Hinzufügen..");
+		
+		public ContextMenuTableOrder(){
+			
+			initItemGoTo();
+			initItemNew();
+			
+			this.getItems().addAll(	itemGoTo,
+									itemNew);
+			
+			this.setOnShowing(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent event) {
+					
+					if(tfSupplierID.getText().equals("")){
+						itemNew.setDisable(true);
+						itemGoTo.setDisable(true);
+					}else{
+						
+						if(	hboxBtnTopbar.getChildren().contains(btnEditAbort) &&
+							hboxBtnTopbar.getChildren().contains(btnEditSave)){
+							itemNew.setDisable(true);
+							itemGoTo.setDisable(true);
+						}else{
+						
+							itemNew.setDisable(false);
+							if(tvOrder.getItems().size() > 0){
+								itemGoTo.setDisable(false);
+							}else{
+								itemGoTo.setDisable(true);
+							}
+						}
+					}
+					
+				}
+			});
+			
+		}
+		
+		private void initItemGoTo(){
+			
+			itemGoTo.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {	
+					goToOrder();
+				}
+			});
+			
+		}
+		
+		private void initItemNew(){
+			
+			itemNew.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					
+					LoadOrderAdd orderAdd = new LoadOrderAdd(true, new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), main);
+					if(orderAdd.getController().getCreatedOrderID() != 0){
+						selectOrder(Integer.valueOf(tfSupplierID.getText()));
+					}
+					
+				}
+			});
+			
+		}
+		
 	}
 	
 }

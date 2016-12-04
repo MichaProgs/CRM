@@ -16,7 +16,9 @@ public class CreateTableOrder {
 									+ "REQUESTDATE VARCHAR_IGNORECASE,"
 									+ "NOTES VARCHAR_IGNORECASE,"
 									+ "SUPPLIERID INTEGER NOT NULL,"
-									+ "CLERKID INTEGER NOT NULL"
+									+ "CLERKID INTEGER NOT NULL,"
+									+ "TOTAL DECIMAL(10,2),"
+									+ "AMOUNTOFPOSITIONS INTEGER"
 									+ ")";
 			
 			String stmt2 = "CREATE TABLE IF NOT EXISTS OrderArticle("

@@ -105,7 +105,7 @@ public class SearchOrder {
 				
 			}
 			
-			System.out.println("Die Bestellung " + mo.getOrderID() + " wurde aus Datenbank geladen!");			
+			System.out.println("Alle Bestellungen mit übereinstimmenden Suchkriterien wurden geladen!");			
 			
 		}catch(Exception e){
 			e.printStackTrace();

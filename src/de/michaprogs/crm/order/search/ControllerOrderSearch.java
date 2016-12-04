@@ -197,13 +197,13 @@ public class ControllerOrderSearch {
 		
 		ModelOrder order = 	new SearchOrder(
 								new ModelOrder(
-			new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOrderID.getText()),
-			String.valueOf(tfOrderDate.getValue()),
-			tfRequest.getText(),
-			String.valueOf(tfRequestDate.getValue()),
-			new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()),
-			new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfClerkID.getText())
-		)).getModelOrder();
+									new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOrderID.getText()),
+									String.valueOf(tfOrderDate.getValue()),
+									tfRequest.getText(),
+									String.valueOf(tfRequestDate.getValue()),
+									new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()),
+									new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfClerkID.getText())
+								)).getModelOrder();
 		
 		tvOrderSearch.setItems(order.getObsListOrderSearch());
 		if(tvOrderSearch.getItems().size() > 0){

@@ -27,9 +27,11 @@ public class InsertOrder {
 												+ "REQUESTDATE,"
 												+ "NOTES,"
 												+ "SUPPLIERID,"
-												+ "CLERKID)"
+												+ "CLERKID,"
+												+ "TOTAL,"
+												+ "AMOUNTOFPOSITIONS)"
 												+ "VALUES("
-												+ "?,?,?,?,?,?,?" //7
+												+ "?,?,?,?,?,?,?,?,?" //9
 												+ ")";
 			
 			con = new DBConnect().getConnection();
@@ -48,6 +50,10 @@ public class InsertOrder {
 			ps.setInt(i, mo.getSupplierID());
 			i++;
 			ps.setInt(i, mo.getClerkID());
+			i++;
+			ps.setBigDecimal(i, mo.getTotal());
+			i++;
+			ps.setInt(i, mo.getAmountOfPositions());
 			i++;
 			
 			ps.execute();

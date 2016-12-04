@@ -1,5 +1,7 @@
 package de.michaprogs.crm.order.add;
 
+import java.math.BigDecimal;
+
 import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
@@ -15,6 +17,7 @@ import de.michaprogs.crm.order.InsertOrder;
 import de.michaprogs.crm.order.ModelOrder;
 import de.michaprogs.crm.order.ValidateOrderSave;
 import de.michaprogs.crm.position.add.LoadAddPosition;
+import de.michaprogs.crm.position.data.ControllerPositionData;
 import de.michaprogs.crm.position.edit.LoadEditPosition;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.SelectSupplier;
@@ -80,19 +83,9 @@ public class ControllerOrderAdd {
 	@FXML private TextFieldOnlyInteger tfSkonto;
 	@FXML private TextFieldOnlyInteger tfPaymentNetto;
 	
-	/* ARTICLE */
-	@FXML private TableView<ModelArticle> tvArticle;
-	@FXML private TableColumn<ModelArticle, Integer> tcArticleID;
-	@FXML private TableColumn<ModelArticle, String> tcDescription1;
-	@FXML private TableColumn<ModelArticle, String> tcDescription2;
-	@FXML private TableColumn<ModelArticle, String> tcBarrelsize;
-	@FXML private TableColumn<ModelArticle, String> tcBolting;
-	@FXML private TableColumn<ModelArticle, String> tcAmount;
-	@FXML private TableColumn<ModelArticle, String> tcAmountUnit;
-	@FXML private TableColumn<ModelArticle, String> tcVk;
-	@FXML private TableColumn<ModelArticle, String> tcPriceUnit;
-	@FXML private TableColumn<ModelArticle, String> tcTotal;
-	@FXML private TableColumn<ModelArticle, String> tcTax;
+	/* ARTICLE - NESTED CONTROLLER */
+	@FXML private ControllerPositionData positionDataController; //fx:id + 'Controller'
+	
 	
 	/* BUTTONS */
 	@FXML private Button btnSave;
@@ -101,13 +94,10 @@ public class ControllerOrderAdd {
 	@FXML private Button btnSupplierSearch;
 	@FXML private Button btnClerkSearch;
 	
-	@FXML private Button btnArticleAdd;
-	@FXML private Button btnArticleEdit;
-	@FXML private Button btnArticleDelete;
-	
 	private Stage stage;
 	private Main main;
 	private int createdOrderID = 0;
+	private int createdOrderSupplierID = 0;
 	
 	public ControllerOrderAdd(){}
 	
@@ -120,16 +110,11 @@ public class ControllerOrderAdd {
 		initBtnSupplierSearch();
 		initBtnClerkSearch();
 		
-		initBtnArticleAdd();
-		initBtnArticleEdit();
-		initBtnArticleDelete();
-		
-		/* TABLES */
-		initTableArticle();
-		
 	}
 	
-	/* BUTTONS */
+	/* 
+	 * BUTTONS 
+	 */ 
 	private void initBtnSupplierSearch(){
 		
 		btnSupplierSearch.setGraphic(new ImageView(new Image("file:resources/search_15_blue.png", 15, 15, true, true)));
@@ -140,31 +125,7 @@ public class ControllerOrderAdd {
 
 				LoadSupplierSearch supplierSearch = new LoadSupplierSearch(true);
 				if(supplierSearch.getController().getSelectedSupplierID() != 0){
-					
-					ModelSupplier ms = new SelectSupplier(new ModelSupplier(supplierSearch.getController().getSelectedSupplierID())).getModelSupplier();
-					tfSupplierID.setText(String.valueOf(ms.getSupplierID()));
-					tfName1.setText(ms.getName1());
-					tfName2.setText(ms.getName2());
-					tfStreet.setText(ms.getStreet());
-					cbLand.getSelectionModel().select(ms.getLand());
-					tfZip.setText(String.valueOf(ms.getZip()));
-					tfLocation.setText(ms.getLocation());
-					
-					tfPhone.setText(ms.getPhone());
-					tfFax.setText(ms.getFax());
-					tfEmail.setText(ms.getEmail());
-					tfWeb.setText(ms.getWeb());
-					tfContact.setText(ms.getContact());
-					tfUstID.setText(ms.getUstID());
-					
-					cbPayment.getSelectionModel().select(ms.getPayment());
-					tfIBAN.setText(ms.getIBAN());
-					tfBIC.setText(ms.getBIC());
-					tfBank.setText(ms.getBank());
-					tfPaymentSkonto.setText(String.valueOf(ms.getPaymentSkonto()));
-					tfSkonto.setText(String.valueOf(ms.getSkonto()));
-					tfSkonto.setText(String.valueOf(ms.getPaymentNetto()));		
-					
+					selectSupplier(supplierSearch.getController().getSelectedSupplierID());
 				}
 				
 			}
@@ -196,45 +157,6 @@ public class ControllerOrderAdd {
 		
 	}
 	
-	private void initBtnArticleAdd(){
-		
-		btnArticleAdd.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-
-				LoadAddPosition posAdd = new LoadAddPosition(true, tvArticle.getItems());
-				tvArticle.setItems(posAdd.getController().getObsListArticle());
-				
-			}
-		});
-		
-	}
-	
-	private void initBtnArticleEdit(){
-		
-		btnArticleEdit.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				editArticle();
-			}
-		});
-		
-	}
-	
-	private void initBtnArticleDelete(){
-		
-		btnArticleDelete.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				deleteArticle();
-			}
-		});
-		
-	}
-	
 	private void initBtnSave(){
 		
 		btnSave.setGraphic(new GraphicButton("save_32.png").getGraphicButton());
@@ -247,7 +169,7 @@ public class ControllerOrderAdd {
 											new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
 											String.valueOf(tfOrderDate.getValue()), 
 											String.valueOf(tfRequestDate.getValue()), 
-											tvArticle.getItems()).isValid()){
+											positionDataController.getTableArticle().getItems()).isValid()){
 					
 					new InsertOrder(
 						new ModelOrder(
@@ -258,11 +180,14 @@ public class ControllerOrderAdd {
 							taNotes.getText(), 
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfClerkID.getText()), 
-							tvArticle.getItems()
+							positionDataController.getTableArticle().getItems(),
+							new BigDecimal(positionDataController.getLblTotal().getText()),
+							positionDataController.getTableArticle().getItems().size()
 						)
 					);
 					
 					createdOrderID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOrderID.getText());
+					createdOrderSupplierID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText());
 					
 					if(stage != null)
 						stage.close();
@@ -292,79 +217,35 @@ public class ControllerOrderAdd {
 		});
 		
 	}
-	
-	/* TABLES */
-	private void initTableArticle(){
 		
-		tcArticleID.setCellValueFactory(new PropertyValueFactory<>("articleID"));
-		tcDescription1.setCellValueFactory(new PropertyValueFactory<>("description1"));
-		tcDescription2.setCellValueFactory(new PropertyValueFactory<>("description2"));
-		tcBarrelsize.setCellValueFactory(new PropertyValueFactory<>("barrelsize"));
-		tcBolting.setCellValueFactory(new PropertyValueFactory<>("bolting"));
-		tcAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-		tcAmount.getStyleClass().add("tc-align-right");
-		tcAmountUnit.setCellValueFactory(new PropertyValueFactory<>("amountUnit"));
-		tcVk.setCellValueFactory(new PropertyValueFactory<>("vk"));
-		tcVk.getStyleClass().add("tc-align-right");
-		tcPriceUnit.setCellValueFactory(new PropertyValueFactory<>("priceUnit"));
-		tcTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
-		tcTotal.getStyleClass().add("tc-align-right");
-		tcTax.setCellValueFactory(new PropertyValueFactory<>("tax"));
-		
-		tvArticle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-
-				if(event.getClickCount() == 2){
-					editArticle();
-				}
-				
-			}
-		});
-		
-		tvArticle.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent event) {
-
-				if(event.getCode().equals(KeyCode.ENTER)){
-					editArticle();
-				}else if(event.getCode().equals(KeyCode.DELETE)){
-					deleteArticle();
-				}
-				
-			}
-		});
-		
-		tvArticle.setContextMenu(new ContextMenuTableArticle());
-		
-	}
-	
 	/*
 	 * DATABASE METHODS
 	 */
-	private void editArticle(){
+	public void selectSupplier(int supplierID){
 		
-		if(tvArticle.getSelectionModel().getSelectedItems().size() == 1){
-			LoadEditPosition posEdit = new LoadEditPosition(true, tvArticle.getItems(), tvArticle.getSelectionModel().getSelectedIndex());
-			tvArticle.setItems(posEdit.getController().getObsListArticle());
-		}else{
-			System.out.println("Bitte 1 Zeile markieren!");
-		}
+		ModelSupplier ms = new SelectSupplier(new ModelSupplier(supplierID)).getModelSupplier();
+		tfSupplierID.setText(String.valueOf(ms.getSupplierID()));
+		tfName1.setText(ms.getName1());
+		tfName2.setText(ms.getName2());
+		tfStreet.setText(ms.getStreet());
+		cbLand.getSelectionModel().select(ms.getLand());
+		tfZip.setText(String.valueOf(ms.getZip()));
+		tfLocation.setText(ms.getLocation());
 		
-	}
-	
-	private void deleteArticle(){
+		tfPhone.setText(ms.getPhone());
+		tfFax.setText(ms.getFax());
+		tfEmail.setText(ms.getEmail());
+		tfWeb.setText(ms.getWeb());
+		tfContact.setText(ms.getContact());
+		tfUstID.setText(ms.getUstID());
 		
-		
-		if(tvArticle.getSelectionModel().getSelectedItems().size() == 1){
-			if(new DeleteAlert().getDelete()){
-				tvArticle.getItems().remove(tvArticle.getSelectionModel().getSelectedIndex());
-			}
-		}else{
-			System.out.println("Bitte 1 Zeile markieren");
-		}
+		cbPayment.getSelectionModel().select(ms.getPayment());
+		tfIBAN.setText(ms.getIBAN());
+		tfBIC.setText(ms.getBIC());
+		tfBank.setText(ms.getBank());
+		tfPaymentSkonto.setText(String.valueOf(ms.getPaymentSkonto()));
+		tfSkonto.setText(String.valueOf(ms.getSkonto()));
+		tfSkonto.setText(String.valueOf(ms.getPaymentNetto()));	
 		
 	}
 	
@@ -380,48 +261,11 @@ public class ControllerOrderAdd {
 	}
 	
 	public int getCreatedOrderID(){
-		return new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOrderID.getText());
+		return createdOrderID;
 	}
-
-	private class ContextMenuTableArticle extends ContextMenu{
-		
-		private MenuItem miEdit = new MenuItem("Bearbeiten..");
-		private MenuItem miDelete = new MenuItem("Löschen");
-		
-		public ContextMenuTableArticle(){
-			
-			/* ITEMS */
-			initMiEdit();
-			initMiDelete();
-			
-			this.getItems().addAll(miEdit, miDelete);
-			
-		}
-		
-		private void initMiEdit(){
-			
-			miEdit.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					editArticle();
-				}
-			});
-			
-		}
-		
-		private void initMiDelete(){
-			
-			miDelete.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					deleteArticle();
-				}
-			});
-			
-		}
-		
+	
+	public int getCreatedOrderSupplierID(){
+		return createdOrderSupplierID;
 	}
 	
 }

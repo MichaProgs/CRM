@@ -1,5 +1,7 @@
 package de.michaprogs.crm.order;
 
+import java.math.BigDecimal;
+
 import de.michaprogs.crm.article.ModelArticle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,17 +15,49 @@ public class ModelOrder {
 	private String notes = "";
 	private int supplierID = 0;
 	private int clerkID = 0;
+	private String clerk = "";
+	private BigDecimal total = new BigDecimal("0.00");
+	private int amountOfPositions = 0;
 	
 	private ObservableList<ModelArticle> obsListArticle = FXCollections.observableArrayList();
 	private ObservableList<ModelOrder> obsListOrderSearch = FXCollections.observableArrayList();
+	private ObservableList<ModelOrder> obsListSupplierOrder = FXCollections.observableArrayList();
 	
 	/**
 	 * Empty Constructor
 	 */
 	public ModelOrder(){}
 
+	/**
+	 * Constructor for ObservableList (SupplierOrder)
+	 * @param orderID
+	 * @param orderDate
+	 * @param request
+	 * @param requestDate
+	 * @param total
+	 * @param amountOfPositions
+	 */
+	public ModelOrder(	int orderID,
+						String orderDate,
+						String request,
+						String requestDate,
+						String clerk,
+						BigDecimal total,
+						int amountOfPositions){
+		
+		this.orderID = orderID;
+		this.orderDate = orderDate;
+		this.request = request;
+		this.requestDate = requestDate;
+		this.clerk = clerk;
+		this.total = total;
+		this.amountOfPositions = amountOfPositions;
+		
+	}
+	
 	/**	
-	 * Constructor for Database (Insert Order)
+	 * Constructor for Database (Insert Order) <br>
+	 * Constructor for Database (Update Order)
 	 * @param orderID
 	 * @param orderDate
 	 * @param request
@@ -32,6 +66,8 @@ public class ModelOrder {
 	 * @param supplierID
 	 * @param clerkID
 	 * @param obsListArticle
+	 * @param total
+	 * @param amountOfPositions
 	 */
 	public ModelOrder(	int orderID, 
 						String orderDate, 
@@ -40,7 +76,9 @@ public class ModelOrder {
 						String notes, 
 						int supplierID,
 						int clerkID, 
-						ObservableList<ModelArticle> obsListArticle) {
+						ObservableList<ModelArticle> obsListArticle,
+						BigDecimal total,
+						int amountOfPositions) {
 		
 		this.orderID = orderID;
 		this.orderDate = orderDate;
@@ -50,6 +88,8 @@ public class ModelOrder {
 		this.supplierID = supplierID;
 		this.clerkID = clerkID;
 		this.obsListArticle = obsListArticle;
+		this.total = total;
+		this.amountOfPositions = amountOfPositions;
 		
 	}
 	
@@ -77,13 +117,25 @@ public class ModelOrder {
 		this.clerkID = clerkID;
 		
 	}
-
+	
 	/**
+	 * Constructor for Database (Delete Order)
 	 * Constructor for Database (Select Order)
 	 * @param orderID
+	 * @param supplierID
 	 */
-	public ModelOrder(int orderID){
+	public ModelOrder(	int orderID,
+						int supplierID){
 		this.orderID = orderID;
+		this.supplierID = supplierID;
+	}
+
+	/**
+	 * Constructor for Database (Select Order Supplier)
+	 * @param supplierID
+	 */
+	public ModelOrder(int supplierID){
+		this.supplierID = supplierID;
 	}
 
 
@@ -160,6 +212,40 @@ public class ModelOrder {
 
 	public void setObsListOrderSearch(ObservableList<ModelOrder> obsListOrderSearch) {
 		this.obsListOrderSearch = obsListOrderSearch;
+	}
+
+	public ObservableList<ModelOrder> getObsListSupplierOrder() {
+		return obsListSupplierOrder;
+	}
+
+	public void setObsListSupplierOrder(ObservableList<ModelOrder> obsListSupplierOrder) {
+		this.obsListSupplierOrder = obsListSupplierOrder;
+	}
+
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
+
+	public int getAmountOfPositions() {
+		return amountOfPositions;
+	}
+
+	public void setAmountOfPositions(int amountOfPositions) {
+		this.amountOfPositions = amountOfPositions;
+	}
+
+	public String getClerk() {
+		return clerk;
+	}
+
+	public void setClerk(String clerk) {
+		this.clerk = clerk;
 	}	
+	
+	
 	
 }
