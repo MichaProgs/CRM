@@ -1,5 +1,6 @@
 package de.michaprogs.crm.customer.data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import de.michaprogs.crm.DeleteAlert;
@@ -17,6 +18,11 @@ import de.michaprogs.crm.customer.add.LoadCustomerAdd;
 import de.michaprogs.crm.customer.category.ModelCustomerCategory;
 import de.michaprogs.crm.customer.category.SelectCustomerCategory;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
+import de.michaprogs.crm.deliverybill.ModelDeliverybill;
+import de.michaprogs.crm.deliverybill.SelectDeliverybill;
+import de.michaprogs.crm.deliverybill.SelectDeliverybill.DeliverybillSelection;
+import de.michaprogs.crm.deliverybill.add.LoadDeliverybillAdd;
+import de.michaprogs.crm.deliverybill.data.LoadDeliverybillData;
 import de.michaprogs.crm.offer.ModelOffer;
 import de.michaprogs.crm.offer.SelectOffer;
 import de.michaprogs.crm.offer.SelectOffer.OfferSelection;
@@ -117,6 +123,17 @@ public class ControllerCustomerData {
 	@FXML private TableColumn<ModelOffer, String> tcOfferClerk;
 	@FXML private TableColumn<ModelOffer, String> tcOfferRequest;
 	@FXML private TableColumn<ModelOffer, String> tcOfferDate;
+	@FXML private TableColumn<ModelDeliverybill, Integer> tcOfferAmountOfPositions;
+	@FXML private TableColumn<ModelDeliverybill, BigDecimal> tcOfferTotal;
+	
+	/* DELIVERYBILL */
+	@FXML private TableView<ModelDeliverybill> tvDeliverybill;
+	@FXML private TableColumn<ModelDeliverybill, Integer> tcDeliverybillID;
+	@FXML private TableColumn<ModelDeliverybill, String> tcDeliverybillClerk;
+	@FXML private TableColumn<ModelDeliverybill, String> tcDeliverybillRequest;
+	@FXML private TableColumn<ModelDeliverybill, String> tcDeliverybillDate;
+	@FXML private TableColumn<ModelDeliverybill, Integer> tcDeliverybillAmountOfPositions;
+	@FXML private TableColumn<ModelDeliverybill, BigDecimal> tcDeliverybillTotal;
 	
 	/* BUTTONS */
 	@FXML private Button btnSearch;
@@ -163,6 +180,7 @@ public class ControllerCustomerData {
 		
 		/* TABLES */
 		initTableOffer();
+		initTableDeliverybill();
 		
 		setButtonState();
 		
@@ -388,7 +406,7 @@ public class ControllerCustomerData {
 					tfPaymentNettoBilling.setText(String.valueOf(customer.getPaymentNetto()));
 					tfPaymentSkontoBilling.setText(String.valueOf(customer.getPaymentSkonto()));
 					tfSkontoBilling.setText(String.valueOf(customer.getSkonto()));
-					cbCategory.getSelectionModel().select(customer.getCategory());
+					cbCategoryBilling.getSelectionModel().select(customer.getCategory());
 					
 				}
 				
@@ -423,6 +441,8 @@ public class ControllerCustomerData {
 		tcOfferClerk.setCellValueFactory(new PropertyValueFactory<>("clerk"));
 		tcOfferRequest.setCellValueFactory(new PropertyValueFactory<>("request"));
 		tcOfferDate.setCellValueFactory(new PropertyValueFactory<>("offerDate"));
+		tcOfferAmountOfPositions.setCellValueFactory(new PropertyValueFactory<>("amountOfPositions"));
+		tcOfferTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
 		
 		tvOffer.setContextMenu(new ContextMenuTableOffer());
 		
@@ -433,6 +453,31 @@ public class ControllerCustomerData {
 
 				if(event.getClickCount() == 2){
 					goToOffer();
+				}
+				
+			}
+		});
+		
+	}
+		
+	private void initTableDeliverybill(){
+		
+		tcDeliverybillID.setCellValueFactory(new PropertyValueFactory<>("deliverybillID"));
+		tcDeliverybillClerk.setCellValueFactory(new PropertyValueFactory<>("clerk"));
+		tcDeliverybillRequest.setCellValueFactory(new PropertyValueFactory<>("request"));
+		tcDeliverybillDate.setCellValueFactory(new PropertyValueFactory<>("deliverybillDate"));
+		tcDeliverybillAmountOfPositions.setCellValueFactory(new PropertyValueFactory<>("amountOfPositions"));
+		tcDeliverybillTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+		
+		tvDeliverybill.setContextMenu(new ContextMenuTableDeliverybill());
+		
+		tvDeliverybill.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+
+				if(event.getClickCount() == 2){
+					goToDeliverybill();
 				}
 				
 			}
@@ -486,6 +531,9 @@ public class ControllerCustomerData {
 		/* OFFER */
 		selectOffer(_customerID);
 		
+		/* DELIVERYBILL */
+		selectDeliverybill(_customerID);
+		
 		/* BILLING */
 		//ALWAYS LAST - OTHERWISE THE DATA IN THE MODEL WOULD BE OVERWRITTEN
 		if(customer.getBillingID() != 0){
@@ -537,6 +585,16 @@ public class ControllerCustomerData {
 		
 	}
 	
+	private void selectDeliverybill(int _customerID){
+		
+		if(_customerID != 0){
+			tvDeliverybill.setItems(new SelectDeliverybill(new ModelDeliverybill(_customerID), DeliverybillSelection.ALL_DELIVERYBILL_FROM_CUSTOMER).getObsListDeliverybill());
+		}else{
+			System.out.println("Bitte gültige Kundennummer wählen!");
+		}
+		
+	}
+	
 	/*
 	 * UI METHODS
 	 */
@@ -569,7 +627,7 @@ public class ControllerCustomerData {
 		tfSkonto.setDisable(false);
 		cbCategory.setDisable(false);
 		
-		taNotes.setDisable(false);
+		taNotes.setEditable(true);
 		
 	}
 	
@@ -602,7 +660,7 @@ public class ControllerCustomerData {
 		tfSkonto.setDisable(true);
 		cbCategory.setDisable(true);
 		
-		taNotes.setDisable(true);
+		taNotes.setEditable(false);
 		
 	}
 	
@@ -749,7 +807,22 @@ public class ControllerCustomerData {
 		if(tvOffer.getSelectionModel().getSelectedItems().size() == 1){
 			main.getContentPane().setCenter(new LoadOfferData(	false, 
 																tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getOfferID(), 
-																tvOffer.getItems().get(tvOffer.getSelectionModel().getSelectedIndex()).getCustomerID(),
+																Integer.valueOf(tfCustomerID.getText()),
+																main
+											).getContent());				
+		}else{
+			System.out.println("Bitte 1 Zeile markieren!");
+		}
+		
+	}
+	
+	private void goToDeliverybill(){
+		
+		if(tvDeliverybill.getSelectionModel().getSelectedItems().size() == 1){
+			
+			main.getContentPane().setCenter(new LoadDeliverybillData(	false, 
+																tvDeliverybill.getItems().get(tvDeliverybill.getSelectionModel().getSelectedIndex()).getDeliverybillID(), 
+																Integer.valueOf(tfCustomerID.getText()),
 																main
 											).getContent());				
 		}else{
@@ -835,6 +908,77 @@ public class ControllerCustomerData {
 					LoadOfferAdd offerAdd = new LoadOfferAdd(true, new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()));
 					if(offerAdd.getController().getCreatedOfferID() != 0){
 						selectOffer(Integer.valueOf(tfCustomerID.getText()));
+					}
+				}
+			});
+			
+		}
+		
+	}
+	
+	private class ContextMenuTableDeliverybill extends ContextMenu{
+		
+		private MenuItem itemGoTo = new MenuItem("Gehe zu..");
+		private MenuItem itemNew = new MenuItem("Hinzufügen..");
+		
+		public ContextMenuTableDeliverybill(){
+			
+			initItemGoTo();
+			initItemNew();
+			
+			this.getItems().addAll(	itemGoTo,
+									itemNew);
+			
+			this.setOnShowing(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent event) {
+					
+					if(tfCustomerID.getText().equals("")){
+						itemNew.setDisable(true);
+						itemGoTo.setDisable(true);
+					}else{
+						
+						if(editable()){
+							itemNew.setDisable(true);
+							itemGoTo.setDisable(true);
+						}else{
+						
+							itemNew.setDisable(false);
+							if(tvDeliverybill.getItems().size() > 0){
+								itemGoTo.setDisable(false);
+							}else{
+								itemGoTo.setDisable(true);
+							}
+						}
+					}
+					
+				}
+			});
+			
+		}
+		
+		private void initItemGoTo(){
+			
+			itemGoTo.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {	
+					goToDeliverybill();
+				}
+			});
+			
+		}
+		
+		private void initItemNew(){
+			
+			itemNew.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					LoadDeliverybillAdd DeliverybillAdd = new LoadDeliverybillAdd(true, main, new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()));
+					if(DeliverybillAdd.getController().getCreatedDeliverybillID() != 0){
+						selectDeliverybill(Integer.valueOf(tfCustomerID.getText()));
 					}
 				}
 			});

@@ -44,7 +44,7 @@
 	-fx-background-radius: 0; /* cornered textfield */
 	-fx-background-color: #ffffff;
 	-fx-border-color: #ABABAB;
-	-fx-pref-width: 220;
+	/*-fx-pref-width: 220;*/
 }
 
 .text-field:disabled{
@@ -57,7 +57,7 @@
 }
 
 #tfWithBtn{
-	-fx-pref-width: 178px;
+	/*-fx-pref-width: 178px;*/
 }
 
 /************
@@ -232,6 +232,16 @@
 
 .button:focused{
 	-fx-border-color: -fx-accent-blue;
+}
+
+#btnSearchSmall{
+	-fx-background-color: -fx-accent-blue;
+	-fx-border-color: transparent;
+	-fx-graphic: url("../resources/icon_search_15_white.png");
+}
+
+#btnSearchSmall:hover{
+	-fx-background-color: -fx-accent-blue-hover;
 }
 
 #btnCollapse{

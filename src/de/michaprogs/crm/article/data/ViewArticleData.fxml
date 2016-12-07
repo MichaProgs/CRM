@@ -94,13 +94,13 @@
 											</columnConstraints>
 											<Label text="Gebindegröße:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
-												<TextField fx:id="tfBarrelsize" disable="true" /> <!-- 209-L-FASS, 20-L-KANISTER -->
-												<Button fx:id="btnBarrelsize" text="..." />
+												<TextField fx:id="tfBarrelsize" id="tfWithBtn" disable="true" /> <!-- 209-L-FASS, 20-L-KANISTER -->
+												<Button fx:id="btnBarrelsize" text="" id="btnSearchSmall" />
 											</HBox>
 											<Label text="Verschraubung:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 											<HBox GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="10">
-												<TextField fx:id="tfBolting" disable="true" /> <!-- POL x IG G 1/2  -->
-												<Button fx:id="btnBolting" text="..." />
+												<TextField fx:id="tfBolting" disable="true" id="tfWithBtn" /> <!-- POL x IG G 1/2  -->
+												<Button fx:id="btnBolting" text="" id="btnSearchSmall" />
 											</HBox>
 											<Label text="L x B x H (mm):" GridPane.columnIndex="0" GridPane.rowIndex="2" /> <!-- 5 2 10 -->
 											<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2" alignment="CENTER_LEFT">

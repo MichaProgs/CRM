@@ -82,8 +82,8 @@
 														</columnConstraints>
 														<Label text="Sachbearbeiter-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 														<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0" >
-															<TextField fx:id="tfClerkID" disable="true" />
-															<Button fx:id="btnClerkSearch" text="..." />
+															<TextField fx:id="tfClerkID" id="tfWithBtn" disable="true" />
+															<Button fx:id="btnClerkSearch" text="" id="btnSearchSmall" />
 														</HBox>
 														<Label text="Sachbearbeiter:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 														<TextField fx:id="tfClerk" GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true" />
@@ -98,7 +98,7 @@
 												</HBox>
 											</TitledPane>
 											
-											<TitledPane text="Bestell-Notizen">
+											<TitledPane text="NOTIZEN">
 												<!-- First Block -->
 												<AnchorPane >
 													<TextArea fx:id="taNotes" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
@@ -125,7 +125,7 @@
 														<Label text="Lieferanten-Nr." GridPane.columnIndex="0" GridPane.rowIndex="0" />
 															<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0" >
 																<TextFieldOnlyInteger fx:id="tfSupplierID" disable="true" id="tfWithBtn" />
-																<Button fx:id="btnSupplierSearch" text="" />
+																<Button fx:id="btnSupplierSearch" text="" id="btnSearchSmall" />
 															</HBox>
 														<Label text="Name1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 														<TextField fx:id="tfName1"  GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true" />

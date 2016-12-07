@@ -45,7 +45,7 @@
 								<VBox styleClass="VboxContent">
 									<Button fx:id="btnOffer" text="ANGEBOT" id="btnSidebar" />
 									<Button fx:id="btnOrder" text="BESTELLUNG" id="btnSidebar" />
-									<Button text="LIEFERSCHEIN" id="btnSidebar" />
+									<Button fx:id="btnDeliverybill" text="LIEFERSCHEIN" id="btnSidebar" />
 									<Button text="RECHNUNG" id="btnSidebar" />
 								</VBox>
 							</TitledPane>

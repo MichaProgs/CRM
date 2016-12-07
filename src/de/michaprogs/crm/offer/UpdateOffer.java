@@ -20,7 +20,9 @@ public class UpdateOffer {
 										+ "requestDate = ?,"
 										+ "notes = ?,"
 										+ "customerID = ?,"
-										+ "clerkID = ? "
+										+ "clerkID = ?,"
+										+ "amountOfPositions = ?,"
+										+ "total = ? "
 										
 										+ "WHERE offerID = ?"; //ALWAYS LAST!
 			
@@ -38,6 +40,10 @@ public class UpdateOffer {
 			ps.setInt(i, mo.getCustomerID());
 			i++;
 			ps.setInt(i, mo.getClerkID());
+			i++;
+			ps.setInt(i, mo.getAmountOfPositions());
+			i++;
+			ps.setBigDecimal(i, mo.getTotal());
 			i++;
 			
 			//ALWAYS LAST!

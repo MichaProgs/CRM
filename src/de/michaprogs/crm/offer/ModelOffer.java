@@ -22,12 +22,15 @@ public class ModelOffer {
 	
 	/* CLERK */
 	private int clerkID;
+	private String clerk;
 	
 	/* ARTICLE */
 	private int articleID;
 	private double amount;
 	private BigDecimal ek;
 	private BigDecimal vk;
+	private int amountOfPositions;
+	private BigDecimal total;
 	
 	private ObservableList<ModelArticle> obsListArticle = FXCollections.observableArrayList();
 	
@@ -74,6 +77,8 @@ public class ModelOffer {
 						String _notes,
 						int _customerID,
 						int _clerkID,
+						int amountOfPositions,
+						BigDecimal total,
 						ObservableList<ModelArticle> _obsListArticle){
 
 		this.offerID = _offerID;
@@ -83,6 +88,8 @@ public class ModelOffer {
 		this.notes = _notes;
 		this.customerID = _customerID;
 		this.clerkID = _clerkID;
+		this.amountOfPositions = amountOfPositions;
+		this.total = total;
 		this.obsListArticle = _obsListArticle;
 
 	}
@@ -104,6 +111,32 @@ public class ModelOffer {
 	 */
 	public ModelOffer(	int _customerID){
 		this.customerID = _customerID;
+	}
+
+	/**
+	 * Constructor for ObservableList (Customer Offers)
+	 * @param offerID
+	 * @param offerDate
+	 * @param customerID
+	 * @param request
+	 * @param requestDate
+	 * @param amountOfPositions
+	 * @param total
+	 */
+	public ModelOffer(	int offerID, 
+						String offerDate, 
+						String request, 
+						String requestDate,
+						String clerk,
+						int amountOfPositions,
+						BigDecimal total) {
+		this.offerID = offerID;
+		this.offerDate = offerDate;
+		this.request = request;
+		this.requestDate = requestDate;
+		this.clerk = clerk;
+		this.amountOfPositions = amountOfPositions;
+		this.total = total;
 	}
 
 	/*
@@ -165,6 +198,14 @@ public class ModelOffer {
 		this.clerkID = clerkID;
 	}
 
+	public String getClerk() {
+		return clerk;
+	}
+
+	public void setClerk(String clerk) {
+		this.clerk = clerk;
+	}
+
 	public int getArticleID() {
 		return articleID;
 	}
@@ -195,6 +236,22 @@ public class ModelOffer {
 
 	public void setVk(BigDecimal vk) {
 		this.vk = vk;
+	}
+	
+	public int getAmountOfPositions() {
+		return amountOfPositions;
+	}
+
+	public void setAmountOfPositions(int amountOfPositions) {
+		this.amountOfPositions = amountOfPositions;
+	}
+
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
 
 	public ObservableList<ModelArticle> getObsListArticle() {

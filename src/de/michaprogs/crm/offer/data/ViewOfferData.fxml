@@ -90,7 +90,7 @@
 														<Label text="Sachbearbeiter-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 														<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0" >
 															<TextField fx:id="tfClerkID" id="tfWithBtn" disable="true" />
-															<Button fx:id="btnClerkSearch" text="..." disable="true" />
+															<Button fx:id="btnClerkSearch" text="" id="btnSearchSmall" disable="true" />
 														</HBox>
 														<Label text="Sachbearbeiter:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 														<TextField fx:id="tfClerk" GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true" />
@@ -133,7 +133,7 @@
 														<Label text="Kunden-Nr." GridPane.columnIndex="0" GridPane.rowIndex="0" />
 														<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0" >
 															<TextFieldOnlyInteger fx:id="tfCustomerID" disable="true" id="tfWithBtn" />
-															<Button fx:id="btnCustomerSearch" text="..." disable="true" /> 
+															<Button fx:id="btnCustomerSearch" text="" id="btnSearchSmall" disable="true" /> 
 														</HBox>
 														<Label text="Anrede:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 														<ComboBox fx:id="cbSalutation" GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true"/>

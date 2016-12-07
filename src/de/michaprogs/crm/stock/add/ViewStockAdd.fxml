@@ -63,7 +63,7 @@
 											<Label text="Artikel-Nr." GridPane.columnIndex="0" GridPane.rowIndex="0" />
 											<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0" >
 												<TextFieldOnlyInteger fx:id="tfArticleID" id="tfWithBtn" disable="true" />
-												<Button fx:id="btnArticleSearch" text="..." />
+												<Button fx:id="btnArticleSearch" text="" id="btnSearchSmall" />
 											</HBox>
 											<Label text="Kurztext1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 											<TextField fx:id="tfDescription1"  GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true" />
@@ -87,7 +87,7 @@
 											<Label text="Lieferanten-Nr." GridPane.columnIndex="0" GridPane.rowIndex="0" />
 											<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0" >
 												<TextFieldOnlyInteger fx:id="tfSupplierID" id="tfWithBtn" disable="true" />
-												<Button fx:id="btnSupplierSearch" text="..." />
+												<Button fx:id="btnSupplierSearch" text="" id="btnSearchSmall" />
 											</HBox>
 											<Label text="Name1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 											<TextField fx:id="tfName1"  GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true" />
@@ -116,7 +116,7 @@
 											<Label text="Lager-Nr." GridPane.columnIndex="0" GridPane.rowIndex="0" />
 											<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0" >
 												<TextFieldOnlyInteger fx:id="tfWarehouseID" id="tfWithBtn" disable="true" />
-												<Button fx:id="btnWarehouseSearch" text="..." />
+												<Button fx:id="btnWarehouseSearch" text="" id="btnSearchSmall" />
 											</HBox>
 											<Label text="Lager" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 											<TextField fx:id="tfWarehouse" GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true" />

@@ -517,6 +517,7 @@ public class ControllerArticleData{
 	
 	private void initBtnBarrelsize(){
 		
+		//btnSupplierSearch.setGraphic() -> see CSS #btnSearchSmall
 		btnBarrelsize.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -534,6 +535,7 @@ public class ControllerArticleData{
 	
 	private void initBtnBolting(){
 		
+		//btnSupplierSearch.setGraphic() -> see CSS #btnSearchSmall
 		btnBolting.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -871,8 +873,8 @@ public class ControllerArticleData{
 		cbTax.setDisable(false);
 		
 		/* First Tab (Langtext) */
-		taLongtext.setDisable(false);
-		taNotes.setDisable(false);
+		taLongtext.setEditable(true);
+		taNotes.setEditable(true);
 		
 	}
 	
@@ -904,8 +906,8 @@ public class ControllerArticleData{
 		cbTax.setDisable(true);		
 		
 		/* First Tab (Langtext) */
-		taLongtext.setDisable(true);	
-		taNotes.setDisable(true);
+		taLongtext.setEditable(false);	
+		taNotes.setEditable(false);
 		
 	}
 

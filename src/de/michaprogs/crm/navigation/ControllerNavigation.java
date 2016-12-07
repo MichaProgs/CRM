@@ -4,6 +4,7 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.Main;
 import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.customer.data.LoadCustomerData;
+import de.michaprogs.crm.deliverybill.data.LoadDeliverybillData;
 import de.michaprogs.crm.offer.data.LoadOfferData;
 import de.michaprogs.crm.order.data.LoadOrderData;
 import de.michaprogs.crm.stock.add.LoadStockAdd;
@@ -30,6 +31,7 @@ public class ControllerNavigation {
 	@FXML private Button btnSupplier;
 	@FXML private Button btnOffer;
 	@FXML private Button btnOrder;
+	@FXML private Button btnDeliverybill;
 	@FXML private Button btnStock;
 	
 	@FXML private TitledPane tpMainData;
@@ -41,6 +43,7 @@ public class ControllerNavigation {
 	private LoadStockAdd stockAdd = new LoadStockAdd(false);
 	private LoadOfferData offerData;
 	private LoadOrderData orderData;
+	private LoadDeliverybillData deliverybillData;
 	
 	private Main main;
 	
@@ -53,6 +56,7 @@ public class ControllerNavigation {
 		supplierData = new LoadSupplierData(false, 0, main);
 		offerData = new LoadOfferData(false,0,0, main);
 		orderData = new LoadOrderData(false, 0, 0, main);
+		deliverybillData = new LoadDeliverybillData(false, 0, 0, main);
 		
 		//Buttons
 		initBtnCollapse();
@@ -63,6 +67,7 @@ public class ControllerNavigation {
 		initBtnStock();
 		initBtnOffer();
 		initBtnOrder();
+		initBtnDeliverybill();
 		
 	}
 	
@@ -190,6 +195,20 @@ public class ControllerNavigation {
 			public void handle(ActionEvent event) {
 				main.getContentPane().setCenter(offerData.getContent());
 				main.getStage().setTitle(main.getProgramName() + " - Angebot");
+				setSizeToScene();
+			}
+		});
+		
+	}
+	
+	private void initBtnDeliverybill(){
+		
+		btnDeliverybill.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				main.getContentPane().setCenter(deliverybillData.getContent());
+				main.getStage().setTitle(main.getProgramName() + " - Lieferschein");
 				setSizeToScene();
 			}
 		});

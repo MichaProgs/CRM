@@ -223,6 +223,7 @@ public class ControllerStockAdd {
 	
 	private void initBtnArticleSearch(){
 		
+		//btnSupplierSearch.setGraphic() -> see CSS #btnSearchSmall
 		btnArticleSearch.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -240,6 +241,7 @@ public class ControllerStockAdd {
 	
 	private void initBtnSupplierSearch(){
 		
+		//btnSupplierSearch.setGraphic() -> see CSS #btnSearchSmall
 		btnSupplierSearch.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -257,6 +259,7 @@ public class ControllerStockAdd {
 	
 	private void initBtnWarehouseSearch(){
 		
+		//btnSupplierSearch.setGraphic() -> see CSS #btnSearchSmall
 		btnWarehouseSearch.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override

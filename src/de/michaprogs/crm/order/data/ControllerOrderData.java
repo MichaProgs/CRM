@@ -290,7 +290,7 @@ public class ControllerOrderData {
 	
 	private void initBtnSupplierSearch(){
 		
-		btnSupplierSearch.setGraphic(new ImageView(new Image("file:resources/search_15_blue.png", 15, 15, true, true)));
+		//btnSupplierSearch.setGraphic() -> see CSS #btnSearchSmall
 		btnSupplierSearch.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -334,6 +334,7 @@ public class ControllerOrderData {
 	
 	private void initBtnClerkSearch(){
 		
+		//btnSupplierSearch.setGraphic() -> see CSS #btnSearchSmall
 		btnClerkSearch.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

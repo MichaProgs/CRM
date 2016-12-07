@@ -44,10 +44,10 @@
 								<ColumnConstraints halignment="RIGHT" />
 								<ColumnConstraints halignment="LEFT" />
 							</columnConstraints>
-							<Label text="Artikel-Nr." GridPane.columnIndex="0" GridPane.rowIndex="0" />
+							<Label text="Artikel-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 							<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0" >
 								<TextFieldOnlyInteger fx:id="tfArticleID" disable="true" id="tfWithBtn" />
-								<Button fx:id="btnArticleSearch" text="..." />
+								<Button fx:id="btnArticleSearch" text="" id="btnSearchSmall" />
 							</HBox>
 							<Label text="Bezeichnung1:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 							<TextField fx:id="tfDescription1" GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true"/>

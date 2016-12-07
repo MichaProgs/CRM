@@ -1,4 +1,4 @@
-package de.michaprogs.crm.offer;
+package de.michaprogs.crm.deliverybill;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,11 +13,11 @@ import de.michaprogs.crm.database.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class SelectOffer {
+public class SelectDeliverybill {
 
-	private ModelOffer mo;
+	private ModelDeliverybill md;
 	private ObservableList<ModelArticle> obsListArticle = FXCollections.observableArrayList();
-	private ObservableList<ModelOffer> obsListOffer = FXCollections.observableArrayList();
+	private ObservableList<ModelDeliverybill> obsListDeliverybill = FXCollections.observableArrayList();
 	
 	/* DATABASE */
 	private Connection con;
@@ -25,51 +25,51 @@ public class SelectOffer {
 	private ResultSet rs;
 	
 	/**
-	 * Constructor to select specific offer
-	 * @param mo - ModelOffer
+	 * Constructor to select specific Deliverybill
+	 * @param mo - ModelDeliverybill
 	 * @param Selection - the art of selection 
 	 */
-	public SelectOffer(ModelOffer mo, OfferSelection offerSelection){
+	public SelectDeliverybill(ModelDeliverybill md, DeliverybillSelection DeliverybillSelection){
 		
 		try{
 			
-			this.mo = mo;
+			this.md = md;
 			String stmt = "";
 			
 			con = new DBConnect().getConnection();
 			
-			if(offerSelection.equals(OfferSelection.SPECIFIC_OFFER)){
-				stmt = "SELECT * FROM offer WHERE offerID = ? AND customerID = ?";
+			if(DeliverybillSelection.equals(DeliverybillSelection.SPECIFIC_DELIVERYBILL)){
+				stmt = "SELECT * FROM Deliverybill WHERE DeliverybillID = ? AND customerID = ?";
 				ps = con.prepareStatement(stmt);
 				int i = 1;
-				ps.setInt(i, mo.getOfferID());
+				ps.setInt(i, md.getDeliverybillID());
 				i++;
-				ps.setInt(i, mo.getCustomerID());
+				ps.setInt(i, md.getCustomerID());
 				i++;
-			}else if(offerSelection.equals(OfferSelection.ALL_OFFER_FROM_CUSTOMER)){
-				stmt = "SELECT * FROM offer WHERE customerID = ?";
+			}else if(DeliverybillSelection.equals(DeliverybillSelection.ALL_DELIVERYBILL_FROM_CUSTOMER)){
+				stmt = "SELECT * FROM Deliverybill WHERE customerID = ?";
 				ps = con.prepareStatement(stmt);
 				int i = 1;
-				ps.setInt(i, mo.getCustomerID());
+				ps.setInt(i, md.getCustomerID());
 				i++;
 			}
 			
 			rs = ps.executeQuery();
 			while(rs.next()){
 				
-				mo.setOfferID(rs.getInt("offerID"));
-				mo.setOfferDate(rs.getString("offerDate"));
-				mo.setRequest(rs.getString("request"));
-				mo.setRequestDate(rs.getString("requestDate"));
-				mo.setNotes(rs.getString("notes"));
-				mo.setCustomerID(rs.getInt("customerID"));
-				mo.setClerkID(rs.getInt("clerkID"));
+				md.setDeliverybillID(rs.getInt("DeliverybillID"));
+				md.setDeliverybillDate(rs.getString("DeliverybillDate"));
+				md.setRequest(rs.getString("request"));
+				md.setRequestDate(rs.getString("requestDate"));
+				md.setNotes(rs.getString("notes"));
+				md.setCustomerID(rs.getInt("customerID"));
+				md.setClerkID(rs.getInt("clerkID"));
 				
 				ModelClerk clerk = new SelectClerk(new ModelClerk(rs.getInt("clerkID")), Selection.SELECT_SPECIFIC).getModelClerk();
 				
-				obsListOffer.add(new ModelOffer(
-					rs.getInt("offerID"), 
-					rs.getString("offerDate"), 
+				obsListDeliverybill.add(new ModelDeliverybill(
+					rs.getInt("deliverybillID"), 
+					rs.getString("deliverybillDate"),
 					rs.getString("request"), 
 					rs.getString("requestDate"),
 					clerk.getName(),
@@ -77,16 +77,16 @@ public class SelectOffer {
 					rs.getBigDecimal("total")
 				));
 			
-				System.out.println("Angebot " + mo.getOfferID() + " wurde aus Datenbank geladen!");
+				System.out.println("Angebot " + md.getDeliverybillID() + " wurde aus Datenbank geladen!");
 				
 			}
 			
-			/* OFFER ARTICLE */
-			if(offerSelection.equals(OfferSelection.SPECIFIC_OFFER)){
+			/* ARTICLE */
+			if(DeliverybillSelection.equals(DeliverybillSelection.SPECIFIC_DELIVERYBILL)){
 				
-				String stmtOfferArticle = "SELECT * FROM offerArticle WHERE offerID = ?";
-				ps = con.prepareStatement(stmtOfferArticle);
-				ps.setInt(1, mo.getOfferID());
+				String stmtDeliverybillArticle = "SELECT * FROM DeliverybillArticle WHERE DeliverybillID = ?";
+				ps = con.prepareStatement(stmtDeliverybillArticle);
+				ps.setInt(1, md.getDeliverybillID());
 				rs = ps.executeQuery();
 				while(rs.next()){
 					
@@ -108,7 +108,7 @@ public class SelectOffer {
 						article.getLongtext()
 					));
 					
-					mo.setObsListArticle(obsListArticle);
+					md.setObsListArticle(obsListArticle);
 							
 					System.out.println("Angebots-Artikel " + rs.getInt("articleID") + " wurde aus Datenbank geladen!");
 					
@@ -133,8 +133,8 @@ public class SelectOffer {
 		
 	}
 	
-	public enum OfferSelection{
-		ALL_OFFER_FROM_CUSTOMER, SPECIFIC_OFFER
+	public enum DeliverybillSelection{
+		ALL_DELIVERYBILL_FROM_CUSTOMER, SPECIFIC_DELIVERYBILL
 	}
 	
 		
@@ -145,12 +145,12 @@ public class SelectOffer {
 		return obsListArticle;
 	}
 	
-	public ObservableList<ModelOffer> getObsListOffer(){
-		return obsListOffer;
+	public ObservableList<ModelDeliverybill> getObsListDeliverybill(){
+		return obsListDeliverybill;
 	}
 	
-	public ModelOffer getModelOffer(){
-		return mo;
+	public ModelDeliverybill getModelDeliverybill(){
+		return md;
 	}
 	
 }

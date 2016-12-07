@@ -1,4 +1,4 @@
-package de.michaprogs.crm.offer.data;
+package de.michaprogs.crm.deliverybill.data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -8,7 +8,6 @@ import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
 import de.michaprogs.crm.Main;
-import de.michaprogs.crm.ParseDateDDMMYYYY;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.clerk.ModelClerk;
 import de.michaprogs.crm.clerk.SelectClerk;
@@ -17,15 +16,14 @@ import de.michaprogs.crm.components.TextFieldOnlyInteger;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
-import de.michaprogs.crm.offer.DeleteOffer;
-import de.michaprogs.crm.offer.DocumentOffer;
-import de.michaprogs.crm.offer.ModelOffer;
-import de.michaprogs.crm.offer.SelectOffer;
-import de.michaprogs.crm.offer.SelectOffer.OfferSelection;
-import de.michaprogs.crm.offer.UpdateOffer;
-import de.michaprogs.crm.offer.ValidateOfferSave;
-import de.michaprogs.crm.offer.add.LoadOfferAdd;
-import de.michaprogs.crm.offer.search.LoadOfferSearch;
+import de.michaprogs.crm.deliverybill.DeleteDeliverybill;
+import de.michaprogs.crm.deliverybill.ModelDeliverybill;
+import de.michaprogs.crm.deliverybill.SelectDeliverybill;
+import de.michaprogs.crm.deliverybill.SelectDeliverybill.DeliverybillSelection;
+import de.michaprogs.crm.deliverybill.UpdateDeliverybill;
+import de.michaprogs.crm.deliverybill.ValidateDeliverybillSave;
+import de.michaprogs.crm.deliverybill.add.LoadDeliverybillAdd;
+import de.michaprogs.crm.deliverybill.search.LoadDeliverybillSearch;
 import de.michaprogs.crm.position.data.ControllerPositionData;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -39,14 +37,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class ControllerOfferData {
+public class ControllerDeliverybillData {
 
 	@FXML private Label lblSubHeadline;
 	@FXML private HBox hboxBtnTopbar;
 	
-	/* OFFER */
-	@FXML private TextFieldOnlyInteger tfOfferID;
-	@FXML private DatePicker tfOfferDate;
+	/* Deliverybill */
+	@FXML private TextFieldOnlyInteger tfDeliverybillID;
+	@FXML private DatePicker tfDeliverybillDate;
 	@FXML private TextField tfRequest;
 	@FXML private DatePicker tfRequestDate;
 	@FXML private TextArea taNotes;
@@ -129,7 +127,7 @@ public class ControllerOfferData {
 	private Stage stage;
 	private Main main;
 	
-	public ControllerOfferData(){}
+	public ControllerDeliverybillData(){}
 	
 	@FXML private void initialize(){
 		
@@ -140,7 +138,7 @@ public class ControllerOfferData {
 		new InitCombos().initComboLand(cbLandBilling);
 		
 		/* DATE FIELDS */
-		tfOfferDate.setValue(LocalDate.now());
+		tfDeliverybillDate.setValue(LocalDate.now());
 		tfRequestDate.setValue(LocalDate.now());
 		
 		/* BUTTONS */
@@ -150,7 +148,7 @@ public class ControllerOfferData {
 		initBtnEditSave();
 		initBtnEditAbort();
 		initBtnDelete();
-		initBtnDocument();
+//		initBtnDocument();
 		
 		initBtnCustomerSearch();
 		initBtnClerkSearch();
@@ -207,9 +205,9 @@ public class ControllerOfferData {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadOfferSearch offerSearch = new LoadOfferSearch(true);
-				if(offerSearch.getController().getSelectedOfferID() != 0){
-					selectOffer(offerSearch.getController().getSelectedOfferID(), offerSearch.getController().getSelectedOfferCustomerID());
+				LoadDeliverybillSearch DeliverybillSearch = new LoadDeliverybillSearch(true);
+				if(DeliverybillSearch.getController().getSelectedDeliverybillID() != 0){
+					selectDeliverybill(DeliverybillSearch.getController().getSelectedDeliverybillID(), DeliverybillSearch.getController().getSelectedDeliverybillCustomerID());
 				}
 				
 			}
@@ -225,10 +223,10 @@ public class ControllerOfferData {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				LoadOfferAdd offerAdd = new LoadOfferAdd(true, 0);
-				int createdOfferID = offerAdd.getController().getCreatedOfferID();
-				if(createdOfferID != 0){
-					selectOffer(createdOfferID, offerAdd.getController().getCreatedOfferCustomerID());
+				LoadDeliverybillAdd DeliverybillAdd = new LoadDeliverybillAdd(true, main, 0);
+				int createdDeliverybillID = DeliverybillAdd.getController().getCreatedDeliverybillID();
+				if(createdDeliverybillID != 0){
+					selectDeliverybill(createdDeliverybillID, DeliverybillAdd.getController().getCreatedDeliverybillCustomerID());
 				}
 				
 			}
@@ -264,15 +262,15 @@ public class ControllerOfferData {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				if(new ValidateOfferSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
+				if(new ValidateDeliverybillSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfDeliverybillID.getText()), 
 											new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
-											String.valueOf(tfOfferDate.getValue()),
+											String.valueOf(tfDeliverybillDate.getValue()),
 											String.valueOf(tfRequestDate.getValue()),
 											positionDataController.getTableArticle().getItems()).isValid()){
 					
-					new UpdateOffer(new ModelOffer(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
-						String.valueOf(tfOfferDate.getValue()), 
+					new UpdateDeliverybill(new ModelDeliverybill(
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfDeliverybillID.getText()), 
+						String.valueOf(tfDeliverybillDate.getValue()), 
 						tfRequest.getText(), 
 						String.valueOf(tfRequestDate.getValue()), 
 						taNotes.getText(), 
@@ -320,7 +318,7 @@ public class ControllerOfferData {
 						
 						disableFields();
 						setButtonState();
-						selectOffer(Integer.valueOf(tfOfferID.getText()), Integer.valueOf(tfCustomerID.getText()));
+						selectDeliverybill(Integer.valueOf(tfDeliverybillID.getText()), Integer.valueOf(tfCustomerID.getText()));
 						
 					}					
 				}
@@ -339,9 +337,9 @@ public class ControllerOfferData {
 			public void handle(ActionEvent event) {
 				
 				if(new DeleteAlert().getDelete()){
-					new DeleteOffer(
-						new ModelOffer( 
-							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()),
+					new DeleteDeliverybill(
+						new ModelDeliverybill( 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfDeliverybillID.getText()),
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText())
 						)
 					);
@@ -356,131 +354,131 @@ public class ControllerOfferData {
 		
 	}
 	
-	private void initBtnDocument(){
-		
-		btnDocument.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				
-				new DocumentOffer(
-					/* BILLING */
-					new ModelCustomer(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText()), 
-						cbSalutationBilling.getSelectionModel().getSelectedItem(), 
-						tfName1Billing.getText(), 
-						tfName2Billing.getText(), 
-						tfStreetBilling.getText(), 
-						cbLandBilling.getSelectionModel().getSelectedItem(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZipBilling.getText()), 
-						tfLocationBilling.getText(), 
-						
-						tfPhoneBilling.getText(), 
-						tfMobileBilling.getText(), 
-						tfFaxBilling.getText(), 
-						tfEmailBilling.getText(), 
-						tfWebBilling.getText(), 
-						tfTaxIDBilling.getText(), 
-						tfUstIDBilling.getText(), 
-						
-						cbPaymentBilling.getSelectionModel().getSelectedItem(), 
-						tfIBANBilling.getText(), 
-						tfBICBilling.getText(), 
-						tfBankBilling.getText(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkontoBilling.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNettoBilling.getText()), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkontoBilling.getText()), 
-						cbCategoryBilling.getSelectionModel().getSelectedItem(),
-						"", 
-						"", 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())), 
-					
-					/* DELIVERY */
-					new ModelCustomer(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
-						cbSalutation.getSelectionModel().getSelectedItem(), 
-						tfName1.getText(), 
-						tfName2.getText(), 
-						tfStreet.getText(), 
-						cbLand.getSelectionModel().getSelectedItem(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
-						tfLocation.getText(), 
-						
-						tfPhone.getText(), 
-						tfMobile.getText(), 
-						tfFax.getText(), 
-						tfEmail.getText(), 
-						tfWeb.getText(), 
-						tfTaxID.getText(), 
-						tfUstID.getText(), 
-						
-						cbPayment.getSelectionModel().getSelectedItem(), 
-						tfIBAN.getText(), 
-						tfBIC.getText(), 
-						tfBank.getText(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()), 
-						cbCategory.getSelectionModel().getSelectedItem(),
-						"", 
-						"", 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())), 
-					
-					/* OFFER AND ARTICLE */
-					new ModelOffer(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
-						new ParseDateDDMMYYYY(String.valueOf(tfOfferDate.getValue())).getDateDDMMYYYY(), 
-						tfRequest.getText(), 
-						new ParseDateDDMMYYYY(String.valueOf(tfRequestDate.getValue())).getDateDDMMYYYY(), 
-						taNotes.getText(), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfClerkID.getText()), 
-						positionDataController.getTableArticle().getItems().size(),
-						new BigDecimal(positionDataController.getLblTotal().getText()),
-						positionDataController.getTableArticle().getItems()), 
-					
-					/* CLERK */
-					new ModelClerk(
-						"", 
-						tfClerk.getText(), 
-						tfClerkPhone.getText(),
-						tfClerkFax.getText(), 
-						tfClerkEmail.getText(), 
-						""));
-				
-			}
-		});
-		
-	}
+//	private void initBtnDocument(){
+//		
+//		btnDocument.setOnAction(new EventHandler<ActionEvent>() {
+//
+//			@Override
+//			public void handle(ActionEvent event) {
+//				
+//				new DocumentDeliverybill(
+//					/* BILLING */
+//					new ModelCustomer(
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText()), 
+//						cbSalutationBilling.getSelectionModel().getSelectedItem(), 
+//						tfName1Billing.getText(), 
+//						tfName2Billing.getText(), 
+//						tfStreetBilling.getText(), 
+//						cbLandBilling.getSelectionModel().getSelectedItem(), 
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZipBilling.getText()), 
+//						tfLocationBilling.getText(), 
+//						
+//						tfPhoneBilling.getText(), 
+//						tfMobileBilling.getText(), 
+//						tfFaxBilling.getText(), 
+//						tfEmailBilling.getText(), 
+//						tfWebBilling.getText(), 
+//						tfTaxIDBilling.getText(), 
+//						tfUstIDBilling.getText(), 
+//						
+//						cbPaymentBilling.getSelectionModel().getSelectedItem(), 
+//						tfIBANBilling.getText(), 
+//						tfBICBilling.getText(), 
+//						tfBankBilling.getText(), 
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkontoBilling.getText()),
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNettoBilling.getText()), 
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkontoBilling.getText()), 
+//						cbCategoryBilling.getSelectionModel().getSelectedItem(),
+//						"", 
+//						"", 
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())), 
+//					
+//					/* DELIVERY */
+//					new ModelCustomer(
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
+//						cbSalutation.getSelectionModel().getSelectedItem(), 
+//						tfName1.getText(), 
+//						tfName2.getText(), 
+//						tfStreet.getText(), 
+//						cbLand.getSelectionModel().getSelectedItem(), 
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
+//						tfLocation.getText(), 
+//						
+//						tfPhone.getText(), 
+//						tfMobile.getText(), 
+//						tfFax.getText(), 
+//						tfEmail.getText(), 
+//						tfWeb.getText(), 
+//						tfTaxID.getText(), 
+//						tfUstID.getText(), 
+//						
+//						cbPayment.getSelectionModel().getSelectedItem(), 
+//						tfIBAN.getText(), 
+//						tfBIC.getText(), 
+//						tfBank.getText(), 
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()), 
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()), 
+//						cbCategory.getSelectionModel().getSelectedItem(),
+//						"", 
+//						"", 
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())), 
+//					
+//					/* Deliverybill AND ARTICLE */
+//					new ModelDeliverybill(
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfDeliverybillID.getText()), 
+//						new ParseDateDDMMYYYY(String.valueOf(tfDeliverybillDate.getValue())).getDateDDMMYYYY(), 
+//						tfRequest.getText(), 
+//						new ParseDateDDMMYYYY(String.valueOf(tfRequestDate.getValue())).getDateDDMMYYYY(), 
+//						taNotes.getText(), 
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
+//						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfClerkID.getText()), 
+//						positionDataController.getTableArticle().getItems()), 
+//					
+//					/* CLERK */
+//					new ModelClerk(
+//						"", 
+//						tfClerk.getText(), 
+//						tfClerkPhone.getText(),
+//						tfClerkFax.getText(), 
+//						tfClerkEmail.getText(), 
+//						""));
+//				
+//			}
+//		});
+//		
+//	}
 	
 	/*
 	 * DATABASE METHODS
 	 */
-	public void selectOffer(int _offerID, int _customerID){
+	public void selectDeliverybill(int _DeliverybillID, int _customerID){
 		
-		ModelOffer offer = new SelectOffer(new ModelOffer(_offerID, _customerID), OfferSelection.SPECIFIC_OFFER).getModelOffer();
+		ModelDeliverybill Deliverybill = new SelectDeliverybill(new ModelDeliverybill(_DeliverybillID, _customerID), DeliverybillSelection.SPECIFIC_DELIVERYBILL).getModelDeliverybill();
 		
-		if(offer.getCustomerID() != 0){
+		if(Deliverybill.getCustomerID() != 0){
 		
 			/* MAIN DATA */
-			tfOfferID.setText(String.valueOf(offer.getOfferID()));
-			tfOfferDate.setValue(LocalDate.parse(offer.getOfferDate()));
-			selectCustomer(offer.getCustomerID());
-			tfRequest.setText(offer.getRequest());
-			tfRequestDate.setValue(LocalDate.parse(offer.getRequestDate()));
+			tfDeliverybillID.setText(String.valueOf(Deliverybill.getDeliverybillID()));
+			tfDeliverybillDate.setValue(LocalDate.parse(Deliverybill.getDeliverybillDate()));
+			tfRequest.setText(Deliverybill.getRequest());
+			tfRequestDate.setValue(LocalDate.parse(Deliverybill.getRequestDate()));
+			
+			/* CUSTOMER */
+			selectCustomer(Deliverybill.getCustomerID());
 			
 			/* CLERK */
-			selectClerk(offer.getClerkID());
+			selectClerk(Deliverybill.getClerkID());
 			
 			/* NOTES */
-			taNotes.setText(offer.getNotes());
+			taNotes.setText(Deliverybill.getNotes());
 			
 			/* ARTICLE */
-			positionDataController.getTableArticle().setItems(offer.getObsListArticle());
+			positionDataController.getTableArticle().setItems(Deliverybill.getObsListArticle());
 			
 			/* TITLE */
-			lblSubHeadline.setText("- " + tfOfferID.getText() + " " + tfName1.getText() + ", " + tfZip.getText() + " " + tfLocation.getText());
-			main.getStage().setTitle(main.getProgramName() + " - Angebot " + offer.getOfferID() + " " + tfName1.getText() + ", " + tfZip.getText() + " " + tfLocation.getText());
+			lblSubHeadline.setText("- " + tfDeliverybillID.getText() + " " + tfName1.getText() + ", " + tfZip.getText() + " " + tfLocation.getText());
+			main.getStage().setTitle(main.getProgramName() + " - Angebot " + Deliverybill.getDeliverybillID() + " " + tfName1.getText() + ", " + tfZip.getText() + " " + tfLocation.getText());
 			
 			setButtonState();
 			positionDataController.calculateTotal();
@@ -578,9 +576,9 @@ public class ControllerOfferData {
 		
 		lblSubHeadline.setText("");
 		
-		/* OFFER */
-		tfOfferID.clear();;
-		tfOfferDate.setValue(LocalDate.now());;
+		/* Deliverybill */
+		tfDeliverybillID.clear();;
+		tfDeliverybillDate.setValue(LocalDate.now());;
 		tfRequest.clear();
 		tfRequestDate.setValue(LocalDate.now());;
 		taNotes.clear();
@@ -653,8 +651,8 @@ public class ControllerOfferData {
 	
 	private void enableFields(){
 		
-		/* OFFER */
-		tfOfferDate.setDisable(false);
+		/* Deliverybill */
+		tfDeliverybillDate.setDisable(false);
 		tfRequest.setDisable(false);
 		tfRequestDate.setDisable(false);
 		taNotes.setDisable(false);
@@ -669,8 +667,8 @@ public class ControllerOfferData {
 	
 	private void disableFields(){
 		
-		/* OFFER */
-		tfOfferDate.setDisable(true);
+		/* Deliverybill */
+		tfDeliverybillDate.setDisable(true);
 		tfRequest.setDisable(true);
 		tfRequestDate.setDisable(true);
 		taNotes.setDisable(true);
@@ -685,7 +683,7 @@ public class ControllerOfferData {
 	
 	private void setButtonState(){
 		
-		if(tfOfferID.getText().equals("")){
+		if(tfDeliverybillID.getText().equals("")){
 			
 			btnEdit.setDisable(true);
 			btnDelete.setDisable(true);

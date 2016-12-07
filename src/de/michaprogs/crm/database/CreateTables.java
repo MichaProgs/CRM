@@ -33,6 +33,7 @@ public class CreateTables {
 		
 		createTableOffer(new DBConnect().getConnection());
 		new CreateTableOrder(new DBConnect().getConnection());
+		new CreateTableDeliverybill(new DBConnect().getConnection());
 		
 	}
 	
@@ -466,7 +467,9 @@ public class CreateTables {
 									+ "REQUESTDATE VARCHAR_IGNORECASE,"
 									+ "NOTES VARCHAR_IGNORECASE,"
 									+ "CUSTOMERID INTEGER NOT NULL,"
-									+ "CLERKID INTEGER NOT NULL"
+									+ "CLERKID INTEGER NOT NULL,"
+									+ "AMOUNTOFPOSITIONS INTEGER,"
+									+ "TOTAL DECIMAL(10,2)"
 									+ ")";
 			
 			String stmt2 = "CREATE TABLE IF NOT EXISTS OfferArticle("

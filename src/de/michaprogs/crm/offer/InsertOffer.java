@@ -22,9 +22,11 @@ public class InsertOffer {
 					+ "requestDate,"
 					+ "notes,"
 					+ "customerID,"
-					+ "clerkID"
+					+ "clerkID,"
+					+ "amountOfPositions,"
+					+ "total"
 					+ ")"
-					+ "VALUES(?,?,?,?,?,?,?)"; //7
+					+ "VALUES(?,?,?,?,?,?,?,?,?)"; //9
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
@@ -42,6 +44,10 @@ public class InsertOffer {
 			ps.setInt(i, mo.getCustomerID());
 			i++;
 			ps.setInt(i, mo.getClerkID());
+			i++;
+			ps.setInt(i, mo.getAmountOfPositions());
+			i++;
+			ps.setBigDecimal(i, mo.getTotal());
 			i++;
 			
 			ps.execute();

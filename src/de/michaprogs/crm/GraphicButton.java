@@ -19,6 +19,17 @@ public class GraphicButton {
 		
 	}
 	
+	/*
+	 * Sets a Graphic on a Button
+	 * @param filename - name of the file in resource-folder + extention (*.png, *.jpg etc.)
+	 */
+	public static ImageView graphicButton(String filename, int width, int height){
+		if(! filename.isEmpty()){
+			return new ImageView(new Image("file:resources/" + filename, width, height, true, true));
+		}
+		return null;
+	}
+	
 	public ImageView getGraphicButton(){
 		return iv;
 	}

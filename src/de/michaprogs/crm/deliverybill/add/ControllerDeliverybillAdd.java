@@ -1,4 +1,4 @@
-package de.michaprogs.crm.offer.add;
+package de.michaprogs.crm.deliverybill.add;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,6 +8,7 @@ import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
+import de.michaprogs.crm.Main;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.clerk.ModelClerk;
@@ -17,9 +18,9 @@ import de.michaprogs.crm.clerk.data.LoadClerkData;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SelectCustomer;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
-import de.michaprogs.crm.offer.InsertOffer;
-import de.michaprogs.crm.offer.ModelOffer;
-import de.michaprogs.crm.offer.ValidateOfferSave;
+import de.michaprogs.crm.deliverybill.InsertDeliverybill;
+import de.michaprogs.crm.deliverybill.ModelDeliverybill;
+import de.michaprogs.crm.deliverybill.ValidateDeliverybillSave;
 import de.michaprogs.crm.position.add.LoadAddPosition;
 import de.michaprogs.crm.position.data.ControllerPositionData;
 import de.michaprogs.crm.position.edit.LoadEditPosition;
@@ -43,11 +44,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class ControllerOfferAdd {
+public class ControllerDeliverybillAdd {
 
-	/* OFFER */
-	@FXML private TextField tfOfferID;
-	@FXML private DatePicker tfOfferDate;
+	/* Deliverybill */
+	@FXML private TextField tfDeliverybillID;
+	@FXML private DatePicker tfDeliverybillDate;
 	@FXML private TextField tfRequest;
 	@FXML private DatePicker tfRequestDate;
 	@FXML private TextArea taNotes;
@@ -124,10 +125,11 @@ public class ControllerOfferAdd {
 	@FXML private Button btnDelete;
 	
 	private Stage stage;
-	private int createdOfferID;
-	private int createdOfferCustomerID;
+	private Main main;
+	private int createdDeliverybillID;
+	private int createdDeliverybillCustomerID;
 	
-	public ControllerOfferAdd(){}
+	public ControllerDeliverybillAdd(){}
 	
 	@FXML private void initialize(){
 		
@@ -136,7 +138,7 @@ public class ControllerOfferAdd {
 		new InitCombos().initComboLand(cbLand);
 		new InitCombos().initComboLand(cbLandBilling);
 		
-		tfOfferDate.setValue(LocalDate.now());
+		tfDeliverybillDate.setValue(LocalDate.now());
 		tfRequestDate.setValue(LocalDate.now());
 		
 		/* BUTTONS */
@@ -202,15 +204,15 @@ public class ControllerOfferAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				if(new ValidateOfferSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
+				if(new ValidateDeliverybillSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfDeliverybillID.getText()), 
 											new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()),
-											String.valueOf(tfOfferDate.getValue()),
+											String.valueOf(tfDeliverybillDate.getValue()),
 											String.valueOf(tfRequestDate.getValue()),
 											positionDataController.getTableArticle().getItems()).isValid()){
 					
-					new InsertOffer(new ModelOffer(
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText()), 
-						String.valueOf(tfOfferDate.getValue()), 
+					new InsertDeliverybill(new ModelDeliverybill(
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfDeliverybillID.getText()), 
+						String.valueOf(tfDeliverybillDate.getValue()), 
 						tfRequest.getText(), 
 						String.valueOf(tfRequestDate.getValue()), 
 						taNotes.getText(), 
@@ -221,8 +223,8 @@ public class ControllerOfferAdd {
 						positionDataController.getTableArticle().getItems()
 					));
 					
-					createdOfferID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOfferID.getText());
-					createdOfferCustomerID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText());
+					createdDeliverybillID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfDeliverybillID.getText());
+					createdDeliverybillCustomerID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText());
 					
 					if(stage != null){
 						stage.close();
@@ -336,9 +338,9 @@ public class ControllerOfferAdd {
 	 */
 	private void resetFields(){
 		
-		/* OFFER */
-		tfOfferID.clear();;
-		tfOfferDate.setValue(LocalDate.now());;
+		/* Deliverybill */
+		tfDeliverybillID.clear();;
+		tfDeliverybillDate.setValue(LocalDate.now());;
 		tfRequest.clear();
 		tfRequestDate.setValue(LocalDate.now());;
 		taNotes.clear();
@@ -416,12 +418,16 @@ public class ControllerOfferAdd {
 		this.stage = stage;
 	}
 	
-	public int getCreatedOfferID(){
-		return createdOfferID;
+	public void setMain(Main main){
+		this.main = main;
 	}
 	
-	public int getCreatedOfferCustomerID(){
-		return createdOfferCustomerID;
+	public int getCreatedDeliverybillID(){
+		return createdDeliverybillID;
+	}
+	
+	public int getCreatedDeliverybillCustomerID(){
+		return createdDeliverybillCustomerID;
 	}
 	
 }

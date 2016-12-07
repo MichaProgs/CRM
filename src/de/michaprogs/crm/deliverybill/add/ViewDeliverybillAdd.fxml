@@ -23,7 +23,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.DatePicker?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.offer.add.ControllerOfferAdd">	
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" >	
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 		<!-- FLEX NAVI -->
 		<top>
@@ -43,7 +43,7 @@
 				<BorderPane>
 					<top>
 						<HBox spacing="10" alignment="CENTER_LEFT">
-							<Label id="lblHeadline" text="Angebot" />
+							<Label id="lblHeadline" text="Lieferschein" />
 						<padding>
 							<Insets bottom="10" />
 						</padding>
@@ -53,10 +53,10 @@
 						<VBox spacing="10" >
 							<TabPane>
 								<tabs>
-									<Tab text="ANGEBOT" closable="false">
+									<Tab text="LIEFERSCHEIN" closable="false">
 										<VBox spacing="10">
 										
-											<TitledPane text="ANGEBOTSDATEN">
+											<TitledPane text="LIEFERSCHEINDATEN">
 												<HBox spacing="10" styleClass="HboxContent">							
 													<!-- First Block -->
 													<GridPane hgap="10" vgap="5">
@@ -64,11 +64,11 @@
 															<ColumnConstraints halignment="RIGHT" />
 															<ColumnConstraints halignment="LEFT" />
 														</columnConstraints>
-														<Label text="Angebots-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-														<TextField fx:id="tfOfferID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+														<Label text="Lieferschein-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+														<TextField fx:id="tfDeliverybillID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 														<Label text="Datum:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-														<DatePicker fx:id="tfOfferDate" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-														<Label text="Anfrage:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+														<DatePicker fx:id="tfDeliverybillDate" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+														<Label text="Bestellung:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 														<TextField fx:id="tfRequest" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 														<Label text="Datum:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 														<DatePicker fx:id="tfRequestDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />

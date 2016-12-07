@@ -24,6 +24,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class ControllerAddPosition {
@@ -87,6 +89,7 @@ public class ControllerAddPosition {
 	 */
 	private void initBtnArticleSearch(){
 		
+		btnArticleSearch.setGraphic(GraphicButton.graphicButton("icon_search_15_white.png", 15, 15));
 		btnArticleSearch.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
