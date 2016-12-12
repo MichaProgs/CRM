@@ -4,9 +4,10 @@ import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.Main;
 import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.customer.data.LoadCustomerData;
-import de.michaprogs.crm.deliverybill.data.LoadDeliverybillData;
-import de.michaprogs.crm.offer.data.LoadOfferData;
-import de.michaprogs.crm.order.data.LoadOrderData;
+import de.michaprogs.crm.documents.deliverybill.data.LoadDeliverybillData;
+import de.michaprogs.crm.documents.invoice.data.LoadInvoiceData;
+import de.michaprogs.crm.documents.offer.data.LoadOfferData;
+import de.michaprogs.crm.documents.order.data.LoadOrderData;
 import de.michaprogs.crm.stock.add.LoadStockAdd;
 import de.michaprogs.crm.supplier.data.LoadSupplierData;
 import javafx.event.ActionEvent;
@@ -32,6 +33,7 @@ public class ControllerNavigation {
 	@FXML private Button btnOffer;
 	@FXML private Button btnOrder;
 	@FXML private Button btnDeliverybill;
+	@FXML private Button btnInvoice;
 	@FXML private Button btnStock;
 	
 	@FXML private TitledPane tpMainData;
@@ -44,6 +46,7 @@ public class ControllerNavigation {
 	private LoadOfferData offerData;
 	private LoadOrderData orderData;
 	private LoadDeliverybillData deliverybillData;
+	private LoadInvoiceData invoiceData;
 	
 	private Main main;
 	
@@ -57,6 +60,7 @@ public class ControllerNavigation {
 		offerData = new LoadOfferData(false,0,0, main);
 		orderData = new LoadOrderData(false, 0, 0, main);
 		deliverybillData = new LoadDeliverybillData(false, 0, 0, main);
+		invoiceData = new LoadInvoiceData(false, 0, 0, main);		
 		
 		//Buttons
 		initBtnCollapse();
@@ -68,6 +72,7 @@ public class ControllerNavigation {
 		initBtnOffer();
 		initBtnOrder();
 		initBtnDeliverybill();
+		initBtnInvoice();
 		
 	}
 	
@@ -209,6 +214,20 @@ public class ControllerNavigation {
 			public void handle(ActionEvent event) {
 				main.getContentPane().setCenter(deliverybillData.getContent());
 				main.getStage().setTitle(main.getProgramName() + " - Lieferschein");
+				setSizeToScene();
+			}
+		});
+		
+	}
+	
+	private void initBtnInvoice(){
+		
+		btnInvoice.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				main.getContentPane().setCenter(invoiceData.getContent());
+				main.getStage().setTitle(main.getProgramName() + " - Rechnung");
 				setSizeToScene();
 			}
 		});

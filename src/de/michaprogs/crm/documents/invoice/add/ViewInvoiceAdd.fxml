@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import de.michaprogs.crm.components.TextFieldOnlyInteger?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import de.michaprogs.crm.components.TextFieldDouble?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.DatePicker?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" >	
+	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+		<!-- FLEX NAVI -->
+		<top>
+			<AnchorPane styleClass="Headbar">
+				<StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+					<HBox StackPane.alignment="CENTER_LEFT" alignment="CENTER_LEFT">
+						<Button fx:id="btnSave" text="Speichern" styleClass="btnTopbar" />
+						<Button fx:id="btnAbort" text="Abbrechen" styleClass="btnTopbar" />
+					</HBox>
+				</StackPane>
+			</AnchorPane>
+		</top>
+		<!-- FLEX NAVI END -->
+		<!-- CONTENT -->
+		<center>
+			<ScrollPane>
+				<BorderPane>
+					<top>
+						<HBox spacing="10" alignment="CENTER_LEFT">
+							<Label id="lblHeadline" text="Rechnung" />
+						<padding>
+							<Insets bottom="10" />
+						</padding>
+						</HBox>
+					</top>
+					<left>						
+						<VBox spacing="10" >
+							<TabPane>
+								<tabs>
+									<Tab text="RECHNUNG" closable="false">
+										<VBox spacing="10">
+										
+											<TitledPane text="RECHNUNGSDATEN">
+												<HBox spacing="10" styleClass="HboxContent">							
+													<!-- First Block -->
+													<GridPane hgap="10" vgap="5">
+														<columnConstraints>
+															<ColumnConstraints halignment="RIGHT" />
+															<ColumnConstraints halignment="LEFT" />
+														</columnConstraints>
+														<Label text="Rechnungs-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+														<TextField fx:id="tfInvoiceID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+														<Label text="Datum:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+														<DatePicker fx:id="tfInvoiceDate" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+														<Label text="Lieferschein-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+														<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2" >
+															<TextField fx:id="tfDeliverybillID" />
+															<Button fx:id="btnSearchDeliverybill" id="btnSearchSmall" />
+														</HBox>
+														<Label text="Lieferdatum:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+														<DatePicker fx:id="tfDeliveryDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+													</GridPane>
+													
+													<!-- CLERK -->
+													<fx:include source="../../../clerk/data/ViewClerkData.fxml" fx:id="clerkData" />
+													
+												</HBox>
+											</TitledPane>
+											
+											<TitledPane text="NOTIZEN">
+												<!-- First Block -->
+												<AnchorPane >
+													<TextArea fx:id="taNotes" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
+												</AnchorPane>
+											</TitledPane>
+										
+										<padding>
+											<Insets top="10" />
+										</padding>
+										</VBox>								
+									</Tab>
+								
+									<Tab text="KUNDE" closable="false">
+										<VBox spacing="10" >
+										
+											<!-- DELIVERY ADRESS -->
+											<TitledPane text="LIEFERADRESSE">
+												<fx:include source="../../../customer/ui/deliveryadress/ViewDeliveryAdress.fxml" fx:id="deliveryAdress" />
+											</TitledPane>
+											
+											<!-- BILLING ADRESS -->
+											<TitledPane text="RECHNUNGSADRESSE (FALLS ABWEICHEND)">
+												<fx:include source="../../../customer/ui/billingadress/ViewBillingAdress.fxml" fx:id="billingAdress" />	
+											</TitledPane>
+											
+										<padding>
+											<Insets top="10" />
+										</padding>
+										</VBox>										
+									</Tab>
+									<Tab text="ARTIKEL" closable="false">										
+										<fx:include source="../../../position/data/ViewPositionData.fxml" fx:id="positionData" />										
+									</Tab>
+								</tabs>
+							</TabPane>							
+						</VBox>						
+					</left>
+				<padding>
+					<Insets bottom="10" left="10" right="10" top="10" />
+				</padding>
+				</BorderPane>
+			</ScrollPane>
+		</center>
+	</BorderPane>
+</AnchorPane>
+

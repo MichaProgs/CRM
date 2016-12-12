@@ -5,7 +5,7 @@ import de.michaprogs.crm.GraphicMenuItem;
 import de.michaprogs.crm.Main;
 import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.customer.data.LoadCustomerData;
-import de.michaprogs.crm.offer.data.LoadOfferData;
+import de.michaprogs.crm.documents.offer.data.LoadOfferData;
 import de.michaprogs.crm.properties.LoadProperties;
 import de.michaprogs.crm.stock.add.LoadStockAdd;
 import de.michaprogs.crm.supplier.data.LoadSupplierData;
