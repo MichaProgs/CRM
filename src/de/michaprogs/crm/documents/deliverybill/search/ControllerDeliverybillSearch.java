@@ -1,10 +1,10 @@
-package de.michaprogs.crm.deliverybill.search;
+package de.michaprogs.crm.documents.deliverybill.search;
 
 import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
-import de.michaprogs.crm.deliverybill.ModelDeliverybill;
-import de.michaprogs.crm.deliverybill.SearchDeliverybill;
+import de.michaprogs.crm.documents.deliverybill.ModelDeliverybill;
+import de.michaprogs.crm.documents.deliverybill.SearchDeliverybill;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

@@ -21,6 +21,7 @@ public class ControllerContactAdd {
 	@FXML private ComboBox<String> cbSalutation;
 	@FXML private TextField tfName;
 	@FXML private TextField tfPhone;
+	@FXML private TextField tfMobile;
 	@FXML private TextField tfFax;
 	@FXML private TextField tfEmail;
 	@FXML private TextField tfDepartment;
@@ -66,6 +67,7 @@ public class ControllerContactAdd {
 					cbSalutation.getSelectionModel().getSelectedItem(),
 					tfName.getText(),
 					tfPhone.getText(),
+					tfMobile.getText(),
 					tfFax.getText(),
 					tfEmail.getText(),
 					tfDepartment.getText()
@@ -74,7 +76,7 @@ public class ControllerContactAdd {
 				if(stage != null){
 					stage.close();
 				}else{
-					//TODO RESET FIELDS
+					clearFields();
 				}
 				
 			}
@@ -95,12 +97,26 @@ public class ControllerContactAdd {
 					if(stage != null){
 						stage.close();
 					}else{
-						//TODO RESET FIELDS
+						clearFields();
 					}
 				}
 				
 			}
 		});
+		
+	}
+	
+	/*
+	 * UI METHODS
+	 */
+	public void clearFields(){
+		
+		tfName.clear();
+		tfPhone.clear();
+		tfMobile.clear();
+		tfFax.clear();
+		tfEmail.clear();
+		tfDepartment.clear();
 		
 	}
 	

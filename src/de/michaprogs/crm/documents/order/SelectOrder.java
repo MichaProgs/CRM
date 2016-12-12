@@ -1,4 +1,4 @@
-package de.michaprogs.crm.order;
+package de.michaprogs.crm.documents.order;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,12 +30,10 @@ public class SelectOrder {
 			con = new DBConnect().getConnection();
 			
 			if(orderSelection.equals(OrderSelection.SPECIFIC_ORDER)){
-				stmt = "SELECT * FROM SUPPLIERORDER WHERE orderID = ? AND supplierID = ?";
+				stmt = "SELECT * FROM SUPPLIERORDER WHERE orderID = ?";
 				ps = con.prepareStatement(stmt);
 				int i = 1;
 				ps.setInt(i, mo.getOrderID());
-				i++;
-				ps.setInt(i, mo.getSupplierID());
 				i++;
 			}else if(orderSelection.equals(OrderSelection.ALL_ORDER_TO_SUPPLIER)){
 				stmt = "SELECT * FROM SUPPLIERORDER WHERE supplierID = ?";

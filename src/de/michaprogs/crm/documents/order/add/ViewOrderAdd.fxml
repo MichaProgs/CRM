@@ -74,26 +74,8 @@
 														<DatePicker fx:id="tfRequestDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 													</GridPane>
 													
-													<!-- Second Block -->
-													<GridPane hgap="10" vgap="5">
-														<columnConstraints>
-															<ColumnConstraints halignment="RIGHT" />
-															<ColumnConstraints halignment="LEFT" />
-														</columnConstraints>
-														<Label text="Sachbearbeiter-Nr.:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-														<HBox spacing="10" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0" >
-															<TextField fx:id="tfClerkID" id="tfWithBtn" disable="true" />
-															<Button fx:id="btnClerkSearch" text="" id="btnSearchSmall" />
-														</HBox>
-														<Label text="Sachbearbeiter:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-														<TextField fx:id="tfClerk" GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true" />
-														<Label text="Telefon:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-														<TextField fx:id="tfClerkPhone" GridPane.columnIndex="1" GridPane.rowIndex="2" disable="true" />
-														<Label text="Fax:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-														<TextField fx:id="tfClerkFax" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true" />
-														<Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-														<TextField fx:id="tfClerkEmail" GridPane.columnIndex="1" GridPane.rowIndex="4" disable="true" />
-													</GridPane>
+													<!-- CLERK -->
+													<fx:include source="../../../clerk/data/ViewClerkData.fxml" fx:id="clerkData" />
 													
 												</HBox>
 											</TitledPane>
@@ -207,7 +189,7 @@
 										</VBox>										
 									</Tab>
 									<Tab text="ARTIKEL" closable="false">										
-										<fx:include source="../../position/data/ViewPositionData.fxml" fx:id="positionData" />										
+										<fx:include source="../../../position/data/ViewPositionData.fxml" fx:id="positionData" />										
 									</Tab>
 								</tabs>
 							</TabPane>							

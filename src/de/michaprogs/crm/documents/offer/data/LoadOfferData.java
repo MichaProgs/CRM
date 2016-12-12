@@ -1,4 +1,4 @@
-package de.michaprogs.crm.offer.data;
+package de.michaprogs.crm.documents.offer.data;
 
 import de.michaprogs.crm.CreateDialog;
 import de.michaprogs.crm.Main;

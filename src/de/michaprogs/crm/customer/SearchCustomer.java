@@ -5,33 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import de.michaprogs.crm.database.DBConnect;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class SearchCustomer {
-
-	private ObservableList<ModelCustomer> obsListSearch = FXCollections.observableArrayList();
+	
+	private ModelCustomer mc;
 	
 	/* DATABASE */
 	private Connection con;
 	private PreparedStatement ps;
 	private ResultSet rs;
 	
-	public SearchCustomer(	String _customerID, 
-							String _name1,
-							String _name2,
-							String _street,
-							String _land,
-							String _zip,
-							String _location,
-							
-							String _phone,
-							String _mobile,
-							String _fax,
-							String _email,
-							String _category){
+	public SearchCustomer(ModelCustomer mc){
 		
 		try{
+			
+			this.mc = mc;
 			
 			String stmt = "SELECT * FROM customer WHERE customerID LIKE ? AND "
 													+ "name1 LIKE ? AND "
@@ -49,43 +37,43 @@ public class SearchCustomer {
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
 			int i = 1;
-			ps.setString(i, _customerID + "%");
-			i++;
-			ps.setString(i, _name1 + "%");
-			i++;
-			ps.setString(i, _name2 + "%");
-			i++;
-			ps.setString(i, _street + "%");
-			i++;
-			//Empty ComboBox = null
-			if(_land == null){
-				_land = "";
+			if(mc.getCustomerID() == 0){
+				ps.setString(i, "" + "%");
+			}else{
+				ps.setString(i, mc.getCustomerID() + "%");
 			}
-			ps.setString(i, _land + "%");
 			i++;
-			ps.setString(i, _zip + "%");
+			ps.setString(i, mc.getName1() + "%");
 			i++;
-			ps.setString(i, _location + "%");
+			ps.setString(i, mc.getName2() + "%");
+			i++;
+			ps.setString(i, mc.getStreet() + "%");
+			i++;
+			ps.setString(i, mc.getLand() + "%");
+			i++;
+			if(mc.getZip() == 0){
+				ps.setString(i, "" + "%");
+			}else{
+				ps.setString(i, mc.getZip() + "%");
+			}
+			i++;
+			ps.setString(i, mc.getLocation() + "%");
 			i++;			
-			ps.setString(i, _phone + "%");
+			ps.setString(i, mc.getPhone() + "%");
 			i++;
-			ps.setString(i, _mobile + "%");
+			ps.setString(i, mc.getMobile() + "%");
 			i++;
-			ps.setString(i, _fax + "%");
+			ps.setString(i, mc.getFax() + "%");
 			i++;
-			ps.setString(i, _email + "%");
+			ps.setString(i, mc.getEmail() + "%");
 			i++;
-			//Empty ComboBox = null
-			if(_category == null){
-				_category = "";
-			}
-			ps.setString(i, _category + "%");
+			ps.setString(i, mc.getCategory() + "%");
 			i++;
 			
 			rs = ps.executeQuery();
 			while(rs.next()){
 								
-				this.obsListSearch.add(new ModelCustomer(
+				mc.getObsListSearch().add(new ModelCustomer(
 					rs.getInt("customerID"), 
 					rs.getString("name1"), 
 					rs.getString("name2"), 
@@ -117,8 +105,8 @@ public class SearchCustomer {
 		
 	}
 	
-	public ObservableList<ModelCustomer> getObsListSearch(){
-		return obsListSearch;
+	public ModelCustomer getModelCustomer(){
+		return mc;
 	}
 	
 }

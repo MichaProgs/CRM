@@ -1,10 +1,10 @@
-package de.michaprogs.crm.offer.search;
+package de.michaprogs.crm.documents.offer.search;
 
 import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
-import de.michaprogs.crm.offer.ModelOffer;
-import de.michaprogs.crm.offer.SearchOffer;
+import de.michaprogs.crm.documents.offer.ModelOffer;
+import de.michaprogs.crm.documents.offer.SearchOffer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package de.michaprogs.crm.deliverybill;
+package de.michaprogs.crm.documents.deliverybill;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

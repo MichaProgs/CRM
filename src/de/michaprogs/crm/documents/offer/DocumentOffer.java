@@ -1,4 +1,4 @@
-package de.michaprogs.crm.offer;
+package de.michaprogs.crm.documents.offer;
 
 import java.awt.Desktop;
 import java.io.File;

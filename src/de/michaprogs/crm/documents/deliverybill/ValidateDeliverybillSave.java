@@ -1,4 +1,4 @@
-package de.michaprogs.crm.deliverybill;
+package de.michaprogs.crm.documents.deliverybill;
 
 import de.michaprogs.crm.article.ModelArticle;
 import javafx.collections.ObservableList;
@@ -31,7 +31,7 @@ public class ValidateDeliverybillSave {
 			System.out.println("Bitte mindestens 1 Artikel angeben!");
 			isValid = false;
 		}else{
-			System.out.println("***ModelDeliverybill.java -> validate(): Unbekannter Fehler");
+			System.out.println("***ModelInvoice.java -> validate(): Unbekannter Fehler");
 			isValid = false;
 		}
 		

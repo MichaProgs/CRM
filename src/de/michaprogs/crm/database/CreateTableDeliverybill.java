@@ -18,7 +18,8 @@ public class CreateTableDeliverybill {
 									+ "CUSTOMERID INTEGER NOT NULL,"
 									+ "CLERKID INTEGER NOT NULL,"
 									+ "TOTAL DECIMAL(10,2),"
-									+ "AMOUNTOFPOSITIONS INTEGER"
+									+ "AMOUNTOFPOSITIONS INTEGER,"
+									+ "DELIVERYSTATE BOOLEAN"
 									+ ")";
 			
 			String stmt2 = "CREATE TABLE IF NOT EXISTS DELIVERYBILLARTICLE("

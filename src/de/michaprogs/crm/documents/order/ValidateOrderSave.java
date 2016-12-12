@@ -1,4 +1,4 @@
-package de.michaprogs.crm.order;
+package de.michaprogs.crm.documents.order;
 
 import de.michaprogs.crm.article.ModelArticle;
 import javafx.collections.ObservableList;

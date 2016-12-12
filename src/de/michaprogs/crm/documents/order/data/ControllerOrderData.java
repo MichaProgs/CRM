@@ -1,4 +1,4 @@
-package de.michaprogs.crm.order.data;
+package de.michaprogs.crm.documents.order.data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,16 +11,17 @@ import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.clerk.ModelClerk;
 import de.michaprogs.crm.clerk.SelectClerk;
 import de.michaprogs.crm.clerk.SelectClerk.Selection;
-import de.michaprogs.crm.clerk.data.LoadClerkData;
+import de.michaprogs.crm.clerk.data.ControllerClerkData;
+import de.michaprogs.crm.clerk.search.LoadClerkDataSearch;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
-import de.michaprogs.crm.order.DeleteOrder;
-import de.michaprogs.crm.order.ModelOrder;
-import de.michaprogs.crm.order.SelectOrder;
-import de.michaprogs.crm.order.SelectOrder.OrderSelection;
-import de.michaprogs.crm.order.UpdateOrder;
-import de.michaprogs.crm.order.ValidateOrderSave;
-import de.michaprogs.crm.order.add.LoadOrderAdd;
-import de.michaprogs.crm.order.search.LoadOrderSearch;
+import de.michaprogs.crm.documents.order.DeleteOrder;
+import de.michaprogs.crm.documents.order.ModelOrder;
+import de.michaprogs.crm.documents.order.SelectOrder;
+import de.michaprogs.crm.documents.order.UpdateOrder;
+import de.michaprogs.crm.documents.order.ValidateOrderSave;
+import de.michaprogs.crm.documents.order.SelectOrder.OrderSelection;
+import de.michaprogs.crm.documents.order.add.LoadOrderAdd;
+import de.michaprogs.crm.documents.order.search.LoadOrderSearch;
 import de.michaprogs.crm.position.data.ControllerPositionData;
 import de.michaprogs.crm.supplier.ModelSupplier;
 import de.michaprogs.crm.supplier.SelectSupplier;
@@ -46,14 +47,11 @@ public class ControllerOrderData {
 	@FXML private TextField tfRequest;
 	@FXML private DatePicker tfRequestDate;
 	
+	/* NOTES */
 	@FXML private TextArea taNotes;
 	
-	/* CLERK */
-	@FXML private TextField tfClerkID;
-	@FXML private TextField tfClerk;
-	@FXML private TextField tfClerkPhone;
-	@FXML private TextField tfClerkFax;
-	@FXML private TextField tfClerkEmail;
+	/* CLERK - NESTED CONTROLLER */
+	@FXML private ControllerClerkData clerkDataController; //fx:id + 'Controller'
 	
 	/* SUPPLIER DATA */
 	@FXML private TextFieldOnlyInteger tfSupplierID;
@@ -91,8 +89,7 @@ public class ControllerOrderData {
 	@FXML private Button btnDelete;
 	@FXML private Button btnDocument; //TODO INIT
 	
-	@FXML private Button btnClerkSearch; //TODO INIT
-	@FXML private Button btnSupplierSearch; //TODO INIT
+	@FXML private Button btnSupplierSearch;
 	
 	@FXML private HBox hboxBtnTopbar;
 	
@@ -112,7 +109,6 @@ public class ControllerOrderData {
 		initBtnEditSave();
 		initBtnDelete();
 		
-		initBtnClerkSearch();
 		initBtnSupplierSearch();
 		
 		setButtonState();
@@ -196,7 +192,7 @@ public class ControllerOrderData {
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()),
 						String.valueOf(tfOrderDate.getValue()),
 						String.valueOf(tfRequestDate.getValue()),
-						positionDataController.getTableArticle().getItems()).isValid()){
+						positionDataController.getObsListPositions()).isValid()){
 
 					new UpdateOrder(new ModelOrder(
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfOrderID.getText()), 
@@ -205,10 +201,10 @@ public class ControllerOrderData {
 						String.valueOf(tfRequestDate.getValue()), 
 						taNotes.getText(), 
 						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()),
-						new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfClerkID.getText()),
-						positionDataController.getTableArticle().getItems(),
+						new Validate().new ValidateOnlyInteger().validateOnlyInteger(clerkDataController.getTfClerkID().getText()),
+						positionDataController.getObsListPositions(),
 						new BigDecimal(positionDataController.getLblTotal().getText()),
-						positionDataController.getTableArticle().getItems().size()
+						positionDataController.getObsListPositions().size()
 					));
 					
 					if(stage != null){
@@ -332,31 +328,6 @@ public class ControllerOrderData {
 		
 	}
 	
-	private void initBtnClerkSearch(){
-		
-		//btnSupplierSearch.setGraphic() -> see CSS #btnSearchSmall
-		btnClerkSearch.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-
-				LoadClerkData clerk = new LoadClerkData(true);
-				if(clerk.getController().getSelectedClerkID() != 0){
-					
-					ModelClerk mc = new SelectClerk(new ModelClerk(clerk.getController().getSelectedClerkID()), Selection.SELECT_SPECIFIC).getModelClerk();
-					tfClerkID.setText(String.valueOf(mc.getClerkID()));
-					tfClerk.setText(mc.getName());
-					tfClerkPhone.setText(mc.getPhone());
-					tfClerkFax.setText(mc.getFax());
-					tfClerkEmail.setText(mc.getEmail());
-					
-				}
-				
-			}
-		});
-		
-	}
-	
 	/*
 	 * DATABASE METHODS
 	 */
@@ -364,7 +335,6 @@ public class ControllerOrderData {
 		
 		ModelOrder order = new SelectOrder(new ModelOrder(orderID, supplierID), OrderSelection.SPECIFIC_ORDER).getModelOrder();		
 		ModelSupplier supplier = new SelectSupplier(new ModelSupplier(order.getSupplierID())).getModelSupplier();
-		ModelClerk clerk = new SelectClerk(new ModelClerk(order.getClerkID()), Selection.SELECT_SPECIFIC).getModelClerk();
 		
 		/* OFFER DATA */
 		tfOrderID.setText(String.valueOf(order.getOrderID()));
@@ -374,11 +344,7 @@ public class ControllerOrderData {
 		taNotes.setText(order.getNotes());
 		
 		/* CLERK */
-		tfClerkID.setText(String.valueOf(clerk.getClerkID()));
-		tfClerk.setText(clerk.getName());
-		tfClerkPhone.setText(clerk.getPhone());
-		tfClerkFax.setText(clerk.getFax());
-		tfClerkEmail.setText(clerk.getEmail());
+		clerkDataController.selectClerk(order.getClerkID());
 		
 		/* SUPPLIER */
 		tfSupplierID.setText(String.valueOf(supplier.getSupplierID()));
@@ -405,7 +371,7 @@ public class ControllerOrderData {
 		tfPaymentNetto.setText(String.valueOf(supplier.getPaymentNetto()));
 		
 		/* ARTICLE */
-		positionDataController.getTableArticle().setItems(order.getObsListArticle()); 
+		positionDataController.setObsListPositions(order.getObsListArticle()); 
 		
 	}
 	
@@ -420,11 +386,8 @@ public class ControllerOrderData {
 		tfRequestDate.setValue(LocalDate.now());
 		taNotes.clear();
 		
-		tfClerkID.clear();
-		tfClerk.clear();
-		tfClerkPhone.clear();
-		tfClerkFax.clear();
-		tfClerkEmail.clear();
+		/* CLERK */
+		clerkDataController.clearFields();
 		
 		tfSupplierID.clear();
 		tfName1.clear();
@@ -449,7 +412,7 @@ public class ControllerOrderData {
 		tfSkonto.clear();
 		tfPaymentNetto.clear();
 
-		positionDataController.getTableArticle().setItems(null);
+		positionDataController.getObsListPositions().clear();
 		
 	}
 	
@@ -460,7 +423,7 @@ public class ControllerOrderData {
 		tfRequestDate.setDisable(false);
 		taNotes.setDisable(false);
 		
-		btnClerkSearch.setDisable(false);
+		clerkDataController.getBtnClerkSearch().setDisable(false);
 		btnSupplierSearch.setDisable(false);
 				
 	}
@@ -472,7 +435,7 @@ public class ControllerOrderData {
 		tfRequestDate.setDisable(true);
 		taNotes.setDisable(true);
 		
-		btnClerkSearch.setDisable(true);
+		clerkDataController.getBtnClerkSearch().setDisable(true);
 		btnSupplierSearch.setDisable(true);
 		
 	}
@@ -505,7 +468,7 @@ public class ControllerOrderData {
 				btnDocument.setDisable(true);
 				
 				positionDataController.getBtnArticleAdd().setDisable(false);
-				if(positionDataController.getTableArticle().getItems().size() > 0){
+				if(positionDataController.getObsListPositions().size() > 0){
 					positionDataController.getBtnArticleDelete().setDisable(false);
 					positionDataController.getBtnArticleEdit().setDisable(false);
 				}else{

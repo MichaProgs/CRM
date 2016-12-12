@@ -749,7 +749,10 @@ public class ControllerArticleData{
 		/* TITLE */
 		lblSubHeadline.setText(" - " + article.getArticleID() + " " + article.getDescription1());
 		lblLastChange.setText(article.getLastChange());
-		main.getStage().setTitle(main.getProgramName() + " - Artikelstamm " + article.getArticleID() + " " + article.getDescription1());
+		
+		if(main != null){
+			main.getStage().setTitle(main.getProgramName() + " - Artikelstamm " + article.getArticleID() + " " + article.getDescription1());
+		}
 		
 		imageFilepath = article.getImageFilepath();		
 		if(	! article.getImageFilepath().equals("")){

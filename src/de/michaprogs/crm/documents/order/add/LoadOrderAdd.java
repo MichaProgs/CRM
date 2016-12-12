@@ -1,4 +1,4 @@
-package de.michaprogs.crm.order.add;
+package de.michaprogs.crm.documents.order.add;
 
 import de.michaprogs.crm.CreateDialog;
 import de.michaprogs.crm.Main;

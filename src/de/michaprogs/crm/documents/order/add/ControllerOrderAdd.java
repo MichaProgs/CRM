@@ -1,4 +1,4 @@
-package de.michaprogs.crm.order.add;
+package de.michaprogs.crm.documents.order.add;
 
 import java.math.BigDecimal;
 
@@ -11,11 +11,12 @@ import de.michaprogs.crm.article.ModelArticle;
 import de.michaprogs.crm.clerk.ModelClerk;
 import de.michaprogs.crm.clerk.SelectClerk;
 import de.michaprogs.crm.clerk.SelectClerk.Selection;
-import de.michaprogs.crm.clerk.data.LoadClerkData;
+import de.michaprogs.crm.clerk.data.ControllerClerkData;
+import de.michaprogs.crm.clerk.search.LoadClerkDataSearch;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
-import de.michaprogs.crm.order.InsertOrder;
-import de.michaprogs.crm.order.ModelOrder;
-import de.michaprogs.crm.order.ValidateOrderSave;
+import de.michaprogs.crm.documents.order.InsertOrder;
+import de.michaprogs.crm.documents.order.ModelOrder;
+import de.michaprogs.crm.documents.order.ValidateOrderSave;
 import de.michaprogs.crm.position.add.LoadAddPosition;
 import de.michaprogs.crm.position.data.ControllerPositionData;
 import de.michaprogs.crm.position.edit.LoadEditPosition;
@@ -50,14 +51,11 @@ public class ControllerOrderAdd {
 	@FXML private TextField tfRequest;
 	@FXML private DatePicker tfRequestDate;
 	
+	/* NOTES */
 	@FXML private TextArea taNotes;
 	
-	/* CLERK */
-	@FXML private TextField tfClerkID;
-	@FXML private TextField tfClerk;
-	@FXML private TextField tfClerkPhone;
-	@FXML private TextField tfClerkFax;
-	@FXML private TextField tfClerkEmail;
+	/* CLERK - NESTED CONTROLLER */
+	@FXML private ControllerClerkData clerkDataController; //fx:id + 'Controller'
 	
 	/* SUPPLIER DATA */
 	@FXML private TextFieldOnlyInteger tfSupplierID;
@@ -92,7 +90,6 @@ public class ControllerOrderAdd {
 	@FXML private Button btnAbort;
 	
 	@FXML private Button btnSupplierSearch;
-	@FXML private Button btnClerkSearch;
 	
 	private Stage stage;
 	private Main main;
@@ -107,8 +104,8 @@ public class ControllerOrderAdd {
 		initBtnSave();
 		initBtnAbort();
 		
+		clerkDataController.getBtnClerkSearch().setDisable(false);
 		initBtnSupplierSearch();
-		initBtnClerkSearch();
 		
 	}
 	
@@ -133,31 +130,6 @@ public class ControllerOrderAdd {
 		
 	}
 	
-	private void initBtnClerkSearch(){
-		
-		//btnSupplierSearch.setGraphic() -> see CSS #btnSearchSmall
-		btnClerkSearch.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-
-				LoadClerkData clerk = new LoadClerkData(true);
-				if(clerk.getController().getSelectedClerkID() != 0){
-					
-					ModelClerk mc = new SelectClerk(new ModelClerk(clerk.getController().getSelectedClerkID()), Selection.SELECT_SPECIFIC).getModelClerk();
-					tfClerkID.setText(String.valueOf(mc.getClerkID()));
-					tfClerk.setText(mc.getName());
-					tfClerkPhone.setText(mc.getPhone());
-					tfClerkFax.setText(mc.getFax());
-					tfClerkEmail.setText(mc.getEmail());
-					
-				}
-				
-			}
-		});
-		
-	}
-	
 	private void initBtnSave(){
 		
 		btnSave.setGraphic(new GraphicButton("save_32.png").getGraphicButton());
@@ -170,7 +142,7 @@ public class ControllerOrderAdd {
 											new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
 											String.valueOf(tfOrderDate.getValue()), 
 											String.valueOf(tfRequestDate.getValue()), 
-											positionDataController.getTableArticle().getItems()).isValid()){
+											positionDataController.getObsListPositions()).isValid()){
 					
 					new InsertOrder(
 						new ModelOrder(
@@ -180,10 +152,10 @@ public class ControllerOrderAdd {
 							String.valueOf(tfRequestDate.getValue()), 
 							taNotes.getText(), 
 							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSupplierID.getText()), 
-							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfClerkID.getText()), 
-							positionDataController.getTableArticle().getItems(),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(clerkDataController.getTfClerkID().getText()), 
+							positionDataController.getObsListPositions(),
 							new BigDecimal(positionDataController.getLblTotal().getText()),
-							positionDataController.getTableArticle().getItems().size()
+							positionDataController.getObsListPositions().size()
 						)
 					);
 					

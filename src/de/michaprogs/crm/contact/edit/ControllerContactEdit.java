@@ -21,6 +21,7 @@ public class ControllerContactEdit {
 	@FXML private ComboBox<String> cbSalutation;
 	@FXML private TextField tfName;
 	@FXML private TextField tfPhone;
+	@FXML private TextField tfMobile;
 	@FXML private TextField tfFax;
 	@FXML private TextField tfEmail;
 	@FXML private TextField tfDepartment;
@@ -61,6 +62,7 @@ public class ControllerContactEdit {
 				obsListContact.get(index).setSalutation(cbSalutation.getSelectionModel().getSelectedItem());
 				obsListContact.get(index).setName(tfName.getText());
 				obsListContact.get(index).setPhone(tfPhone.getText());
+				obsListContact.get(index).setMobile(tfMobile.getText());
 				obsListContact.get(index).setFax(tfFax.getText());
 				obsListContact.get(index).setEmail(tfEmail.getText());
 				obsListContact.get(index).setDepartment(tfDepartment.getText());

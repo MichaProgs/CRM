@@ -14,7 +14,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ComboBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.clerk.data.ControllerClerkData">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.michaprogs.crm.clerk.search.ControllerClerkDataSearch">
 	<BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 		<!-- FLEX NAVI -->
 		<top>
@@ -48,12 +48,12 @@
 					      			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 					   			</columnResizePolicy>
 								<columns>
-									<TableColumn fx:id="tcSalutation" text="Salutation" />
-									<TableColumn fx:id="tcName" text="Name" />
-									<TableColumn fx:id="tcPhone" text="Telefon" />
-									<TableColumn fx:id="tcFax" text="Fax" />
-									<TableColumn fx:id="tcEmail" text="Email" />
-									<TableColumn fx:id="tcDepartment" text="Abteilung" />
+									<TableColumn fx:id="tcSalutation" text="Anrede" prefWidth="80" minWidth="80" maxWidth="100" />
+									<TableColumn fx:id="tcName" text="Name" prefWidth="250" minWidth="150" maxWidth="250" />
+									<TableColumn fx:id="tcPhone" text="Telefon" prefWidth="180" minWidth="150" />
+									<TableColumn fx:id="tcFax" text="Fax" prefWidth="180" minWidth="150" />
+									<TableColumn fx:id="tcEmail" text="Email" prefWidth="280" minWidth="150" />
+									<TableColumn fx:id="tcDepartment" text="Abteilung" prefWidth="180" minWidth="150" />
 								</columns>
 							</TableView>
 						

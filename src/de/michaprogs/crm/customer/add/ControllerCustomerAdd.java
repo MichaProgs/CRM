@@ -17,6 +17,8 @@ import de.michaprogs.crm.customer.ValidateCustomerSave;
 import de.michaprogs.crm.customer.category.ModelCustomerCategory;
 import de.michaprogs.crm.customer.category.SelectCustomerCategory;
 import de.michaprogs.crm.customer.search.LoadCustomerSearch;
+import de.michaprogs.crm.customer.ui.billingadress.ControllerBillingAdress;
+import de.michaprogs.crm.customer.ui.deliveryadress.ControllerDeliveryAdress;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -28,60 +30,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ControllerCustomerAdd {
-
-	/* MAIN DATA */
-	@FXML private TextField tfCustomerID;
-	@FXML private ComboBox<String> cbSalutation;
-	@FXML private TextField tfName1;
-	@FXML private TextField tfName2;
-	@FXML private TextField tfStreet;
-	@FXML private ComboBox<String> cbLand;
-	@FXML private TextField tfZip;
-	@FXML private TextField tfLocation;
 	
-	@FXML private TextField tfPhone;
-	@FXML private TextField tfMobile;
-	@FXML private TextField tfFax;
-	@FXML private TextField tfEmail;
-	@FXML private TextField tfWeb;
-	@FXML private TextField tfTaxID;
-	@FXML private TextField tfUstID;
+	/* DELIVERYADRESS - NESTED CONTROLLER */
+	@FXML private ControllerDeliveryAdress deliveryAdressController; //fx:id + 'Controller'
 	
-	@FXML private ComboBox<String> cbPayment;
-	@FXML private TextField tfIBAN;
-	@FXML private TextField tfBIC;
-	@FXML private TextField tfBank;
-	@FXML private TextField tfPaymentSkonto;
-	@FXML private TextField tfSkonto;
-	@FXML private TextField tfPaymentNetto;
-	@FXML private ComboBox<String> cbCategory;
-	
-	/* BILLING */
-	@FXML private TextField tfCustomerIDBilling;
-	@FXML private ComboBox<String> cbSalutationBilling;
-	@FXML private TextField tfName1Billing;
-	@FXML private TextField tfName2Billing;
-	@FXML private TextField tfStreetBilling;
-	@FXML private ComboBox<String> cbLandBilling;
-	@FXML private TextField tfZipBilling;
-	@FXML private TextField tfLocationBilling;
-	
-	@FXML private TextField tfPhoneBilling;
-	@FXML private TextField tfMobileBilling;
-	@FXML private TextField tfFaxBilling;
-	@FXML private TextField tfEmailBilling;
-	@FXML private TextField tfWebBilling;
-	@FXML private TextField tfTaxIDBilling;
-	@FXML private TextField tfUstIDBilling;
-	
-	@FXML private ComboBox<String> cbPaymentBilling;
-	@FXML private TextField tfIBANBilling;
-	@FXML private TextField tfBICBilling;
-	@FXML private TextField tfBankBilling;
-	@FXML private TextField tfPaymentSkontoBilling;
-	@FXML private TextField tfSkontoBilling;
-	@FXML private TextField tfPaymentNettoBilling;
-	@FXML private ComboBox<String> cbCategoryBilling;
+	/* BILLINGADRESS - NESTED CONTROLLER */
+	@FXML private ControllerBillingAdress billingAdressController; //fx:id + 'Controller'
 	
 	/* CONTACTS - NESTED CONTROLLER */
 	@FXML private ControllerContactData contactDataController; //fx:id + 'Controller'
@@ -106,21 +60,11 @@ public class ControllerCustomerAdd {
 	
 	@FXML private void initialize(){
 		
-		new InitCombos().initComboLand(cbLand);
-		new InitCombos().initComboPayment(cbPayment);
-		new InitCombos().initComboSalutation(cbSalutation);
-		
-		new InitCombos().initComboLand(cbLandBilling);
-		new InitCombos().initComboPayment(cbPaymentBilling);
-		new InitCombos().initComboSalutation(cbSalutationBilling);
-		
-		cbCategory.setItems(new SelectCustomerCategory(new ModelCustomerCategory()).getModelCustomerCategory().getObsListCustomerCategoriesComboBox());
+		deliveryAdressController.showSearchButtonSmall(false);
+		deliveryAdressController.enableFields();
 		
 		initBtnSave();
 		initBtnAbort();
-		
-		initBtnBillingAdd();
-		initBtnBillingDelete();
 		
 	}
 	
@@ -135,47 +79,47 @@ public class ControllerCustomerAdd {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				if(new ValidateCustomerSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
-												tfName1.getText()).isValid()){
+				if(new ValidateCustomerSave(	new Validate().new ValidateOnlyInteger().validateOnlyInteger(deliveryAdressController.getTfCustomerID().getText()), 
+												deliveryAdressController.getTfName1().getText()).isValid()){
 					
 					InsertCustomer insert = new InsertCustomer(
 						new ModelCustomer(
-							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
-							cbSalutation.getSelectionModel().getSelectedItem(),
-							tfName1.getText(), 
-							tfName2.getText(), 
-							tfStreet.getText(), 
-							cbLand.getSelectionModel().getSelectedItem(), 
-							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
-							tfLocation.getText(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(deliveryAdressController.getTfCustomerID().getText()), 
+							deliveryAdressController.getCbSalutation().getSelectionModel().getSelectedItem(),
+							deliveryAdressController.getTfName1().getText(), 
+							deliveryAdressController.getTfName2().getText(), 
+							deliveryAdressController.getTfStreet().getText(), 
+							deliveryAdressController.getCbLand().getSelectionModel().getSelectedItem(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(deliveryAdressController.getTfZip().getText()), 
+							deliveryAdressController.getTfLocation().getText(), 
 							
-							tfPhone.getText(), 
-							tfMobile.getText(),
-							tfFax.getText(), 
-							tfEmail.getText(), 
-							tfWeb.getText(), 
-							tfTaxID.getText(), 
-							tfUstID.getText(), 
+							deliveryAdressController.getTfPhone().getText(), 
+							deliveryAdressController.getTfMobile().getText(),
+							deliveryAdressController.getTfFax().getText(), 
+							deliveryAdressController.getTfEmail().getText(), 
+							deliveryAdressController.getTfWeb().getText(), 
+							deliveryAdressController.getTfTaxID().getText(), 
+							deliveryAdressController.getTfUstID().getText(), 
 							
-							cbPayment.getSelectionModel().getSelectedItem(), 
-							tfIBAN.getText(), 
-							tfBIC.getText(), 
-							tfBank.getText(), 
-							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentSkonto.getText()),
-							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfPaymentNetto.getText()),
-							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfSkonto.getText()),
-							cbCategory.getSelectionModel().getSelectedItem(),
+							deliveryAdressController.getCbPayment().getSelectionModel().getSelectedItem(), 
+							deliveryAdressController.getTfIBAN().getText(), 
+							deliveryAdressController.getTfBIC().getText(), 
+							deliveryAdressController.getTfBank().getText(), 
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(deliveryAdressController.getTfPaymentSkonto().getText()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(deliveryAdressController.getTfPaymentNetto().getText()),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(deliveryAdressController.getTfSkonto().getText()),
+							deliveryAdressController.getCbCategory().getSelectionModel().getSelectedItem(),
 							
 							String.valueOf(LocalDate.now()),
 							taNotes.getText(),
 							
-							new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerIDBilling.getText())),
+							new Validate().new ValidateOnlyInteger().validateOnlyInteger(billingAdressController.getTfCustomerIDBilling().getText())),
 						contactDataController.getObsListContact()
 					);					
 					
 					if(insert.wasSuccessful()){
 						
-						createdCustomerID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText());						
+						createdCustomerID = new Validate().new ValidateOnlyInteger().validateOnlyInteger(deliveryAdressController.getTfCustomerID().getText());						
 						if(stage != null){
 							stage.close();
 						}else{
@@ -213,95 +157,7 @@ public class ControllerCustomerAdd {
 		});
 		
 	}
-	
-	private void initBtnBillingAdd(){
 		
-		btnBillingAdd.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				
-				LoadCustomerSearch customerSearch = new LoadCustomerSearch(true);
-				if(customerSearch.getController().getSelectedCustomerID() != 0){
-					
-					ModelCustomer customer = new SelectCustomer(new ModelCustomer(customerSearch.getController().getSelectedCustomerID())).getModelCustomer();
-					
-					tfCustomerIDBilling.setText(String.valueOf(customer.getCustomerID()));
-					tfName1Billing.setText(customer.getName1());
-					tfName2Billing.setText(customer.getName2());
-					tfStreetBilling.setText(customer.getStreet());
-					cbLandBilling.getSelectionModel().select(customer.getLand());
-					tfZipBilling.setText(String.valueOf(customer.getZip()));
-					tfLocationBilling.setText(customer.getLocation());
-					
-					tfPhoneBilling.setText(customer.getPhone());
-					tfMobileBilling.setText(customer.getMobile());
-					tfFaxBilling.setText(customer.getFax());
-					tfEmailBilling.setText(customer.getEmail());
-					tfWebBilling.setText(customer.getWeb());
-					tfTaxIDBilling.setText(customer.getTaxID());
-					tfUstIDBilling.setText(customer.getUstID());
-					
-					cbPaymentBilling.getSelectionModel().select(customer.getPayment());
-					tfIBANBilling.setText(customer.getIBAN());
-					tfBICBilling.setText(customer.getBIC());
-					tfBankBilling.setText(customer.getBank());
-					tfPaymentNettoBilling.setText(String.valueOf(customer.getPaymentNetto()));
-					tfPaymentSkontoBilling.setText(String.valueOf(customer.getPaymentSkonto()));
-					tfSkontoBilling.setText(String.valueOf(customer.getSkonto()));
-					cbCategoryBilling.getSelectionModel().select(customer.getCategory());
-					
-				}
-				
-			}
-		});
-		
-	}
-	
-	private void initBtnBillingDelete(){
-		
-		btnBillingDelete.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				
-				DeleteAlert delete = new DeleteAlert();
-				if(delete.getDelete()){
-					
-					tfCustomerIDBilling.clear();
-					cbSalutationBilling.getSelectionModel().selectFirst();
-					tfName1Billing.clear();
-					tfName2Billing.clear();
-					tfStreetBilling.clear();
-					cbLandBilling.getSelectionModel().selectFirst();
-					tfZipBilling.clear();
-					tfLocationBilling.clear();
-					
-					tfPhoneBilling.clear();
-					tfMobileBilling.clear();
-					tfFaxBilling.clear();
-					tfEmailBilling.clear();
-					tfWebBilling.clear();
-					tfTaxIDBilling.clear();
-					tfUstIDBilling.clear();
-					
-					cbPaymentBilling.getSelectionModel().selectFirst();
-					tfBankBilling.clear();
-					tfIBANBilling.clear();
-					tfBICBilling.clear();
-					tfBankBilling.clear();
-					tfPaymentSkontoBilling.clear();
-					tfPaymentNettoBilling.clear();
-					tfSkontoBilling.clear();
-					cbCategoryBilling.getSelectionModel().select("");
-					
-				}
-				
-			}
-		});
-		
-	}
-	
 	/*
 	 * GETTER & SETTER
 	 */

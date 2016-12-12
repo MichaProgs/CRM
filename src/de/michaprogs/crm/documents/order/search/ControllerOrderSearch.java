@@ -1,11 +1,11 @@
-package de.michaprogs.crm.order.search;
+package de.michaprogs.crm.documents.order.search;
 
 import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.components.TextFieldOnlyInteger;
-import de.michaprogs.crm.order.ModelOrder;
-import de.michaprogs.crm.order.SearchOrder;
+import de.michaprogs.crm.documents.order.ModelOrder;
+import de.michaprogs.crm.documents.order.SearchOrder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

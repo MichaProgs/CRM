@@ -337,17 +337,51 @@
 /*********
  * TABLES
  ********/
+ .table-view{
+ 	-fx-background-color: transparent;
+ 	-fx-border-color: -fx-accent-lightgrey;
+ }
+ 
+ .table-view:focused{
+ 	-fx-background-color: transparent;
+ }
+ 
  .table-view .column-header{
  	-fx-background-color: transparent;
+ 	-fx-pref-height: 40px;
  }
  
  .table-view .column-header-background{
  	-fx-background-color: transparent;
  }
  
- .table-view .column-header-background .label{
- 	
+ .table-view .column-header-background .label{ 	
  	-fx-background-color: transparent;
+ 	-fx-font-family: "Segoe UI Light";
+ 	-fx-font-size: 15px;
+ }
+ 
+ .table-cell{
+ 	-fx-border-color: transparent;
+ }
+ 
+ .table-row-cell{
+ 	-fx-cell-size: 30px;
+ 	-fx-alignment: center-left;
+ 	-fx-background-color: #eaeaea;
+ 	-fx-border-color: transparent;
+ }
+ 
+ .table-row-cell:odd{
+ 	-fx-background-color: -fx-accent-white;
+ }
+ 
+ .table-row-cell:empty {
+    -fx-background-color: -fx-accent-white;
+ }
+ 
+ .table-row-cell:selected{
+ 	-fx-background-color: -fx-accent-blue;
  }
  
  .tc-align-right{

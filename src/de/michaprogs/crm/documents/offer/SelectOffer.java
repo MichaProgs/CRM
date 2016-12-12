@@ -1,4 +1,4 @@
-package de.michaprogs.crm.offer;
+package de.michaprogs.crm.documents.offer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,12 +39,10 @@ public class SelectOffer {
 			con = new DBConnect().getConnection();
 			
 			if(offerSelection.equals(OfferSelection.SPECIFIC_OFFER)){
-				stmt = "SELECT * FROM offer WHERE offerID = ? AND customerID = ?";
+				stmt = "SELECT * FROM offer WHERE offerID = ?";
 				ps = con.prepareStatement(stmt);
 				int i = 1;
 				ps.setInt(i, mo.getOfferID());
-				i++;
-				ps.setInt(i, mo.getCustomerID());
 				i++;
 			}else if(offerSelection.equals(OfferSelection.ALL_OFFER_FROM_CUSTOMER)){
 				stmt = "SELECT * FROM offer WHERE customerID = ?";

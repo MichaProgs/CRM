@@ -6,6 +6,7 @@ public class ModelContact {
 	private String salutation;
 	private String name;
 	private String phone;
+	private String mobile;
 	private String fax;
 	private String email;
 	private String department;
@@ -13,7 +14,8 @@ public class ModelContact {
 	public ModelContact(	int ID,
 							String salutation, 
 							String name, 
-							String phone, 
+							String phone,
+							String mobile,
 							String fax, 
 							String email, 
 							String department) {
@@ -22,6 +24,7 @@ public class ModelContact {
 		this.salutation = salutation;
 		this.name = name;
 		this.phone = phone;
+		this.mobile = mobile;
 		this.fax = fax;
 		this.email = email;
 		this.department = department;
@@ -61,6 +64,14 @@ public class ModelContact {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public String getFax() {

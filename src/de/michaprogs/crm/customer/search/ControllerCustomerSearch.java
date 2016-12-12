@@ -2,6 +2,7 @@ package de.michaprogs.crm.customer.search;
 
 import de.michaprogs.crm.GraphicButton;
 import de.michaprogs.crm.InitCombos;
+import de.michaprogs.crm.Validate;
 import de.michaprogs.crm.customer.ModelCustomer;
 import de.michaprogs.crm.customer.SearchCustomer;
 import de.michaprogs.crm.customer.category.ModelCustomerCategory;
@@ -216,20 +217,20 @@ public class ControllerCustomerSearch {
 	 */
 	private void search(){
 		
-		SearchCustomer searchCustomer = new SearchCustomer(
-			tfCustomerID.getText(), 
+		ModelCustomer searchCustomer = new SearchCustomer(new ModelCustomer(
+			new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfCustomerID.getText()), 
 			tfName1.getText(), 
 			tfName2.getText(), 
 			tfStreet.getText(), 
 			cbLand.getSelectionModel().getSelectedItem(), 
-			tfZip.getText(), 
+			new Validate().new ValidateOnlyInteger().validateOnlyInteger(tfZip.getText()), 
 			tfLocation.getText(), 
 			tfPhone.getText(), 
 			tfMobile.getText(), 
 			tfFax.getText(), 
 			tfEmail.getText(),
 			cbCategory.getSelectionModel().getSelectedItem()
-		);
+			)).getModelCustomer();
 		
 		tvCustomerSearch.setItems(searchCustomer.getObsListSearch());
 		if(tvCustomerSearch.getItems().size() > 0){

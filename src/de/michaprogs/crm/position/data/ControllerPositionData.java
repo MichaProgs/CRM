@@ -5,8 +5,14 @@ import java.math.RoundingMode;
 
 import de.michaprogs.crm.DeleteAlert;
 import de.michaprogs.crm.article.ModelArticle;
+import de.michaprogs.crm.article.data.LoadArticleData;
 import de.michaprogs.crm.position.add.LoadAddPosition;
 import de.michaprogs.crm.position.edit.LoadEditPosition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,6 +31,7 @@ import javafx.stage.WindowEvent;
 public class ControllerPositionData {
 
 	/* ARTICLE */
+	      private ObservableList<ModelArticle> obsListPositions = FXCollections.observableArrayList();
 	@FXML private TableView<ModelArticle> tvArticle;
 	@FXML private TableColumn<ModelArticle, Integer> tcArticleID;
 	@FXML private TableColumn<ModelArticle, String > tcDescription1;
@@ -42,15 +49,11 @@ public class ControllerPositionData {
 	@FXML private Label lblTax;
 	@FXML private Label lblTotalWithTax;
 	
-	@FXML private Button btnArticleAdd; //TODO INIT
-	@FXML private Button btnArticleEdit; //TODO INIT
-	@FXML private Button btnArticleDelete; //TODO INIT
+	@FXML private Button btnArticleAdd;
+	@FXML private Button btnArticleEdit; 
+	@FXML private Button btnArticleDelete;
 	
-	public ControllerPositionData(){
-		
-		
-		
-	}
+	public ControllerPositionData(){}
 	
 	@FXML private void initialize(){
 		
@@ -123,6 +126,7 @@ public class ControllerPositionData {
 		tcTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
 		tcTotal.getStyleClass().add("tc-align-right");
 		tcTax.setCellValueFactory(new PropertyValueFactory<>("tax"));
+		tcTax.getStyleClass().add("tc-align-right");
 		
 		tvArticle.setContextMenu(new ContextMenuTableArticle());
 		
@@ -142,7 +146,7 @@ public class ControllerPositionData {
 
 			@Override
 			public void handle(KeyEvent event) {
-
+				
 				if(event.getCode().equals(KeyCode.ENTER)){
 					editArticle();
 				}else if(event.getCode().equals(KeyCode.DELETE)){
@@ -151,53 +155,65 @@ public class ControllerPositionData {
 				
 			}
 		});
+				
+		tvArticle.setItems(obsListPositions);
 		
+		obsListPositions.addListener(new ListChangeListener<ModelArticle>() {
+
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends ModelArticle> c) {
+				calculateTotal();
+				setButtonState();				
+			}
+		});
+
 	}
-	
+		
+
 	/*
 	 * DATABASE METHODS
 	 */
 	private void editArticle(){
 		
-		if(tvArticle.getSelectionModel().getSelectedItems().size() > 0){
-			
-			LoadEditPosition editPos = new LoadEditPosition(true, tvArticle.getItems(), tvArticle.getSelectionModel().getSelectedIndex());
-			tvArticle.setItems(editPos.getController().getObsListArticle());
-			if(tvArticle.getItems().size() > 0){
-				tvArticle.getSelectionModel().selectFirst();
-				calculateTotal();
-				setButtonState();
+		if(! btnArticleEdit.isDisabled()){
+			if(tvArticle.getSelectionModel().getSelectedItems().size() > 0){
+				
+				LoadEditPosition editPos = new LoadEditPosition(true, tvArticle.getItems(), tvArticle.getSelectionModel().getSelectedIndex());
+				tvArticle.setItems(editPos.getController().getObsListArticle());
+				if(tvArticle.getItems().size() > 0){
+					tvArticle.getSelectionModel().selectFirst();
+				}
+				
+			}else{
+				System.out.println("Bitte 1 Zeile markieren!");
 			}
-			
-		}else{
-			System.out.println("Bitte 1 Zeile markieren!");
 		}
 		
 	}
 	
 	private void addArticle(){
 		
-		LoadAddPosition addPos = new LoadAddPosition(true, tvArticle.getItems());
-		tvArticle.setItems(addPos.getController().getObsListArticle());
-		if(tvArticle.getItems().size() > 0){
-			tvArticle.getSelectionModel().selectFirst();
-			calculateTotal();
-			setButtonState();
+		if(! btnArticleAdd.isDisabled()){
+			LoadAddPosition addPos = new LoadAddPosition(true, tvArticle.getItems());
+			tvArticle.setItems(addPos.getController().getObsListArticle());
+			if(tvArticle.getItems().size() > 0){
+				tvArticle.getSelectionModel().selectFirst();
+			}
 		}
 		
 	}
 	
 	private void deleteArticle(){
 		
-		if(tvArticle.getSelectionModel().getSelectedItems().size() == 1){
-			DeleteAlert delete = new DeleteAlert();
-			if(delete.getDelete()){
-				tvArticle.getItems().remove(tvArticle.getSelectionModel().getSelectedIndex());
-				calculateTotal();
-				setButtonState();
+		if(! btnArticleDelete.isDisabled()){
+			if(tvArticle.getSelectionModel().getSelectedItems().size() == 1){
+				DeleteAlert delete = new DeleteAlert();
+				if(delete.getDelete()){
+					tvArticle.getItems().remove(tvArticle.getSelectionModel().getSelectedIndex());
+				}
+			}else{
+				System.out.println("Bitte 1 Zeile markieren!");
 			}
-		}else{
-			System.out.println("Bitte 1 Zeile markieren!");
 		}
 				
 	}
@@ -231,7 +247,7 @@ public class ControllerPositionData {
 	/*
 	 * UI METHODS
 	 */
-	private void setButtonState(){
+	public void setButtonState(){
 		
 		if(tvArticle.getItems().size() > 0){
 			btnArticleAdd.setDisable(false);
@@ -260,8 +276,12 @@ public class ControllerPositionData {
 		return btnArticleDelete;
 	}
 	
-	public TableView<ModelArticle> getTableArticle(){
-		return tvArticle;
+	public ObservableList<ModelArticle> getObsListPositions(){
+		return obsListPositions;
+	}
+	
+	public void setObsListPositions(ObservableList<ModelArticle> obsListPositions){
+		this.obsListPositions.setAll(obsListPositions);
 	}
 	
 	public Label getLblTotal(){
@@ -276,6 +296,7 @@ public class ControllerPositionData {
 		private MenuItem miAdd = new MenuItem("Hinzufügen..");
 		private MenuItem miEdit = new MenuItem("Bearbeiten..");
 		private MenuItem miDelete = new MenuItem("Löschen");
+		private MenuItem miInfo = new MenuItem("Info..");
 		
 		public ContextMenuTableArticle(){
 			
@@ -283,8 +304,9 @@ public class ControllerPositionData {
 			initMiAdd();
 			initMiEdit();
 			initMiDelete();
+			initMiInfo();
 			
-			this.getItems().addAll(miAdd, miEdit, miDelete);		
+			this.getItems().addAll(miAdd, miEdit, miDelete, miInfo);		
 			
 			this.setOnShowing(new EventHandler<WindowEvent>() {
 
@@ -340,6 +362,18 @@ public class ControllerPositionData {
 				}
 			});
 	
+		}
+		
+		private void initMiInfo(){
+			
+			miInfo.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					new LoadArticleData(true, tcArticleID.getCellData(tvArticle.getSelectionModel().getSelectedIndex()), null);
+				}
+			});
+			
 		}
 		
 	}

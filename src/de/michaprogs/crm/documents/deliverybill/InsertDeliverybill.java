@@ -1,4 +1,4 @@
-package de.michaprogs.crm.deliverybill;
+package de.michaprogs.crm.documents.deliverybill;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,9 +24,10 @@ public class InsertDeliverybill {
 					+ "customerID,"
 					+ "clerkID,"
 					+ "amountOfPositions,"
-					+ "total"
+					+ "total,"
+					+ "deliverystate"
 					+ ")"
-					+ "VALUES(?,?,?,?,?,?,?,?,?)"; //9
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?)"; //10
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
@@ -48,6 +49,8 @@ public class InsertDeliverybill {
 			ps.setInt(i, md.getAmountOfPositions());
 			i++;
 			ps.setBigDecimal(i, md.getTotal());
+			i++;
+			ps.setBoolean(i, md.getDeliverystate());
 			i++;
 			
 			ps.execute();

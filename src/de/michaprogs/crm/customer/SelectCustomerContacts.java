@@ -32,6 +32,7 @@ public class SelectCustomerContacts {
 					rs.getString("salutation"), 
 					rs.getString("name"), 
 					rs.getString("phone"), 
+					rs.getString("mobile"),
 					rs.getString("fax"), 
 					rs.getString("email"), 
 					rs.getString("department")

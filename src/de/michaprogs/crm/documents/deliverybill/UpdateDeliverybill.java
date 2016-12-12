@@ -1,4 +1,4 @@
-package de.michaprogs.crm.deliverybill;
+package de.michaprogs.crm.documents.deliverybill;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +22,8 @@ public class UpdateDeliverybill {
 										+ "customerID = ?,"
 										+ "clerkID = ?, "
 										+ "amountOfPositions = ?,"
-										+ "total = ? "
+										+ "total = ?,"
+										+ "deliverystate = ? "
 										
 										+ "WHERE DeliverybillID = ?"; //ALWAYS LAST!
 			
@@ -45,6 +46,8 @@ public class UpdateDeliverybill {
 			i++;
 			ps.setBigDecimal(i, md.getTotal());
 			i++;
+			ps.setBoolean(i, md.getDeliverystate());
+			i++;
 			
 			//ALWAYS LAST!
 			ps.setInt(i, md.getDeliverybillID());
@@ -63,9 +66,9 @@ public class UpdateDeliverybill {
 			System.out.println("Lieferschein-Artikel zu Lieferschein " + md.getDeliverybillID() + " wurden aus Datenbank gelöscht!");
 			
 			String stmtDeliverybillArticle = "INSERT INTO Deliverybillarticle ("
-													+ "DeliverybillID,"
+													+ "deliverybillID,"
 													+ "articleID,"
-													+ "amdunt,"
+													+ "amount,"
 													+ "ek,"
 													+ "vk,"
 													+ "total"

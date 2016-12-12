@@ -1,4 +1,4 @@
-package de.michaprogs.crm.order.search;
+package de.michaprogs.crm.documents.order.search;
 
 import de.michaprogs.crm.CreateDialog;
 import javafx.fxml.FXMLLoader;

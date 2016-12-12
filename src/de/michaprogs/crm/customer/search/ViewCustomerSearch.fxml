@@ -93,7 +93,7 @@
 		                  			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 		               			</columnResizePolicy>
 								<columns>
-									<TableColumn fx:id="tcCustomerID" text="Kunden-Nr." prefWidth="70" maxWidth="100" minWidth="50" />
+									<TableColumn fx:id="tcCustomerID" text="Kunden-Nr." prefWidth="80" maxWidth="100" minWidth="50" />
 									<TableColumn fx:id="tcName1" text="Name1" prefWidth="200" maxWidth="250" minWidth="100" />
 									<TableColumn fx:id="tcName2" text="Name2" prefWidth="200" maxWidth="250" minWidth="100" />
 									<TableColumn fx:id="tcStreet" text="Straße" prefWidth="150" maxWidth="200" minWidth="100" />

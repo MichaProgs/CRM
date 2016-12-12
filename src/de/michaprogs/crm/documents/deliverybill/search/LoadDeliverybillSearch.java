@@ -1,4 +1,4 @@
-package de.michaprogs.crm.deliverybill.search;
+package de.michaprogs.crm.documents.deliverybill.search;
 
 import de.michaprogs.crm.CreateDialog;
 import javafx.fxml.FXMLLoader;

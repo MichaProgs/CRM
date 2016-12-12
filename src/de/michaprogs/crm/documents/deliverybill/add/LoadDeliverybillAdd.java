@@ -1,4 +1,4 @@
-package de.michaprogs.crm.deliverybill.add;
+package de.michaprogs.crm.documents.deliverybill.add;
 
 import de.michaprogs.crm.CreateDialog;
 import de.michaprogs.crm.Main;

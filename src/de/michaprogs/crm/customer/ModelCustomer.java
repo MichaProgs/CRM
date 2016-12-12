@@ -40,6 +40,9 @@ public class ModelCustomer {
 	/* CONTACTS */
 	private ObservableList<ModelContact> obsListContacts = FXCollections.observableArrayList();
 	
+	/* SEARCH */
+	private ObservableList<ModelCustomer> obsListSearch = FXCollections.observableArrayList();
+	
 	public ModelCustomer(){}
 	
 	/**
@@ -75,7 +78,7 @@ public class ModelCustomer {
 
 	/**
 	 * Constructor for Database (Insert Customer) <br>
-	 * Constrcutor for Database (Update Customer)
+	 * Constructor for Database (Update Customer)
 	 * @param customerID
 	 * @param salutation
 	 * @param name1
@@ -159,12 +162,55 @@ public class ModelCustomer {
 	}
 	
 	/**
-	 * Consrtuctor for Database (Select Article)
+	 * Constructor for Database (Select Article)
 	 * Constructor forDatabase (Delete Article)
 	 * @param customerID
 	 */
 	public ModelCustomer(int customerID){
 		this.customerID = customerID;
+	}
+	
+	/**
+	 * Constructor for Database (Search Article)
+	 * @param customerID
+	 * @param name1
+	 * @param name2
+	 * @param street
+	 * @param land
+	 * @param zip
+	 * @param location
+	 * @param phone
+	 * @param mobile
+	 * @param fax
+	 * @param email
+	 * @param category
+	 */
+	public ModelCustomer(	int customerID,
+							String name1,
+							String name2,
+							String street,
+							String land,
+							int zip,
+							String location,
+							String phone,
+							String mobile,
+							String fax,
+							String email,
+							String category){
+		
+		this.customerID = customerID;
+		this.name1 = name1;
+		this.name2 = name2;
+		this.street = street;
+		this.land = land;
+		this.zip = zip;
+		this.location = location;
+		this.phone = phone;
+		this.mobile = mobile;
+		this.fax = fax;
+		this.email = email;
+		this.category = category;
+		
 	}
 
 	/*
@@ -359,6 +405,10 @@ public class ModelCustomer {
 	}
 
 	public String getCategory() {
+		//Empty ComboBox = null
+		if(category == null){
+			category = "";
+		}
 		return category;
 	}
 
@@ -398,6 +448,14 @@ public class ModelCustomer {
 
 	public void setObsListContacts(ObservableList<ModelContact> obsListContacts) {
 		this.obsListContacts = obsListContacts;
+	}
+
+	public ObservableList<ModelCustomer> getObsListSearch() {
+		return obsListSearch;
+	}
+
+	public void setObsListSearch(ObservableList<ModelCustomer> obsListSearch) {
+		this.obsListSearch = obsListSearch;
 	}
 	
 	

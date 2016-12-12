@@ -31,6 +31,7 @@ public class ControllerContactData {
 	@FXML private TableColumn<ModelContact, String> tcContactSalutation;
 	@FXML private TableColumn<ModelContact, String> tcContactName;
 	@FXML private TableColumn<ModelContact, String> tcContactPhone;
+	@FXML private TableColumn<ModelContact, String> tcContactMobile;
 	@FXML private TableColumn<ModelContact, String> tcContactFax;
 	@FXML private TableColumn<ModelContact, String> tcContactEmail;
 	@FXML private TableColumn<ModelContact, String> tcContactDepartment;
@@ -106,6 +107,7 @@ public class ControllerContactData {
 		tcContactSalutation.setCellValueFactory(new PropertyValueFactory<>("salutation"));
 		tcContactName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tcContactPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+		tcContactMobile.setCellValueFactory(new PropertyValueFactory<>("mobile"));
 		tcContactFax.setCellValueFactory(new PropertyValueFactory<>("fax"));
 		tcContactEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 		tcContactDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
@@ -131,7 +133,7 @@ public class ControllerContactData {
 
 				if(event.getCode().equals(KeyCode.DELETE)){
 					deleteContact();
-				}else if(event.getCode().equals(KeyCode.ENTER)){ //THROWS EXCEPTION IF TABLE IE EMPTY..
+				}else if(event.getCode().equals(KeyCode.ENTER)){ //TODO THROWS EXCEPTION IF TABLE IE EMPTY..
 					editContact();
 				}else if(event.getCode().equals(KeyCode.ADD)){
 					addContact();

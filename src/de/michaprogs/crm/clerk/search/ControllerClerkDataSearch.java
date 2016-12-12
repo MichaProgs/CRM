@@ -1,4 +1,4 @@
-package de.michaprogs.crm.clerk.data;
+package de.michaprogs.crm.clerk.search;
 
 import de.michaprogs.crm.AbortAlert;
 import de.michaprogs.crm.GraphicButton;
@@ -18,7 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class ControllerClerkData {
+public class ControllerClerkDataSearch {
 
 	@FXML private Label lblSubHeadline;
 
@@ -36,7 +36,7 @@ public class ControllerClerkData {
 	private Stage stage;
 	private int selectedClerkID = 0;
 	
-	public ControllerClerkData(){}
+	public ControllerClerkDataSearch(){}
 	
 	@FXML private void initialize(){
 			

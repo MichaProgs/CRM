@@ -1,4 +1,4 @@
-package de.michaprogs.crm.offer.add;
+package de.michaprogs.crm.documents.offer.add;
 
 import de.michaprogs.crm.CreateDialog;
 import javafx.fxml.FXMLLoader;

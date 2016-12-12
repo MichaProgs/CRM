@@ -1,4 +1,4 @@
-package de.michaprogs.crm.deliverybill;
+package de.michaprogs.crm.documents.deliverybill;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,10 +26,10 @@ public class SelectDeliverybill {
 	
 	/**
 	 * Constructor to select specific Deliverybill
-	 * @param mo - ModelDeliverybill
+	 * @param mo - ModelInvoice
 	 * @param Selection - the art of selection 
 	 */
-	public SelectDeliverybill(ModelDeliverybill md, DeliverybillSelection DeliverybillSelection){
+	public SelectDeliverybill(ModelDeliverybill md, DeliverybillSelection deliverybillSelection){
 		
 		try{
 			
@@ -38,15 +38,13 @@ public class SelectDeliverybill {
 			
 			con = new DBConnect().getConnection();
 			
-			if(DeliverybillSelection.equals(DeliverybillSelection.SPECIFIC_DELIVERYBILL)){
-				stmt = "SELECT * FROM Deliverybill WHERE DeliverybillID = ? AND customerID = ?";
+			if(deliverybillSelection.equals(DeliverybillSelection.SPECIFIC_DELIVERYBILL)){
+				stmt = "SELECT * FROM Deliverybill WHERE DeliverybillID = ?";
 				ps = con.prepareStatement(stmt);
 				int i = 1;
 				ps.setInt(i, md.getDeliverybillID());
 				i++;
-				ps.setInt(i, md.getCustomerID());
-				i++;
-			}else if(DeliverybillSelection.equals(DeliverybillSelection.ALL_DELIVERYBILL_FROM_CUSTOMER)){
+			}else if(deliverybillSelection.equals(DeliverybillSelection.ALL_DELIVERYBILL_FROM_CUSTOMER)){
 				stmt = "SELECT * FROM Deliverybill WHERE customerID = ?";
 				ps = con.prepareStatement(stmt);
 				int i = 1;
@@ -74,7 +72,8 @@ public class SelectDeliverybill {
 					rs.getString("requestDate"),
 					clerk.getName(),
 					rs.getInt("amountOfPositions"),
-					rs.getBigDecimal("total")
+					rs.getBigDecimal("total"),
+					rs.getBoolean("deliverystate")
 				));
 			
 				System.out.println("Angebot " + md.getDeliverybillID() + " wurde aus Datenbank geladen!");
@@ -82,7 +81,7 @@ public class SelectDeliverybill {
 			}
 			
 			/* ARTICLE */
-			if(DeliverybillSelection.equals(DeliverybillSelection.SPECIFIC_DELIVERYBILL)){
+			if(deliverybillSelection.equals(DeliverybillSelection.SPECIFIC_DELIVERYBILL)){
 				
 				String stmtDeliverybillArticle = "SELECT * FROM DeliverybillArticle WHERE DeliverybillID = ?";
 				ps = con.prepareStatement(stmtDeliverybillArticle);

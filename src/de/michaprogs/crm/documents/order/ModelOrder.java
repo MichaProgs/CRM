@@ -1,4 +1,4 @@
-package de.michaprogs.crm.order;
+package de.michaprogs.crm.documents.order;
 
 import java.math.BigDecimal;
 

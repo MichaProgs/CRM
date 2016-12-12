@@ -46,7 +46,7 @@
 									<Button fx:id="btnOffer" text="ANGEBOT" id="btnSidebar" />
 									<Button fx:id="btnOrder" text="BESTELLUNG" id="btnSidebar" />
 									<Button fx:id="btnDeliverybill" text="LIEFERSCHEIN" id="btnSidebar" />
-									<Button text="RECHNUNG" id="btnSidebar" />
+									<Button fx:id="btnInvoice" text="RECHNUNG" id="btnSidebar" />
 								</VBox>
 							</TitledPane>
 						</VBox>

@@ -1,4 +1,4 @@
-package de.michaprogs.crm.deliverybill;
+package de.michaprogs.crm.documents.deliverybill;
 
 import java.math.BigDecimal;
 
@@ -18,14 +18,16 @@ public class ModelDeliverybill {
 	private String clerk = "";
 	private BigDecimal total = new BigDecimal("0.00");
 	private int amountOfPositions = 0;
+	private boolean deliverystate = false;
 	
 	private ObservableList<ModelArticle> obsListArticle = FXCollections.observableArrayList();
 	private ObservableList<ModelDeliverybill> obsListDeliverybillSearch = FXCollections.observableArrayList();
 	private ObservableList<ModelDeliverybill> obsListSupplierDeliverybill = FXCollections.observableArrayList();
 	
-	public ModelDeliverybill(){
-		
-	}
+	/**
+	 * Empty Constructor
+	 */
+	public ModelDeliverybill(){}
 
 	/**
 	 * Constructor for ObservableList (Deliverybill Search)
@@ -58,6 +60,7 @@ public class ModelDeliverybill {
 	 * @param customerID
 	 * @param clerkID
 	 * @param obsListArticles
+	 * @param deliverystate
 	 */
 	public ModelDeliverybill(	int deliverbillID, 
 								String deliverbillDate, 
@@ -68,7 +71,8 @@ public class ModelDeliverybill {
 								int clerkID,
 								int amountOfPositions,
 								BigDecimal total,
-								ObservableList<ModelArticle> obsListArticles) {
+								ObservableList<ModelArticle> obsListArticles,
+								boolean deliverystate) {
 		this.deliverybillID = deliverbillID;
 		this.deliverybillDate = deliverbillDate;
 		this.request = request;
@@ -79,10 +83,12 @@ public class ModelDeliverybill {
 		this.amountOfPositions = amountOfPositions;
 		this.total = total;
 		this.obsListArticle = obsListArticles;
+		this.deliverystate = deliverystate;
 	}
 
 	/**
-	 * Constructor for Databse (Delete Deliverybill)
+	 * Constructor for Databse (Delete Deliverybill) <br>
+	 * Constructor for Database (Select specific Deliverybill)
 	 * @param deliverbillID
 	 * @param customerID
 	 */
@@ -92,13 +98,23 @@ public class ModelDeliverybill {
 	}
 
 	/**
-	 * Constructor for Database (Select Deliverybills Customer)
+	 * Constructor for Database (Select all Deliverybills from Customer)
 	 * @param customerID
 	 */
 	public ModelDeliverybill(int customerID) {
 		this.customerID = customerID;
 	}
 
+	/**
+	 * Constructor for Database (Update DeliverybillState)
+	 * @param deliverybillID
+	 * @param deliverstate
+	 */
+	public ModelDeliverybill(int deliverybillID, boolean deliverstate){
+		this.deliverybillID = deliverybillID;
+		this.deliverystate = deliverstate;
+	}
+	
 	/**
 	 * Constructor for ObservableList (Customer Deliverybill)
 	 * @param deliverybillID
@@ -115,7 +131,8 @@ public class ModelDeliverybill {
 								String requestDate, 
 								String clerk,
 								int amountOfPositions,
-								BigDecimal total) {
+								BigDecimal total,
+								boolean deliverystate) {
 		this.deliverybillID = deliverybillID;
 		this.deliverybillDate = deliverbillDate;
 		this.clerk = clerk;
@@ -123,6 +140,7 @@ public class ModelDeliverybill {
 		this.requestDate = requestDate;
 		this.amountOfPositions = amountOfPositions;
 		this.total = total;
+		this.deliverystate = deliverystate;
 	}
 
 	/*
@@ -230,6 +248,14 @@ public class ModelDeliverybill {
 
 	public void setObsListSupplierDeliverybill(ObservableList<ModelDeliverybill> obsListSupplierDeliverybill) {
 		this.obsListSupplierDeliverybill = obsListSupplierDeliverybill;
+	}
+
+	public boolean getDeliverystate() {
+		return deliverystate;
+	}
+
+	public void setDeliverystate(boolean deliverystate) {
+		this.deliverystate = deliverystate;
 	}
 	
 	

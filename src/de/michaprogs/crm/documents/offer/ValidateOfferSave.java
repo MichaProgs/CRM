@@ -1,4 +1,4 @@
-package de.michaprogs.crm.offer;
+package de.michaprogs.crm.documents.offer;
 
 import de.michaprogs.crm.article.ModelArticle;
 import javafx.collections.ObservableList;

@@ -14,12 +14,13 @@
       			<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
    			</columnResizePolicy>
 			<columns>
-				<TableColumn fx:id="tcContactSalutation" text="Anrede" />
-				<TableColumn fx:id="tcContactName" text="Name" />
-				<TableColumn fx:id="tcContactPhone" text="Telefon" />
-				<TableColumn fx:id="tcContactFax" text="Fax" />
-				<TableColumn fx:id="tcContactEmail" text="Email" />
-				<TableColumn fx:id="tcContactDepartment" text="Abteilung" />
+				<TableColumn fx:id="tcContactSalutation" text="Anrede" prefWidth="80" minWidth="80" maxWidth="100" />
+				<TableColumn fx:id="tcContactName" text="Name" prefWidth="250" minWidth="150" maxWidth="250" />
+				<TableColumn fx:id="tcContactPhone" text="Telefon" prefWidth="180" minWidth="150" />
+				<TableColumn fx:id="tcContactMobile" text="Mobil" prefWidth="180" minWidth="150" />
+				<TableColumn fx:id="tcContactFax" text="Fax" prefWidth="180" minWidth="150" />
+				<TableColumn fx:id="tcContactEmail" text="Email" prefWidth="280" minWidth="150" />
+				<TableColumn fx:id="tcContactDepartment" text="Abteilung" prefWidth="180" minWidth="150" />
 			</columns>
 		</TableView>
 		<HBox spacing="10" alignment="CENTER_RIGHT">

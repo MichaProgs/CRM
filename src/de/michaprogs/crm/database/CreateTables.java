@@ -34,6 +34,7 @@ public class CreateTables {
 		createTableOffer(new DBConnect().getConnection());
 		new CreateTableOrder(new DBConnect().getConnection());
 		new CreateTableDeliverybill(new DBConnect().getConnection());
+		new CreateTableInvoice(new DBConnect().getConnection());
 		
 	}
 	
@@ -96,6 +97,7 @@ public class CreateTables {
 									+ "SALUTATION VARCHAR_IGNORECASE,"
 									+ "NAME VARCHAR_IGNORECASE,"
 									+ "PHONE VARCHAR_IGNORECASE,"
+									+ "MOBILE VARCHAR_IGNORECASE,"
 									+ "FAX VARCHAR_IGNORECASE,"
 									+ "EMAIL VARCHAR_IGNORECASE,"
 									+ "DEPARTMENT VARCHAR_IGNORECASE)";

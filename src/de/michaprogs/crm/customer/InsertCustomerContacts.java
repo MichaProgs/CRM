@@ -22,11 +22,12 @@ public class InsertCustomerContacts {
 				+ "salutation,"
 				+ "name,"
 				+ "phone,"
+				+ "mobile,"
 				+ "fax,"
 				+ "email,"
 				+ "department)"
 				+ "VALUES "
-				+ "(?,?,?,?,?,?,?)"; //7
+				+ "(?,?,?,?,?,?,?,?)"; //8
 			
 			con = new DBConnect().getConnection();
 			ps = con.prepareStatement(stmt);
@@ -41,6 +42,8 @@ public class InsertCustomerContacts {
 				ps.setString(i, obsListContacts.get(index).getName());
 				i++;
 				ps.setString(i, obsListContacts.get(index).getPhone());
+				i++;
+				ps.setString(i, obsListContacts.get(index).getMobile());
 				i++;
 				ps.setString(i, obsListContacts.get(index).getFax());
 				i++;
